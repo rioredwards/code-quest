@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "./App.css";
-import ReelTwo from "./ReelTwo";
+import ReelTwo, { SpinState } from "./ReelTwo";
 
 const choices = [
   "0 React",
@@ -16,13 +16,51 @@ const choices = [
 ];
 
 function App() {
-  const [spinning, setSpinning] = useState(false);
+  const [spinState, setSpinState] = useState<SpinState>("preSpin");
+  const [chosenIdx, setChosenIdx] = useState<number>(0);
+
+  function cycleSpinState() {
+    switch (spinState) {
+      case "preSpin":
+        setSpinState("idleSpin");
+        break;
+      case "idleSpin":
+        setSpinState("stoppingSpin");
+        break;
+      case "stoppingSpin":
+        setSpinState("stopped");
+        break;
+      case "stopped":
+        setSpinState("preSpin");
+        break;
+      default:
+        setSpinState("preSpin");
+        break;
+    }
+  }
+
+  function onSpin() {
+    cycleSpinState();
+  }
 
   return (
     <div className="App">
-      <button onClick={() => setSpinning(true)}>Spin</button>
-      <button onClick={() => setSpinning(false)}>Stop</button>
-      <ReelTwo choices={choices} delay={0} spinning={spinning} />
+      <button onClick={onSpin}>Spin</button>
+      <input
+        type="number"
+        name="idx"
+        id="chosenIdxInput"
+        value={chosenIdx === undefined ? 0 : chosenIdx}
+        onChange={(e) => setChosenIdx(parseInt(e.target.value))}
+      />
+      <ReelTwo
+        choices={choices}
+        delay={0}
+        spinState={spinState}
+        chosenIdx={chosenIdx}
+      />
+      <div>{spinState}</div>
+      <div>{chosenIdx}</div>
     </div>
   );
 }
