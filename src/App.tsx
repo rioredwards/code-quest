@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./App.css";
 import ReelTwo, { SpinState } from "./ReelTwo";
+import ReelThree from "./ReelThree";
 
 const choices = [
   "0 React",
@@ -53,7 +54,7 @@ function App() {
         value={chosenIdx === undefined ? 0 : chosenIdx}
         onChange={(e) => setChosenIdx(parseInt(e.target.value))}
       />
-      <ReelTwo
+      <ReelThree
         choices={choices}
         delay={0}
         spinState={spinState}
