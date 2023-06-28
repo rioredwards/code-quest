@@ -1,5 +1,5 @@
 import "./ReelTwo.css";
-import { Variants, motion, useMotionValue, useVelocity } from "framer-motion";
+import { Variants, motion } from "framer-motion";
 
 const REM = 16;
 const CHOICE_HEIGHT = REM * 2;
@@ -44,7 +44,8 @@ const spinVariants: Variants = {
       type: "spring",
       bounce: 2,
       damping: 5,
-      stiffness: 20,
+      stiffness: 4,
+      mass: 0.5,
     },
   }),
   stopped: (props: AnimateProps) => ({
@@ -61,13 +62,11 @@ const ReelThree: React.FC<ReelThreeProps> = ({
   chosenIdx,
 }) => {
   const repeatedChoices = repeat(choices, 4);
-  const y = useMotionValue(0);
 
   return (
     <div className="reel-container">
       <div className="reel-window">
         <motion.ul
-          style={{ y }}
           custom={{
             yForSelectedChoice: translateYToChoiceIdx(
               chosenIdx,
