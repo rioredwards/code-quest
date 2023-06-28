@@ -1,5 +1,5 @@
 import "./ReelTwo.css";
-import { Variants, motion } from "framer-motion";
+import { Variants, motion, useAnimate } from "framer-motion";
 
 const REM = 16;
 const CHOICE_HEIGHT = REM * 2;
@@ -34,7 +34,7 @@ const spinVariants: Variants = {
     y: [props.yForChoicesEnd, props.yForChoicesMiddle],
     transition: {
       repeat: Infinity,
-      duration: 1,
+      duration: 0.6,
       ease: "linear",
     },
   }),
@@ -42,10 +42,10 @@ const spinVariants: Variants = {
     y: props.yForSelectedChoice,
     transition: {
       type: "spring",
-      bounce: 2,
-      damping: 5,
-      stiffness: 4,
-      mass: 0.5,
+      bounce: 0.3,
+      damping: 8,
+      stiffness: 8,
+      mass: 3,
     },
   }),
   stopped: (props: AnimateProps) => ({
@@ -81,13 +81,8 @@ const ReelThree: React.FC<ReelThreeProps> = ({
           className="reel">
           {repeatedChoices.map((choice, i) => (
             <li
-              className="choice"
-              key={i}
-              style={{
-                backgroundColor: `${
-                  i === chosenIdx + choices.length ? "green" : ""
-                }`,
-              }}>
+              className={getStringClassName(i, chosenIdx, choices.length)}
+              key={i}>
               {choice}
             </li>
           ))}
@@ -96,6 +91,18 @@ const ReelThree: React.FC<ReelThreeProps> = ({
     </div>
   );
 };
+
+function getStringClassName(
+  i: number,
+  chosenIdx: number,
+  choicesLength: number
+): string {
+  const base = "choice";
+  const chosenClass = i === chosenIdx + choicesLength ? "choiceVarChosen" : "";
+  const altClass = i % 2 === 0 ? "choiceVar1" : "choiceVar2";
+
+  return `${base} ${altClass} ${chosenClass}`;
+}
 
 function getYForChoicesMiddle(choicesLength: number): number {
   return -choicesLength * CHOICE_HEIGHT * 2;
