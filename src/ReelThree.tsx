@@ -1,50 +1,50 @@
 import "./ReelTwo.css";
-import {
-  Variants,
-  motion,
-  useAnimate,
-  useMotionValue,
-  useTransform,
-} from "framer-motion";
-import { useEffect, useRef } from "react";
+import { Variants, motion, useMotionValue, useVelocity } from "framer-motion";
+
+const REM = 16;
+const CHOICE_HEIGHT = REM * 2;
 
 interface ReelThreeProps {
   choices: string[];
-  delay: number;
   spinState: SpinState;
   chosenIdx: number;
 }
 
 export type SpinState = "preSpin" | "idleSpin" | "stoppingSpin" | "stopped";
 
-const repeat = (arr: any[], n: number) => [].concat(...Array(n).fill(arr));
+function repeat<T>(arr: T[], n: number): T[] {
+  return [].concat(...Array(n).fill(arr));
+}
 
 interface AnimateProps {
-  choicesLength: number;
-  chosenIdx: number;
+  yForSelectedChoice: number;
+  yForChoicesMiddle: number;
+  yForChoicesEnd: number;
+  velocity: number;
 }
 
 const spinVariants: Variants = {
   preSpin: (props: AnimateProps) => ({
-    y: `-${props.choicesLength * 2}rem`,
+    y: props.yForChoicesEnd,
     transition: {
       duration: 0,
     },
   }),
   idleSpin: (props: AnimateProps) => ({
-    y: [`-${props.choicesLength * 2}rem`, "0rem"],
+    y: [props.yForChoicesEnd, props.yForChoicesMiddle],
     transition: {
-      duration: 1,
       repeat: Infinity,
+      duration: 1,
       ease: "linear",
     },
   }),
   stoppingSpin: (props: AnimateProps) => ({
-    y: [null, translateChoiceIdxToY(props.chosenIdx)],
+    y: props.yForSelectedChoice,
     transition: {
-      duration: 2,
-      ease: "easeOut",
-      velocity: 0,
+      type: "spring",
+      bounce: 2,
+      damping: 5,
+      stiffness: 20,
     },
   }),
   stopped: (props: AnimateProps) => ({
@@ -60,39 +60,34 @@ const ReelThree: React.FC<ReelThreeProps> = ({
   spinState,
   chosenIdx,
 }) => {
-  const [scope, animate] = useAnimate();
-  const doubledChoices = repeat(choices, 2);
-  let y = useMotionValue(`-${choices.length * 2}rem`);
-  let choiceIdxAtY = translateYToChoiceIdx(y.get());
-  if (spinState === "stoppingSpin") {
-    console.log("y.get()", y.get());
-    console.log(
-      "translateChoiceIdxToY(chosenIdx)",
-      translateChoiceIdxToY(chosenIdx)
-    );
-  }
+  const repeatedChoices = repeat(choices, 4);
+  const y = useMotionValue(0);
 
   return (
     <div className="reel-container">
       <div className="reel-window">
         <motion.ul
-          ref={scope}
+          style={{ y }}
           custom={{
-            choicesLength: choices.length,
-            chosenIdx: chosenIdx,
-            choiceIdxAtY: choiceIdxAtY,
+            yForSelectedChoice: translateYToChoiceIdx(
+              chosenIdx,
+              choices.length
+            ),
+            yForChoicesMiddle: getYForChoicesMiddle(choices.length),
+            yForChoicesEnd: getYForChoicesEnd(choices.length),
           }}
           variants={spinVariants}
           initial={false}
           animate={spinState}
-          style={{ y }}
           className="reel">
-          {doubledChoices.map((choice, i) => (
+          {repeatedChoices.map((choice, i) => (
             <li
               className="choice"
               key={i}
               style={{
-                backgroundColor: `${i === chosenIdx ? "green" : ""}`,
+                backgroundColor: `${
+                  i === chosenIdx + choices.length ? "green" : ""
+                }`,
               }}>
               {choice}
             </li>
@@ -103,12 +98,19 @@ const ReelThree: React.FC<ReelThreeProps> = ({
   );
 };
 
+function getYForChoicesMiddle(choicesLength: number): number {
+  return -choicesLength * CHOICE_HEIGHT * 2;
+}
+
+function getYForChoicesEnd(choicesLength: number): number {
+  return -choicesLength * CHOICE_HEIGHT * 3;
+}
+
+function translateYToChoiceIdx(
+  chosenIdx: number,
+  choicesLength: number
+): number {
+  return -(chosenIdx + choicesLength - 2) * CHOICE_HEIGHT;
+}
+
 export default ReelThree;
-
-function translateChoiceIdxToY(choiceIdx: number) {
-  return `-${choiceIdx * 2}rem`;
-}
-
-function translateYToChoiceIdx(y: string) {
-  return Math.floor(Math.abs(Number(y.replace("rem", "")) / 2));
-}

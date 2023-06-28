@@ -46,7 +46,9 @@ function App() {
 
   return (
     <div className="App">
-      <button onClick={onSpin}>Spin</button>
+      <button style={{ zIndex: 1 }} onClick={onSpin}>
+        Spin
+      </button>
       <input
         type="number"
         name="idx"
@@ -56,7 +58,6 @@ function App() {
       />
       <ReelThree
         choices={choices}
-        delay={0}
         spinState={spinState}
         chosenIdx={chosenIdx}
       />

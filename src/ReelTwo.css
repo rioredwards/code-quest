@@ -8,11 +8,16 @@
 
 .reel-window {
   overflow: hidden;
-  height: 20rem;
+  height: 10rem;
   border: 4px solid rgb(78, 78, 78);
 }
 
+input {
+  z-index: 1;
+}
+
 .choice {
+  z-index: 0;
   background-color: rgb(97, 197, 214);
   text-align: start;
   font-size: 1.5rem;
