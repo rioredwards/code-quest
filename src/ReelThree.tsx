@@ -20,7 +20,7 @@ interface AnimateProps {
   yForSelectedChoice: number;
   yForChoicesMiddle: number;
   yForChoicesEnd: number;
-  velocity: number;
+  spinDuration: number;
 }
 
 const spinVariants: Variants = {
@@ -34,7 +34,7 @@ const spinVariants: Variants = {
     y: [props.yForChoicesEnd, props.yForChoicesMiddle],
     transition: {
       repeat: Infinity,
-      duration: 0.6,
+      duration: props.spinDuration,
       ease: "linear",
     },
   }),
@@ -74,6 +74,7 @@ const ReelThree: React.FC<ReelThreeProps> = ({
             ),
             yForChoicesMiddle: getYForChoicesMiddle(choices.length),
             yForChoicesEnd: getYForChoicesEnd(choices.length),
+            spinDuration: getSpinLoopDuration(choices.length),
           }}
           variants={spinVariants}
           initial={false}
@@ -83,7 +84,7 @@ const ReelThree: React.FC<ReelThreeProps> = ({
             <li
               className={getStringClassName(i, chosenIdx, choices.length)}
               key={i}>
-              {choice}
+              {truncateString(choice, 20)}
             </li>
           ))}
         </motion.ul>
@@ -117,6 +118,14 @@ function translateYToChoiceIdx(
   choicesLength: number
 ): number {
   return -(chosenIdx + choicesLength - 2) * CHOICE_HEIGHT;
+}
+
+function getSpinLoopDuration(choicesLength: number): number {
+  return choicesLength / 4;
+}
+
+function truncateString(str: string, n: number): string {
+  return str.length > n ? str.substring(0, n - 1) + "..." : str;
 }
 
 export default ReelThree;
