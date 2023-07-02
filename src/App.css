@@ -14,6 +14,7 @@
 }
 
 .App {
+  /* position: fixed; */
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -21,9 +22,12 @@
   align-items: center;
   background-color: rgb(173, 107, 26);
   background-image: url(/public/Desert-Scene.png);
+  z-index: 0;
   background-repeat: no-repeat;
   background-size: cover;
   height: 100vh;
+  width: 100vw;
+  overflow: hidden;
 }
 
 .reels-panel {

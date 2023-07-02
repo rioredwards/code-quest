@@ -1,10 +1,11 @@
-import "./ReelTwo.css";
-import { Variants, motion, useAnimate } from "framer-motion";
+import "./Reel.css";
+import { Variants, motion } from "framer-motion";
+import Choice from "./Choice";
 
 const REM = 16;
 const CHOICE_HEIGHT = REM * 2;
 
-interface ReelThreeProps {
+interface ReelProps {
   choices: string[];
   spinState: SpinState;
   chosenIdx: number;
@@ -56,54 +57,31 @@ const spinVariants: Variants = {
   }),
 };
 
-const ReelThree: React.FC<ReelThreeProps> = ({
-  choices,
-  spinState,
-  chosenIdx,
-}) => {
+const Reel: React.FC<ReelProps> = ({ choices, spinState, chosenIdx }) => {
   const repeatedChoices = repeat(choices, 4);
 
   return (
-    <div className="reel-container">
-      <div className="reel-window">
-        <motion.ul
-          custom={{
-            yForSelectedChoice: translateYToChoiceIdx(
-              chosenIdx,
-              choices.length
-            ),
-            yForChoicesMiddle: getYForChoicesMiddle(choices.length),
-            yForChoicesEnd: getYForChoicesEnd(choices.length),
-            spinDuration: getSpinLoopDuration(choices.length),
-          }}
-          variants={spinVariants}
-          initial={false}
-          animate={spinState}
-          className="reel">
-          {repeatedChoices.map((choice, i) => (
-            <li
-              className={getStringClassName(i, chosenIdx, choices.length)}
-              key={i}>
-              {truncateString(choice, 20)}
-            </li>
-          ))}
-        </motion.ul>
-      </div>
-    </div>
+    <motion.ul
+      className="reel"
+      custom={{
+        yForSelectedChoice: translateYToChoiceIdx(chosenIdx, choices.length),
+        yForChoicesMiddle: getYForChoicesMiddle(choices.length),
+        yForChoicesEnd: getYForChoicesEnd(choices.length),
+        spinDuration: getSpinLoopDuration(choices.length),
+      }}
+      variants={spinVariants}
+      initial={false}
+      animate={spinState}>
+      {repeatedChoices.map((choice, i) => (
+        <li key={i}>
+          <Choice
+            classes={getChoiceClassName(i, chosenIdx, choices.length)}
+            displayName={choice}></Choice>
+        </li>
+      ))}
+    </motion.ul>
   );
 };
-
-function getStringClassName(
-  i: number,
-  chosenIdx: number,
-  choicesLength: number
-): string {
-  const base = "choice";
-  const chosenClass = i === chosenIdx + choicesLength ? "choiceVarChosen" : "";
-  const altClass = i % 2 === 0 ? "choiceVar1" : "choiceVar2";
-
-  return `${base} ${altClass} ${chosenClass}`;
-}
 
 function getYForChoicesMiddle(choicesLength: number): number {
   return -choicesLength * CHOICE_HEIGHT * 2;
@@ -124,8 +102,16 @@ function getSpinLoopDuration(choicesLength: number): number {
   return choicesLength / 4;
 }
 
-function truncateString(str: string, n: number): string {
-  return str.length > n ? str.substring(0, n - 1) + "..." : str;
+function getChoiceClassName(
+  i: number,
+  chosenIdx: number,
+  choicesLength: number
+): string {
+  const base = "choice";
+  const chosenClass = i === chosenIdx + choicesLength ? "choiceVarChosen" : "";
+  const altClass = i % 2 === 0 ? "choiceVar1" : "choiceVar2";
+
+  return `${base} ${altClass} ${chosenClass}`;
 }
 
-export default ReelThree;
+export default Reel;

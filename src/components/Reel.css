@@ -1,0 +1,8 @@
+input {
+  z-index: 1;
+}
+
+.reel {
+  position: relative;
+  background-color: rgb(43, 75, 135);
+}

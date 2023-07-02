@@ -1,7 +1,8 @@
-import { useState } from "react";
 import "./App.css";
-import ReelTwo, { SpinState } from "./ReelTwo";
-import ReelThree from "./ReelThree";
+import { useState } from "react";
+import Reel, { SpinState } from "./components/Reel";
+import ReelContainer from "./layout/ReelContainer";
+import Machine from "./layout/Machine";
 
 const techChoices = [
   "React",
@@ -89,40 +90,50 @@ function App() {
 
   return (
     <div className="App">
-      <button style={{ zIndex: 1 }} onClick={onSpin}>
-        Spin
-      </button>
-      <input
-        type="number"
-        name="idx"
-        id="chosenIdxInput"
-        value={chosenIdx === undefined ? 0 : chosenIdx}
-        onChange={(e) => setChosenIdx(parseInt(e.target.value))}
-      />
-      <section className="reels-panel">
-        <ReelThree
-          choices={techChoices}
-          spinState={spinState}
-          chosenIdx={chosenIdx}
+      <Machine>
+        <button style={{ zIndex: 1 }} onClick={onSpin}>
+          Spin
+        </button>
+        <input
+          type="number"
+          name="idx"
+          id="chosenIdxInput"
+          value={chosenIdx === undefined ? 0 : chosenIdx}
+          onChange={(e) => setChosenIdx(parseInt(e.target.value))}
         />
-        <ReelThree
-          choices={categoryChoices}
-          spinState={spinState}
-          chosenIdx={chosenIdx}
-        />
-        <ReelThree
-          choices={timeChoices}
-          spinState={spinState}
-          chosenIdx={chosenIdx}
-        />
-        <ReelThree
-          choices={taskChoices}
-          spinState={spinState}
-          chosenIdx={chosenIdx}
-        />
-      </section>
-      {/* <div>{spinState}</div>
-      <div>{chosenIdx}</div> */}
+        <section className="reels-panel">
+          <ReelContainer>
+            <Reel
+              choices={techChoices}
+              spinState={spinState}
+              chosenIdx={chosenIdx}
+            />
+          </ReelContainer>
+          <ReelContainer>
+            <Reel
+              choices={categoryChoices}
+              spinState={spinState}
+              chosenIdx={chosenIdx}
+            />
+          </ReelContainer>
+          <ReelContainer>
+            <Reel
+              choices={taskChoices}
+              spinState={spinState}
+              chosenIdx={chosenIdx}
+            />
+          </ReelContainer>
+          <ReelContainer>
+            <Reel
+              choices={timeChoices}
+              spinState={spinState}
+              chosenIdx={chosenIdx}
+            />
+          </ReelContainer>
+        </section>
+        <div>{spinState}</div>
+        <div>{chosenIdx}</div>
+      </Machine>
     </div>
   );
 }
