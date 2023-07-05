@@ -5,7 +5,15 @@ interface MachineProps {
 }
 
 const Machine: React.FC<MachineProps> = ({ children }) => {
-  return <div className="machine">{children}</div>;
+  return (
+    <div className="machine">
+      <div className="signs-container">{children}</div>
+      <div className="reels-container">{children}</div>
+      <div className="switches-container">{children}</div>
+      <div className="lights-container">{children}</div>
+      <div className="results-container">{children}</div>
+    </div>
+  );
 };
 
 export default Machine;

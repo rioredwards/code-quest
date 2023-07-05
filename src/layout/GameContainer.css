@@ -1,0 +1,13 @@
+.game-container {
+  width: calc(100vh * 1.7778);
+  height: 100vh;
+  overflow: hidden;
+  margin: auto;
+  background-color: #ad6b58;
+  background-image: url(./bg.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+/* 1080 / 1920 = 0.5625 */
+/* 1920 / 1080 = 1.7778 */
