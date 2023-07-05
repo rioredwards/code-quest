@@ -12,9 +12,19 @@
 .signs-container {
   position: absolute;
   top: 32.6%;
-  left: 16%;
-  width: 70.2%;
+  left: 17%;
+  width: 68.2%;
   height: 4%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.switches-container {
+  position: absolute;
+  top: 40.4%;
+  left: 23%;
+  width: 56.3%;
+  height: 3%;
   border: 1px solid red;
 }
 
@@ -27,12 +37,12 @@
   border: 1px solid red;
 }
 
-.switches-container {
+.handle-container {
   position: absolute;
-  top: 40.4%;
-  left: 23%;
-  width: 56.3%;
-  height: 3%;
+  top: 45.4%;
+  left: 88.4%;
+  width: 4.3%;
+  height: 16%;
   border: 1px solid red;
 }
 

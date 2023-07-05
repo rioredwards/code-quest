@@ -1,17 +1,18 @@
 import "./Machine.css";
 
 interface MachineProps {
-  children: React.ReactNode;
+  signs: React.ReactNode[];
 }
 
-const Machine: React.FC<MachineProps> = ({ children }) => {
+const Machine: React.FC<MachineProps> = ({ signs }) => {
   return (
     <div className="machine">
-      <div className="signs-container">{children}</div>
-      <div className="reels-container">{children}</div>
-      <div className="switches-container">{children}</div>
-      <div className="lights-container">{children}</div>
-      <div className="results-container">{children}</div>
+      <div className="signs-container">{signs}</div>
+      <div className="switches-container">{}</div>
+      <div className="reels-container">{}</div>
+      <div className="handle-container">{}</div>
+      <div className="lights-container">{}</div>
+      <div className="results-container">{}</div>
     </div>
   );
 };
