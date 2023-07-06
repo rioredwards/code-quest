@@ -1,5 +1,5 @@
 {
-  "name": "code-quest",
+  "name": "code-challenge-generator",
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
