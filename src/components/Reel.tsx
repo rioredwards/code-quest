@@ -2,6 +2,8 @@ import "./Reel.css";
 import { Variants, motion } from "framer-motion";
 import Choice from "./Choice";
 
+// useCycle: https://www.youtube.com/watch?v=wAwJj-KGb38&list=PL4cUxeGkcC9iHDnQfTHEVVceOEBsOf07i&index=17&ab_channel=TheNetNinja
+
 const REM = 16;
 const CHOICE_HEIGHT = REM * 2;
 
