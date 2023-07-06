@@ -6,6 +6,7 @@ import Lever from "./components/Lever";
 import SpinLight from "./components/SpinLight";
 import { Example } from "./prototypes/Example";
 import LockSwitchProto from "./prototypes/LockSwitchProto";
+import LockSwitch from "./components/LockSwitch";
 
 export enum SpinMode {
   "preSpin",
@@ -32,14 +33,19 @@ function App() {
     return <SpinLight mode={mode} key={id} />;
   });
 
+  const lockSwitches = [1, 2, 3, 4].map((id) => {
+    return <LockSwitch key={id} />;
+  });
+
   return (
     <div className="App">
-      <Example>
-        <LockSwitchProto />
-      </Example>
-      {/* <GameContainer>
-        <Machine signs={signs} lights={lights} lever={lever}></Machine>
-      </GameContainer> */}
+      <GameContainer>
+        <Machine
+          signs={signs}
+          lights={lights}
+          lever={lever}
+          lockSwitches={lockSwitches}></Machine>
+      </GameContainer>
     </div>
   );
 }

@@ -19,13 +19,15 @@
   justify-content: space-between;
 }
 
-.switches-container {
+.lock-switches-container {
   position: absolute;
   top: 40.4%;
-  left: 23%;
-  width: 56.3%;
-  height: 3%;
-  border: 1px solid red;
+  left: 21.9%;
+  width: 58.3%;
+  height: 3.4%;
+  /* border: 1px solid red; */
+  display: flex;
+  justify-content: space-between;
 }
 
 .reels-container {
