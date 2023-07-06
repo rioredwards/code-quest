@@ -31,6 +31,7 @@
 }
 
 .lever-handle {
+  /* background-color: red; */
   transform-origin: center left;
   background-image: url(../assets/lever-handle.png);
   background-repeat: no-repeat;
@@ -38,12 +39,12 @@
 }
 
 .fake-handle {
-  --hw-ratio: 3.0842;
-  --height: 5vh;
+  /* background-color: blue; */
+  --height: 7vh;
   z-index: 1;
   position: absolute;
-  top: calc((50% - var(--height) / 2));
-  left: calc(var(--height) / 2 + 12vh);
+  top: 0;
+  left: calc(var(--height) / 2 + 6vh);
   width: var(--height);
   height: var(--height);
   cursor: grab;
