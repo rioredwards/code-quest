@@ -1,0 +1,16 @@
+.lever {
+  height: 100%;
+  width: 100%;
+}
+
+.lever-base {
+  z-index: 1;
+  background-image: url(../assets/lever-base.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: absolute;
+  top: calc(50% - 54.64px);
+  left: 0;
+  width: 34.56px;
+  height: 109.28px;
+}
