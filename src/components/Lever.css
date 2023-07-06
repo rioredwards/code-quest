@@ -4,7 +4,7 @@
 }
 
 .lever-base {
-  --hw-ratio: 0.3157;
+  --aspect-ratio: 0.3157;
   --height: 14vh;
   z-index: 2;
   background-image: url(../assets/lever-base.png);
@@ -13,7 +13,7 @@
   position: absolute;
   top: calc(50% - var(--height) / 2);
   left: -16vh;
-  width: calc(var(--height) * var(--hw-ratio));
+  width: calc(var(--height) * var(--aspect-ratio));
   height: var(--height);
 }
 
@@ -24,11 +24,11 @@
 }
 
 .lever-handle {
-  --hw-ratio: 3.0842;
+  --aspect-ratio: 3.0842;
   --height: 5vh;
   /* background-color: red; */
   top: calc((50% - var(--height) / 2));
-  width: calc(var(--height) * var(--hw-ratio));
+  width: calc(var(--height) * var(--aspect-ratio));
   height: var(--height);
   left: -15vh;
   transform-origin: center left;

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import "./Lever.css";
 import { motion, useMotionValue, useTransform } from "framer-motion";
 
@@ -6,6 +7,7 @@ const pullThreshold = 100;
 let pulled = false;
 
 const Lever: React.FC<LeverProps> = () => {
+  const [pulling, setPulling] = useState(false);
   const dragYPos = useMotionValue(0);
   const dragXPos = useTransform(dragYPos, [0, 70, 140], [0, 30, 0]);
   const leverYPos = useTransform(dragYPos, [0, 140], [0, 10]);
@@ -31,7 +33,13 @@ const Lever: React.FC<LeverProps> = () => {
       />
       <motion.div
         drag="y"
-        style={{ y: dragYPos, x: dragXPos }}
+        onDrag={() => setPulling(true)}
+        onDragEnd={() => setPulling(false)}
+        style={{
+          y: dragYPos,
+          x: dragXPos,
+          cursor: pulling ? "grabbing" : "grab",
+        }}
         dragConstraints={{ top: 0, bottom: 140 }}
         dragElastic={0.1}
         dragSnapToOrigin={true}

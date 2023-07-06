@@ -4,6 +4,8 @@ import GameContainer from "./layout/GameContainer";
 import Sign from "./components/Sign";
 import Lever from "./components/Lever";
 import SpinLight from "./components/SpinLight";
+import { Example } from "./prototypes/Example";
+import LockSwitchProto from "./prototypes/LockSwitchProto";
 
 export enum SpinMode {
   "preSpin",
@@ -32,9 +34,12 @@ function App() {
 
   return (
     <div className="App">
-      <GameContainer>
+      <Example>
+        <LockSwitchProto />
+      </Example>
+      {/* <GameContainer>
         <Machine signs={signs} lights={lights} lever={lever}></Machine>
-      </GameContainer>
+      </GameContainer> */}
     </div>
   );
 }
