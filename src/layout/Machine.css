@@ -47,12 +47,15 @@
 }
 
 .lights-container {
+  /* border: 1px solid red; */
   position: absolute;
   top: 63%;
-  left: 23.1%;
-  width: 56.2%;
+  left: 23.12%;
+  width: 55.8%;
   height: 4.4%;
-  border: 1px solid red;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .results-container {

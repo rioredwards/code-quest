@@ -1,0 +1,13 @@
+.spin-light-container {
+  height: 4vh;
+  width: 4vh;
+}
+
+.spin-light {
+  background-image: url(../assets/lights.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+}
