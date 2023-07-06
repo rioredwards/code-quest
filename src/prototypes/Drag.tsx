@@ -1,9 +1,8 @@
 import "./Drag.css";
-import { motion, useMotionValue, useTransform } from "framer-motion";
+import { motion, useMotionValue } from "framer-motion";
 
 export const Drag = () => {
   const y = useMotionValue(0);
-  const yInput = [-100, 0, 100];
 
   return (
     <motion.div

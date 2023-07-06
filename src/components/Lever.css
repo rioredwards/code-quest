@@ -1,7 +1,6 @@
-.lever {
-  position: relative;
-  height: 100%;
-  width: 100%;
+.lever-container {
+  position: absolute;
+  /* background-color: rgb(108, 108, 108); */
 }
 
 .lever-base {
@@ -13,21 +12,37 @@
   background-size: cover;
   position: absolute;
   top: calc(50% - var(--height) / 2);
-  left: 0;
+  left: -16vh;
   width: calc(var(--height) * var(--hw-ratio));
   height: var(--height);
+}
+
+.lever-handle,
+.fake-handle {
+  z-index: 1;
+  position: absolute;
 }
 
 .lever-handle {
   --hw-ratio: 3.0842;
   --height: 5vh;
-  z-index: 1;
+  /* background-color: red; */
+  top: calc((50% - var(--height) / 2));
+  width: calc(var(--height) * var(--hw-ratio));
+  height: var(--height);
+  left: -15vh;
+  transform-origin: center left;
   background-image: url(../assets/lever-handle.png);
   background-repeat: no-repeat;
   background-size: cover;
-  position: absolute;
-  top: calc((50% - var(--height) / 2));
-  left: calc(var(--height) / 2);
-  width: calc(var(--height) * var(--hw-ratio));
+}
+
+.fake-handle {
+  /* background-color: blue; */
+  --height: 7vh;
+  top: -9vh;
+  left: -8vh;
+  width: var(--height);
   height: var(--height);
+  cursor: grab;
 }
