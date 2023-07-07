@@ -11,8 +11,7 @@
   background-repeat: no-repeat;
   background-size: cover;
   position: absolute;
-  top: calc(50% - var(--height) / 2);
-  left: -16vh;
+  top: calc(50% + var(--height) / 2);
   width: calc(var(--height) * var(--aspect-ratio));
   height: var(--height);
 }
@@ -27,10 +26,10 @@
   --aspect-ratio: 3.0842;
   --height: 5vh;
   /* background-color: red; */
-  top: calc((50% - var(--height) / 2));
+  top: 11vh;
   width: calc(var(--height) * var(--aspect-ratio));
   height: var(--height);
-  left: -15vh;
+  left: 1vh;
   transform-origin: center left;
   background-image: url(../assets/lever/lever-handle.png);
   background-repeat: no-repeat;
@@ -40,8 +39,8 @@
 .fake-handle {
   /* background-color: blue; */
   --height: 7vh;
-  top: -9vh;
-  left: -8vh;
+  top: 0.9vh;
+  left: 8vh;
   width: var(--height);
   height: var(--height);
   cursor: grab;

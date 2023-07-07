@@ -5,6 +5,7 @@ interface MachineProps {
   lockSwitches: React.ReactNode[];
   lights: React.ReactNode[];
   lever: React.ReactNode;
+  display: React.ReactNode;
 }
 
 const Machine: React.FC<MachineProps> = ({
@@ -12,15 +13,16 @@ const Machine: React.FC<MachineProps> = ({
   lockSwitches,
   lever,
   lights,
+  display,
 }) => {
   return (
     <div className="machine">
-      <div className="signs-container">{signs}</div>
-      <div className="lock-switches-container">{lockSwitches}</div>
-      <div className="reels-container">{}</div>
-      <div className="lever-container">{lever}</div>
-      <div className="lights-container">{lights}</div>
-      <div className="results-container">{}</div>
+      <div className="signs-area">{signs}</div>
+      <div className="lock-switches-area">{lockSwitches}</div>
+      <div className="reels-area">{}</div>
+      <div className="lever-area">{lever}</div>
+      <div className="lights-area">{lights}</div>
+      <div className="display-area">{display}</div>
     </div>
   );
 };

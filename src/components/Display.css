@@ -1,9 +1,9 @@
 * {
-  --container-height: 8vh;
+  --container-height: 6.3vh;
 }
 
 .display-container {
-  background-color: white;
+  /* background-color: white; */
   --aspect-ratio: 14.5882;
   --height: var(--container-height);
   position: relative;

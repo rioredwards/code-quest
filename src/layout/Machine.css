@@ -9,7 +9,7 @@
   overflow: hidden;
 }
 
-.signs-container {
+.signs-area {
   position: absolute;
   top: 32.6%;
   left: 17%;
@@ -19,7 +19,7 @@
   justify-content: space-between;
 }
 
-.lock-switches-container {
+.lock-switches-area {
   position: absolute;
   top: 40.4%;
   left: 21.9%;
@@ -30,7 +30,7 @@
   justify-content: space-between;
 }
 
-.reels-container {
+.reels-area {
   position: absolute;
   top: 44.6%;
   left: 16.35%;
@@ -39,7 +39,7 @@
   border: 1px solid red;
 }
 
-.lever-container {
+.lever-area {
   position: absolute;
   top: 42%;
   left: 88.4%;
@@ -48,7 +48,7 @@
   /* border: 1px solid red; */
 }
 
-.lights-container {
+.lights-area {
   /* border: 1px solid red; */
   position: absolute;
   top: 63%;
@@ -60,11 +60,11 @@
   align-items: center;
 }
 
-.results-container {
+.display-area {
   position: absolute;
-  top: 73.2%;
-  left: 28.1%;
-  width: 52%;
-  height: 6.5%;
-  border: 1px solid red;
+  top: 73.3%;
+  left: 28.2%;
+  width: 51.8%;
+  height: 6.45%;
+  /* border: 1px solid red; */
 }

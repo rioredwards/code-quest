@@ -15,6 +15,10 @@ const MIN_TYPE_SPEED = SECOND / 32;
 const MAX_TYPE_SPEED = SECOND / 16;
 const CURSOR_BLINK_SPEED = SECOND / 2;
 const BLINK_DURATION_AFTER_TYPING = SECOND * 3;
+// The text will wrap after this many characters this is important
+// because if the final text is the exact length of the display,
+// The cursor will blink on the next line, giving off a weird effect
+const TEXT_WRAP_LENGTH = 61;
 
 const TypingSimulation: React.FC<Props> = ({ text }) => {
   const [typing, setTyping] = useState(true);
@@ -34,9 +38,16 @@ const TypingSimulation: React.FC<Props> = ({ text }) => {
 
   useAnimationFrame((_, delta) => {
     if (!blinking && !typing) return;
+
     timeSinceLetterAdded += delta;
     timeSinceCursorBlinked += delta;
+
     if (blinking) {
+      if (!typing && text.length === TEXT_WRAP_LENGTH - 1) {
+        setCursorVisible(false);
+        setBlinking(false);
+        return;
+      }
       if (timeSinceCursorBlinked > CURSOR_BLINK_SPEED) {
         setCursorVisible((prev) => !prev);
         timeSinceCursorBlinked = 0;
