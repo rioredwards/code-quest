@@ -1,0 +1,10 @@
+.text {
+  font-size: 3vh;
+  z-index: 2;
+  position: absolute;
+  top: 0.2vh;
+  left: 1vh;
+  font-family: "Courier New", Courier, monospace;
+  font-weight: bold;
+  color: rgb(0, 0, 0);
+}

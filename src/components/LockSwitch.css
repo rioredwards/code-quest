@@ -13,8 +13,6 @@
 }
 
 .lock-switch-housing {
-  --aspect-ratio: 2.5263;
-  --height: var(--switch-size);
   z-index: 2;
   position: absolute;
   background-image: url(../assets/lock-switch/housing.png);

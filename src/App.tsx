@@ -7,6 +7,7 @@ import SpinLight from "./components/SpinLight";
 import { Example } from "./prototypes/Example";
 import LockSwitchProto from "./prototypes/LockSwitchProto";
 import LockSwitch from "./components/LockSwitch";
+import Display from "./components/Display";
 
 export enum SpinMode {
   "preSpin",
@@ -37,15 +38,23 @@ function App() {
     return <LockSwitch key={id} />;
   });
 
+  const displayText =
+    "Cloud Challenge: Stocks using Amazon DynamoDB in 120 minutes";
+
   return (
     <div className="App">
+      <Example>
+        <Display text={displayText} />
+      </Example>
+      {/* 
       <GameContainer>
         <Machine
           signs={signs}
           lights={lights}
           lever={lever}
-          lockSwitches={lockSwitches}></Machine>
-      </GameContainer>
+          lockSwitches={lockSwitches}
+        />
+      </GameContainer> */}
     </div>
   );
 }

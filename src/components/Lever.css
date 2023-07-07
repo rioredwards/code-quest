@@ -7,7 +7,7 @@
   --aspect-ratio: 0.3157;
   --height: 14vh;
   z-index: 2;
-  background-image: url(../assets/lever-base.png);
+  background-image: url(../assets/lever/lever-base.png);
   background-repeat: no-repeat;
   background-size: cover;
   position: absolute;
@@ -32,7 +32,7 @@
   height: var(--height);
   left: -15vh;
   transform-origin: center left;
-  background-image: url(../assets/lever-handle.png);
+  background-image: url(../assets/lever/lever-handle.png);
   background-repeat: no-repeat;
   background-size: cover;
 }

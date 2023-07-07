@@ -1,0 +1,37 @@
+* {
+  --container-height: 8vh;
+}
+
+.display-container {
+  background-color: white;
+  --aspect-ratio: 14.5882;
+  --height: var(--container-height);
+  position: relative;
+  height: var(--height);
+  width: calc(var(--height) * var(--aspect-ratio));
+  border-radius: 1.5vh;
+  overflow: hidden;
+}
+
+.display-glass {
+  z-index: 3;
+  position: absolute;
+  background-image: url(../assets/display-screen/glass.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100%;
+  width: 100%;
+}
+
+.display-lines {
+  --aspect-ratio: 7.4586;
+  --height: calc(var(--container-height) * 2);
+  z-index: 1;
+  background-image: url(../assets/display-screen/lines.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: absolute;
+  height: var(--height);
+  width: calc(var(--height) * var(--aspect-ratio));
+  top: calc(var(--height) * -0.5);
+}
