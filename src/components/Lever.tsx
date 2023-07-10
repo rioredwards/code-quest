@@ -1,12 +1,15 @@
 import { useState } from "react";
 import "./Lever.css";
 import { motion, useMotionValue, useTransform } from "framer-motion";
+import { SpinState } from "../App";
 
-interface LeverProps {}
+interface LeverProps {
+  setSpinState: (spinState: SpinState) => void;
+}
 const pullThreshold = 100;
 let pulled = false;
 
-const Lever: React.FC<LeverProps> = () => {
+const Lever: React.FC<LeverProps> = ({ setSpinState }) => {
   const [pulling, setPulling] = useState(false);
   const dragYPos = useMotionValue(0);
   const dragXPos = useTransform(dragYPos, [0, 70, 140], [0, 30, 0]);
@@ -22,6 +25,7 @@ const Lever: React.FC<LeverProps> = () => {
 
   const onPull = () => {
     console.log("pull");
+    setSpinState(SpinState.IDLE);
   };
 
   return (

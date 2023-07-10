@@ -1,5 +1,45 @@
-input {
-  z-index: 1;
+.reel-container {
+  --height: 16.6vh;
+  background-color: rgb(67, 174, 136);
+  width: 27.8vh;
+  height: var(--height);
+  border-radius: 1vh;
+  position: relative;
+  overflow: hidden;
+}
+
+.reel-window {
+  overflow: hidden;
+  position: absolute;
+  z-index: 3;
+  background-image: url(../assets/reel/window.png);
+  backdrop-filter: blur(0.02vh);
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100%;
+  width: 100%;
+  border: 0.3vh solid rgba(68, 127, 115, 0.814);
+  border-radius: 1vh;
+}
+
+.reel-window::before,
+.reel-window::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 20%;
+  left: 0;
+  pointer-events: none; /* This allows interaction with elements under the pseudo-element */
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.399) 0%,
+    rgba(0, 0, 0, 0) 100%
+  );
+}
+
+.reel-window::after {
+  bottom: 0;
+  transform: rotate(180deg); /* This is used to flip the gradient */
 }
 
 .reel {

@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import "./Display.css";
 import { motion, useAnimationFrame } from "framer-motion";
 import TypingSimulation from "./TypingSimulation";
+import { getCSSVar, sliceNumAndUnitFromCSSVar } from "../utils/DOMUtils";
 
 interface Props {
   text: string;
@@ -24,8 +25,8 @@ const Display: React.FC<Props> = ({ text }) => {
 
   useEffect(() => {
     if (containerRef.current) {
-      const containerHeightVal = getCSSVar(containerRef.current, "--height");
-      const numberValue = sliceNumAndUnitFromCSSVar(containerHeightVal)[0];
+      const containerHeightString = getCSSVar(containerRef.current, "--height");
+      const numberValue = sliceNumAndUnitFromCSSVar(containerHeightString)[0];
       containerHeight = numberValue;
     }
   }, []);
@@ -47,23 +48,4 @@ function calcLinesMovementFromTime(
 ): string {
   const movement = -(time / 1000) % containerHeight;
   return `translateY(${-movement}vh)`;
-}
-
-function getCSSVar(el: HTMLElement, varName: string): string {
-  const style = window.getComputedStyle(el);
-  const myVarValue = style.getPropertyValue(varName);
-  if (!myVarValue) throw new Error("Variable not found");
-
-  return myVarValue;
-}
-
-function sliceNumAndUnitFromCSSVar(varVal: string): [number, string] {
-  const matches = varVal.match(/(\d+(?:\.\d+)?)([a-z%]*)/);
-
-  if (!matches) throw new Error("Invalid format of the CSS variable");
-
-  const numberValue = parseFloat(matches[1]);
-  const unit = matches[2];
-
-  return [numberValue, unit];
 }

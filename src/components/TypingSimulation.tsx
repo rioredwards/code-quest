@@ -11,8 +11,8 @@ let timeSinceLetterAdded = 0;
 let timeSinceCursorBlinked = 0;
 let letterIdx = 0;
 
-const MIN_TYPE_SPEED = SECOND / 32;
-const MAX_TYPE_SPEED = SECOND / 16;
+const MIN_TYPE_DELAY = SECOND / 16;
+const MAX_TYPE_DELAY = SECOND / 8;
 const CURSOR_BLINK_SPEED = SECOND / 2;
 const BLINK_DURATION_AFTER_TYPING = SECOND * 3;
 // The text will wrap after this many characters this is important
@@ -58,7 +58,7 @@ const TypingSimulation: React.FC<Props> = ({ text }) => {
       }
     }
     if (typing) {
-      if (timeSinceLetterAdded > randomSpeed(MIN_TYPE_SPEED, MAX_TYPE_SPEED)) {
+      if (timeSinceLetterAdded > randomSpeed(MIN_TYPE_DELAY, MAX_TYPE_DELAY)) {
         updateText();
         timeSinceLetterAdded = 0;
       }

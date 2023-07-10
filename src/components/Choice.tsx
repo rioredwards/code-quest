@@ -5,7 +5,7 @@ interface ChoiceProps {
   classes: string;
 }
 
-const Choice: React.FC<ChoiceProps> = ({ displayName, classes }) => {
+const Choice: React.FC<ChoiceProps> = ({ classes, displayName }) => {
   return <div className={classes}>{displayName}</div>;
 };
 

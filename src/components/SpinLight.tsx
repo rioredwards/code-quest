@@ -1,8 +1,8 @@
-import { SpinMode } from "../App";
+import { SpinState } from "../App";
 import "./SpinLight.css";
 
 interface SpinLightProps {
-  mode: SpinMode;
+  mode: SpinState;
 }
 
 const SpinLight: React.FC<SpinLightProps> = ({ mode }) => {
@@ -31,13 +31,14 @@ function calcOffsetPercentForColor(color: string): string {
   }
 }
 
-function calcColorForSpinMode(mode: SpinMode) {
-  switch (mode) {
-    case SpinMode.preSpin:
+function calcColorForSpinMode(state: SpinState) {
+  switch (state) {
+    case SpinState.PRE:
       return "red";
-    case SpinMode.midSpin:
+    case SpinState.IDLE:
+    case SpinState.STOPPING:
       return "yellow";
-    case SpinMode.postSpin:
+    case SpinState.POST:
       return "green";
     default:
       return "green";

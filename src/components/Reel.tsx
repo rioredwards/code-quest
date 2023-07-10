@@ -1,116 +1,104 @@
 import "./Reel.css";
-import { Variants, motion } from "framer-motion";
+import { motion, useAnimate, useMotionValue } from "framer-motion";
 import Choice from "./Choice";
+import { SpinState } from "../App";
+import { useEffect } from "react";
+import { numToVh, repeatArray, vhToNum } from "../utils/genUtils";
 
 // useCycle: https://www.youtube.com/watch?v=wAwJj-KGb38&list=PL4cUxeGkcC9iHDnQfTHEVVceOEBsOf07i&index=17&ab_channel=TheNetNinja
 
-const REM = 16;
-const CHOICE_HEIGHT = REM * 2;
+const CHOICE_HEIGHT = 3.32; // vh
+const NUM_CHOICES_VISIBLE = 5;
+const IDLE_SPIN_SPEED = 8; // choices per second
 
 interface ReelProps {
   choices: string[];
   spinState: SpinState;
   chosenIdx: number;
+  isDraggable: boolean;
 }
-
-export type SpinState = "preSpin" | "idleSpin" | "stoppingSpin" | "stopped";
-
-function repeat<T>(arr: T[], n: number): T[] {
-  return [].concat(...Array(n).fill(arr));
-}
-
-interface AnimateProps {
-  yForSelectedChoice: number;
-  yForChoicesMiddle: number;
-  yForChoicesEnd: number;
-  spinDuration: number;
-}
-
-const spinVariants: Variants = {
-  preSpin: (props: AnimateProps) => ({
-    y: props.yForChoicesEnd,
-    transition: {
-      duration: 0,
-    },
-  }),
-  idleSpin: (props: AnimateProps) => ({
-    y: [props.yForChoicesEnd, props.yForChoicesMiddle],
-    transition: {
-      repeat: Infinity,
-      duration: props.spinDuration,
-      ease: "linear",
-    },
-  }),
-  stoppingSpin: (props: AnimateProps) => ({
-    y: props.yForSelectedChoice,
-    transition: {
-      type: "spring",
-      bounce: 0.3,
-      damping: 8,
-      stiffness: 8,
-      mass: 3,
-    },
-  }),
-  stopped: (props: AnimateProps) => ({
-    y: [null],
-    transition: {
-      duration: 0,
-    },
-  }),
-};
 
 const Reel: React.FC<ReelProps> = ({ choices, spinState, chosenIdx }) => {
-  const repeatedChoices = repeat(choices, 4);
+  const repeatedChoices = repeatArray(choices, 3);
+  const [scope, animate] = useAnimate();
+  const y = useMotionValue("0vh");
+
+  useEffect(() => {
+    const idleAnimation = async () => {
+      const newY = translateYDownFullReel(vhToNum(y.get()), choices.length);
+      const spinDuration = getIdleSpinDuration(choices.length);
+      animate(
+        scope.current,
+        { y: [numToVh(0), numToVh(newY)] },
+        { duration: spinDuration, ease: "linear", repeat: Infinity }
+      );
+    };
+
+    const stoppingAnimation = async () => {
+      const currentY = vhToNum(y.get());
+      const targetY = translateChoiceIdxToY(chosenIdx, choices.length);
+      const spinDuration = getStoppingSpinDuration(currentY, targetY);
+      animate(
+        scope.current,
+        { y: [numToVh(currentY), numToVh(targetY)] },
+        { duration: spinDuration, ease: "linear" }
+      );
+    };
+
+    const animateSequence = async () => {
+      if (spinState === SpinState.IDLE) await idleAnimation();
+      if (spinState === SpinState.STOPPING) await stoppingAnimation();
+    };
+
+    animateSequence();
+  }, [spinState, chosenIdx]);
 
   return (
-    <motion.ul
-      className="reel"
-      custom={{
-        yForSelectedChoice: translateYToChoiceIdx(chosenIdx, choices.length),
-        yForChoicesMiddle: getYForChoicesMiddle(choices.length),
-        yForChoicesEnd: getYForChoicesEnd(choices.length),
-        spinDuration: getSpinLoopDuration(choices.length),
-      }}
-      variants={spinVariants}
-      initial={false}
-      animate={spinState}>
-      {repeatedChoices.map((choice, i) => (
-        <li key={i}>
+    <div className="reel-container">
+      <div className="reel-window" />
+      <motion.ul className="reel" style={{ y }} ref={scope}>
+        {repeatedChoices.map((choice, i) => (
           <Choice
+            key={i}
             classes={getChoiceClassName(i, chosenIdx, choices.length)}
             displayName={choice}></Choice>
-        </li>
-      ))}
-    </motion.ul>
+        ))}
+      </motion.ul>
+    </div>
   );
 };
 
-function getYForChoicesMiddle(choicesLength: number): number {
-  return -choicesLength * CHOICE_HEIGHT * 2;
+function translateYDownFullReel(yNum: number, choicesLength: number): number {
+  return yNum - CHOICE_HEIGHT * choicesLength;
 }
 
-function getYForChoicesEnd(choicesLength: number): number {
-  return -choicesLength * CHOICE_HEIGHT * 3;
+function getIdleSpinDuration(choicesLength: number): number {
+  return choicesLength / IDLE_SPIN_SPEED;
 }
 
-function translateYToChoiceIdx(
-  chosenIdx: number,
-  choicesLength: number
-): number {
-  return -(chosenIdx + choicesLength - 2) * CHOICE_HEIGHT;
+function getStoppingSpinDuration(currentY: number, targetY: number): number {
+  const yDiff = Math.abs(currentY - targetY);
+  const spinDuration = yDiff / IDLE_SPIN_SPEED;
+  return spinDuration;
 }
 
-function getSpinLoopDuration(choicesLength: number): number {
-  return choicesLength / 4;
+function translateChoiceIdxToY(idx: number, choicesLength: number): number {
+  const idxShiftedToMiddleOfWindow = idx - Math.floor(NUM_CHOICES_VISIBLE / 2);
+  const yShiftForFirstCopyOfArr = -idxShiftedToMiddleOfWindow * CHOICE_HEIGHT;
+  const yShiftForSecondCopyOfArr = translateYDownFullReel(
+    yShiftForFirstCopyOfArr,
+    choicesLength
+  );
+  return yShiftForSecondCopyOfArr;
 }
 
 function getChoiceClassName(
   i: number,
-  chosenIdx: number,
+  choiceIdx: number,
   choicesLength: number
 ): string {
   const base = "choice";
-  const chosenClass = i === chosenIdx + choicesLength ? "choiceVarChosen" : "";
+  const chosenClass = i === choiceIdx + choicesLength ? "choiceVarChosen" : "";
   const altClass = i % 2 === 0 ? "choiceVar1" : "choiceVar2";
 
   return `${base} ${altClass} ${chosenClass}`;

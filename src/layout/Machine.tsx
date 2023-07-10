@@ -6,6 +6,7 @@ interface MachineProps {
   lights: React.ReactNode[];
   lever: React.ReactNode;
   display: React.ReactNode;
+  reels: React.ReactNode[];
 }
 
 const Machine: React.FC<MachineProps> = ({
@@ -14,12 +15,13 @@ const Machine: React.FC<MachineProps> = ({
   lever,
   lights,
   display,
+  reels,
 }) => {
   return (
     <div className="machine">
       <div className="signs-area">{signs}</div>
       <div className="lock-switches-area">{lockSwitches}</div>
-      <div className="reels-area">{}</div>
+      <div className="reels-area">{reels}</div>
       <div className="lever-area">{lever}</div>
       <div className="lights-area">{lights}</div>
       <div className="display-area">{display}</div>

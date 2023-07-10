@@ -1,11 +1,13 @@
 .choice {
-  z-index: 0;
+  --height: 3.32vh;
+  padding-left: 0.5vh;
+  z-index: 2;
   background-color: rgb(97, 197, 214);
-  text-align: start;
-  font-size: 1.5rem;
+  text-align: center;
+  font-size: 2.8vh;
   font-weight: bold;
-  height: 2rem;
-  border-bottom: 0.1rem solid rgb(78, 78, 78);
+  height: var(--height);
+  border-bottom: 0.1vh solid rgba(78, 78, 78, 0.536);
   border-bottom-style: inset;
   word-wrap: break-word;
   overflow: hidden;
@@ -17,11 +19,11 @@
 }
 
 .choiceVar1 {
-  background-color: rgb(97, 197, 214);
+  background-color: rgb(97, 214, 204);
 }
 
 .choiceVar2 {
-  background-color: rgb(74, 175, 193);
+  background-color: rgb(84, 189, 200);
 }
 
 .choiceVarChosen {
