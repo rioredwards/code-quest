@@ -1,8 +1,14 @@
 import "./Reel.css";
-import { motion, useAnimate, useMotionValue } from "framer-motion";
+import {
+  motion,
+  useAnimate,
+  useMotionValue,
+  useTransform,
+  useVelocity,
+} from "framer-motion";
 import Choice from "./Choice";
 import { SpinState } from "../App";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { numToVh, repeatArray, vhToNum } from "../utils/genUtils";
 
 const CHOICE_HEIGHT = 3.32; // vh
@@ -24,7 +30,12 @@ const Reel: React.FC<ReelProps> = ({
 }) => {
   const repeatedChoices = repeatArray(choices, 5); // Needed for infinite scrolling behavior
   const [scope, animate] = useAnimate();
+  const [dragging, setDragging] = useState(false);
+  const [dragStartY, setDragStartY] = useState(0);
   const y = useMotionValue("0vh");
+  const yNum = useTransform(y, vhToNum);
+  const dragY = useMotionValue(0);
+  const yVelocity = useVelocity(yNum);
 
   useEffect(() => {
     const preSpinAnimation = async () => {
@@ -121,10 +132,49 @@ const Reel: React.FC<ReelProps> = ({
     animateSequence();
   }, [spinState, chosenIdx]);
 
+  function onDragStart(): void {
+    if (dragStartY) return;
+    setDragging(true);
+    setDragStartY(vhToNum(y.get()));
+  }
+
+  function onDrag(): void {
+    if (!dragStartY) return;
+    const currDragY = dragY.get();
+    const roundedY = roundYToNearestChoice(dragStartY + currDragY);
+    if (yIsOutsideDragBounds(roundedY, choices.length)) return;
+
+    animate(
+      scope.current,
+      { y: numToVh(roundedY) },
+      { velocity: yVelocity.getVelocity() }
+    );
+
+    dragY.set(0);
+  }
+
+  function onDragEnd(): void {
+    setDragging(false);
+    setDragStartY(0);
+    dragY.set(0);
+  }
+
   return (
     <div className="reel-container">
       <div className="reel-gradient" />
-      {isDraggable && <div className="drag-handle" />}
+      {isDraggable && (
+        <motion.div
+          className={`drag-handle ${dragging ? "dragging" : ""}`}
+          style={{ y: dragY }}
+          drag="y"
+          dragConstraints={{ top: 0, bottom: 0 }}
+          dragSnapToOrigin={true}
+          dragElastic={0.1}
+          onDragStart={onDragStart}
+          onDrag={onDrag}
+          onDragEnd={onDragEnd}
+        />
+      )}
       {!isDraggable && <div className="reel-window" />}
       <motion.ul className="reel" style={{ y }} ref={scope}>
         {repeatedChoices.map((choice, i) => (
@@ -142,6 +192,35 @@ const Reel: React.FC<ReelProps> = ({
     </div>
   );
 };
+
+function roundYToNearestChoice(y: number): number {
+  return Math.round(y / CHOICE_HEIGHT) * CHOICE_HEIGHT;
+}
+
+function yIsOutsideDragBounds(
+  y: number,
+  choicesLength: number
+): "over" | "under" | null {
+  const threshold = CHOICE_HEIGHT * 0.5;
+  const upperBound = translateChoiceIdxToY(0);
+  const translatedUpper = translateYDownByReelCopy(
+    upperBound,
+    choicesLength,
+    1
+  );
+
+  const lowerBound = translateChoiceIdxToY(choicesLength - 1);
+  const translatedLower = translateYDownByReelCopy(
+    lowerBound,
+    choicesLength,
+    1
+  );
+
+  const isOver = y > translatedUpper + threshold;
+  const isUnder = y < translatedLower - threshold;
+
+  return isOver ? "over" : isUnder ? "under" : null;
+}
 
 function translateYDownByReelCopy(
   currY: number,

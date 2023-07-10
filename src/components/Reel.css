@@ -13,6 +13,23 @@
   border-radius: 1.2vh;
 }
 
+.drag-handle {
+  position: absolute;
+  background-color: rgb(195, 114, 193);
+  z-index: 4;
+  height: 200%;
+  width: 100%;
+  top: -50%;
+  border-radius: 1.2vh;
+  cursor: pointer;
+  opacity: 0.5;
+}
+
+.dragging {
+  opacity: 0.5;
+  cursor: grabbing;
+}
+
 .reel-window {
   position: absolute;
   z-index: 3;
