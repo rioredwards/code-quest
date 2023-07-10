@@ -9,7 +9,7 @@ import { numToVh, repeatArray, vhToNum } from "../utils/genUtils";
 
 const CHOICE_HEIGHT = 3.32; // vh
 const NUM_CHOICES_VISIBLE = 5;
-const IDLE_SPIN_SPEED = 8; // choices per second
+const BASE_SPIN_SPEED = 8; // choices per second
 
 interface ReelProps {
   choices: string[];
@@ -19,35 +19,69 @@ interface ReelProps {
 }
 
 const Reel: React.FC<ReelProps> = ({ choices, spinState, chosenIdx }) => {
-  const repeatedChoices = repeatArray(choices, 3);
+  const repeatedChoices = repeatArray(choices, 5); // Needed for infinite scrolling behavior
   const [scope, animate] = useAnimate();
   const y = useMotionValue("0vh");
 
   useEffect(() => {
+    const preSpinAnimation = async () => {
+      const startingChoiceIdx = chosenIdx ?? 0;
+      const startYInFirstReelCopy = translateChoiceIdxToY(startingChoiceIdx);
+      const startY = translateYDownByReelCopy(
+        startYInFirstReelCopy,
+        choices.length,
+        1
+      );
+      animate(scope.current, { y: numToVh(startY) }, { duration: 0 });
+    };
+
     const idleAnimation = async () => {
-      const newY = translateYDownFullReel(vhToNum(y.get()), choices.length);
+      const newY = translateYDownByReelCopy(
+        vhToNum(y.get()),
+        choices.length,
+        1
+      );
       const spinDuration = getIdleSpinDuration(choices.length);
       animate(
         scope.current,
-        { y: [numToVh(0), numToVh(newY)] },
+        { y: [null, numToVh(newY)] },
         { duration: spinDuration, ease: "linear", repeat: Infinity }
       );
     };
 
     const stoppingAnimation = async () => {
-      const currentY = vhToNum(y.get());
-      const targetY = translateChoiceIdxToY(chosenIdx, choices.length);
-      const spinDuration = getStoppingSpinDuration(currentY, targetY);
+      const targetYInFirstReelCopy = translateChoiceIdxToY(chosenIdx);
+      const targetY = translateYDownByReelCopy(
+        targetYInFirstReelCopy,
+        choices.length,
+        3
+      );
+      const spinDuration = getStoppingSpinDuration(vhToNum(y.get()), targetY);
       animate(
         scope.current,
-        { y: [numToVh(currentY), numToVh(targetY)] },
-        { duration: spinDuration, ease: "linear" }
+        { y: [null, numToVh(targetY)] },
+        {
+          duration: spinDuration,
+          type: "spring",
+        }
       );
+    };
+
+    const postSpinAnimation = async () => {
+      const targetYInFirstReelCopy = translateChoiceIdxToY(chosenIdx);
+      const targetY = translateYDownByReelCopy(
+        targetYInFirstReelCopy,
+        choices.length,
+        1
+      );
+      animate(scope.current, { y: numToVh(targetY) }, { duration: 0 });
     };
 
     const animateSequence = async () => {
       if (spinState === SpinState.IDLE) await idleAnimation();
       if (spinState === SpinState.STOPPING) await stoppingAnimation();
+      if (spinState === SpinState.POST) await postSpinAnimation();
+      if (spinState === SpinState.PRE) await preSpinAnimation();
     };
 
     animateSequence();
@@ -60,7 +94,12 @@ const Reel: React.FC<ReelProps> = ({ choices, spinState, chosenIdx }) => {
         {repeatedChoices.map((choice, i) => (
           <Choice
             key={i}
-            classes={getChoiceClassName(i, chosenIdx, choices.length)}
+            classes={getChoiceClassName(
+              i,
+              chosenIdx,
+              choices.length,
+              spinState
+            )}
             displayName={choice}></Choice>
         ))}
       </motion.ul>
@@ -68,40 +107,79 @@ const Reel: React.FC<ReelProps> = ({ choices, spinState, chosenIdx }) => {
   );
 };
 
-function translateYDownFullReel(yNum: number, choicesLength: number): number {
-  return yNum - CHOICE_HEIGHT * choicesLength;
+function translateYDownByReelCopy(
+  currY: number,
+  choicesLength: number,
+  copyIdx: number
+): number {
+  return currY - CHOICE_HEIGHT * (choicesLength * copyIdx);
 }
 
 function getIdleSpinDuration(choicesLength: number): number {
-  return choicesLength / IDLE_SPIN_SPEED;
+  return choicesLength / BASE_SPIN_SPEED;
 }
 
-function getStoppingSpinDuration(currentY: number, targetY: number): number {
-  const yDiff = Math.abs(currentY - targetY);
-  const spinDuration = yDiff / IDLE_SPIN_SPEED;
+function getStoppingSpinDuration(currY: number, targetY: number): number {
+  const yDiff = Math.abs(currY - targetY);
+  const spinDuration = yDiff / BASE_SPIN_SPEED;
   return spinDuration;
 }
 
-function translateChoiceIdxToY(idx: number, choicesLength: number): number {
+function translateChoiceIdxToY(idx: number): number {
   const idxShiftedToMiddleOfWindow = idx - Math.floor(NUM_CHOICES_VISIBLE / 2);
-  const yShiftForFirstCopyOfArr = -idxShiftedToMiddleOfWindow * CHOICE_HEIGHT;
-  const yShiftForSecondCopyOfArr = translateYDownFullReel(
-    yShiftForFirstCopyOfArr,
-    choicesLength
-  );
-  return yShiftForSecondCopyOfArr;
+  return -idxShiftedToMiddleOfWindow * CHOICE_HEIGHT;
 }
 
 function getChoiceClassName(
   i: number,
   choiceIdx: number,
-  choicesLength: number
+  choicesLength: number,
+  spinState: SpinState
 ): string {
   const base = "choice";
-  const chosenClass = i === choiceIdx + choicesLength ? "choiceVarChosen" : "";
+  const chosenClass =
+    spinState !== SpinState.POST
+      ? ""
+      : i === choiceIdx + choicesLength
+      ? "choiceVarChosen"
+      : "";
   const altClass = i % 2 === 0 ? "choiceVar1" : "choiceVar2";
+  const classesStr = `${base} ${altClass} ${chosenClass}`;
 
-  return `${base} ${altClass} ${chosenClass}`;
+  return classesStr;
 }
 
 export default Reel;
+
+// const spinVariants: Variants = {
+//   preSpin: (props: AnimateProps) => ({
+//     y: props.yForChoicesEnd,
+//     transition: {
+//       duration: 0,
+//     },
+//   }),
+//   idleSpin: (props: AnimateProps) => ({
+//     y: [props.yForChoicesEnd, props.yForChoicesMiddle],
+//     transition: {
+//       repeat: Infinity,
+//       duration: props.spinDuration,
+//       ease: "linear",
+//     },
+//   }),
+//   stoppingSpin: (props: AnimateProps) => ({
+//     y: props.yForSelectedChoice,
+//     transition: {
+//       type: "spring",
+//       bounce: 0.3,
+//       damping: 8,
+//       stiffness: 8,
+//       mass: 3,
+//     },
+//   }),
+//   stopped: (props: AnimateProps) => ({
+//     y: [null],
+//     transition: {
+//       duration: 0,
+//     },
+//   }),
+// };
