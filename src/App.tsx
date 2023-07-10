@@ -25,12 +25,16 @@ const signNames = ["TYPE", "TECH", "TASK", "TIME"];
 function App() {
   const [spinState, setSpinState] = useState(SpinState.PRE);
   const [chosenIdxs, setChosenIdxs] = useState([0, 0, 0, 0]);
+  const [userDragging, setUserDragging] = useState(false);
+  const universalCssClasses = userDragging ? "user-dragging" : "";
 
   const signs = signNames.map((signName, id) => {
     return <Sign name={signName} key={id} />;
   });
 
-  const lever = <Lever setSpinState={setSpinState} />;
+  const lever = (
+    <Lever setSpinState={setSpinState} setUserDragging={setUserDragging} />
+  );
 
   const lights = [1, 2, 3, 4].map((id) => {
     return <SpinLight mode={spinState} key={id} />;
@@ -51,6 +55,7 @@ function App() {
       chosenIdx={chosenIdxs[0]}
       spinState={spinState}
       isDraggable={true}
+      setUserDragging={setUserDragging}
     />
   );
 
@@ -61,6 +66,7 @@ function App() {
       chosenIdx={chosenIdxs[1]}
       spinState={spinState}
       isDraggable={true}
+      setUserDragging={setUserDragging}
     />
   );
 
@@ -71,6 +77,7 @@ function App() {
       chosenIdx={chosenIdxs[2]}
       spinState={spinState}
       isDraggable={true}
+      setUserDragging={setUserDragging}
     />
   );
 
@@ -81,6 +88,7 @@ function App() {
       chosenIdx={chosenIdxs[3]}
       spinState={spinState}
       isDraggable={true}
+      setUserDragging={setUserDragging}
     />
   );
 
@@ -103,7 +111,7 @@ function App() {
   }
 
   return (
-    <div className="App">
+    <div className={`App ${universalCssClasses}`}>
       <GameContainer>
         <button onClick={onClick}>{spinState}</button>
         <Machine

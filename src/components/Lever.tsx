@@ -5,28 +5,35 @@ import { SpinState } from "../App";
 
 interface LeverProps {
   setSpinState: (spinState: SpinState) => void;
+  setUserDragging: (isDragging: boolean) => void;
 }
 const pullThreshold = 100;
-let pulled = false;
 
-const Lever: React.FC<LeverProps> = ({ setSpinState }) => {
-  const [pulling, setPulling] = useState(false);
+const Lever: React.FC<LeverProps> = ({ setSpinState, setUserDragging }) => {
+  const [pulled, setPulled] = useState(false);
   const dragYPos = useMotionValue(0);
   const dragXPos = useTransform(dragYPos, [0, 70, 140], [0, 30, 0]);
   const leverYPos = useTransform(dragYPos, [0, 140], [0, 10]);
   const rotationAngle = useTransform(dragYPos, [0, 140], [-45, 45]);
 
-  dragYPos.on("change", (yValue) => {
-    if (!pulled && yValue > pullThreshold) {
-      onPull();
-      pulled = true;
-    }
-  });
-
-  const onPull = () => {
-    console.log("pull");
+  function onPull() {
     setSpinState(SpinState.IDLE);
-  };
+  }
+
+  function onDragStart() {
+    setUserDragging(true);
+  }
+
+  function onDragEnd() {
+    setUserDragging(false);
+  }
+
+  function onDrag() {
+    if (!pulled && dragYPos.get() > pullThreshold) {
+      onPull();
+      setPulled(true);
+    }
+  }
 
   return (
     <div className="lever-container">
@@ -37,12 +44,12 @@ const Lever: React.FC<LeverProps> = ({ setSpinState }) => {
       />
       <motion.div
         drag="y"
-        onDrag={() => setPulling(true)}
-        onDragEnd={() => setPulling(false)}
+        onDragStart={onDragStart}
+        onDrag={onDrag}
+        onDragEnd={onDragEnd}
         style={{
           y: dragYPos,
           x: dragXPos,
-          cursor: pulling ? "grabbing" : "grab",
         }}
         dragConstraints={{ top: 0, bottom: 140 }}
         dragElastic={0.1}

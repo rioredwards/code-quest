@@ -20,6 +20,7 @@ interface ReelProps {
   spinState: SpinState;
   chosenIdx: number;
   isDraggable: boolean;
+  setUserDragging: (isDragging: boolean) => void;
 }
 
 const Reel: React.FC<ReelProps> = ({
@@ -27,6 +28,7 @@ const Reel: React.FC<ReelProps> = ({
   spinState,
   chosenIdx,
   isDraggable,
+  setUserDragging,
 }) => {
   const repeatedChoices = repeatArray(choices, 5); // Needed for infinite scrolling behavior
   const [scope, animate] = useAnimate();
@@ -135,6 +137,7 @@ const Reel: React.FC<ReelProps> = ({
   function onDragStart(): void {
     if (dragStartY) return;
     setDragging(true);
+    setUserDragging(true);
     setDragStartY(vhToNum(y.get()));
   }
 
@@ -155,6 +158,7 @@ const Reel: React.FC<ReelProps> = ({
 
   function onDragEnd(): void {
     setDragging(false);
+    setUserDragging(false);
     setDragStartY(0);
     dragY.set(0);
   }

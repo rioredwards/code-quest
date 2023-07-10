@@ -7,3 +7,7 @@
   width: 100vw;
   overflow: hidden;
 }
+
+.user-dragging {
+  cursor: grabbing;
+}
