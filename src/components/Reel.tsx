@@ -134,8 +134,19 @@ const Reel: React.FC<ReelProps> = ({
     animateSequence();
   }, [spinState, chosenIdx]);
 
+  function onHoverStart(): void {
+    if (dragging) return;
+    animate(scope.current, { filter: "brightness(105%)" });
+  }
+
+  function onHoverEnd(): void {
+    if (dragging) return;
+    animate(scope.current, { filter: "brightness(100%)" });
+  }
+
   function onDragStart(): void {
     if (dragStartY) return;
+    animate(scope.current, { filter: "brightness(115%)" });
     setDragging(true);
     setUserDragging(true);
     setDragStartY(vhToNum(y.get()));
@@ -152,11 +163,10 @@ const Reel: React.FC<ReelProps> = ({
       { y: numToVh(roundedY) },
       { velocity: yVelocity.getVelocity() }
     );
-
-    dragY.set(0);
   }
 
   function onDragEnd(): void {
+    animate(scope.current, { filter: "brightness(100%)" });
     setDragging(false);
     setUserDragging(false);
     setDragStartY(0);
@@ -168,12 +178,14 @@ const Reel: React.FC<ReelProps> = ({
       <div className="reel-gradient" />
       {isDraggable && (
         <motion.div
-          className={`drag-handle ${dragging ? "dragging" : ""}`}
+          className="drag-handle"
           style={{ y: dragY }}
           drag="y"
           dragConstraints={{ top: 0, bottom: 0 }}
           dragSnapToOrigin={true}
           dragElastic={0.1}
+          onHoverStart={onHoverStart}
+          onHoverEnd={onHoverEnd}
           onDragStart={onDragStart}
           onDrag={onDrag}
           onDragEnd={onDragEnd}

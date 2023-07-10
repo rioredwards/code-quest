@@ -13,11 +13,6 @@
   overflow: hidden;
 }
 
-.choice:hover {
-  filter: brightness(1.02);
-  cursor: pointer;
-}
-
 .choiceVar1 {
   background-color: rgb(97, 214, 204);
 }
