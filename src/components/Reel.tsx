@@ -5,8 +5,6 @@ import { SpinState } from "../App";
 import { useEffect } from "react";
 import { numToVh, repeatArray, vhToNum } from "../utils/genUtils";
 
-// useCycle: https://www.youtube.com/watch?v=wAwJj-KGb38&list=PL4cUxeGkcC9iHDnQfTHEVVceOEBsOf07i&index=17&ab_channel=TheNetNinja
-
 const CHOICE_HEIGHT = 3.32; // vh
 const NUM_CHOICES_VISIBLE = 5;
 const BASE_SPIN_SPEED = 8; // choices per second
@@ -18,7 +16,12 @@ interface ReelProps {
   isDraggable: boolean;
 }
 
-const Reel: React.FC<ReelProps> = ({ choices, spinState, chosenIdx }) => {
+const Reel: React.FC<ReelProps> = ({
+  choices,
+  spinState,
+  chosenIdx,
+  isDraggable,
+}) => {
   const repeatedChoices = repeatArray(choices, 5); // Needed for infinite scrolling behavior
   const [scope, animate] = useAnimate();
   const y = useMotionValue("0vh");
@@ -56,13 +59,16 @@ const Reel: React.FC<ReelProps> = ({ choices, spinState, chosenIdx }) => {
         choices.length,
         3
       );
-      const spinDuration = getStoppingSpinDuration(vhToNum(y.get()), targetY);
       animate(
         scope.current,
         { y: [null, numToVh(targetY)] },
         {
-          duration: spinDuration,
           type: "spring",
+          damping: 4,
+          stiffness: 3.8,
+          mass: 3.5,
+          velocity: 80,
+          restSpeed: 0.2,
         }
       );
     };
@@ -119,12 +125,6 @@ function getIdleSpinDuration(choicesLength: number): number {
   return choicesLength / BASE_SPIN_SPEED;
 }
 
-function getStoppingSpinDuration(currY: number, targetY: number): number {
-  const yDiff = Math.abs(currY - targetY);
-  const spinDuration = yDiff / BASE_SPIN_SPEED;
-  return spinDuration;
-}
-
 function translateChoiceIdxToY(idx: number): number {
   const idxShiftedToMiddleOfWindow = idx - Math.floor(NUM_CHOICES_VISIBLE / 2);
   return -idxShiftedToMiddleOfWindow * CHOICE_HEIGHT;
@@ -150,36 +150,3 @@ function getChoiceClassName(
 }
 
 export default Reel;
-
-// const spinVariants: Variants = {
-//   preSpin: (props: AnimateProps) => ({
-//     y: props.yForChoicesEnd,
-//     transition: {
-//       duration: 0,
-//     },
-//   }),
-//   idleSpin: (props: AnimateProps) => ({
-//     y: [props.yForChoicesEnd, props.yForChoicesMiddle],
-//     transition: {
-//       repeat: Infinity,
-//       duration: props.spinDuration,
-//       ease: "linear",
-//     },
-//   }),
-//   stoppingSpin: (props: AnimateProps) => ({
-//     y: props.yForSelectedChoice,
-//     transition: {
-//       type: "spring",
-//       bounce: 0.3,
-//       damping: 8,
-//       stiffness: 8,
-//       mass: 3,
-//     },
-//   }),
-//   stopped: (props: AnimateProps) => ({
-//     y: [null],
-//     transition: {
-//       duration: 0,
-//     },
-//   }),
-// };
