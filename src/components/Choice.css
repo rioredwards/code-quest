@@ -1,7 +1,7 @@
 .choice {
   --height: 3.32vh;
   padding-left: 0.5vh;
-  z-index: 2;
+  z-index: 1;
   background-color: rgb(97, 197, 214);
   text-align: center;
   font-size: 2.8vh;

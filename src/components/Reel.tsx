@@ -38,7 +38,35 @@ const Reel: React.FC<ReelProps> = ({
       animate(scope.current, { y: numToVh(startY) }, { duration: 0 });
     };
 
-    const idleAnimation = async () => {
+    const idleAnimationStart = async () => {
+      const upperY = vhToNum(y.get());
+      const lowerY = translateYDownByReelCopy(
+        vhToNum(y.get()),
+        choices.length,
+        1
+      );
+      const spinDuration = getIdleSpinDuration(choices.length);
+      const animation = animate([
+        [
+          scope.current,
+          { y: [null, numToVh(lowerY)] },
+          {
+            duration: spinDuration + 1,
+            ease: "easeIn",
+          },
+        ],
+        [
+          scope.current,
+          { y: numToVh(upperY) },
+          {
+            duration: 0,
+          },
+        ],
+      ]);
+      animation.then(idleAnimationLoop);
+    };
+
+    const idleAnimationLoop = async () => {
       const newY = translateYDownByReelCopy(
         vhToNum(y.get()),
         choices.length,
@@ -84,7 +112,7 @@ const Reel: React.FC<ReelProps> = ({
     };
 
     const animateSequence = async () => {
-      if (spinState === SpinState.IDLE) await idleAnimation();
+      if (spinState === SpinState.IDLE) await idleAnimationStart();
       if (spinState === SpinState.STOPPING) await stoppingAnimation();
       if (spinState === SpinState.POST) await postSpinAnimation();
       if (spinState === SpinState.PRE) await preSpinAnimation();
@@ -95,7 +123,9 @@ const Reel: React.FC<ReelProps> = ({
 
   return (
     <div className="reel-container">
-      <div className="reel-window" />
+      <div className="reel-gradient" />
+      {isDraggable && <div className="drag-handle" />}
+      {!isDraggable && <div className="reel-window" />}
       <motion.ul className="reel" style={{ y }} ref={scope}>
         {repeatedChoices.map((choice, i) => (
           <Choice
