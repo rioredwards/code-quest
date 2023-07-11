@@ -1,8 +1,10 @@
 import "./Reel.css";
 import {
   AnimatePresence,
+  PanInfo,
   motion,
   useAnimate,
+  useDragControls,
   useMotionValue,
   useTransform,
   useVelocity,
@@ -13,10 +15,12 @@ import { useEffect, useState } from "react";
 import { numToVh, repeatArray, vhToNum } from "../utils/genUtils";
 import {
   BASE_SPIN_SPEED,
-  CHOICE_HEIGHT,
+  CHOICE_HEIGHT_VH,
   NUM_CHOICES_VISIBLE,
 } from "../motionConfigs/reelMotion";
 import Window from "./Window";
+import { useWindowDimensions } from "../hooks/useWindowDimensions";
+import { convertPXtoVH } from "../utils/DOMUtils";
 
 interface ReelProps {
   choices: string[];
@@ -26,23 +30,26 @@ interface ReelProps {
   setUserDragging: (isDragging: boolean) => void;
 }
 
-const Reel: React.FC<ReelProps> = ({
+let upperDragConstraint = 0;
+let lowerDragConstraint = -CHOICE_HEIGHT_VH * (NUM_CHOICES_VISIBLE - 1);
+
+const ReelCopy: React.FC<ReelProps> = ({
   choices,
   spinState,
   chosenIdx,
   isDraggable,
   setUserDragging,
 }) => {
+  const windowHeight = useWindowDimensions().height;
   const repeatedChoices = repeatArray(choices, 5); // Needed for infinite scrolling behavior
   const [scope, animate] = useAnimate();
   const [dragging, setDragging] = useState(false);
-  const [dragStartY, setDragStartY] = useState(0);
+  const [yAtDragStart, setYAtDragStart] = useState<number | null>(null);
   const y = useMotionValue("0vh");
-  const yNum = useTransform(y, vhToNum);
   const dragY = useMotionValue(0);
-  const yVelocity = useVelocity(yNum);
+  console.log("windowHeight: ", windowHeight);
 
-  useEffect(() => {
+  /* useEffect(() => {
     const preSpinAnimation = async () => {
       const startingChoiceIdx = chosenIdx ?? 0;
       const startYInFirstReelCopy = translateChoiceIdxToY(startingChoiceIdx);
@@ -138,7 +145,7 @@ const Reel: React.FC<ReelProps> = ({
 
     animateSequence();
   }, [spinState, chosenIdx]);
-
+ */
   function onHoverStart(): void {
     if (dragging) return;
     animate(scope.current, { filter: "brightness(105%)" });
@@ -149,34 +156,49 @@ const Reel: React.FC<ReelProps> = ({
     animate(scope.current, { filter: "brightness(100%)" });
   }
 
-  function onDragStart(): void {
-    if (dragStartY) return;
+  function onDragStart(
+    event: MouseEvent | TouchEvent | PointerEvent,
+    { velocity, delta, offset, point }: PanInfo
+  ): void {
+    if (yAtDragStart !== null) return;
+    console.log("drag start");
     animate(scope.current, { filter: "brightness(115%)" });
     setDragging(true);
     setUserDragging(true);
-    setDragStartY(vhToNum(y.get()));
+    setYAtDragStart(vhToNum(y.get()));
   }
 
-  function onDrag(): void {
-    if (!dragStartY) return;
-    const currDragY = dragY.get();
-    const roundedY = roundYToNearestChoice(dragStartY + currDragY);
-    if (yIsOutsideDragBounds(roundedY, choices.length)) return;
+  function onDrag(
+    event: MouseEvent | TouchEvent | PointerEvent,
+    { velocity, delta, offset, point }: PanInfo
+  ): void {
+    if (!windowHeight || yAtDragStart === null) return;
+    const yOffsetInVh = convertPXtoVH(offset.y, windowHeight);
+    const newY = yAtDragStart + yOffsetInVh;
+    console.log("newY: ", newY);
+    const roundedDragY = roundYToNearestChoice(newY);
+    console.log("roundedDragY: ", roundedDragY);
+    // if (yIsOutsideDragBounds(roundedDragY, choices.length)) return;
 
-    animate(
-      scope.current,
-      { y: numToVh(roundedY) },
-      { velocity: yVelocity.getVelocity() }
-    );
+    animate(scope.current, { y: numToVh(newY) });
   }
 
   function onDragEnd(): void {
-    animate(scope.current, { filter: "brightness(100%)" });
-    setDragging(false);
-    setUserDragging(false);
-    setDragStartY(0);
-    dragY.set(0);
+    // const roundedDragY = roundYToNearestChoice(vhToNum(y.get()));
+    // animate(scope.current, {
+    //   y: numToVh(roundedDragY),
+    //   filter: "brightness(100%)",
+    // });
+    // setDragging(false);
+    // setUserDragging(false);
+    // setYAtDragStart(0);
+    // dragY.set(0);
   }
+
+  useEffect(() => {
+    upperDragConstraint = getUpperDragConstraint(choices.length);
+    lowerDragConstraint = getLowerDragConstraint(choices.length);
+  }, []);
 
   return (
     <div className="reel-container">
@@ -184,7 +206,6 @@ const Reel: React.FC<ReelProps> = ({
       {isDraggable && (
         <motion.div
           className="drag-handle"
-          style={{ y: dragY }}
           drag="y"
           dragConstraints={{ top: 0, bottom: 0 }}
           dragSnapToOrigin={true}
@@ -213,15 +234,35 @@ const Reel: React.FC<ReelProps> = ({
   );
 };
 
+function getUpperDragConstraint(choicesLength: number): number {
+  const upperBound = translateChoiceIdxToY(0);
+  const translatedUpper = translateYDownByReelCopy(
+    upperBound,
+    choicesLength,
+    1
+  );
+  return translatedUpper;
+}
+
+function getLowerDragConstraint(choicesLength: number): number {
+  const lowerBound = translateChoiceIdxToY(choicesLength - 1);
+  const translatedLower = translateYDownByReelCopy(
+    lowerBound,
+    choicesLength,
+    1
+  );
+  return translatedLower;
+}
+
 function roundYToNearestChoice(y: number): number {
-  return Math.round(y / CHOICE_HEIGHT) * CHOICE_HEIGHT;
+  return Math.round(y / CHOICE_HEIGHT_VH) * CHOICE_HEIGHT_VH;
 }
 
 function yIsOutsideDragBounds(
   y: number,
   choicesLength: number
 ): "over" | "under" | null {
-  const threshold = CHOICE_HEIGHT * 0.5;
+  const threshold = CHOICE_HEIGHT_VH * 0.5;
   const upperBound = translateChoiceIdxToY(0);
   const translatedUpper = translateYDownByReelCopy(
     upperBound,
@@ -255,7 +296,7 @@ function translateYDownByReelCopy(
   choicesLength: number,
   copyIdx: number
 ): number {
-  return currY - CHOICE_HEIGHT * (choicesLength * copyIdx);
+  return currY - CHOICE_HEIGHT_VH * (choicesLength * copyIdx);
 }
 
 function getIdleSpinDuration(choicesLength: number): number {
@@ -264,7 +305,7 @@ function getIdleSpinDuration(choicesLength: number): number {
 
 function translateChoiceIdxToY(idx: number): number {
   const idxShiftedToMiddleOfWindow = idx - Math.floor(NUM_CHOICES_VISIBLE / 2);
-  return -idxShiftedToMiddleOfWindow * CHOICE_HEIGHT;
+  return -idxShiftedToMiddleOfWindow * CHOICE_HEIGHT_VH;
 }
 
 function getChoiceClassName(
@@ -281,4 +322,43 @@ function getChoiceClassName(
   return classesStr;
 }
 
-export default Reel;
+export default ReelCopy;
+
+/* function onHoverStart(): void {
+    if (dragging) return;
+    animate(scope.current, { filter: "brightness(105%)" });
+  }
+
+  function onHoverEnd(): void {
+    if (dragging) return;
+    animate(scope.current, { filter: "brightness(100%)" });
+  }
+
+  function onDragStart(): void {
+    if (dragStartY) return;
+    animate(scope.current, { filter: "brightness(115%)" });
+    setDragging(true);
+    setUserDragging(true);
+    setDragStartY(totalY.get());
+  }
+
+  function onDrag(): void {
+    if (!dragStartY || !windowHeight) return;
+    const currDragY = dragSpinY.get();
+    const dragYInVh = convertPXtoVH(currDragY, windowHeight);
+    const roundedY = roundYToNearestChoice(dragStartY + dragYInVh);
+
+    animate(scope.current, { y: numToVh(roundedY) });
+  }
+
+  dragSpinY.on("change", (latest) => {
+    console.log("dragSpinY: ", latest);
+  });
+
+  function onDragEnd(): void {
+    animate(scope.current, { filter: "brightness(100%)" });
+    setDragging(false);
+    setUserDragging(false);
+    setDragStartY(0);
+    dragSpinY.set(0);
+  } */

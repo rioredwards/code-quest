@@ -28,3 +28,11 @@ export function getComputedDOMElementHeight(el: HTMLElement): [number, string] {
   const height = style.getPropertyValue("height");
   return sliceNumAndUnitFromCSSVar(height);
 }
+
+export function convertVHtoPX(vh: number, height: number): number {
+  return (vh * height) / 100;
+}
+
+export function convertPXtoVH(px: number, height: number): number {
+  return (px * 100) / height;
+}

@@ -1,10 +1,10 @@
 .reel-container {
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 .reel-container {
   --height: 16.6vh;
-  background-color: rgb(67, 174, 136);
+  /* background-color: rgb(67, 174, 136); */
   width: 27.8vh;
   height: var(--height);
   border-radius: 1vh;
@@ -13,11 +13,12 @@
 }
 
 .drag-handle {
+  background-color: green;
   position: absolute;
   z-index: 4;
   height: 200%;
   width: 100%;
-  top: -50%;
+  top: -10%;
   border-radius: 1.2vh;
   cursor: pointer;
 }

@@ -1,7 +1,7 @@
 import { Variants } from "framer-motion";
-import { CHOICE_HEIGHT, NUM_CHOICES_VISIBLE } from "./reelMotion";
+import { CHOICE_HEIGHT_VH, NUM_CHOICES_VISIBLE } from "./reelMotion";
 
-export const WINDOW_HEIGHT = CHOICE_HEIGHT * NUM_CHOICES_VISIBLE; // vh
+export const WINDOW_HEIGHT = CHOICE_HEIGHT_VH * NUM_CHOICES_VISIBLE; // vh
 
 export const windowAnimationVariants: Variants = {
   initial: {

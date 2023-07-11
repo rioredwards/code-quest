@@ -6,12 +6,14 @@ import Lever from "./components/Lever";
 import SpinLight from "./components/SpinLight";
 import LockSwitch from "./components/LockSwitch";
 import Display from "./components/Display";
-import Reel from "./components/Reel";
+import Reel from "./components/OtherReel";
 import { techChoices } from "./data/choices/techChoices";
 import { taskChoices } from "./data/choices/taskChoices";
 import { timeChoices } from "./data/choices/timeChoices";
 import { typeChoices } from "./data/choices/typeChoices";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import SpinReel from "./components/SpinReel";
+import { useWindowDimensions } from "./hooks/useWindowDimensions";
 
 export enum SpinState {
   PRE = "preSpin",
@@ -23,6 +25,7 @@ export enum SpinState {
 const signNames = ["TYPE", "TECH", "TASK", "TIME"];
 
 function App() {
+  const windowHeightPx = useWindowDimensions().height;
   const [spinState, setSpinState] = useState(SpinState.PRE);
   const [chosenIdxs, setChosenIdxs] = useState([0, 0, 0, 0]);
   const [userDragging, setUserDragging] = useState(false);
@@ -49,49 +52,49 @@ function App() {
     "Cloud Challenge: Stocks using Amazon DynamoDB in 120 minutes";
   const display = <Display text={displayText} />;
 
-  const typeReel = (
-    <Reel
-      key={1}
-      choices={typeChoices}
-      chosenIdx={chosenIdxs[0]}
-      spinState={spinState}
-      isDraggable={!locked}
-      setUserDragging={setUserDragging}
-    />
-  );
+  const typeReel =
+    windowHeightPx !== null ? (
+      <SpinReel
+        key={1}
+        choices={typeChoices}
+        chosenIdx={chosenIdxs[0]}
+        spinState={spinState}
+        windowHeight={windowHeightPx}
+      />
+    ) : null;
 
-  const techReel = (
-    <Reel
-      key={2}
-      choices={techChoices}
-      chosenIdx={chosenIdxs[1]}
-      spinState={spinState}
-      isDraggable={!locked}
-      setUserDragging={setUserDragging}
-    />
-  );
+  const techReel =
+    windowHeightPx !== null ? (
+      <SpinReel
+        key={2}
+        choices={techChoices}
+        chosenIdx={chosenIdxs[1]}
+        spinState={spinState}
+        windowHeight={windowHeightPx}
+      />
+    ) : null;
 
-  const taskReel = (
-    <Reel
-      key={3}
-      choices={taskChoices}
-      chosenIdx={chosenIdxs[2]}
-      spinState={spinState}
-      isDraggable={!locked}
-      setUserDragging={setUserDragging}
-    />
-  );
+  const taskReel =
+    windowHeightPx !== null ? (
+      <SpinReel
+        key={3}
+        choices={taskChoices}
+        chosenIdx={chosenIdxs[2]}
+        spinState={spinState}
+        windowHeight={windowHeightPx}
+      />
+    ) : null;
 
-  const timeReel = (
-    <Reel
-      key={0}
-      choices={timeChoices}
-      chosenIdx={chosenIdxs[3]}
-      spinState={spinState}
-      isDraggable={!locked}
-      setUserDragging={setUserDragging}
-    />
-  );
+  const timeReel =
+    windowHeightPx !== null ? (
+      <SpinReel
+        key={0}
+        choices={timeChoices}
+        chosenIdx={chosenIdxs[3]}
+        spinState={spinState}
+        windowHeight={windowHeightPx}
+      />
+    ) : null;
 
   function onClick() {
     if (spinState === SpinState.IDLE) {
