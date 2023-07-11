@@ -108,6 +108,10 @@ function App() {
         chosenTaskIdx,
         chosenTimeIdx,
       ];
+      console.log(typeChoices[chosenTypeIdx]);
+      console.log(techChoices[chosenTechIdx]);
+      console.log(taskChoices[chosenTaskIdx]);
+      console.log(timeChoices[chosenTimeIdx]);
       setChosenIdxs(newChosenIdxs);
     }
     setSpinState(cycleSpinState(spinState));

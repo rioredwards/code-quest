@@ -11,10 +11,10 @@ import { useEffect } from "react";
 import { repeatArray } from "../utils/genUtils";
 import {
   AllReelMotionParams,
-  ReelMotionBaseParams,
   idleAnimation,
   idleAnimationStart,
   preSpinAnimation,
+  stoppingAnimation,
 } from "../motionConfigs/reelMotion";
 import { getReelDimensions } from "../utils/getReelDimensions";
 
@@ -44,10 +44,10 @@ const SpinReel: React.FC<ReelProps> = ({
     const animateParams: AllReelMotionParams = {
       animate,
       yShift,
-      currYShiftValue: yShift.get(),
       choiceHeight,
       reelHeight,
       choicesLength: choices.length,
+      chosenIdx,
     };
     async function animateSequence() {
       if (spinState === SpinState.PRE) {
@@ -56,8 +56,9 @@ const SpinReel: React.FC<ReelProps> = ({
         await idleAnimationStart(animateParams).then(() =>
           idleAnimation(animateParams)
         );
+      } else if (spinState === SpinState.STOPPING) {
+        await stoppingAnimation(animateParams);
       }
-      // if (spinState === SpinState.STOPPING) await stoppingAnimation();
       // if (spinState === SpinState.POST) await postSpinAnimation();
       // if (spinState === SpinState.PRE) await preSpinAnimation();
     }
