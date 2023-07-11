@@ -1,4 +1,3 @@
-import { useMotionValue, motion } from "framer-motion";
 import "./Choice.css";
 
 interface ChoiceProps {
@@ -7,15 +6,7 @@ interface ChoiceProps {
 }
 
 const Choice: React.FC<ChoiceProps> = ({ classes, displayName }) => {
-  const y = useMotionValue("0vh");
-  y.on("change", (latest) => {
-    console.log(latest);
-  });
-  return (
-    <motion.div style={{ y }} className={classes}>
-      {displayName}
-    </motion.div>
-  );
+  return <div className={classes}>{displayName}</div>;
 };
 
 export default Choice;

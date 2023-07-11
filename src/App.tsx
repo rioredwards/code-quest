@@ -7,10 +7,10 @@ import SpinLight from "./components/SpinLight";
 import LockSwitch from "./components/LockSwitch";
 import Display from "./components/Display";
 import Reel from "./components/Reel";
-import { techChoices } from "./data/techChoices";
-import { taskChoices } from "./data/taskChoices";
-import { timeChoices } from "./data/timeChoices";
-import { typeChoices } from "./data/typeChoices";
+import { techChoices } from "./data/choices/techChoices";
+import { taskChoices } from "./data/choices/taskChoices";
+import { timeChoices } from "./data/choices/timeChoices";
+import { typeChoices } from "./data/choices/typeChoices";
 import { useState } from "react";
 
 export enum SpinState {

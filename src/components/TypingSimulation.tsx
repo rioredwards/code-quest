@@ -1,7 +1,13 @@
 import { useState } from "react";
 import "./TypingSimulation.css";
 import { useAnimationFrame } from "framer-motion";
-import { SECOND } from "../data/constants";
+import {
+  BLINK_DURATION_AFTER_TYPING,
+  CURSOR_BLINK_SPEED,
+  MAX_TYPE_DELAY,
+  MIN_TYPE_DELAY,
+  TEXT_WRAP_LENGTH,
+} from "../motionConfigs/typingSimulationMotion";
 
 interface Props {
   text: string;
@@ -9,31 +15,21 @@ interface Props {
 
 let timeSinceLetterAdded = 0;
 let timeSinceCursorBlinked = 0;
-let letterIdx = 0;
-
-const MIN_TYPE_DELAY = SECOND / 16;
-const MAX_TYPE_DELAY = SECOND / 8;
-const CURSOR_BLINK_SPEED = SECOND / 2;
-const BLINK_DURATION_AFTER_TYPING = SECOND * 3;
-// The text will wrap after this many characters this is important
-// because if the final text is the exact length of the display,
-// The cursor will blink on the next line, giving off a weird effect
-const TEXT_WRAP_LENGTH = 61;
 
 const TypingSimulation: React.FC<Props> = ({ text }) => {
+  const [letterIdx, setLetterIdx] = useState(0);
   const [typing, setTyping] = useState(true);
   const [blinking, setBlinking] = useState(true);
-  const [newText, setNewText] = useState("");
+  const [displayText, setDisplayText] = useState("");
   const [cursorVisible, setCursorVisible] = useState(true);
 
-  const updateText = () => {
-    if (letterIdx > text.length) {
-      setTyping(false);
-      return;
-    }
+  const addNextLetterToDisplayText = () => {
+    if (!typing) return;
+    if (letterIdx === text.length) setTyping(false);
+
     const updatedText = text.slice(0, letterIdx);
-    setNewText(updatedText);
-    letterIdx++;
+    setDisplayText(updatedText);
+    setLetterIdx((prev) => prev + 1);
   };
 
   useAnimationFrame((_, delta) => {
@@ -44,30 +40,33 @@ const TypingSimulation: React.FC<Props> = ({ text }) => {
 
     if (blinking) {
       if (!typing && text.length === TEXT_WRAP_LENGTH - 1) {
+        // If the text is about to wrap, don't blink the cursor after typing
         setCursorVisible(false);
         setBlinking(false);
         return;
       }
       if (timeSinceCursorBlinked > CURSOR_BLINK_SPEED) {
+        // Blink the cursor
         setCursorVisible((prev) => !prev);
         timeSinceCursorBlinked = 0;
       }
       if (timeSinceLetterAdded > BLINK_DURATION_AFTER_TYPING) {
+        // Stop blinking the cursor after typing + delay after typing
         setCursorVisible(false);
         setBlinking(false);
       }
     }
     if (typing) {
       if (timeSinceLetterAdded > randomSpeed(MIN_TYPE_DELAY, MAX_TYPE_DELAY)) {
-        updateText();
+        addNextLetterToDisplayText();
         timeSinceLetterAdded = 0;
       }
     }
   });
 
-  const textWithCursor = cursorVisible ? `${newText}_` : newText;
-
-  return <p className="text">{textWithCursor}</p>;
+  return (
+    <p className="text">{cursorVisible ? `${displayText}_` : displayText}</p>
+  );
 };
 
 export default TypingSimulation;

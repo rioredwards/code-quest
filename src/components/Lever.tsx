@@ -43,6 +43,7 @@ const Lever: React.FC<LeverProps> = ({ setSpinState, setUserDragging }) => {
         className="lever-handle"
       />
       <motion.div
+        className="fake-handle"
         drag="y"
         onDragStart={onDragStart}
         onDrag={onDrag}
@@ -54,7 +55,6 @@ const Lever: React.FC<LeverProps> = ({ setSpinState, setUserDragging }) => {
         dragConstraints={{ top: 0, bottom: 140 }}
         dragElastic={0.1}
         dragSnapToOrigin={true}
-        className="fake-handle"
       />
     </div>
   );
