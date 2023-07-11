@@ -17,7 +17,7 @@
 }
 
 .lever-handle,
-.fake-handle {
+.lever-drag-handle {
   z-index: 1;
   position: absolute;
 }
@@ -29,14 +29,14 @@
   top: 11vh;
   width: calc(var(--height) * var(--aspect-ratio));
   height: var(--height);
-  left: 1vh;
+  left: 2vh;
   transform-origin: center left;
   background-image: url(../assets/lever/lever-handle.png);
   background-repeat: no-repeat;
   background-size: cover;
 }
 
-.fake-handle {
+.lever-drag-handle {
   /* background-color: blue; */
   --height: 7vh;
   top: 0.9vh;

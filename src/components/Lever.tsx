@@ -2,12 +2,12 @@ import { useState } from "react";
 import "./Lever.css";
 import { motion, useMotionValue, useTransform } from "framer-motion";
 import { SpinState } from "../App";
+import { PULL_THRESHOLD } from "../motionConfigs/leverMotion";
 
 interface LeverProps {
   setSpinState: (spinState: SpinState) => void;
   setUserDragging: (isDragging: boolean) => void;
 }
-const pullThreshold = 100;
 
 const Lever: React.FC<LeverProps> = ({ setSpinState, setUserDragging }) => {
   const [pulled, setPulled] = useState(false);
@@ -29,7 +29,7 @@ const Lever: React.FC<LeverProps> = ({ setSpinState, setUserDragging }) => {
   }
 
   function onDrag() {
-    if (!pulled && dragYPos.get() > pullThreshold) {
+    if (!pulled && dragYPos.get() > PULL_THRESHOLD) {
       onPull();
       setPulled(true);
     }
@@ -39,11 +39,11 @@ const Lever: React.FC<LeverProps> = ({ setSpinState, setUserDragging }) => {
     <div className="lever-container">
       <motion.div className="lever-base" />
       <motion.div
-        style={{ y: leverYPos, rotate: rotationAngle, translateX: "1vh" }}
+        style={{ y: leverYPos, rotate: rotationAngle }}
         className="lever-handle"
       />
       <motion.div
-        className="fake-handle"
+        className="lever-drag-handle"
         drag="y"
         onDragStart={onDragStart}
         onDrag={onDrag}
