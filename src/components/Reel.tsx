@@ -1,5 +1,7 @@
 import "./Reel.css";
 import {
+  AnimatePresence,
+  Variants,
   motion,
   useAnimate,
   useMotionValue,
@@ -14,6 +16,7 @@ import { numToVh, repeatArray, vhToNum } from "../utils/genUtils";
 const CHOICE_HEIGHT = 3.32; // vh
 const NUM_CHOICES_VISIBLE = 5;
 const BASE_SPIN_SPEED = 8; // choices per second
+const WINDOW_HEIGHT = getWindowHeight(); // vh
 
 interface ReelProps {
   choices: string[];
@@ -22,6 +25,35 @@ interface ReelProps {
   isDraggable: boolean;
   setUserDragging: (isDragging: boolean) => void;
 }
+
+const windowAnimationVariants: Variants = {
+  initial: {
+    y: `-${WINDOW_HEIGHT}vh`,
+    backdropFilter: "blur(5px) brightness(0.3);",
+    rotateX: 45,
+    transition: {
+      duration: 0,
+    },
+  },
+  animate: {
+    y: [null, `0vh`],
+    backdropFilter: [null, "blur(0px) brightness(1)"],
+    rotateX: [null, 0],
+    transition: {
+      type: "spring",
+      damping: 20,
+    },
+  },
+  exit: {
+    y: [null, `-${WINDOW_HEIGHT}vh`],
+    backdropFilter: [null, "blur(5px) brightness(0.3);"],
+    rotateX: [null, 45],
+    transition: {
+      type: "spring",
+      damping: 20,
+    },
+  },
+};
 
 const Reel: React.FC<ReelProps> = ({
   choices,
@@ -176,6 +208,7 @@ const Reel: React.FC<ReelProps> = ({
   return (
     <div className="reel-container">
       <div className="reel-gradient" />
+
       {isDraggable && (
         <motion.div
           className="drag-handle"
@@ -191,7 +224,19 @@ const Reel: React.FC<ReelProps> = ({
           onDragEnd={onDragEnd}
         />
       )}
-      {!isDraggable && <div className="reel-window" />}
+      <AnimatePresence>
+        {!isDraggable && (
+          <motion.div
+            key="window"
+            className="reel-window"
+            variants={windowAnimationVariants}
+            initial={"initial"}
+            animate={"animate"}
+            exit={"exit"}
+            transition={{ type: "spring", bounce: 0.5, duration: 2.5 }}
+          />
+        )}
+      </AnimatePresence>
       <motion.ul className="reel" style={{ y }} ref={scope}>
         {repeatedChoices.map((choice, i) => (
           <Choice
@@ -208,6 +253,10 @@ const Reel: React.FC<ReelProps> = ({
     </div>
   );
 };
+
+function getWindowHeight(): number {
+  return CHOICE_HEIGHT * NUM_CHOICES_VISIBLE;
+}
 
 function roundYToNearestChoice(y: number): number {
   return Math.round(y / CHOICE_HEIGHT) * CHOICE_HEIGHT;

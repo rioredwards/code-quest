@@ -15,7 +15,6 @@
 
 .drag-handle {
   position: absolute;
-  /* background-color: rgba(0, 128, 0, 0.55); */
   z-index: 4;
   height: 200%;
   width: 100%;
@@ -28,13 +27,13 @@
   position: absolute;
   z-index: 3;
   background-image: url(../assets/reel/window.png);
-  backdrop-filter: blur(0.02vh);
   background-repeat: no-repeat;
   background-size: cover;
   height: 100%;
   width: 100%;
   border: 0.1vh solid rgba(68, 127, 115, 0.814);
   border-radius: 1.2vh;
+  opacity: 0.8;
 }
 
 .reel-gradient {

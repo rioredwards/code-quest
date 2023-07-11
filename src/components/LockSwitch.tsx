@@ -2,11 +2,12 @@ import { useEffect, useState } from "react";
 import "./LockSwitch.css";
 import { motion } from "framer-motion";
 
-interface LockSwitchProps {}
+interface LockSwitchProps {
+  locked: boolean;
+  setLocked: (isLocked: boolean) => void;
+}
 
-const LockSwitch: React.FC<LockSwitchProps> = () => {
-  const [locked, setLocked] = useState(false);
-
+const LockSwitch: React.FC<LockSwitchProps> = ({ locked, setLocked }) => {
   const spring = {
     type: "spring",
     bounce: 0.2,

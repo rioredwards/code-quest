@@ -26,6 +26,7 @@ function App() {
   const [spinState, setSpinState] = useState(SpinState.PRE);
   const [chosenIdxs, setChosenIdxs] = useState([0, 0, 0, 0]);
   const [userDragging, setUserDragging] = useState(false);
+  const [locked, setLocked] = useState(false);
   const universalCssClasses = userDragging ? "user-dragging" : "";
 
   const signs = signNames.map((signName, id) => {
@@ -41,7 +42,7 @@ function App() {
   });
 
   const lockSwitches = [1, 2, 3, 4].map((id) => {
-    return <LockSwitch key={id} />;
+    return <LockSwitch key={id} locked={locked} setLocked={setLocked} />;
   });
 
   const displayText =
@@ -54,7 +55,7 @@ function App() {
       choices={typeChoices}
       chosenIdx={chosenIdxs[0]}
       spinState={spinState}
-      isDraggable={true}
+      isDraggable={!locked}
       setUserDragging={setUserDragging}
     />
   );
@@ -65,7 +66,7 @@ function App() {
       choices={techChoices}
       chosenIdx={chosenIdxs[1]}
       spinState={spinState}
-      isDraggable={true}
+      isDraggable={!locked}
       setUserDragging={setUserDragging}
     />
   );
@@ -76,7 +77,7 @@ function App() {
       choices={taskChoices}
       chosenIdx={chosenIdxs[2]}
       spinState={spinState}
-      isDraggable={true}
+      isDraggable={!locked}
       setUserDragging={setUserDragging}
     />
   );
@@ -87,7 +88,7 @@ function App() {
       choices={timeChoices}
       chosenIdx={chosenIdxs[3]}
       spinState={spinState}
-      isDraggable={true}
+      isDraggable={!locked}
       setUserDragging={setUserDragging}
     />
   );
