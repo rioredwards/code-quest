@@ -10,11 +10,11 @@ import { SpinState } from "../App";
 import { useEffect } from "react";
 import { repeatArray } from "../utils/genUtils";
 import {
-  BASE_SPIN_SPEED,
+  AllReelMotionParams,
   ReelMotionBaseParams,
-  jumpUpOneReel,
-  shiftDownChoice,
-  siftDownOneReel,
+  idleAnimation,
+  idleAnimationStart,
+  preSpinAnimation,
 } from "../motionConfigs/reelMotion";
 import { getReelDimensions } from "../utils/getReelDimensions";
 
@@ -41,48 +41,29 @@ const SpinReel: React.FC<ReelProps> = ({
   const transform = useMotionTemplate`translateY(${yShift}px)`;
 
   useEffect(() => {
-    const animateParams: ReelMotionBaseParams = {
+    const animateParams: AllReelMotionParams = {
       animate,
       yShift,
       currYShiftValue: yShift.get(),
+      choiceHeight,
+      reelHeight,
+      choicesLength: choices.length,
     };
     async function animateSequence() {
-      await siftDownOneReel({
-        ...animateParams,
-        reelHeight,
-        choicesLength: choices.length,
-      });
-
-      await jumpUpOneReel({
-        ...animateParams,
-        reelHeight,
-        choicesLength: choices.length,
-      });
-
-      await siftDownOneReel({
-        ...animateParams,
-        reelHeight,
-        choicesLength: choices.length,
-      });
-
-      await jumpUpOneReel({
-        ...animateParams,
-        reelHeight,
-        choicesLength: choices.length,
-      });
-
-      // await shiftDownOneReel();
-      // await jumpUpOneReel();
-      // await shiftDownOneReel();
-      // await shiftDownChoice({
-      //   ...animateParams,
-      //   choiceHeight,
-      // });
-      // await shiftUpChoice();
+      if (spinState === SpinState.PRE) {
+        await preSpinAnimation(animateParams);
+      } else if (spinState === SpinState.IDLE) {
+        await idleAnimationStart(animateParams).then(() =>
+          idleAnimation(animateParams)
+        );
+      }
+      // if (spinState === SpinState.STOPPING) await stoppingAnimation();
+      // if (spinState === SpinState.POST) await postSpinAnimation();
+      // if (spinState === SpinState.PRE) await preSpinAnimation();
     }
 
     animateSequence();
-  }, []);
+  }, [spinState]);
 
   return (
     <div className="reel-container">

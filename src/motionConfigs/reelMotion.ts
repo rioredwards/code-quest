@@ -16,8 +16,44 @@ export interface ReelMotionConfig extends ReelMotionBaseParams {
 export interface ChoiceMotionConfig extends ReelMotionBaseParams {
   choiceHeight: number;
 }
+export interface AllReelMotionParams
+  extends ReelMotionConfig,
+    ChoiceMotionConfig {}
 
 const jumpMotion = { duration: 0 };
+
+export async function idleAnimationStart(params: ReelMotionConfig) {
+  const { yShift, currYShiftValue, reelHeight, animate, choicesLength } =
+    params;
+  const newYShift = shiftYByFullReel(currYShiftValue, reelHeight, 1);
+  const shiftDur = getIdleSpinDur(choicesLength) + 1;
+  return await animate(yShift, [currYShiftValue, newYShift], {
+    duration: shiftDur,
+    ease: "easeIn",
+  });
+}
+
+export async function idleAnimation(params: ReelMotionConfig) {
+  const { yShift, currYShiftValue, reelHeight, animate, choicesLength } =
+    params;
+  const newYShift = shiftYByFullReel(currYShiftValue, reelHeight, 1);
+  const shiftDur = getIdleSpinDur(choicesLength);
+  await animate(yShift, [currYShiftValue, newYShift], {
+    duration: shiftDur,
+    ease: "linear",
+    repeat: Infinity,
+  });
+}
+
+export async function preSpinAnimation(params: ReelMotionConfig) {
+  const { yShift, currYShiftValue, reelHeight, animate } = params;
+  const newYShift = translateYShiftToReelCopyIdx(
+    currYShiftValue,
+    reelHeight,
+    1
+  );
+  await animate(yShift, newYShift, jumpMotion);
+}
 
 export async function siftDownOneReel(params: ReelMotionConfig) {
   const { yShift, currYShiftValue, reelHeight, animate, choicesLength } =
