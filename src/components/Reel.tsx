@@ -21,7 +21,7 @@ import Window from "./Window";
 interface ReelProps {
   choices: string[];
   spinState: SpinState;
-  chosenIdx: number;
+  chosenIdx: number | null;
   isDraggable: boolean;
   setUserDragging: (isDragging: boolean) => void;
 }
@@ -97,6 +97,7 @@ const Reel: React.FC<ReelProps> = ({
     };
 
     const stoppingAnimation = async () => {
+      if (!chosenIdx) throw new Error("chosenIdx is null");
       const targetYInFirstReelCopy = translateChoiceIdxToY(chosenIdx);
       const targetY = translateYDownByReelCopy(
         targetYInFirstReelCopy,
@@ -118,6 +119,7 @@ const Reel: React.FC<ReelProps> = ({
     };
 
     const postSpinAnimation = async () => {
+      if (!chosenIdx) throw new Error("chosenIdx is null");
       const targetYInFirstReelCopy = translateChoiceIdxToY(chosenIdx);
       const targetY = translateYDownByReelCopy(
         targetYInFirstReelCopy,
@@ -179,7 +181,6 @@ const Reel: React.FC<ReelProps> = ({
   return (
     <div className="reel-container">
       <div className="reel-gradient" />
-
       {isDraggable && (
         <motion.div
           className="drag-handle"
@@ -202,9 +203,8 @@ const Reel: React.FC<ReelProps> = ({
             key={i}
             classes={getChoiceClassName(
               i,
-              chosenIdx,
-              choices.length,
-              spinState
+              chosenIdx &&
+                translateChosenIdxDownByReelCopy(chosenIdx, choices.length, 1)
             )}
             displayName={choice}></Choice>
         ))}
@@ -242,6 +242,14 @@ function yIsOutsideDragBounds(
   return isOver ? "over" : isUnder ? "under" : null;
 }
 
+function translateChosenIdxDownByReelCopy(
+  chosenIdx: number,
+  choicesLength: number,
+  copyIdx: number
+): number {
+  return chosenIdx + choicesLength * copyIdx;
+}
+
 function translateYDownByReelCopy(
   currY: number,
   choicesLength: number,
@@ -261,17 +269,12 @@ function translateChoiceIdxToY(idx: number): number {
 
 function getChoiceClassName(
   i: number,
-  choiceIdx: number,
-  choicesLength: number,
-  spinState: SpinState
+  translatedChosenIdx: number | null
 ): string {
   const base = "choice";
-  const chosenClass =
-    spinState !== SpinState.POST
-      ? ""
-      : i === choiceIdx + choicesLength
-      ? "choiceVarChosen"
-      : "";
+  let chosenClass = "";
+  if (translatedChosenIdx !== null && i === translatedChosenIdx)
+    chosenClass = "choiceVarChosen";
   const altClass = i % 2 === 0 ? "choiceVar1" : "choiceVar2";
   const classesStr = `${base} ${altClass} ${chosenClass}`;
 

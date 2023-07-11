@@ -6,7 +6,7 @@ interface ChoiceProps {
 }
 
 const Choice: React.FC<ChoiceProps> = ({ classes, displayName }) => {
-  return <div className={classes}>{displayName}</div>;
+  return <li className={classes}>{displayName}</li>;
 };
 
 export default Choice;
