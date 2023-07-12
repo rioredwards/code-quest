@@ -12,15 +12,13 @@ import { useEffect, useState } from "react";
 import { numToVh, vhToNum } from "../utils/genUtils";
 import {
   roundYToNearestChoice,
-  translateChoiceIdxToY,
-  translateYToReelCopyIdx,
   yIsOutsideDragBounds,
-  getIdleSpinLoopDur,
   preSpinAnimation,
   ReelMotionParams,
   idleStartAnimation,
   idleLoopAnimation,
   stoppingAnimation,
+  postSpinAnimation,
 } from "../motionConfigs/reelMotion";
 import Window from "./Window";
 import ChoiceList from "./ChoiceList";
@@ -52,16 +50,7 @@ const Reel: React.FC<ReelProps> = ({
   const yVelocity = useVelocity(yNum);
 
   useEffect(() => {
-    const postSpinAnimation = async () => {
-      if (chosenIdx === null) throw new Error("chosenIdx is null");
-      const targetYInFirstReelCopy = translateChoiceIdxToY(chosenIdx);
-      const targetY = translateYToReelCopyIdx(
-        targetYInFirstReelCopy,
-        choices.length,
-        1
-      );
-      animate(scope.current, { y: numToVh(targetY) }, { duration: 0 });
-    };
+    if (isUserLocked) return;
 
     const animateSequence = async (): Promise<void> => {
       const animationParams: ReelMotionParams = {
@@ -72,20 +61,8 @@ const Reel: React.FC<ReelProps> = ({
         chosenIdx,
       };
 
-      if (spinState === SpinState.PRE) {
-        preSpinAnimation(animationParams);
-      }
-      if (spinState === SpinState.IDLE_START) {
-        await idleStartAnimation(animationParams);
-        setSpinState(SpinState.IDLE_LOOP);
-        idleLoopAnimation(animationParams);
-      }
-      if (spinState === SpinState.IDLE_LOOP) return; // Idle loop animation is started by idleAnimationStart()
-      if (spinState === SpinState.STOPPING) {
-        await stoppingAnimation(animationParams);
-        setSpinState(SpinState.POST);
-      }
-      if (spinState === SpinState.POST) await postSpinAnimation();
+      const newSpinState = await setNewAnimation(spinState, animationParams);
+      if (newSpinState) setSpinState(newSpinState);
     };
 
     animateSequence();
@@ -162,5 +139,32 @@ const Reel: React.FC<ReelProps> = ({
     </div>
   );
 };
+
+// This function calls an animation function based on the current spinState
+// If the next animation and spinState is triggered by an animation ending,
+// This function will return the next spinState to be updated in the parent component
+// (The next spin state COULD be set within this function, but that would be a crazy side effect and bad practice)
+async function setNewAnimation(
+  spinState: SpinState,
+  animationParams: ReelMotionParams
+): Promise<SpinState | null> {
+  switch (spinState) {
+    case SpinState.PRE:
+      preSpinAnimation(animationParams);
+      return null;
+    case SpinState.IDLE_START:
+      await idleStartAnimation(animationParams);
+      idleLoopAnimation(animationParams);
+      return SpinState.IDLE_LOOP;
+    case SpinState.STOPPING:
+      await stoppingAnimation(animationParams);
+      return SpinState.POST;
+    case SpinState.POST:
+      postSpinAnimation(animationParams);
+      return null;
+    default:
+      return null;
+  }
+}
 
 export default Reel;

@@ -99,6 +99,21 @@ export async function stoppingAnimation(params: ReelMotionParams) {
   ]);
 }
 
+export async function postSpinAnimation(params: ReelMotionParams) {
+  const { reelEl, choicesLength, animate, chosenIdx } = params;
+  if (chosenIdx === null) throw new Error("chosenIdx is null");
+
+  const chosenIdxYInZeroReel = translateChoiceIdxToY(chosenIdx);
+  const chosenIdxYInFirstReel = translateYToReelCopyIdx(
+    chosenIdxYInZeroReel,
+    choicesLength,
+    1
+  );
+  const chosenIdxYInFirstReelVh = numToVh(chosenIdxYInFirstReel);
+
+  return animate(reelEl, { y: chosenIdxYInFirstReelVh }, jumpMotion);
+}
+
 /* Animation Helper Functions */
 export function translateYToReelCopyIdx(
   y: number,
@@ -151,137 +166,3 @@ export function getIdleSpinLoopDur(choicesLength: number): number {
 export function getIdleSpinStartDur(choicesLength: number): number {
   return choicesLength / BASE_SPIN_SPEED + 1.2;
 }
-
-// export async function preSpinAnimation(params: ReelMotionParams) {
-//   const { y, reelHeight, animate } = params;
-//   const newY = translateYToReelCopyIdx(y.get(), reelHeight, 1);
-//   return await animate(y, newY, jumpMotion);
-// }
-
-// export async function idleAnimationStart(params: ReelMotionParams) {
-//   const { y, reelHeight, animate, choicesLength } = params;
-//   const currYVal = y.get();
-//   const newY = shiftYByFullReel(currYVal, reelHeight, 1);
-//   const shiftDur = getIdleSpinStartDur(choicesLength);
-//   return await animate(y, [currYVal, newY], {
-//     duration: shiftDur,
-//     ease: "easeIn",
-//   });
-// }
-
-// export async function idleAnimation(params: ReelMotionParams) {
-//   const { y, reelHeight, animate, choicesLength } = params;
-//   const currYVal = y.get();
-//   const translatedCurrYVal = translateYToReelCopyIdx(currYVal, reelHeight, 1);
-//   const newY = shiftYByFullReel(translatedCurrYVal, reelHeight, 1);
-//   const shiftDur = getIdleSpinLoopDur(choicesLength);
-//   return await animate(y, [translatedCurrYVal, newY], {
-//     duration: shiftDur,
-//     ease: "linear",
-//     repeat: Infinity,
-//   });
-// }
-
-// export async function stoppingAnimation(params: StoppingMotionConfig) {
-//   const { y, reelHeight, animate, chosenIdx, choiceHeight, choicesLength } =
-//     params;
-
-//   if (chosenIdx === null) {
-//     throw new Error("chosenIdx is undefined");
-//   }
-//   const currYVal = y.get();
-//   const translatedCurrYVal = translateYToReelCopyIdx(currYVal, reelHeight, 1);
-//   const choiceYInThirdReel = getYForChoice(
-//     chosenIdx,
-//     choiceHeight,
-//     choicesLength,
-//     2
-//   );
-//   return await animate([
-//     [y, translatedCurrYVal, jumpMotion],
-//     [
-//       y,
-//       [null, choiceYInThirdReel],
-//       {
-//         type: "spring",
-//         damping: 4,
-//         stiffness: 3.8,
-//         mass: 3.5,
-//         velocity: 80,
-//         restSpeed: 0.2,
-//       },
-//     ],
-//   ]);
-// }
-
-// export async function siftDownOneReel(params: ReelMotionParams) {
-//   const { y, reelHeight, animate, choicesLength } = params;
-//   const currYVal = y.get();
-//   const newY = shiftYByFullReel(currYVal, reelHeight, 1);
-//   const shiftDur = getIdleSpinLoopDur(choicesLength);
-//   return await animate(y, [currYVal, newY], {
-//     duration: shiftDur,
-//     ease: "linear",
-//   });
-// }
-
-// export async function jumpUpOneReel(params: ReelMotionParams) {
-//   const { y, reelHeight, animate } = params;
-//   const currYVal = y.get();
-//   const newY = shiftYByFullReel(currYVal, reelHeight, 1);
-//   return await animate(y, [currYVal, newY], jumpMotion);
-// }
-
-// export async function shiftByNumChoices(
-//   params: ChoiceMotionConfig & { numChoices: number }
-// ) {
-//   const { choiceHeight, numChoices } = params;
-//   const currYVal = params.y.get();
-//   const newY = shiftYByChoice(currYVal, choiceHeight, numChoices);
-//   return [currYVal, newY, { duration: 0.1 }];
-// }
-
-// export async function shiftDownChoice(params: ChoiceMotionConfig) {
-//   const { y, choiceHeight } = params;
-//   const currYVal = y.get();
-//   const newY = shiftYByChoice(currYVal, choiceHeight, 1);
-//   return [currYVal, newY, { duration: 0.1 }];
-// }
-
-// export async function shiftUpChoice(params: ChoiceMotionConfig) {
-//   const { y, choiceHeight } = params;
-//   const currYVal = y.get();
-//   const newY = shiftYByChoice(currYVal, choiceHeight, -1);
-//   return [currYVal, newY, { duration: 0.1 }];
-// }
-
-// function shiftYByFullReel(
-//   y: number,
-//   reelHeight: number,
-//   numReels: number
-// ): number {
-//   return y - reelHeight * numReels;
-// }
-
-// function shiftYByChoice(
-//   y: number,
-//   choiceHeight: number,
-//   numChoices: number
-// ): number {
-//   return y - choiceHeight * numChoices;
-// }
-
-// function getYForChoice(
-//   chosenIdx: number,
-//   choiceHeight: number,
-//   choicesLength: number,
-//   copyIdx: number
-// ): number {
-//   const yForChoiceInFirstReel = -(chosenIdx * choiceHeight);
-//   const yForChoiceInCopyIdxReel =
-//     yForChoiceInFirstReel - choiceHeight * copyIdx * choicesLength;
-//   const extraShiftForWindow =
-//     Math.floor(NUM_CHOICES_VISIBLE / 2) * choiceHeight;
-//   const centeredInWindow = yForChoiceInCopyIdxReel + extraShiftForWindow;
-//   return centeredInWindow;
-// }
