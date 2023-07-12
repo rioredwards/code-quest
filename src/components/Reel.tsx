@@ -11,12 +11,14 @@ import { SpinState } from "../App";
 import { useEffect, useState } from "react";
 import { numToVh, vhToNum } from "../utils/genUtils";
 import {
-  getIdleSpinLoopDur,
-  getIdleSpinStartDur,
   roundYToNearestChoice,
   translateChoiceIdxToY,
   translateYToReelCopyIdx,
   yIsOutsideDragBounds,
+  getIdleSpinStartDur,
+  getIdleSpinLoopDur,
+  preSpinAnimation,
+  ReelMotionParams,
 } from "../motionConfigs/reelMotion";
 import Window from "./Window";
 import ChoiceList from "./ChoiceList";
@@ -48,12 +50,6 @@ const Reel: React.FC<ReelProps> = ({
   const yVelocity = useVelocity(yNum);
 
   useEffect(() => {
-    const preSpinAnimation = async () => {
-      const currY = vhToNum(y.get());
-      const startY = translateYToReelCopyIdx(currY, choices.length, 1);
-      animate(scope.current, { y: numToVh(startY) }, { duration: 0 });
-    };
-
     const idleAnimationStart = async () => {
       const currY = vhToNum(y.get());
       const startY = translateYToReelCopyIdx(currY, choices.length, 1);
@@ -129,7 +125,17 @@ const Reel: React.FC<ReelProps> = ({
     };
 
     const animateSequence = async (): Promise<void> => {
-      if (spinState === SpinState.PRE) await preSpinAnimation();
+      const animationParams: ReelMotionParams = {
+        animate,
+        reelEl: scope.current,
+        yVh: y,
+        choicesLength: choices.length,
+        chosenIdx,
+      };
+
+      if (spinState === SpinState.PRE) {
+        preSpinAnimation(animationParams);
+      }
       if (spinState === SpinState.IDLE_START) await idleAnimationStart();
       if (spinState === SpinState.IDLE_LOOP) return; // Idle loop animation is started by idleAnimationStart()
       if (spinState === SpinState.STOPPING) await stoppingAnimation();
