@@ -2,16 +2,33 @@ import { SpinState } from "../App";
 import "./SpinLight.css";
 
 interface SpinLightProps {
-  mode: SpinState;
+  setSpinState: (spinState: SpinState) => void;
+  spinState: SpinState;
+  getRandChoices: () => void;
 }
 
-const SpinLight: React.FC<SpinLightProps> = ({ mode }) => {
-  const color = calcColorForSpinMode(mode);
+const SpinLight: React.FC<SpinLightProps> = ({
+  spinState,
+  setSpinState,
+  getRandChoices,
+}) => {
+  const color = calcColorForSpinMode(spinState);
   const offset = calcOffsetPercentForColor(color);
+
+  function onClick() {
+    if (spinState === SpinState.IDLE) {
+      setSpinState(SpinState.STOPPING);
+      getRandChoices();
+    }
+  }
 
   return (
     <div className="spin-light-container">
-      <div className="spin-light" style={{ backgroundPositionX: offset }} />
+      <div
+        onClick={onClick}
+        className="spin-light"
+        style={{ backgroundPositionX: offset }}
+      />
     </div>
   );
 };

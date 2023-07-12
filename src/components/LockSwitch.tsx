@@ -11,7 +11,6 @@ interface LockSwitchProps {
 }
 
 const LockSwitch: React.FC<LockSwitchProps> = ({ locked, setLocked }) => {
-  console.log("locked: ", locked);
   return (
     <motion.div
       onClick={() => setLocked(!locked)}

@@ -13,6 +13,8 @@ import { timeChoices } from "./data/choices/timeChoices";
 import { typeChoices } from "./data/choices/typeChoices";
 import { useState } from "react";
 
+export type ReelName = "TYPE" | "TECH" | "TASK" | "TIME";
+
 export enum SpinState {
   PRE = "preSpin",
   IDLE = "idleSpin",
@@ -43,7 +45,14 @@ function App() {
   );
 
   const lights = [1, 2, 3, 4].map((id) => {
-    return <SpinLight mode={spinState} key={id} />;
+    return (
+      <SpinLight
+        getRandChoices={getRandChoices}
+        setSpinState={setSpinState}
+        spinState={spinState}
+        key={id}
+      />
+    );
   });
 
   const lockSwitches = [1, 2, 3, 4].map((id) => {
@@ -98,19 +107,9 @@ function App() {
     />
   );
 
-  function onClick() {
+  function onClickTestBtn() {
     if (spinState === SpinState.IDLE) {
-      const chosenTypeIdx = getRandIdx(typeChoices.length);
-      const chosenTechIdx = getRandIdx(techChoices.length);
-      const chosenTaskIdx = getRandIdx(taskChoices.length);
-      const chosenTimeIdx = getRandIdx(timeChoices.length);
-      const newChosenIdxs = [
-        chosenTypeIdx,
-        chosenTechIdx,
-        chosenTaskIdx,
-        chosenTimeIdx,
-      ];
-      chosenIdxs = newChosenIdxs;
+      getRandChoices();
       console.log(chosenIdxs);
     }
     setSpinState(cycleSpinState(spinState));
@@ -119,7 +118,7 @@ function App() {
   return (
     <div className={`App ${universalCssClasses}`}>
       <GameContainer>
-        <button onClick={onClick}>{spinState}</button>
+        <button onClick={onClickTestBtn}>{spinState}</button>
         <Machine
           signs={signs}
           lights={lights}
@@ -131,6 +130,21 @@ function App() {
       </GameContainer>
     </div>
   );
+}
+
+function getRandChoices() {
+  const chosenTypeIdx = getRandIdx(typeChoices.length);
+  const chosenTechIdx = getRandIdx(techChoices.length);
+  const chosenTaskIdx = getRandIdx(taskChoices.length);
+  const chosenTimeIdx = getRandIdx(timeChoices.length);
+  const newChosenIdxs = [
+    chosenTypeIdx,
+    chosenTechIdx,
+    chosenTaskIdx,
+    chosenTimeIdx,
+  ];
+  console.log(chosenIdxs);
+  chosenIdxs = newChosenIdxs;
 }
 
 function getRandIdx(maxIdx: number) {
