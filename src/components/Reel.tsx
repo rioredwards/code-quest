@@ -23,6 +23,7 @@ import ChoiceList from "./ChoiceList";
 interface ReelProps {
   choices: string[];
   spinState: SpinState;
+  setSpinState: (spinState: SpinState) => void;
   chosenIdx: number | null;
   isUserLocked: boolean;
   setUserIsDragging: (isDragging: boolean) => void;
@@ -31,6 +32,7 @@ interface ReelProps {
 const Reel: React.FC<ReelProps> = ({
   choices,
   spinState,
+  setSpinState,
   chosenIdx,
   setUserIsDragging,
   isUserLocked,
@@ -74,6 +76,7 @@ const Reel: React.FC<ReelProps> = ({
     };
 
     const idleAnimationLoop = async () => {
+      setSpinState(SpinState.IDLE_LOOP);
       const currY = vhToNum(y.get());
       const startY = translateYToReelCopyIdx(currY, choices.length, 1);
       const endY = translateYToReelCopyIdx(currY, choices.length, 2);
@@ -100,7 +103,7 @@ const Reel: React.FC<ReelProps> = ({
         choices.length,
         1
       );
-      animate([
+      await animate([
         [scope.current, { y: numToVh(startY) }, { duration: 0 }],
         [
           scope.current,
@@ -116,6 +119,7 @@ const Reel: React.FC<ReelProps> = ({
         ],
         [scope.current, { y: numToVh(targetYInFirstReel) }, { duration: 0 }],
       ]);
+      setSpinState(SpinState.POST);
     };
 
     const postSpinAnimation = async () => {
@@ -129,11 +133,12 @@ const Reel: React.FC<ReelProps> = ({
       animate(scope.current, { y: numToVh(targetY) }, { duration: 0 });
     };
 
-    const animateSequence = async () => {
-      if (spinState === SpinState.IDLE) await idleAnimationStart();
+    const animateSequence = async (): Promise<void> => {
+      if (spinState === SpinState.PRE) await preSpinAnimation();
+      if (spinState === SpinState.IDLE_START) await idleAnimationStart();
+      if (spinState === SpinState.IDLE_LOOP) return; // Idle loop animation is started by idleAnimationStart()
       if (spinState === SpinState.STOPPING) await stoppingAnimation();
       if (spinState === SpinState.POST) await postSpinAnimation();
-      if (spinState === SpinState.PRE) await preSpinAnimation();
     };
 
     animateSequence();

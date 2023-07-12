@@ -16,7 +16,7 @@ const SpinLight: React.FC<SpinLightProps> = ({
   const offset = calcOffsetPercentForColor(color);
 
   function onClick() {
-    if (spinState === SpinState.IDLE) {
+    if (spinState === SpinState.IDLE_LOOP) {
       setSpinState(SpinState.STOPPING);
       getRandChoices();
     }
@@ -52,7 +52,8 @@ function calcColorForSpinMode(state: SpinState) {
   switch (state) {
     case SpinState.PRE:
       return "red";
-    case SpinState.IDLE:
+    case SpinState.IDLE_START:
+    case SpinState.IDLE_LOOP:
     case SpinState.STOPPING:
       return "yellow";
     case SpinState.POST:

@@ -17,7 +17,8 @@ export type ReelName = "TYPE" | "TECH" | "TASK" | "TIME";
 
 export enum SpinState {
   PRE = "preSpin",
-  IDLE = "idleSpin",
+  IDLE_START = "idleSpinStart",
+  IDLE_LOOP = "idleSpinLoop",
   STOPPING = "stoppingSpin",
   POST = "postSpin",
 }
@@ -69,6 +70,7 @@ function App() {
       choices={typeChoices}
       chosenIdx={chosenIdxs[0]}
       spinState={spinState}
+      setSpinState={setSpinState}
       setUserIsDragging={setUserIsDragging}
       isUserLocked={locked}
     />
@@ -80,6 +82,7 @@ function App() {
       choices={techChoices}
       chosenIdx={chosenIdxs[1]}
       spinState={spinState}
+      setSpinState={setSpinState}
       setUserIsDragging={setUserIsDragging}
       isUserLocked={locked}
     />
@@ -91,6 +94,7 @@ function App() {
       choices={taskChoices}
       chosenIdx={chosenIdxs[2]}
       spinState={spinState}
+      setSpinState={setSpinState}
       setUserIsDragging={setUserIsDragging}
       isUserLocked={locked}
     />
@@ -102,13 +106,14 @@ function App() {
       choices={timeChoices}
       chosenIdx={chosenIdxs[3]}
       spinState={spinState}
+      setSpinState={setSpinState}
       setUserIsDragging={setUserIsDragging}
       isUserLocked={locked}
     />
   );
 
   function onClickTestBtn() {
-    if (spinState === SpinState.IDLE) {
+    if (spinState === SpinState.IDLE_LOOP) {
       getRandChoices();
       console.log(chosenIdxs);
     }
@@ -154,13 +159,17 @@ function getRandIdx(maxIdx: number) {
 function cycleSpinState(spinState: SpinState) {
   switch (spinState) {
     case SpinState.PRE:
-      return SpinState.IDLE;
-    case SpinState.IDLE:
+      return SpinState.IDLE_START;
+    case SpinState.IDLE_START:
+      return SpinState.IDLE_START;
+    case SpinState.IDLE_LOOP:
       return SpinState.STOPPING;
     case SpinState.STOPPING:
       return SpinState.POST;
     case SpinState.POST:
       return SpinState.PRE;
+    default:
+      throw new Error("Invalid spin state");
   }
 }
 

@@ -29,7 +29,7 @@ const Lever: React.FC<LeverProps> = ({
 
   function onPull() {
     if (spinState === SpinState.PRE) {
-      setSpinState(SpinState.IDLE);
+      setSpinState(SpinState.IDLE_START);
     }
   }
 
