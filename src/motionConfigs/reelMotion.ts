@@ -14,6 +14,40 @@ export function translateYToReelCopyIdx(
   return translatedY;
 }
 
+export function translateChosenIdxDownByReelCopy(
+  chosenIdx: number,
+  choicesLength: number,
+  copyIdx: number
+): number {
+  return chosenIdx + choicesLength * copyIdx;
+}
+
+export function roundYToNearestChoice(y: number): number {
+  return Math.round(y / CHOICE_HEIGHT_VH) * CHOICE_HEIGHT_VH;
+}
+
+export function translateChoiceIdxToY(idx: number): number {
+  const idxShiftedToMiddleOfWindow = idx - Math.floor(NUM_CHOICES_VISIBLE / 2);
+  return -idxShiftedToMiddleOfWindow * CHOICE_HEIGHT_VH;
+}
+
+export function yIsOutsideDragBounds(
+  y: number,
+  choicesLength: number
+): boolean {
+  const threshold = CHOICE_HEIGHT_VH * 0.5;
+  const upperBound = translateChoiceIdxToY(0);
+  const translatedUpper = translateYToReelCopyIdx(upperBound, choicesLength, 1);
+
+  const lowerBound = translateChoiceIdxToY(choicesLength - 1);
+  const translatedLower = translateYToReelCopyIdx(lowerBound, choicesLength, 1);
+
+  const isOver = y > translatedUpper + threshold;
+  const isUnder = y < translatedLower - threshold;
+
+  return isOver || isUnder;
+}
+
 export interface ReelMotionBaseParams {
   y: MotionValue<number>;
   animate: Function;

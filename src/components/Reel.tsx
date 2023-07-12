@@ -9,13 +9,14 @@ import {
 } from "framer-motion";
 import { SpinState } from "../App";
 import { useEffect, useState } from "react";
-import { numToVh, repeatArray, vhToNum } from "../utils/genUtils";
+import { numToVh, vhToNum } from "../utils/genUtils";
 import {
-  CHOICE_HEIGHT_VH,
-  NUM_CHOICES_VISIBLE,
   getIdleSpinLoopDur,
   getIdleSpinStartDur,
+  roundYToNearestChoice,
+  translateChoiceIdxToY,
   translateYToReelCopyIdx,
+  yIsOutsideDragBounds,
 } from "../motionConfigs/reelMotion";
 import Window from "./Window";
 import ChoiceList from "./ChoiceList";
@@ -37,7 +38,6 @@ const Reel: React.FC<ReelProps> = ({
   setUserIsDragging,
   isUserLocked,
 }) => {
-  const repeatedChoices = repeatArray(choices, 5); // Needed for infinite scrolling behavior
   const isSpinLocked = spinState !== SpinState.PRE;
   const [scope, animate] = useAnimate();
   const [dragging, setDragging] = useState(false);
@@ -46,11 +46,6 @@ const Reel: React.FC<ReelProps> = ({
   const yNum = useTransform(y, vhToNum);
   const dragY = useMotionValue(0);
   const yVelocity = useVelocity(yNum);
-  const highlightedChoiceIdx = getHighlightedChoiceIdx(
-    spinState,
-    chosenIdx,
-    choices.length
-  );
 
   useEffect(() => {
     const preSpinAnimation = async () => {
@@ -114,7 +109,7 @@ const Reel: React.FC<ReelProps> = ({
             stiffness: 3.8,
             mass: 3.5,
             velocity: 80,
-            restSpeed: 0.2,
+            restSpeed: 0.1,
           },
         ],
         [scope.current, { y: numToVh(targetYInFirstReel) }, { duration: 0 }],
@@ -207,54 +202,13 @@ const Reel: React.FC<ReelProps> = ({
       </AnimatePresence>
       <motion.ul className="reel" style={{ y }} ref={scope}>
         <ChoiceList
-          choices={repeatedChoices}
-          highlightedIdx={highlightedChoiceIdx}
+          choices={choices}
+          chosenIdx={chosenIdx}
+          highlightChosen={spinState === SpinState.POST}
         />
       </motion.ul>
     </div>
   );
 };
-
-function roundYToNearestChoice(y: number): number {
-  return Math.round(y / CHOICE_HEIGHT_VH) * CHOICE_HEIGHT_VH;
-}
-
-function yIsOutsideDragBounds(y: number, choicesLength: number): boolean {
-  const threshold = CHOICE_HEIGHT_VH * 0.5;
-  const upperBound = translateChoiceIdxToY(0);
-  const translatedUpper = translateYToReelCopyIdx(upperBound, choicesLength, 1);
-
-  const lowerBound = translateChoiceIdxToY(choicesLength - 1);
-  const translatedLower = translateYToReelCopyIdx(lowerBound, choicesLength, 1);
-
-  const isOver = y > translatedUpper + threshold;
-  const isUnder = y < translatedLower - threshold;
-
-  return isOver || isUnder;
-}
-
-function translateChosenIdxDownByReelCopy(
-  chosenIdx: number,
-  choicesLength: number,
-  copyIdx: number
-): number {
-  return chosenIdx + choicesLength * copyIdx;
-}
-
-function translateChoiceIdxToY(idx: number): number {
-  const idxShiftedToMiddleOfWindow = idx - Math.floor(NUM_CHOICES_VISIBLE / 2);
-  return -idxShiftedToMiddleOfWindow * CHOICE_HEIGHT_VH;
-}
-
-function getHighlightedChoiceIdx(
-  spinState: SpinState,
-  chosenIdx: number | null,
-  choicesLength: number
-): number | null {
-  if (spinState === SpinState.POST && chosenIdx !== null) {
-    return translateChosenIdxDownByReelCopy(chosenIdx, choicesLength, 1);
-  }
-  return null;
-}
 
 export default Reel;
