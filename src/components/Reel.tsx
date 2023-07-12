@@ -20,6 +20,7 @@ import {
   ReelMotionParams,
   idleStartAnimation,
   idleLoopAnimation,
+  stoppingAnimation,
 } from "../motionConfigs/reelMotion";
 import Window from "./Window";
 import ChoiceList from "./ChoiceList";
@@ -51,40 +52,6 @@ const Reel: React.FC<ReelProps> = ({
   const yVelocity = useVelocity(yNum);
 
   useEffect(() => {
-    const stoppingAnimation = async () => {
-      if (chosenIdx === null) throw new Error("chosenIdx is null");
-      const currY = vhToNum(y.get());
-      const startY = translateYToReelCopyIdx(currY, choices.length, 1);
-      const targetYInFirstReelCopy = translateChoiceIdxToY(chosenIdx);
-      const targetYInThirdReel = translateYToReelCopyIdx(
-        targetYInFirstReelCopy,
-        choices.length,
-        3
-      );
-      const targetYInFirstReel = translateYToReelCopyIdx(
-        targetYInFirstReelCopy,
-        choices.length,
-        1
-      );
-      await animate([
-        [scope.current, { y: numToVh(startY) }, { duration: 0 }],
-        [
-          scope.current,
-          { y: numToVh(targetYInThirdReel) },
-          {
-            type: "spring",
-            damping: 4,
-            stiffness: 3.8,
-            mass: 3.5,
-            velocity: 80,
-            restSpeed: 0.1,
-          },
-        ],
-        [scope.current, { y: numToVh(targetYInFirstReel) }, { duration: 0 }],
-      ]);
-      setSpinState(SpinState.POST);
-    };
-
     const postSpinAnimation = async () => {
       if (chosenIdx === null) throw new Error("chosenIdx is null");
       const targetYInFirstReelCopy = translateChoiceIdxToY(chosenIdx);
@@ -115,7 +82,7 @@ const Reel: React.FC<ReelProps> = ({
       }
       if (spinState === SpinState.IDLE_LOOP) return; // Idle loop animation is started by idleAnimationStart()
       if (spinState === SpinState.STOPPING) {
-        await stoppingAnimation();
+        await stoppingAnimation(animationParams);
         setSpinState(SpinState.POST);
       }
       if (spinState === SpinState.POST) await postSpinAnimation();

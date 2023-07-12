@@ -14,6 +14,14 @@ function getIdleStartMotion(spinDur: number) {
 function getIdleLoopMotion(spinDur: number) {
   return { duration: spinDur, ease: "linear", repeat: Infinity };
 }
+const stoppingMotion = {
+  type: "spring",
+  damping: 4,
+  stiffness: 3.8,
+  mass: 3.5,
+  velocity: 80,
+  restSpeed: 0.1,
+};
 
 /* Types */
 export interface ReelMotionParams {
@@ -61,6 +69,34 @@ export async function idleLoopAnimation(params: ReelMotionParams) {
   const loopMotion = getIdleLoopMotion(spinDur);
 
   return animate(reelEl, { y: [startYVh, endYVh] }, loopMotion);
+}
+
+export async function stoppingAnimation(params: ReelMotionParams) {
+  const { reelEl, yVh, choicesLength, animate, chosenIdx } = params;
+  if (chosenIdx === null) throw new Error("chosenIdx is null");
+
+  const currYNum = vhToNum(yVh.get());
+  const startYNum = translateYToReelCopyIdx(currYNum, choicesLength, 1);
+  const chosenIdxYInZeroReel = translateChoiceIdxToY(chosenIdx);
+  const chosenIdxYInFirstReel = translateYToReelCopyIdx(
+    chosenIdxYInZeroReel,
+    choicesLength,
+    1
+  );
+  const chosenIdxYInThirdReel = translateYToReelCopyIdx(
+    chosenIdxYInFirstReel,
+    choicesLength,
+    3
+  );
+  const startYVh = numToVh(startYNum);
+  const chosenIdxYInFirstReelVh = numToVh(chosenIdxYInFirstReel);
+  const chosenIdxYInThirdReelVh = numToVh(chosenIdxYInThirdReel);
+
+  return animate([
+    [reelEl, { y: startYVh }, jumpMotion],
+    [reelEl, { y: chosenIdxYInThirdReelVh }, stoppingMotion],
+    [reelEl, { y: chosenIdxYInFirstReelVh }, jumpMotion],
+  ]);
 }
 
 /* Animation Helper Functions */
