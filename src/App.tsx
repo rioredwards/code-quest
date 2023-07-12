@@ -22,9 +22,10 @@ export enum SpinState {
 
 const signNames = ["TYPE", "TECH", "TASK", "TIME"];
 
+let chosenIdxs: number[] | null[] = [null, null, null, null];
+
 function App() {
   const [spinState, setSpinState] = useState(SpinState.PRE);
-  const [chosenIdxs, setChosenIdxs] = useState([0, 0, 0, 0]);
   const [userDragging, setUserDragging] = useState(false);
   const [locked, setLocked] = useState(false);
   const universalCssClasses = userDragging ? "user-dragging" : "";
@@ -55,8 +56,8 @@ function App() {
       choices={typeChoices}
       chosenIdx={chosenIdxs[0]}
       spinState={spinState}
-      isDraggable={!locked}
       setUserDragging={setUserDragging}
+      isUserLocked={locked}
     />
   );
 
@@ -66,8 +67,8 @@ function App() {
       choices={techChoices}
       chosenIdx={chosenIdxs[1]}
       spinState={spinState}
-      isDraggable={!locked}
       setUserDragging={setUserDragging}
+      isUserLocked={locked}
     />
   );
 
@@ -77,8 +78,8 @@ function App() {
       choices={taskChoices}
       chosenIdx={chosenIdxs[2]}
       spinState={spinState}
-      isDraggable={!locked}
       setUserDragging={setUserDragging}
+      isUserLocked={locked}
     />
   );
 
@@ -88,8 +89,8 @@ function App() {
       choices={timeChoices}
       chosenIdx={chosenIdxs[3]}
       spinState={spinState}
-      isDraggable={!locked}
       setUserDragging={setUserDragging}
+      isUserLocked={locked}
     />
   );
 
@@ -105,7 +106,8 @@ function App() {
         chosenTaskIdx,
         chosenTimeIdx,
       ];
-      setChosenIdxs(newChosenIdxs);
+      chosenIdxs = newChosenIdxs;
+      console.log(chosenIdxs);
     }
     setSpinState(cycleSpinState(spinState));
   }

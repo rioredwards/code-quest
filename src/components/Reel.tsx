@@ -13,7 +13,7 @@ import { useEffect, useState } from "react";
 import { numToVh, repeatArray, vhToNum } from "../utils/genUtils";
 import {
   BASE_SPIN_SPEED,
-  CHOICE_HEIGHT,
+  CHOICE_HEIGHT_VH,
   NUM_CHOICES_VISIBLE,
 } from "../motionConfigs/reelMotion";
 import Window from "./Window";
@@ -22,7 +22,7 @@ interface ReelProps {
   choices: string[];
   spinState: SpinState;
   chosenIdx: number | null;
-  isDraggable: boolean;
+  isUserLocked: boolean;
   setUserDragging: (isDragging: boolean) => void;
 }
 
@@ -30,10 +30,11 @@ const Reel: React.FC<ReelProps> = ({
   choices,
   spinState,
   chosenIdx,
-  isDraggable,
   setUserDragging,
+  isUserLocked,
 }) => {
   const repeatedChoices = repeatArray(choices, 5); // Needed for infinite scrolling behavior
+  const isSpinLocked = spinState !== SpinState.PRE;
   const [scope, animate] = useAnimate();
   const [dragging, setDragging] = useState(false);
   const [dragStartY, setDragStartY] = useState(0);
@@ -97,7 +98,7 @@ const Reel: React.FC<ReelProps> = ({
     };
 
     const stoppingAnimation = async () => {
-      if (!chosenIdx) throw new Error("chosenIdx is null");
+      if (chosenIdx === null) throw new Error("chosenIdx is null");
       const targetYInFirstReelCopy = translateChoiceIdxToY(chosenIdx);
       const targetY = translateYDownByReelCopy(
         targetYInFirstReelCopy,
@@ -119,7 +120,7 @@ const Reel: React.FC<ReelProps> = ({
     };
 
     const postSpinAnimation = async () => {
-      if (!chosenIdx) throw new Error("chosenIdx is null");
+      if (chosenIdx === null) throw new Error("chosenIdx is null");
       const targetYInFirstReelCopy = translateChoiceIdxToY(chosenIdx);
       const targetY = translateYDownByReelCopy(
         targetYInFirstReelCopy,
@@ -181,7 +182,7 @@ const Reel: React.FC<ReelProps> = ({
   return (
     <div className="reel-container">
       <div className="reel-gradient" />
-      {isDraggable && (
+      {isUserLocked && (
         <motion.div
           className="drag-handle"
           style={{ y: dragY }}
@@ -196,7 +197,7 @@ const Reel: React.FC<ReelProps> = ({
           onDragEnd={onDragEnd}
         />
       )}
-      <AnimatePresence>{!isDraggable && <Window />}</AnimatePresence>
+      <AnimatePresence>{!isUserLocked && <Window />}</AnimatePresence>
       <motion.ul className="reel" style={{ y }} ref={scope}>
         {repeatedChoices.map((choice, i) => (
           <Choice
@@ -214,14 +215,14 @@ const Reel: React.FC<ReelProps> = ({
 };
 
 function roundYToNearestChoice(y: number): number {
-  return Math.round(y / CHOICE_HEIGHT) * CHOICE_HEIGHT;
+  return Math.round(y / CHOICE_HEIGHT_VH) * CHOICE_HEIGHT_VH;
 }
 
 function yIsOutsideDragBounds(
   y: number,
   choicesLength: number
 ): "over" | "under" | null {
-  const threshold = CHOICE_HEIGHT * 0.5;
+  const threshold = CHOICE_HEIGHT_VH * 0.5;
   const upperBound = translateChoiceIdxToY(0);
   const translatedUpper = translateYDownByReelCopy(
     upperBound,
@@ -255,7 +256,7 @@ function translateYDownByReelCopy(
   choicesLength: number,
   copyIdx: number
 ): number {
-  return currY - CHOICE_HEIGHT * (choicesLength * copyIdx);
+  return currY - CHOICE_HEIGHT_VH * (choicesLength * copyIdx);
 }
 
 function getIdleSpinDuration(choicesLength: number): number {
@@ -264,7 +265,7 @@ function getIdleSpinDuration(choicesLength: number): number {
 
 function translateChoiceIdxToY(idx: number): number {
   const idxShiftedToMiddleOfWindow = idx - Math.floor(NUM_CHOICES_VISIBLE / 2);
-  return -idxShiftedToMiddleOfWindow * CHOICE_HEIGHT;
+  return -idxShiftedToMiddleOfWindow * CHOICE_HEIGHT_VH;
 }
 
 function getChoiceClassName(

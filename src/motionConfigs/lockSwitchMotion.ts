@@ -5,5 +5,5 @@ export const lockSwitchSpring = {
 };
 
 export const lockSwitchAnimation = (locked: boolean) => ({
-  x: locked ? "2vh" : "0vh",
+  x: locked ? "0vh" : "2vh",
 });
