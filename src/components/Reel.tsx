@@ -12,9 +12,11 @@ import { SpinState } from "../App";
 import { useEffect, useState } from "react";
 import { numToVh, repeatArray, vhToNum } from "../utils/genUtils";
 import {
-  BASE_SPIN_SPEED,
   CHOICE_HEIGHT_VH,
   NUM_CHOICES_VISIBLE,
+  getIdleSpinLoopDur,
+  getIdleSpinStartDur,
+  translateYToReelCopyIdx,
 } from "../motionConfigs/reelMotion";
 import Window from "./Window";
 
@@ -45,84 +47,76 @@ const Reel: React.FC<ReelProps> = ({
 
   useEffect(() => {
     const preSpinAnimation = async () => {
-      const startingChoiceIdx = chosenIdx ?? 0;
-      const startYInFirstReelCopy = translateChoiceIdxToY(startingChoiceIdx);
-      const startY = translateYDownByReelCopy(
-        startYInFirstReelCopy,
-        choices.length,
-        1
-      );
+      const currY = vhToNum(y.get());
+      const startY = translateYToReelCopyIdx(currY, choices.length, 1);
       animate(scope.current, { y: numToVh(startY) }, { duration: 0 });
     };
 
     const idleAnimationStart = async () => {
-      const upperY = vhToNum(y.get());
-      const lowerY = translateYDownByReelCopy(
-        vhToNum(y.get()),
-        choices.length,
-        1
-      );
-      const spinDuration = getIdleSpinDuration(choices.length);
-      const animation = animate([
+      const currY = vhToNum(y.get());
+      const startY = translateYToReelCopyIdx(currY, choices.length, 1);
+      const endY = translateYToReelCopyIdx(currY, choices.length, 2);
+      const spinDur = getIdleSpinStartDur(choices.length);
+      await animate([
+        [scope.current, { y: numToVh(startY) }, { duration: 0 }],
         [
           scope.current,
-          { y: [null, numToVh(lowerY)] },
-          {
-            duration: spinDuration + 1,
-            ease: "easeIn",
-          },
+          { y: numToVh(endY) },
+          { duration: spinDur, ease: "easeIn" },
         ],
-        [
-          scope.current,
-          { y: numToVh(upperY) },
-          {
-            duration: 0,
-          },
-        ],
-      ]);
-      animation.then(idleAnimationLoop);
+        [scope.current, { y: numToVh(startY) }, { duration: 0 }],
+      ]).then(idleAnimationLoop);
     };
 
     const idleAnimationLoop = async () => {
-      const newY = translateYDownByReelCopy(
-        vhToNum(y.get()),
-        choices.length,
-        1
-      );
-      const spinDuration = getIdleSpinDuration(choices.length);
+      const currY = vhToNum(y.get());
+      const startY = translateYToReelCopyIdx(currY, choices.length, 1);
+      const endY = translateYToReelCopyIdx(currY, choices.length, 2);
+      const spinDur = getIdleSpinLoopDur(choices.length);
       animate(
         scope.current,
-        { y: [null, numToVh(newY)] },
-        { duration: spinDuration, ease: "linear", repeat: Infinity }
+        { y: [numToVh(startY), numToVh(endY)] },
+        { duration: spinDur, ease: "linear", repeat: Infinity }
       );
     };
 
     const stoppingAnimation = async () => {
       if (chosenIdx === null) throw new Error("chosenIdx is null");
+      const currY = vhToNum(y.get());
+      const startY = translateYToReelCopyIdx(currY, choices.length, 1);
       const targetYInFirstReelCopy = translateChoiceIdxToY(chosenIdx);
-      const targetY = translateYDownByReelCopy(
+      const targetYInThirdReel = translateYToReelCopyIdx(
         targetYInFirstReelCopy,
         choices.length,
         3
       );
-      animate(
-        scope.current,
-        { y: [null, numToVh(targetY)] },
-        {
-          type: "spring",
-          damping: 4,
-          stiffness: 3.8,
-          mass: 3.5,
-          velocity: 80,
-          restSpeed: 0.2,
-        }
+      const targetYInFirstReel = translateYToReelCopyIdx(
+        targetYInFirstReelCopy,
+        choices.length,
+        1
       );
+      animate([
+        [scope.current, { y: numToVh(startY) }, { duration: 0 }],
+        [
+          scope.current,
+          { y: numToVh(targetYInThirdReel) },
+          {
+            type: "spring",
+            damping: 4,
+            stiffness: 3.8,
+            mass: 3.5,
+            velocity: 80,
+            restSpeed: 0.2,
+          },
+        ],
+        [scope.current, { y: numToVh(targetYInFirstReel) }, { duration: 0 }],
+      ]);
     };
 
     const postSpinAnimation = async () => {
       if (chosenIdx === null) throw new Error("chosenIdx is null");
       const targetYInFirstReelCopy = translateChoiceIdxToY(chosenIdx);
-      const targetY = translateYDownByReelCopy(
+      const targetY = translateYToReelCopyIdx(
         targetYInFirstReelCopy,
         choices.length,
         1
@@ -182,7 +176,7 @@ const Reel: React.FC<ReelProps> = ({
   return (
     <div className="reel-container">
       <div className="reel-gradient" />
-      {isUserLocked && (
+      {!isUserLocked && !isSpinLocked && (
         <motion.div
           className="drag-handle"
           style={{ y: dragY }}
@@ -197,7 +191,9 @@ const Reel: React.FC<ReelProps> = ({
           onDragEnd={onDragEnd}
         />
       )}
-      <AnimatePresence>{!isUserLocked && <Window />}</AnimatePresence>
+      <AnimatePresence>
+        {(isUserLocked || isSpinLocked) && <Window />}
+      </AnimatePresence>
       <motion.ul className="reel" style={{ y }} ref={scope}>
         {repeatedChoices.map((choice, i) => (
           <Choice
@@ -224,18 +220,10 @@ function yIsOutsideDragBounds(
 ): "over" | "under" | null {
   const threshold = CHOICE_HEIGHT_VH * 0.5;
   const upperBound = translateChoiceIdxToY(0);
-  const translatedUpper = translateYDownByReelCopy(
-    upperBound,
-    choicesLength,
-    1
-  );
+  const translatedUpper = translateYToReelCopyIdx(upperBound, choicesLength, 1);
 
   const lowerBound = translateChoiceIdxToY(choicesLength - 1);
-  const translatedLower = translateYDownByReelCopy(
-    lowerBound,
-    choicesLength,
-    1
-  );
+  const translatedLower = translateYToReelCopyIdx(lowerBound, choicesLength, 1);
 
   const isOver = y > translatedUpper + threshold;
   const isUnder = y < translatedLower - threshold;
@@ -249,18 +237,6 @@ function translateChosenIdxDownByReelCopy(
   copyIdx: number
 ): number {
   return chosenIdx + choicesLength * copyIdx;
-}
-
-function translateYDownByReelCopy(
-  currY: number,
-  choicesLength: number,
-  copyIdx: number
-): number {
-  return currY - CHOICE_HEIGHT_VH * (choicesLength * copyIdx);
-}
-
-function getIdleSpinDuration(choicesLength: number): number {
-  return choicesLength / BASE_SPIN_SPEED;
 }
 
 function translateChoiceIdxToY(idx: number): number {
