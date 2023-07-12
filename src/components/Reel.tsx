@@ -15,10 +15,10 @@ import {
   translateChoiceIdxToY,
   translateYToReelCopyIdx,
   yIsOutsideDragBounds,
-  getIdleSpinStartDur,
   getIdleSpinLoopDur,
   preSpinAnimation,
   ReelMotionParams,
+  idleStartAnimation,
 } from "../motionConfigs/reelMotion";
 import Window from "./Window";
 import ChoiceList from "./ChoiceList";
@@ -50,22 +50,6 @@ const Reel: React.FC<ReelProps> = ({
   const yVelocity = useVelocity(yNum);
 
   useEffect(() => {
-    const idleAnimationStart = async () => {
-      const currY = vhToNum(y.get());
-      const startY = translateYToReelCopyIdx(currY, choices.length, 1);
-      const endY = translateYToReelCopyIdx(currY, choices.length, 2);
-      const spinDur = getIdleSpinStartDur(choices.length);
-      await animate([
-        [scope.current, { y: numToVh(startY) }, { duration: 0 }],
-        [
-          scope.current,
-          { y: numToVh(endY) },
-          { duration: spinDur, ease: "easeIn" },
-        ],
-        [scope.current, { y: numToVh(startY) }, { duration: 0 }],
-      ]).then(idleAnimationLoop);
-    };
-
     const idleAnimationLoop = async () => {
       setSpinState(SpinState.IDLE_LOOP);
       const currY = vhToNum(y.get());
@@ -136,7 +120,9 @@ const Reel: React.FC<ReelProps> = ({
       if (spinState === SpinState.PRE) {
         preSpinAnimation(animationParams);
       }
-      if (spinState === SpinState.IDLE_START) await idleAnimationStart();
+      if (spinState === SpinState.IDLE_START) {
+        idleStartAnimation(animationParams).then(idleAnimationLoop);
+      }
       if (spinState === SpinState.IDLE_LOOP) return; // Idle loop animation is started by idleAnimationStart()
       if (spinState === SpinState.STOPPING) await stoppingAnimation();
       if (spinState === SpinState.POST) await postSpinAnimation();

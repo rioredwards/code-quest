@@ -21,10 +21,26 @@ export interface ReelMotionParams {
 /* Animation Functions */
 export async function preSpinAnimation(params: ReelMotionParams) {
   const { reelEl, yVh, choicesLength, animate } = params;
-  const yNum = vhToNum(yVh.get());
-  const startYNum = translateYToReelCopyIdx(yNum, choicesLength, 1);
+  const currYNum = vhToNum(yVh.get());
+  const startYNum = translateYToReelCopyIdx(currYNum, choicesLength, 1);
   const startYVh = numToVh(startYNum);
   return animate(reelEl, { y: startYVh }, jumpMotion);
+}
+
+export async function idleStartAnimation(params: ReelMotionParams) {
+  const { reelEl, yVh, choicesLength, animate } = params;
+  const currYNum = vhToNum(yVh.get());
+  const startYNum = translateYToReelCopyIdx(currYNum, choicesLength, 1);
+  const startYVh = numToVh(startYNum);
+  const endYNum = translateYToReelCopyIdx(currYNum, choicesLength, 2);
+  const endYVh = numToVh(endYNum);
+  const spinDur = getIdleSpinStartDur(choicesLength);
+
+  return animate([
+    [reelEl, { y: startYVh }, jumpMotion],
+    [reelEl, { y: endYVh }, { duration: spinDur, ease: "easeIn" }],
+    [reelEl, { y: startYVh }, jumpMotion],
+  ]);
 }
 
 /* Animation Helper Functions */
