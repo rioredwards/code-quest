@@ -25,14 +25,14 @@ interface ReelProps {
   spinState: SpinState;
   chosenIdx: number | null;
   isUserLocked: boolean;
-  setUserDragging: (isDragging: boolean) => void;
+  setUserIsDragging: (isDragging: boolean) => void;
 }
 
 const Reel: React.FC<ReelProps> = ({
   choices,
   spinState,
   chosenIdx,
-  setUserDragging,
+  setUserIsDragging,
   isUserLocked,
 }) => {
   const repeatedChoices = repeatArray(choices, 5); // Needed for infinite scrolling behavior
@@ -148,7 +148,7 @@ const Reel: React.FC<ReelProps> = ({
     if (dragStartY) return;
     animate(scope.current, { filter: "brightness(115%)" });
     setDragging(true);
-    setUserDragging(true);
+    setUserIsDragging(true);
     setDragStartY(vhToNum(y.get()));
   }
 
@@ -168,7 +168,7 @@ const Reel: React.FC<ReelProps> = ({
   function onDragEnd(): void {
     animate(scope.current, { filter: "brightness(100%)" });
     setDragging(false);
-    setUserDragging(false);
+    setUserIsDragging(false);
     setDragStartY(0);
     dragY.set(0);
   }
@@ -184,6 +184,7 @@ const Reel: React.FC<ReelProps> = ({
           dragConstraints={{ top: 0, bottom: 0 }}
           dragSnapToOrigin={true}
           dragElastic={0.1}
+          whileTap={{ cursor: "grabbing" }}
           onHoverStart={onHoverStart}
           onHoverEnd={onHoverEnd}
           onDragStart={onDragStart}

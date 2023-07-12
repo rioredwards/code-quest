@@ -26,16 +26,20 @@ let chosenIdxs: number[] | null[] = [null, null, null, null];
 
 function App() {
   const [spinState, setSpinState] = useState(SpinState.PRE);
-  const [userDragging, setUserDragging] = useState(false);
+  const [userIsDragging, setUserIsDragging] = useState(false);
   const [locked, setLocked] = useState(false);
-  const universalCssClasses = userDragging ? "user-dragging" : "";
+  const universalCssClasses = userIsDragging ? "user-dragging" : "";
 
   const signs = signNames.map((signName, id) => {
     return <Sign name={signName} key={id} />;
   });
 
   const lever = (
-    <Lever setSpinState={setSpinState} setUserDragging={setUserDragging} />
+    <Lever
+      spinState={spinState}
+      setSpinState={setSpinState}
+      setUserIsDragging={setUserIsDragging}
+    />
   );
 
   const lights = [1, 2, 3, 4].map((id) => {
@@ -56,7 +60,7 @@ function App() {
       choices={typeChoices}
       chosenIdx={chosenIdxs[0]}
       spinState={spinState}
-      setUserDragging={setUserDragging}
+      setUserIsDragging={setUserIsDragging}
       isUserLocked={locked}
     />
   );
@@ -67,7 +71,7 @@ function App() {
       choices={techChoices}
       chosenIdx={chosenIdxs[1]}
       spinState={spinState}
-      setUserDragging={setUserDragging}
+      setUserIsDragging={setUserIsDragging}
       isUserLocked={locked}
     />
   );
@@ -78,7 +82,7 @@ function App() {
       choices={taskChoices}
       chosenIdx={chosenIdxs[2]}
       spinState={spinState}
-      setUserDragging={setUserDragging}
+      setUserIsDragging={setUserIsDragging}
       isUserLocked={locked}
     />
   );
@@ -89,7 +93,7 @@ function App() {
       choices={timeChoices}
       chosenIdx={chosenIdxs[3]}
       spinState={spinState}
-      setUserDragging={setUserDragging}
+      setUserIsDragging={setUserIsDragging}
       isUserLocked={locked}
     />
   );

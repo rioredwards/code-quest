@@ -1,31 +1,44 @@
 import { useState } from "react";
 import "./Lever.css";
-import { motion, useMotionValue, useTransform } from "framer-motion";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { SpinState } from "../App";
 import { PULL_THRESHOLD } from "../motionConfigs/leverMotion";
 
 interface LeverProps {
+  spinState: SpinState;
   setSpinState: (spinState: SpinState) => void;
-  setUserDragging: (isDragging: boolean) => void;
+  setUserIsDragging: (isDragging: boolean) => void;
 }
 
-const Lever: React.FC<LeverProps> = ({ setSpinState, setUserDragging }) => {
+const Lever: React.FC<LeverProps> = ({
+  spinState,
+  setSpinState,
+  setUserIsDragging,
+}) => {
   const [pulled, setPulled] = useState(false);
   const dragYPos = useMotionValue(0);
+  const hoverRotationAngle = useSpring(0);
   const dragXPos = useTransform(dragYPos, [0, 70, 140], [0, 30, 0]);
   const leverYPos = useTransform(dragYPos, [0, 140], [0, 10]);
-  const rotationAngle = useTransform(dragYPos, [0, 140], [-45, 45]);
+  const dragAndHoverRotation = useTransform<number, number>(
+    [dragYPos, hoverRotationAngle],
+    ([latestDragYPos, latestHoverRotationAngle]) =>
+      latestDragYPos + latestHoverRotationAngle
+  );
+  const rotationAngle = useTransform(dragAndHoverRotation, [0, 140], [-45, 45]);
 
   function onPull() {
-    setSpinState(SpinState.IDLE);
+    if (spinState === SpinState.PRE) {
+      setSpinState(SpinState.IDLE);
+    }
   }
 
   function onDragStart() {
-    setUserDragging(true);
+    setUserIsDragging(true);
   }
 
   function onDragEnd() {
-    setUserDragging(false);
+    setUserIsDragging(false);
   }
 
   function onDrag() {
@@ -33,6 +46,14 @@ const Lever: React.FC<LeverProps> = ({ setSpinState, setUserDragging }) => {
       onPull();
       setPulled(true);
     }
+  }
+
+  function onHoverStart() {
+    hoverRotationAngle.set(4);
+  }
+
+  function onHoverEnd() {
+    hoverRotationAngle.set(0);
   }
 
   return (
@@ -48,6 +69,9 @@ const Lever: React.FC<LeverProps> = ({ setSpinState, setUserDragging }) => {
         onDragStart={onDragStart}
         onDrag={onDrag}
         onDragEnd={onDragEnd}
+        whileTap={{ cursor: "grabbing" }}
+        onHoverStart={onHoverStart}
+        onHoverEnd={onHoverEnd}
         style={{
           y: dragYPos,
           x: dragXPos,
