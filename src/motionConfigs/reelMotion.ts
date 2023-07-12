@@ -8,6 +8,12 @@ export const BASE_SPIN_SPEED = 5; // choices per second
 
 /* Motion Specifications */
 const jumpMotion = { duration: 0 };
+function getIdleStartMotion(spinDur: number) {
+  return { duration: spinDur, ease: "easeIn" };
+}
+function getIdleLoopMotion(spinDur: number) {
+  return { duration: spinDur, ease: "linear", repeat: Infinity };
+}
 
 /* Types */
 export interface ReelMotionParams {
@@ -35,12 +41,26 @@ export async function idleStartAnimation(params: ReelMotionParams) {
   const endYNum = translateYToReelCopyIdx(currYNum, choicesLength, 2);
   const endYVh = numToVh(endYNum);
   const spinDur = getIdleSpinStartDur(choicesLength);
+  const startMotion = getIdleStartMotion(spinDur);
 
   return animate([
     [reelEl, { y: startYVh }, jumpMotion],
-    [reelEl, { y: endYVh }, { duration: spinDur, ease: "easeIn" }],
+    [reelEl, { y: endYVh }, startMotion],
     [reelEl, { y: startYVh }, jumpMotion],
   ]);
+}
+
+export async function idleLoopAnimation(params: ReelMotionParams) {
+  const { reelEl, yVh, choicesLength, animate } = params;
+  const currYNum = vhToNum(yVh.get());
+  const startYNum = translateYToReelCopyIdx(currYNum, choicesLength, 1);
+  const startYVh = numToVh(startYNum);
+  const endYNum = translateYToReelCopyIdx(currYNum, choicesLength, 2);
+  const endYVh = numToVh(endYNum);
+  const spinDur = getIdleSpinLoopDur(choicesLength);
+  const loopMotion = getIdleLoopMotion(spinDur);
+
+  return animate(reelEl, { y: [startYVh, endYVh] }, loopMotion);
 }
 
 /* Animation Helper Functions */

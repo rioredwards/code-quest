@@ -19,6 +19,7 @@ import {
   preSpinAnimation,
   ReelMotionParams,
   idleStartAnimation,
+  idleLoopAnimation,
 } from "../motionConfigs/reelMotion";
 import Window from "./Window";
 import ChoiceList from "./ChoiceList";
@@ -50,19 +51,6 @@ const Reel: React.FC<ReelProps> = ({
   const yVelocity = useVelocity(yNum);
 
   useEffect(() => {
-    const idleAnimationLoop = async () => {
-      setSpinState(SpinState.IDLE_LOOP);
-      const currY = vhToNum(y.get());
-      const startY = translateYToReelCopyIdx(currY, choices.length, 1);
-      const endY = translateYToReelCopyIdx(currY, choices.length, 2);
-      const spinDur = getIdleSpinLoopDur(choices.length);
-      animate(
-        scope.current,
-        { y: [numToVh(startY), numToVh(endY)] },
-        { duration: spinDur, ease: "linear", repeat: Infinity }
-      );
-    };
-
     const stoppingAnimation = async () => {
       if (chosenIdx === null) throw new Error("chosenIdx is null");
       const currY = vhToNum(y.get());
@@ -121,10 +109,15 @@ const Reel: React.FC<ReelProps> = ({
         preSpinAnimation(animationParams);
       }
       if (spinState === SpinState.IDLE_START) {
-        idleStartAnimation(animationParams).then(idleAnimationLoop);
+        await idleStartAnimation(animationParams);
+        setSpinState(SpinState.IDLE_LOOP);
+        idleLoopAnimation(animationParams);
       }
       if (spinState === SpinState.IDLE_LOOP) return; // Idle loop animation is started by idleAnimationStart()
-      if (spinState === SpinState.STOPPING) await stoppingAnimation();
+      if (spinState === SpinState.STOPPING) {
+        await stoppingAnimation();
+        setSpinState(SpinState.POST);
+      }
       if (spinState === SpinState.POST) await postSpinAnimation();
     };
 
