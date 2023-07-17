@@ -8,7 +8,7 @@ import {
   useVelocity,
 } from "framer-motion";
 import { SpinState } from "../App";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { numToVh, vhToNum } from "../utils/genUtils";
 import {
   roundYToNearestChoice,
@@ -50,9 +50,10 @@ const Reel: React.FC<ReelProps> = ({
   const yVelocity = useVelocity(yNum);
 
   useEffect(() => {
+    console.log("Reel useEffect called");
     if (isUserLocked) return;
 
-    const animateSequence = async (): Promise<void> => {
+    async function animateSequence(): Promise<void> {
       const animationParams: ReelMotionParams = {
         animate,
         reelEl: scope.current,
@@ -62,11 +63,20 @@ const Reel: React.FC<ReelProps> = ({
       };
 
       const newSpinState = await setNewAnimation(spinState, animationParams);
-      if (newSpinState) setSpinState(newSpinState);
-    };
+      if (newSpinState) setSpinState(spinState);
+    }
 
     animateSequence();
-  }, [spinState, chosenIdx]);
+  }, [
+    spinState,
+    y,
+    // chosenIdx,
+    // isUserLocked,
+    scope,
+    animate,
+    choices.length,
+    setSpinState,
+  ]);
 
   function onHoverStart(): void {
     if (dragging) return;
@@ -143,7 +153,7 @@ const Reel: React.FC<ReelProps> = ({
 // This function calls an animation function based on the current spinState
 // If the next animation and spinState is triggered by an animation ending,
 // This function will return the next spinState to be updated in the parent component
-// (The next spin state COULD be set within this function, but that would be a crazy side effect and bad practice)
+// (The next spin state COULD be set within this function, but that would be a strange side effect and bad practice)
 async function setNewAnimation(
   spinState: SpinState,
   animationParams: ReelMotionParams
