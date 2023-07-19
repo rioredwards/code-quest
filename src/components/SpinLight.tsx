@@ -2,17 +2,17 @@ import { SpinState } from "../types";
 import "./SpinLight.css";
 
 interface SpinLightProps {
-  cycleSpinState: () => void;
+  setSpinState: (spinState: SpinState) => void;
   spinState: SpinState;
 }
 
-const SpinLight: React.FC<SpinLightProps> = ({ spinState, cycleSpinState }) => {
+const SpinLight: React.FC<SpinLightProps> = ({ spinState, setSpinState }) => {
   const color = calcColorForSpinMode(spinState);
   const offset = calcOffsetPercentForColor(color);
 
   function onClick() {
     if (spinState === SpinState.IDLE_LOOP) {
-      cycleSpinState();
+      setSpinState(SpinState.STOPPING);
     }
   }
 

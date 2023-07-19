@@ -10,16 +10,15 @@ interface Props {
   name: string;
   key: string;
   spinState: SpinState;
-  cycleSpinState: () => void;
+  setSpinState: (spinState: SpinState) => void;
   choices: Choice[];
   chosenIdx: number | null;
-  // setUserIsDragging: (isDragging: boolean) => void;
 }
 
 const ReelUnit: React.FC<Props> = ({
   name,
   spinState,
-  cycleSpinState,
+  setSpinState,
   choices,
   chosenIdx,
 }) => {
@@ -33,10 +32,10 @@ const ReelUnit: React.FC<Props> = ({
         choices={choices}
         chosenIdx={chosenIdx}
         spinState={spinState}
-        cycleSpinState={cycleSpinState}
+        setSpinState={setSpinState}
         isUserLocked={isLocked}
       />
-      <SpinLight spinState={spinState} cycleSpinState={cycleSpinState} />
+      <SpinLight spinState={spinState} setSpinState={setSpinState} />
     </div>
   );
 };

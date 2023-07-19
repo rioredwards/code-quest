@@ -39,7 +39,16 @@ function App() {
       const newAllReelsState = [...prevState];
       newAllReelsState.forEach((reelState, idx) => {
         newAllReelsState[idx].spinState = spinState;
+        newAllReelsState[idx].chosenIdx = chosenIdxs[idx]; // TEMP
       });
+      return newAllReelsState as AllReelsState;
+    });
+  }
+
+  function setSpinState(reelIdx: ReelIdx, spinState: SpinState) {
+    setAllReelsState((prevState) => {
+      const newAllReelsState = [...prevState];
+      newAllReelsState[reelIdx].spinState = spinState;
       return newAllReelsState as AllReelsState;
     });
   }
@@ -112,7 +121,9 @@ function App() {
                 spinState={reelState.spinState}
                 choices={reelConfigs[idx].choices}
                 chosenIdx={reelState.chosenIdx}
-                cycleSpinState={() => cycleSpinState(idx)}
+                setSpinState={(spinState: SpinState) =>
+                  setSpinState(idx, spinState)
+                }
               />
             );
           })}
