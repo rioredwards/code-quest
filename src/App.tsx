@@ -50,6 +50,7 @@ function App() {
       isUserLocked: false,
     },
   ]);
+
   const universalCssClasses = userIsDragging ? "user-dragging" : "";
 
   const signs = signNames.map((signName, id) => {
