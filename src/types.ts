@@ -17,7 +17,6 @@ export type ReelState = {
   name: ReelName;
   choices: Choice[];
   spinState: SpinState;
-  isUserLocked: boolean;
   chosenIdx: number | null;
 };
 

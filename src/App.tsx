@@ -13,6 +13,7 @@ import { timeChoices } from "./data/choices/timeChoices";
 import { typeChoices } from "./data/choices/typeChoices";
 import { useState } from "react";
 import { AllReelsState, ReelIdx, SpinState } from "./types";
+import ReelUnit from "./components/ReelUnit";
 
 const signNames = ["TYPE", "TECH", "TASK", "TIME"];
 
@@ -21,37 +22,34 @@ let chosenIdxs: number[] | null[] = [null, null, null, null];
 function App() {
   const [userIsDragging, setUserIsDragging] = useState(false);
   const [spinState, setSpinState] = useState(SpinState.PRE);
-  const [locked, setLocked] = useState(false);
+  const [isLocked, setIsLocked] = useState(false);
   const [allReelsState, setAllReelsState] = useState<AllReelsState>([
     {
       name: "TYPE",
       choices: typeChoices,
       spinState: SpinState.PRE,
       chosenIdx: null,
-      isUserLocked: false,
     },
     {
       name: "TECH",
       choices: techChoices,
       spinState: SpinState.PRE,
       chosenIdx: null,
-      isUserLocked: false,
     },
     {
       name: "TASK",
       choices: taskChoices,
       spinState: SpinState.PRE,
       chosenIdx: null,
-      isUserLocked: false,
     },
     {
       name: "TIME",
       choices: timeChoices,
       spinState: SpinState.PRE,
       chosenIdx: null,
-      isUserLocked: false,
     },
   ]);
+
   const universalCssClasses = userIsDragging ? "user-dragging" : "";
 
   const signs = signNames.map((signName, id) => {
@@ -78,7 +76,9 @@ function App() {
   });
 
   const lockSwitches = [1, 2, 3, 4].map((id) => {
-    return <LockSwitch key={id} locked={locked} setLocked={setLocked} />;
+    return (
+      <LockSwitch key={id} isLocked={isLocked} setIsLocked={setIsLocked} />
+    );
   });
 
   const displayText =
@@ -93,7 +93,7 @@ function App() {
       spinState={spinState}
       setSpinState={setSpinState}
       setUserIsDragging={setUserIsDragging}
-      isUserLocked={locked}
+      isUserLocked={isLocked}
     />
   );
 
@@ -105,7 +105,7 @@ function App() {
       spinState={spinState}
       setSpinState={setSpinState}
       setUserIsDragging={setUserIsDragging}
-      isUserLocked={locked}
+      isUserLocked={isLocked}
     />
   );
 
@@ -117,7 +117,7 @@ function App() {
       spinState={spinState}
       setSpinState={setSpinState}
       setUserIsDragging={setUserIsDragging}
-      isUserLocked={locked}
+      isUserLocked={isLocked}
     />
   );
 
@@ -129,7 +129,7 @@ function App() {
       spinState={spinState}
       setSpinState={setSpinState}
       setUserIsDragging={setUserIsDragging}
-      isUserLocked={locked}
+      isUserLocked={isLocked}
     />
   );
 
@@ -145,6 +145,17 @@ function App() {
     <div className={`App ${universalCssClasses}`}>
       <GameContainer>
         <button onClick={onClickTestBtn}>{spinState}</button>
+        {allReelsState.map((reelState, idx) => {
+          return (
+            <ReelUnit
+              name={reelState.name}
+              key={reelState.name}
+              spinState={reelState.spinState}
+              choices={reelState.choices}
+              chosenIdx={reelState.chosenIdx}
+            />
+          );
+        })}
         <Machine
           signs={signs}
           lights={lights}
