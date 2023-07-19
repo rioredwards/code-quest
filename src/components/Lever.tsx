@@ -5,16 +5,11 @@ import { PULL_THRESHOLD } from "../motionConfigs/leverMotion";
 import { SpinState } from "../types";
 
 interface LeverProps {
-  spinState: SpinState;
-  setSpinState: (spinState: SpinState) => void;
+  onPull: () => void;
   setUserIsDragging: (isDragging: boolean) => void;
 }
 
-const Lever: React.FC<LeverProps> = ({
-  spinState,
-  setSpinState,
-  setUserIsDragging,
-}) => {
+const Lever: React.FC<LeverProps> = ({ onPull, setUserIsDragging }) => {
   const [pulled, setPulled] = useState(false);
   const dragYPos = useMotionValue(0);
   const hoverRotationAngle = useSpring(0);
@@ -26,12 +21,6 @@ const Lever: React.FC<LeverProps> = ({
       latestDragYPos + latestHoverRotationAngle
   );
   const rotationAngle = useTransform(dragAndHoverRotation, [0, 140], [-45, 45]);
-
-  function onPull() {
-    if (spinState === SpinState.PRE) {
-      setSpinState(SpinState.IDLE_START);
-    }
-  }
 
   function onDragStart() {
     setUserIsDragging(true);

@@ -8,7 +8,7 @@ import { taskChoices } from "./data/choices/taskChoices";
 import { timeChoices } from "./data/choices/timeChoices";
 import { typeChoices } from "./data/choices/typeChoices";
 import { useState } from "react";
-import { AllReelsState, SpinState } from "./types";
+import { AllReelsState, ReelIdx, SpinState } from "./types";
 import ReelUnit from "./components/ReelUnit";
 import { reelConfigs } from "./data/ReelConfigs";
 
@@ -16,7 +16,6 @@ let chosenIdxs: number[] | null[] = [null, null, null, null];
 
 function App() {
   const [userIsDragging, setUserIsDragging] = useState(false);
-  const [spinState, setSpinState] = useState(SpinState.PRE);
   const [allReelsState, setAllReelsState] = useState<AllReelsState>([
     {
       spinState: SpinState.PRE,
@@ -36,22 +35,53 @@ function App() {
     },
   ]);
 
+  function cycleAllSpinStates() {
+    setAllReelsState(
+      (prevState) =>
+        prevState.map((reelState) => ({
+          ...reelState,
+          spinState: getNextSpinState(reelState.spinState),
+        })) as AllReelsState
+    );
+  }
+
+  function cycleSpinState(reelIdx: ReelIdx): void {
+    setAllReelsState((prevState) => {
+      const currSpinState = allReelsState[reelIdx].spinState;
+      const newAllReelsState = [...prevState];
+      newAllReelsState[reelIdx].spinState = getNextSpinState(currSpinState);
+      return newAllReelsState as AllReelsState;
+    });
+  }
+
+  function onPullLever() {
+    if (getCombinedSpinState(allReelsState) === SpinState.PRE) {
+      cycleAllSpinStates();
+    }
+  }
+
   const universalCssClasses = userIsDragging ? "user-dragging" : "";
 
   const displayText =
     "Cloud Challenge: Stocks using Amazon DynamoDB in 120 minutes";
 
   function onClickTestBtn() {
-    if (spinState === SpinState.IDLE_LOOP) {
+    const combinedSpinState = getCombinedSpinState(allReelsState);
+    if (!combinedSpinState) {
+      return;
+    } else if (combinedSpinState === SpinState.IDLE_LOOP) {
       getRandChoices();
+    } else {
+      cycleAllSpinStates();
     }
-    setSpinState(cycleSpinState(spinState));
   }
 
   return (
     <div className={`App ${universalCssClasses}`}>
       <GameContainer>
-        <button onClick={onClickTestBtn}>{spinState}</button>
+        <button className="test-btn" onClick={onClickTestBtn}>
+          {getCombinedSpinState(allReelsState) || "Mixed"}
+        </button>
         <div className="reels-container">
           {allReelsState.map((reelState, idx) => {
             return (
@@ -61,7 +91,7 @@ function App() {
                 spinState={reelState.spinState}
                 choices={reelConfigs[idx].choices}
                 chosenIdx={reelState.chosenIdx}
-                setSpinState={setSpinState}
+                cycleSpinState={() => cycleSpinState(idx)}
                 setUserIsDragging={setUserIsDragging}
                 getRandChoices={getRandChoices}
               />
@@ -69,11 +99,7 @@ function App() {
           })}
         </div>
         <div className="lever-container">
-          <Lever
-            spinState={spinState}
-            setSpinState={setSpinState}
-            setUserIsDragging={setUserIsDragging}
-          />
+          <Lever onPull={onPullLever} setUserIsDragging={setUserIsDragging} />
         </div>
         <div className="display-container">
           <Display text={displayText} />
@@ -82,6 +108,14 @@ function App() {
       </GameContainer>
     </div>
   );
+}
+
+function getCombinedSpinState(allReelsState: AllReelsState): SpinState | null {
+  const firstSpinState = allReelsState[0].spinState;
+  const allSpinStatesAreEqual = allReelsState.every(
+    (reelState) => reelState.spinState === firstSpinState
+  );
+  return allSpinStatesAreEqual ? firstSpinState : null;
 }
 
 function getRandChoices() {
@@ -103,12 +137,12 @@ function getRandIdx(maxIdx: number) {
   return Math.floor(Math.random() * maxIdx);
 }
 
-function cycleSpinState(spinState: SpinState) {
+function getNextSpinState(spinState: SpinState) {
   switch (spinState) {
     case SpinState.PRE:
       return SpinState.IDLE_START;
     case SpinState.IDLE_START:
-      return SpinState.IDLE_START;
+      return SpinState.IDLE_LOOP;
     case SpinState.IDLE_LOOP:
       return SpinState.STOPPING;
     case SpinState.STOPPING:

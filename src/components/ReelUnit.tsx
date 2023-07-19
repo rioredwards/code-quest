@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Choice, SpinState } from "../types";
+import { Choice, ReelIdx, SpinState } from "../types";
 import LockSwitch from "./LockSwitch";
 import "./ReelUnit.css";
 import Sign from "./Sign";
@@ -10,7 +10,7 @@ interface Props {
   name: string;
   key: string;
   spinState: SpinState;
-  setSpinState: (spinState: SpinState) => void;
+  cycleSpinState: () => void;
   choices: Choice[];
   chosenIdx: number | null;
   setUserIsDragging: (isDragging: boolean) => void;
@@ -20,7 +20,7 @@ interface Props {
 const ReelUnit: React.FC<Props> = ({
   name,
   spinState,
-  setSpinState,
+  cycleSpinState,
   choices,
   chosenIdx,
   setUserIsDragging,
@@ -36,13 +36,13 @@ const ReelUnit: React.FC<Props> = ({
         choices={choices}
         chosenIdx={chosenIdx}
         spinState={spinState}
-        setSpinState={setSpinState}
+        cycleSpinState={cycleSpinState}
         isUserLocked={isLocked}
         setUserIsDragging={setUserIsDragging}
       />
       <SpinLight
         spinState={spinState}
-        setSpinState={setSpinState}
+        cycleSpinState={cycleSpinState}
         getRandChoices={getRandChoices}
       />
     </div>

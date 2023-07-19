@@ -26,7 +26,7 @@ import { Choice, SpinState } from "../types";
 interface ReelProps {
   choices: Choice[];
   spinState: SpinState;
-  setSpinState: (spinState: SpinState) => void;
+  cycleSpinState: () => void;
   chosenIdx: number | null;
   isUserLocked: boolean;
   setUserIsDragging: (isDragging: boolean) => void;
@@ -40,7 +40,7 @@ const INTERNALLY_TRIGGERED_SPIN_STATES: ReadonlyArray<SpinState> = [
 const Reel: React.FC<ReelProps> = ({
   choices,
   spinState,
-  setSpinState,
+  cycleSpinState,
   chosenIdx,
   setUserIsDragging,
   isUserLocked,
@@ -76,7 +76,7 @@ const Reel: React.FC<ReelProps> = ({
       };
 
       const newSpinState = await setNewAnimation(spinState, animationParams);
-      if (newSpinState) setSpinState(newSpinState);
+      if (newSpinState) cycleSpinState();
     }
 
     animateSequence();
@@ -88,7 +88,7 @@ const Reel: React.FC<ReelProps> = ({
     scope,
     animate,
     choices.length,
-    setSpinState,
+    cycleSpinState,
   ]);
 
   function onHoverStart(): void {
