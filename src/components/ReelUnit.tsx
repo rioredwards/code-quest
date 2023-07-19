@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import LockSwitch from "./LockSwitch";
 import "./ReelUnit.css";
 import Sign from "./Sign";

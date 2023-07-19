@@ -34,19 +34,28 @@ function App() {
     },
   ]);
 
+  function setAllSpinStates(spinState: SpinState) {
+    setAllReelsState((prevState) => {
+      const newAllReelsState = [...prevState];
+      newAllReelsState.forEach((reelState, idx) => {
+        newAllReelsState[idx].spinState = spinState;
+      });
+      return newAllReelsState as AllReelsState;
+    });
+  }
+
   function cycleAllSpinStates() {
-    console.log("cycleAllSpinStates", allReelsState);
     setAllReelsState((prevState) => {
       const newAllReelsState = [...prevState];
       newAllReelsState.forEach((reelState, idx) => {
         newAllReelsState[idx].spinState = getNextSpinState(reelState.spinState);
+        newAllReelsState[idx].chosenIdx = chosenIdxs[idx]; // TEMP
       });
       return newAllReelsState as AllReelsState;
     });
   }
 
   function cycleSpinState(reelIdx: ReelIdx): void {
-    console.log("cycleSpinState", reelIdx);
     setAllReelsState((prevState) => {
       const currSpinState = prevState[reelIdx].spinState;
       const newAllReelsState = [...prevState];
@@ -67,14 +76,11 @@ function App() {
 
   function onPullLever() {
     const combinedSpinState = getCombinedSpinState(allReelsState);
-    console.log("onPullLever", combinedSpinState);
     if (combinedSpinState !== SpinState.PRE) return;
-    // getRandChoices();
-    // setRandChoices();
-    cycleAllSpinStates();
-  }
 
-  // const universalCssClasses = userIsDragging ? "user-dragging" : "";
+    getRandChoices();
+    setAllSpinStates(SpinState.IDLE_START);
+  }
 
   const displayText =
     "Cloud Challenge: Stocks using Amazon DynamoDB in 120 minutes";

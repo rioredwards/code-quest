@@ -55,7 +55,6 @@ const Reel: React.FC<ReelProps> = ({
 
   // When spinState changes, animate the reel
   useEffect(() => {
-    console.log("spinState: ", spinState);
     if (
       isUserLocked ||
       INTERNALLY_TRIGGERED_SPIN_STATES.includes(spinState) ||
