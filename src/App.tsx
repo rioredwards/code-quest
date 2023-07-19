@@ -98,6 +98,9 @@ function App() {
             setUserIsDragging={setUserIsDragging}
           />
         </div>
+        <div className="display-container">
+          <Display text={displayText} />
+        </div>
         <Machine />
       </GameContainer>
     </div>

@@ -40,3 +40,21 @@
   height: 24.5%;
   width: var(--width);
 }
+
+.display-container {
+  --container-height: 6.3vh;
+  --aspect-ratio: 14.5882;
+  --height: var(--container-height);
+  --width: calc(var(--height) * var(--aspect-ratio));
+  --center-left-shift: calc(50vw - calc(var(--width) / 2));
+  /* background-color: rgba(0, 50, 189, 0.433); */
+  /* border: 1px solid rgb(0, 0, 0); */
+  position: fixed;
+  z-index: 2;
+  top: 74.1%;
+  left: calc(var(--center-left-shift) + 7.22vh);
+  height: var(--height);
+  width: var(--width);
+  overflow: hidden;
+  border-radius: 1.2vh;
+}
