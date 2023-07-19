@@ -21,10 +21,10 @@ import {
 } from "../motionConfigs/reelMotion";
 import Window from "./Window";
 import ChoiceList from "./ChoiceList";
-import { SpinState } from "../types";
+import { Choice, SpinState } from "../types";
 
 interface ReelProps {
-  choices: string[];
+  choices: Choice[];
   spinState: SpinState;
   setSpinState: (spinState: SpinState) => void;
   chosenIdx: number | null;

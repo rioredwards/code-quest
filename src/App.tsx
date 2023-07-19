@@ -12,7 +12,7 @@ import { taskChoices } from "./data/choices/taskChoices";
 import { timeChoices } from "./data/choices/timeChoices";
 import { typeChoices } from "./data/choices/typeChoices";
 import { useState } from "react";
-import { AllReelsState, SpinState } from "./types";
+import { AllReelsState, ReelIdx, SpinState } from "./types";
 
 const signNames = ["TYPE", "TECH", "TASK", "TIME"];
 
@@ -20,6 +20,8 @@ let chosenIdxs: number[] | null[] = [null, null, null, null];
 
 function App() {
   const [userIsDragging, setUserIsDragging] = useState(false);
+  const [spinState, setSpinState] = useState(SpinState.PRE);
+  const [locked, setLocked] = useState(false);
   const [allReelsState, setAllReelsState] = useState<AllReelsState>([
     {
       name: "TYPE",
@@ -50,7 +52,6 @@ function App() {
       isUserLocked: false,
     },
   ]);
-
   const universalCssClasses = userIsDragging ? "user-dragging" : "";
 
   const signs = signNames.map((signName, id) => {
@@ -87,7 +88,7 @@ function App() {
   const typeReel = (
     <Reel
       key={1}
-      choices={typeChoices}
+      choices={allReelsState[ReelIdx.TYPE].choices}
       chosenIdx={chosenIdxs[0]}
       spinState={spinState}
       setSpinState={setSpinState}
@@ -99,7 +100,7 @@ function App() {
   const techReel = (
     <Reel
       key={2}
-      choices={techChoices}
+      choices={allReelsState[ReelIdx.TECH].choices}
       chosenIdx={chosenIdxs[1]}
       spinState={spinState}
       setSpinState={setSpinState}
@@ -111,7 +112,7 @@ function App() {
   const taskReel = (
     <Reel
       key={3}
-      choices={taskChoices}
+      choices={allReelsState[ReelIdx.TASK].choices}
       chosenIdx={chosenIdxs[2]}
       spinState={spinState}
       setSpinState={setSpinState}
@@ -123,7 +124,7 @@ function App() {
   const timeReel = (
     <Reel
       key={0}
-      choices={timeChoices}
+      choices={allReelsState[ReelIdx.TIME].choices}
       chosenIdx={chosenIdxs[3]}
       spinState={spinState}
       setSpinState={setSpinState}

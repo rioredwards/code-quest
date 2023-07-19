@@ -1,9 +1,10 @@
 import { translateChosenIdxDownByReelCopy } from "../motionConfigs/reelMotion";
+import { Choice as ChoiceType } from "../types";
 import { repeatArray } from "../utils/genUtils";
 import Choice from "./Choice";
 
 interface Props {
-  choices: string[];
+  choices: ChoiceType[];
   chosenIdx: number | null;
   highlightChosen: boolean;
 }
@@ -26,7 +27,7 @@ const ChoiceList: React.FC<Props> = ({
         <Choice
           key={i}
           CSSclasses={getChoiceCSSClassName(i, highlightedIdx)}
-          displayName={choice}
+          displayName={choice.name}
         />
       ))}
     </>
