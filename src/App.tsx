@@ -1,50 +1,36 @@
 import "./App.css";
 import Machine from "./layout/Machine";
 import GameContainer from "./layout/GameContainer";
-import Sign from "./components/Sign";
 import Lever from "./components/Lever";
-import SpinLight from "./components/SpinLight";
-import LockSwitch from "./components/LockSwitch";
 import Display from "./components/Display";
-import Reel from "./components/Reel";
 import { techChoices } from "./data/choices/techChoices";
 import { taskChoices } from "./data/choices/taskChoices";
 import { timeChoices } from "./data/choices/timeChoices";
 import { typeChoices } from "./data/choices/typeChoices";
 import { useState } from "react";
-import { AllReelsState, ReelIdx, SpinState } from "./types";
+import { AllReelsState, SpinState } from "./types";
 import ReelUnit from "./components/ReelUnit";
-
-const signNames = ["TYPE", "TECH", "TASK", "TIME"];
+import { reelConfigs } from "./data/ReelConfigs";
 
 let chosenIdxs: number[] | null[] = [null, null, null, null];
 
 function App() {
   const [userIsDragging, setUserIsDragging] = useState(false);
   const [spinState, setSpinState] = useState(SpinState.PRE);
-  const [isLocked, setIsLocked] = useState(false);
   const [allReelsState, setAllReelsState] = useState<AllReelsState>([
     {
-      name: "TYPE",
-      choices: typeChoices,
       spinState: SpinState.PRE,
       chosenIdx: null,
     },
     {
-      name: "TECH",
-      choices: techChoices,
       spinState: SpinState.PRE,
       chosenIdx: null,
     },
     {
-      name: "TASK",
-      choices: taskChoices,
       spinState: SpinState.PRE,
       chosenIdx: null,
     },
     {
-      name: "TIME",
-      choices: timeChoices,
       spinState: SpinState.PRE,
       chosenIdx: null,
     },
@@ -52,17 +38,8 @@ function App() {
 
   const universalCssClasses = userIsDragging ? "user-dragging" : "";
 
-  const lever = (
-    <Lever
-      spinState={spinState}
-      setSpinState={setSpinState}
-      setUserIsDragging={setUserIsDragging}
-    />
-  );
-
   const displayText =
     "Cloud Challenge: Stocks using Amazon DynamoDB in 120 minutes";
-  const display = <Display text={displayText} />;
 
   function onClickTestBtn() {
     if (spinState === SpinState.IDLE_LOOP) {
@@ -79,10 +56,10 @@ function App() {
           {allReelsState.map((reelState, idx) => {
             return (
               <ReelUnit
-                name={reelState.name}
-                key={reelState.name}
+                name={reelConfigs[idx].name}
+                key={reelConfigs[idx].name}
                 spinState={reelState.spinState}
-                choices={reelState.choices}
+                choices={reelConfigs[idx].choices}
                 chosenIdx={reelState.chosenIdx}
                 setSpinState={setSpinState}
                 setUserIsDragging={setUserIsDragging}

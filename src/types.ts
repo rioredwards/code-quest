@@ -14,8 +14,6 @@ export enum ReelIdx {
 }
 
 export type ReelState = {
-  name: ReelName;
-  choices: Choice[];
   spinState: SpinState;
   chosenIdx: number | null;
 };
