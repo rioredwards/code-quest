@@ -11,3 +11,17 @@
 .user-dragging {
   cursor: grabbing;
 }
+
+.reels-container {
+  /* background-color: rgba(0, 50, 189, 0.662); */
+  /* border: 1px solid rgb(0, 0, 0); */
+  position: relative;
+  z-index: 2;
+  top: 30.9%;
+  left: 16.4%;
+  height: 34.5%;
+  width: 69.14%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

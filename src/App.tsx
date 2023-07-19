@@ -52,10 +52,6 @@ function App() {
 
   const universalCssClasses = userIsDragging ? "user-dragging" : "";
 
-  const signs = signNames.map((signName, id) => {
-    return <Sign name={signName} key={id} />;
-  });
-
   const lever = (
     <Lever
       spinState={spinState}
@@ -64,79 +60,13 @@ function App() {
     />
   );
 
-  const lights = [1, 2, 3, 4].map((id) => {
-    return (
-      <SpinLight
-        getRandChoices={getRandChoices}
-        setSpinState={setSpinState}
-        spinState={spinState}
-        key={id}
-      />
-    );
-  });
-
-  const lockSwitches = [1, 2, 3, 4].map((id) => {
-    return (
-      <LockSwitch key={id} isLocked={isLocked} setIsLocked={setIsLocked} />
-    );
-  });
-
   const displayText =
     "Cloud Challenge: Stocks using Amazon DynamoDB in 120 minutes";
   const display = <Display text={displayText} />;
 
-  const typeReel = (
-    <Reel
-      key={1}
-      choices={allReelsState[ReelIdx.TYPE].choices}
-      chosenIdx={chosenIdxs[0]}
-      spinState={spinState}
-      setSpinState={setSpinState}
-      setUserIsDragging={setUserIsDragging}
-      isUserLocked={isLocked}
-    />
-  );
-
-  const techReel = (
-    <Reel
-      key={2}
-      choices={allReelsState[ReelIdx.TECH].choices}
-      chosenIdx={chosenIdxs[1]}
-      spinState={spinState}
-      setSpinState={setSpinState}
-      setUserIsDragging={setUserIsDragging}
-      isUserLocked={isLocked}
-    />
-  );
-
-  const taskReel = (
-    <Reel
-      key={3}
-      choices={allReelsState[ReelIdx.TASK].choices}
-      chosenIdx={chosenIdxs[2]}
-      spinState={spinState}
-      setSpinState={setSpinState}
-      setUserIsDragging={setUserIsDragging}
-      isUserLocked={isLocked}
-    />
-  );
-
-  const timeReel = (
-    <Reel
-      key={0}
-      choices={allReelsState[ReelIdx.TIME].choices}
-      chosenIdx={chosenIdxs[3]}
-      spinState={spinState}
-      setSpinState={setSpinState}
-      setUserIsDragging={setUserIsDragging}
-      isUserLocked={isLocked}
-    />
-  );
-
   function onClickTestBtn() {
     if (spinState === SpinState.IDLE_LOOP) {
       getRandChoices();
-      console.log(chosenIdxs);
     }
     setSpinState(cycleSpinState(spinState));
   }
@@ -145,28 +75,23 @@ function App() {
     <div className={`App ${universalCssClasses}`}>
       <GameContainer>
         <button onClick={onClickTestBtn}>{spinState}</button>
-        {allReelsState.map((reelState, idx) => {
-          return (
-            <ReelUnit
-              name={reelState.name}
-              key={reelState.name}
-              spinState={reelState.spinState}
-              choices={reelState.choices}
-              chosenIdx={reelState.chosenIdx}
-              setSpinState={setSpinState}
-              setUserIsDragging={setUserIsDragging}
-              getRandChoices={getRandChoices}
-            />
-          );
-        })}
-        <Machine
-          signs={signs}
-          lights={lights}
-          lever={lever}
-          lockSwitches={lockSwitches}
-          display={display}
-          reels={[typeReel, techReel, taskReel, timeReel]}
-        />
+        <div className="reels-container">
+          {allReelsState.map((reelState, idx) => {
+            return (
+              <ReelUnit
+                name={reelState.name}
+                key={reelState.name}
+                spinState={reelState.spinState}
+                choices={reelState.choices}
+                chosenIdx={reelState.chosenIdx}
+                setSpinState={setSpinState}
+                setUserIsDragging={setUserIsDragging}
+                getRandChoices={getRandChoices}
+              />
+            );
+          })}
+        </div>
+        <Machine />
       </GameContainer>
     </div>
   );
