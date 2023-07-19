@@ -32,6 +32,11 @@ interface ReelProps {
   setUserIsDragging: (isDragging: boolean) => void;
 }
 
+const INTERNALLY_TRIGGERED_SPIN_STATES: ReadonlyArray<SpinState> = [
+  SpinState.IDLE_LOOP,
+  SpinState.POST,
+];
+
 const Reel: React.FC<ReelProps> = ({
   choices,
   spinState,
@@ -40,10 +45,9 @@ const Reel: React.FC<ReelProps> = ({
   setUserIsDragging,
   isUserLocked,
 }) => {
+  const activeSpinMotion = useRef(spinState);
   const isSpinLocked = spinState !== SpinState.PRE;
   const [scope, animate] = useAnimate();
-  const [isInternalSpinUpdate, setIsInternalSpinUpdate] = useState(false);
-  const spinStateRef = useRef(spinState);
   const [dragging, setDragging] = useState(false);
   const [dragStartY, setDragStartY] = useState(0);
   const y = useMotionValue("0vh");
@@ -51,23 +55,17 @@ const Reel: React.FC<ReelProps> = ({
   const dragY = useMotionValue(0);
   const yVelocity = useVelocity(yNum);
 
-  // Sync spinStateRef with spinState
-  // If they are different, then the spinState was updated externally
-  // Otherwise, the spinState was updated internally, and the useEffect for animations should not run
-  useEffect(() => {
-    if (spinStateRef.current !== spinState) {
-      spinStateRef.current = spinState;
-      setIsInternalSpinUpdate(false);
-    }
-  }, [spinState]);
-
   // When spinState changes, animate the reel
   useEffect(() => {
-    console.log("Reel useEffect called");
-    if (isUserLocked || isInternalSpinUpdate) {
+    if (
+      isUserLocked ||
+      INTERNALLY_TRIGGERED_SPIN_STATES.includes(spinState) ||
+      spinState === activeSpinMotion.current
+    ) {
       return;
     }
 
+    activeSpinMotion.current = spinState;
     async function animateSequence(): Promise<void> {
       const animationParams: ReelMotionParams = {
         animate,
@@ -78,18 +76,12 @@ const Reel: React.FC<ReelProps> = ({
       };
 
       const newSpinState = await setNewAnimation(spinState, animationParams);
-      if (newSpinState !== null) {
-        spinStateRef.current = newSpinState;
-        setIsInternalSpinUpdate(true);
-        setSpinState(newSpinState);
-        setIsInternalSpinUpdate(false);
-      }
+      if (newSpinState) setSpinState(newSpinState);
     }
 
     animateSequence();
   }, [
     spinState,
-    isInternalSpinUpdate,
     y,
     chosenIdx,
     isUserLocked,
@@ -189,10 +181,8 @@ async function setNewAnimation(
       return SpinState.IDLE_LOOP;
     case SpinState.STOPPING:
       await stoppingAnimation(animationParams);
-      return SpinState.POST;
-    case SpinState.POST:
       postSpinAnimation(animationParams);
-      return null;
+      return SpinState.POST;
     default:
       return null;
   }
