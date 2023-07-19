@@ -5,7 +5,7 @@
   z-index: 2;
   height: 100%;
   display: grid;
-  grid-template-rows: 21.5% 12.7% 53.6% auto;
+  grid-template-rows: 22.2% 12.7% 53.6% auto;
   justify-items: center;
   align-items: start;
 }

@@ -91,6 +91,13 @@ function App() {
             );
           })}
         </div>
+        <div className="lever-container">
+          <Lever
+            spinState={spinState}
+            setSpinState={setSpinState}
+            setUserIsDragging={setUserIsDragging}
+          />
+        </div>
         <Machine />
       </GameContainer>
     </div>

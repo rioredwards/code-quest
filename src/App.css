@@ -15,13 +15,28 @@
 .reels-container {
   /* background-color: rgba(0, 50, 189, 0.662); */
   /* border: 1px solid rgb(0, 0, 0); */
-  position: relative;
+  position: fixed;
   z-index: 2;
-  top: 30.9%;
-  left: 16.4%;
+  --width: 123vh;
+  --center-left-shift: calc(50vw - calc(var(--width) / 2));
+  width: var(--width);
   height: 34.5%;
-  width: 69.14%;
+  left: calc(var(--center-left-shift) + 1.7vh);
+  top: 33.4%;
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.lever-container {
+  /* background-color: rgba(0, 50, 189, 0.433); */
+  /* border: 1px solid rgb(0, 0, 0); */
+  position: fixed;
+  z-index: 2;
+  --width: 18vh;
+  --center-left-shift: calc(50vw - calc(var(--width) / 2));
+  top: 44%;
+  left: calc(var(--center-left-shift) + 77.25vh);
+  height: 24.5%;
+  width: var(--width);
 }

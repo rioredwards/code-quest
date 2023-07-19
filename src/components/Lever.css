@@ -1,8 +1,3 @@
-.lever-container {
-  position: absolute;
-  /* background-color: rgb(108, 108, 108); */
-}
-
 .lever-base {
   --aspect-ratio: 0.3157;
   --height: 14vh;
@@ -11,7 +6,7 @@
   background-repeat: no-repeat;
   background-size: cover;
   position: absolute;
-  top: calc(50% + var(--height) / 2);
+  top: calc(50% - var(--height) / 2);
   width: calc(var(--height) * var(--aspect-ratio));
   height: var(--height);
 }
@@ -26,7 +21,7 @@
   --aspect-ratio: 3.0842;
   --height: 5vh;
   /* background-color: red; */
-  top: 11vh;
+  top: calc(50% - var(--height) / 2);
   width: calc(var(--height) * var(--aspect-ratio));
   height: var(--height);
   left: 2vh;

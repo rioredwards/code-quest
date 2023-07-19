@@ -1,6 +1,9 @@
 .game-container {
+  position: fixed;
   width: calc(100vh * 1.7778);
   height: 100vh;
+  top: 0;
+  left: calc(50vw - calc(100vh * 1.7778) / 2);
   overflow: hidden;
   margin: auto;
   background-color: #ad6b58;

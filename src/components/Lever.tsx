@@ -57,7 +57,7 @@ const Lever: React.FC<LeverProps> = ({
   }
 
   return (
-    <div className="lever-container">
+    <>
       <motion.div className="lever-base" />
       <motion.div
         style={{ y: leverYPos, rotate: rotationAngle }}
@@ -80,7 +80,7 @@ const Lever: React.FC<LeverProps> = ({
         dragElastic={0.1}
         dragSnapToOrigin={true}
       />
-    </div>
+    </>
   );
 };
 
