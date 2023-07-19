@@ -1,14 +1,20 @@
-export type ReelName = "TYPE" | "TECH" | "TASK" | "TIME";
-
 export type AppState = {
   reels: AllReelsState;
 };
 
-export type AllReelsState = {
-  [key in ReelName]: ReelState;
-};
+export type AllReelsState = [ReelState, ReelState, ReelState, ReelState];
+
+export type ReelName = "TYPE" | "TECH" | "TASK" | "TIME";
+
+export enum ReelIdx {
+  TYPE = 0,
+  TECH = 1,
+  TASK = 2,
+  TIME = 3,
+}
 
 export type ReelState = {
+  name: ReelName;
   choices: Choice[];
   spinState: SpinState;
   isUserLocked: boolean;
@@ -23,11 +29,9 @@ export enum SpinState {
   POST = "postSpin",
 }
 
-type ChoiceCompatibility = {
-  [key in ReelName]: number[];
-};
+type ChoiceCompatibility = Partial<Record<ReelName, number[]>>;
 
-type Choice = {
+export type Choice = {
   id: number;
   name: string;
   sentenceName: string;

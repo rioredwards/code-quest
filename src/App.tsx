@@ -12,16 +12,44 @@ import { taskChoices } from "./data/choices/taskChoices";
 import { timeChoices } from "./data/choices/timeChoices";
 import { typeChoices } from "./data/choices/typeChoices";
 import { useState } from "react";
-import { SpinState } from "./types";
+import { AllReelsState, SpinState } from "./types";
 
 const signNames = ["TYPE", "TECH", "TASK", "TIME"];
 
 let chosenIdxs: number[] | null[] = [null, null, null, null];
 
 function App() {
-  const [spinState, setSpinState] = useState(SpinState.PRE);
   const [userIsDragging, setUserIsDragging] = useState(false);
-  const [locked, setLocked] = useState(false);
+  const [allReelsState, setAllReelsState] = useState<AllReelsState>([
+    {
+      name: "TYPE",
+      choices: typeChoices,
+      spinState: SpinState.PRE,
+      chosenIdx: null,
+      isUserLocked: false,
+    },
+    {
+      name: "TECH",
+      choices: techChoices,
+      spinState: SpinState.PRE,
+      chosenIdx: null,
+      isUserLocked: false,
+    },
+    {
+      name: "TASK",
+      choices: taskChoices,
+      spinState: SpinState.PRE,
+      chosenIdx: null,
+      isUserLocked: false,
+    },
+    {
+      name: "TIME",
+      choices: timeChoices,
+      spinState: SpinState.PRE,
+      chosenIdx: null,
+      isUserLocked: false,
+    },
+  ]);
   const universalCssClasses = userIsDragging ? "user-dragging" : "";
 
   const signs = signNames.map((signName, id) => {
