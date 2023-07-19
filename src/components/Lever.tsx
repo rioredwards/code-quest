@@ -1,8 +1,8 @@
 import { useState } from "react";
 import "./Lever.css";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { SpinState } from "../App";
 import { PULL_THRESHOLD } from "../motionConfigs/leverMotion";
+import { SpinState } from "../types";
 
 interface LeverProps {
   spinState: SpinState;

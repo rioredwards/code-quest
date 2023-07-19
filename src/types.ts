@@ -1,19 +1,27 @@
-import { SpinState, ReelName } from "./App";
+export type ReelName = "TYPE" | "TECH" | "TASK" | "TIME";
 
-type App = {
-  reels: Reels;
+export type AppState = {
+  reels: AllReelsState;
 };
 
-type Reels = {
-  [key in ReelName]: Reel;
+export type AllReelsState = {
+  [key in ReelName]: ReelState;
 };
 
-type Reel = {
+export type ReelState = {
   choices: Choice[];
   spinState: SpinState;
   isUserLocked: boolean;
   chosenIdx: number | null;
 };
+
+export enum SpinState {
+  PRE = "preSpin",
+  IDLE_START = "idleSpinStart",
+  IDLE_LOOP = "idleSpinLoop",
+  STOPPING = "stoppingSpin",
+  POST = "postSpin",
+}
 
 type ChoiceCompatibility = {
   [key in ReelName]: number[];

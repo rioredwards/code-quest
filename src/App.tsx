@@ -12,16 +12,7 @@ import { taskChoices } from "./data/choices/taskChoices";
 import { timeChoices } from "./data/choices/timeChoices";
 import { typeChoices } from "./data/choices/typeChoices";
 import { useState } from "react";
-
-export type ReelName = "TYPE" | "TECH" | "TASK" | "TIME";
-
-export enum SpinState {
-  PRE = "preSpin",
-  IDLE_START = "idleSpinStart",
-  IDLE_LOOP = "idleSpinLoop",
-  STOPPING = "stoppingSpin",
-  POST = "postSpin",
-}
+import { SpinState } from "./types";
 
 const signNames = ["TYPE", "TECH", "TASK", "TIME"];
 

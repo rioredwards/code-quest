@@ -7,7 +7,6 @@ import {
   useTransform,
   useVelocity,
 } from "framer-motion";
-import { SpinState } from "../App";
 import { useEffect, useRef, useState } from "react";
 import { numToVh, vhToNum } from "../utils/genUtils";
 import {
@@ -22,6 +21,7 @@ import {
 } from "../motionConfigs/reelMotion";
 import Window from "./Window";
 import ChoiceList from "./ChoiceList";
+import { SpinState } from "../types";
 
 interface ReelProps {
   choices: string[];

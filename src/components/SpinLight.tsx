@@ -1,4 +1,4 @@
-import { SpinState } from "../App";
+import { SpinState } from "../types";
 import "./SpinLight.css";
 
 interface SpinLightProps {
