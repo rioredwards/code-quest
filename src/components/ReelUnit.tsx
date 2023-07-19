@@ -13,7 +13,7 @@ interface Props {
   cycleSpinState: () => void;
   choices: Choice[];
   chosenIdx: number | null;
-  setUserIsDragging: (isDragging: boolean) => void;
+  // setUserIsDragging: (isDragging: boolean) => void;
 }
 
 const ReelUnit: React.FC<Props> = ({
@@ -22,7 +22,6 @@ const ReelUnit: React.FC<Props> = ({
   cycleSpinState,
   choices,
   chosenIdx,
-  setUserIsDragging,
 }) => {
   const [isLocked, setIsLocked] = useState(false);
 
@@ -36,7 +35,6 @@ const ReelUnit: React.FC<Props> = ({
         spinState={spinState}
         cycleSpinState={cycleSpinState}
         isUserLocked={isLocked}
-        setUserIsDragging={setUserIsDragging}
       />
       <SpinLight spinState={spinState} cycleSpinState={cycleSpinState} />
     </div>

@@ -29,7 +29,6 @@ interface ReelProps {
   cycleSpinState: () => void;
   chosenIdx: number | null;
   isUserLocked: boolean;
-  setUserIsDragging: (isDragging: boolean) => void;
 }
 
 const INTERNALLY_TRIGGERED_SPIN_STATES: ReadonlyArray<SpinState> = [
@@ -42,7 +41,6 @@ const Reel: React.FC<ReelProps> = ({
   spinState,
   cycleSpinState,
   chosenIdx,
-  setUserIsDragging,
   isUserLocked,
 }) => {
   const activeSpinMotion = useRef(spinState);
@@ -102,13 +100,12 @@ const Reel: React.FC<ReelProps> = ({
     if (dragStartY) return;
     animate(scope.current, { filter: "brightness(115%)" });
     setDragging(true);
-    setUserIsDragging(true);
     setDragStartY(vhToNum(y.get()));
   }
 
   function onDrag(): void {
     console.log(dragStartY);
-    // if (!dragStartY) return;
+    if (!dragStartY) return;
     const currDragY = dragY.get();
     const roundedY = roundYToNearestChoice(dragStartY + currDragY);
     if (yIsOutsideDragBounds(roundedY, choices.length)) return;
@@ -123,7 +120,6 @@ const Reel: React.FC<ReelProps> = ({
   function onDragEnd(): void {
     animate(scope.current, { filter: "brightness(100%)" });
     setDragging(false);
-    setUserIsDragging(false);
     setDragStartY(0);
     dragY.set(0);
   }

@@ -2,14 +2,12 @@ import { useState } from "react";
 import "./Lever.css";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { PULL_THRESHOLD } from "../motionConfigs/leverMotion";
-import { SpinState } from "../types";
 
 interface LeverProps {
   onPull: () => void;
-  setUserIsDragging: (isDragging: boolean) => void;
 }
 
-const Lever: React.FC<LeverProps> = ({ onPull, setUserIsDragging }) => {
+const Lever: React.FC<LeverProps> = ({ onPull }) => {
   const [pulled, setPulled] = useState(false);
   const dragYPos = useMotionValue(0);
   const hoverRotationAngle = useSpring(0);
@@ -22,18 +20,10 @@ const Lever: React.FC<LeverProps> = ({ onPull, setUserIsDragging }) => {
   );
   const rotationAngle = useTransform(dragAndHoverRotation, [0, 140], [-45, 45]);
 
-  function onDragStart() {
-    setUserIsDragging(true);
-  }
-
-  function onDragEnd() {
-    setUserIsDragging(false);
-  }
-
   function onDrag() {
     if (!pulled && dragYPos.get() > PULL_THRESHOLD) {
-      onPull();
       setPulled(true);
+      onPull();
     }
   }
 
@@ -55,9 +45,7 @@ const Lever: React.FC<LeverProps> = ({ onPull, setUserIsDragging }) => {
       <motion.div
         className="lever-drag-handle"
         drag="y"
-        onDragStart={onDragStart}
         onDrag={onDrag}
-        onDragEnd={onDragEnd}
         whileTap={{ cursor: "grabbing" }}
         onHoverStart={onHoverStart}
         onHoverEnd={onHoverEnd}

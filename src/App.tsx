@@ -15,7 +15,6 @@ import { reelConfigs } from "./data/ReelConfigs";
 let chosenIdxs: number[] | null[] = [null, null, null, null];
 
 function App() {
-  const [userIsDragging, setUserIsDragging] = useState(false);
   const [allReelsState, setAllReelsState] = useState<AllReelsState>([
     {
       spinState: SpinState.PRE,
@@ -36,7 +35,7 @@ function App() {
   ]);
 
   function cycleAllSpinStates() {
-    // console.log("cycleAllSpinStates", allReelsState);
+    console.log("cycleAllSpinStates", allReelsState);
     setAllReelsState((prevState) => {
       const newAllReelsState = [...prevState];
       newAllReelsState.forEach((reelState, idx) => {
@@ -67,19 +66,15 @@ function App() {
   }
 
   function onPullLever() {
-    console.log("onPullLever");
     const combinedSpinState = getCombinedSpinState(allReelsState);
-    if (!combinedSpinState) {
-      return;
-    } else if (combinedSpinState === SpinState.IDLE_LOOP) {
-      getRandChoices();
-      setRandChoices();
-    } else {
-      cycleAllSpinStates();
-    }
+    console.log("onPullLever", combinedSpinState);
+    if (combinedSpinState !== SpinState.PRE) return;
+    // getRandChoices();
+    // setRandChoices();
+    cycleAllSpinStates();
   }
 
-  const universalCssClasses = userIsDragging ? "user-dragging" : "";
+  // const universalCssClasses = userIsDragging ? "user-dragging" : "";
 
   const displayText =
     "Cloud Challenge: Stocks using Amazon DynamoDB in 120 minutes";
@@ -97,7 +92,7 @@ function App() {
   }
 
   return (
-    <div className={`App ${universalCssClasses}`}>
+    <div className="App">
       <GameContainer>
         <button className="test-btn" onClick={onClickTestBtn}>
           {getCombinedSpinState(allReelsState) || "Mixed"}
@@ -112,13 +107,12 @@ function App() {
                 choices={reelConfigs[idx].choices}
                 chosenIdx={reelState.chosenIdx}
                 cycleSpinState={() => cycleSpinState(idx)}
-                setUserIsDragging={setUserIsDragging}
               />
             );
           })}
         </div>
         <div className="lever-container">
-          <Lever onPull={onPullLever} setUserIsDragging={setUserIsDragging} />
+          <Lever onPull={onPullLever} />
         </div>
         <div className="display-container">
           <Display text={displayText} />
