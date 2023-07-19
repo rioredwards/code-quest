@@ -17,8 +17,8 @@ const SpinLight: React.FC<SpinLightProps> = ({
 
   function onClick() {
     if (spinState === SpinState.IDLE_LOOP) {
-      setSpinState(SpinState.STOPPING);
       getRandChoices();
+      setSpinState(SpinState.STOPPING);
     }
   }
 

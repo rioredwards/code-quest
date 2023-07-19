@@ -42,6 +42,8 @@ const Reel: React.FC<ReelProps> = ({
 }) => {
   const isSpinLocked = spinState !== SpinState.PRE;
   const [scope, animate] = useAnimate();
+  const [isInternalSpinUpdate, setIsInternalSpinUpdate] = useState(false);
+  const spinStateRef = useRef(spinState);
   const [dragging, setDragging] = useState(false);
   const [dragStartY, setDragStartY] = useState(0);
   const y = useMotionValue("0vh");
@@ -49,9 +51,22 @@ const Reel: React.FC<ReelProps> = ({
   const dragY = useMotionValue(0);
   const yVelocity = useVelocity(yNum);
 
+  // Sync spinStateRef with spinState
+  // If they are different, then the spinState was updated externally
+  // Otherwise, the spinState was updated internally, and the useEffect for animations should not run
+  useEffect(() => {
+    if (spinStateRef.current !== spinState) {
+      spinStateRef.current = spinState;
+      setIsInternalSpinUpdate(false);
+    }
+  }, [spinState]);
+
+  // When spinState changes, animate the reel
   useEffect(() => {
     console.log("Reel useEffect called");
-    if (isUserLocked) return;
+    if (isUserLocked || isInternalSpinUpdate) {
+      return;
+    }
 
     async function animateSequence(): Promise<void> {
       const animationParams: ReelMotionParams = {
@@ -63,15 +78,21 @@ const Reel: React.FC<ReelProps> = ({
       };
 
       const newSpinState = await setNewAnimation(spinState, animationParams);
-      if (newSpinState) setSpinState(spinState);
+      if (newSpinState !== null) {
+        spinStateRef.current = newSpinState;
+        setIsInternalSpinUpdate(true);
+        setSpinState(newSpinState);
+        setIsInternalSpinUpdate(false);
+      }
     }
 
     animateSequence();
   }, [
     spinState,
+    isInternalSpinUpdate,
     y,
-    // chosenIdx,
-    // isUserLocked,
+    chosenIdx,
+    isUserLocked,
     scope,
     animate,
     choices.length,
