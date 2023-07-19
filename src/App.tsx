@@ -153,6 +153,9 @@ function App() {
               spinState={reelState.spinState}
               choices={reelState.choices}
               chosenIdx={reelState.chosenIdx}
+              setSpinState={setSpinState}
+              setUserIsDragging={setUserIsDragging}
+              getRandChoices={getRandChoices}
             />
           );
         })}
