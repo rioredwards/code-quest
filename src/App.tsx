@@ -36,26 +36,45 @@ function App() {
   ]);
 
   function cycleAllSpinStates() {
-    setAllReelsState(
-      (prevState) =>
-        prevState.map((reelState) => ({
-          ...reelState,
-          spinState: getNextSpinState(reelState.spinState),
-        })) as AllReelsState
-    );
+    // console.log("cycleAllSpinStates", allReelsState);
+    setAllReelsState((prevState) => {
+      const newAllReelsState = [...prevState];
+      newAllReelsState.forEach((reelState, idx) => {
+        newAllReelsState[idx].spinState = getNextSpinState(reelState.spinState);
+      });
+      return newAllReelsState as AllReelsState;
+    });
   }
 
   function cycleSpinState(reelIdx: ReelIdx): void {
+    console.log("cycleSpinState", reelIdx);
     setAllReelsState((prevState) => {
-      const currSpinState = allReelsState[reelIdx].spinState;
+      const currSpinState = prevState[reelIdx].spinState;
       const newAllReelsState = [...prevState];
       newAllReelsState[reelIdx].spinState = getNextSpinState(currSpinState);
       return newAllReelsState as AllReelsState;
     });
   }
 
+  function setRandChoices() {
+    setAllReelsState((prevState) => {
+      const newAllReelsState = [...prevState];
+      newAllReelsState.forEach((reelState, idx) => {
+        reelState.chosenIdx = chosenIdxs[idx];
+      });
+      return newAllReelsState as AllReelsState;
+    });
+  }
+
   function onPullLever() {
-    if (getCombinedSpinState(allReelsState) === SpinState.PRE) {
+    console.log("onPullLever");
+    const combinedSpinState = getCombinedSpinState(allReelsState);
+    if (!combinedSpinState) {
+      return;
+    } else if (combinedSpinState === SpinState.IDLE_LOOP) {
+      getRandChoices();
+      setRandChoices();
+    } else {
       cycleAllSpinStates();
     }
   }
@@ -71,6 +90,7 @@ function App() {
       return;
     } else if (combinedSpinState === SpinState.IDLE_LOOP) {
       getRandChoices();
+      setRandChoices();
     } else {
       cycleAllSpinStates();
     }
@@ -93,7 +113,6 @@ function App() {
                 chosenIdx={reelState.chosenIdx}
                 cycleSpinState={() => cycleSpinState(idx)}
                 setUserIsDragging={setUserIsDragging}
-                getRandChoices={getRandChoices}
               />
             );
           })}

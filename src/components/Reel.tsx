@@ -57,6 +57,7 @@ const Reel: React.FC<ReelProps> = ({
 
   // When spinState changes, animate the reel
   useEffect(() => {
+    console.log("spinState: ", spinState);
     if (
       isUserLocked ||
       INTERNALLY_TRIGGERED_SPIN_STATES.includes(spinState) ||
@@ -76,20 +77,15 @@ const Reel: React.FC<ReelProps> = ({
       };
 
       const newSpinState = await setNewAnimation(spinState, animationParams);
-      if (newSpinState) cycleSpinState();
+      if (newSpinState) {
+        console.log("newSpinState: ", newSpinState);
+        activeSpinMotion.current = newSpinState;
+        // cycleSpinState();
+      }
     }
 
     animateSequence();
-  }, [
-    spinState,
-    y,
-    chosenIdx,
-    isUserLocked,
-    scope,
-    animate,
-    choices.length,
-    cycleSpinState,
-  ]);
+  }, [spinState]);
 
   function onHoverStart(): void {
     if (dragging) return;
@@ -102,6 +98,7 @@ const Reel: React.FC<ReelProps> = ({
   }
 
   function onDragStart(): void {
+    console.log("onDragStart");
     if (dragStartY) return;
     animate(scope.current, { filter: "brightness(115%)" });
     setDragging(true);
@@ -110,7 +107,8 @@ const Reel: React.FC<ReelProps> = ({
   }
 
   function onDrag(): void {
-    if (!dragStartY) return;
+    console.log(dragStartY);
+    // if (!dragStartY) return;
     const currDragY = dragY.get();
     const roundedY = roundYToNearestChoice(dragStartY + currDragY);
     if (yIsOutsideDragBounds(roundedY, choices.length)) return;
@@ -163,6 +161,8 @@ const Reel: React.FC<ReelProps> = ({
   );
 };
 
+export default Reel;
+
 // This function calls an animation function based on the current spinState
 // If the next animation and spinState is triggered by an animation ending,
 // This function will return the next spinState to be updated in the parent component
@@ -187,5 +187,3 @@ async function setNewAnimation(
       return null;
   }
 }
-
-export default Reel;

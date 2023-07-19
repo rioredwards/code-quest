@@ -1,10 +1,10 @@
-import { useState } from "react";
-import { Choice, ReelIdx, SpinState } from "../types";
+import { useEffect, useState } from "react";
 import LockSwitch from "./LockSwitch";
 import "./ReelUnit.css";
 import Sign from "./Sign";
 import Reel from "./Reel";
 import SpinLight from "./SpinLight";
+import { Choice, SpinState } from "../types";
 
 interface Props {
   name: string;
@@ -14,7 +14,6 @@ interface Props {
   choices: Choice[];
   chosenIdx: number | null;
   setUserIsDragging: (isDragging: boolean) => void;
-  getRandChoices: () => void;
 }
 
 const ReelUnit: React.FC<Props> = ({
@@ -24,7 +23,6 @@ const ReelUnit: React.FC<Props> = ({
   choices,
   chosenIdx,
   setUserIsDragging,
-  getRandChoices,
 }) => {
   const [isLocked, setIsLocked] = useState(false);
 
@@ -40,11 +38,7 @@ const ReelUnit: React.FC<Props> = ({
         isUserLocked={isLocked}
         setUserIsDragging={setUserIsDragging}
       />
-      <SpinLight
-        spinState={spinState}
-        cycleSpinState={cycleSpinState}
-        getRandChoices={getRandChoices}
-      />
+      <SpinLight spinState={spinState} cycleSpinState={cycleSpinState} />
     </div>
   );
 };

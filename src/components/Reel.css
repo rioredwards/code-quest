@@ -13,6 +13,8 @@
 }
 
 .drag-handle {
+  /* background-color: rgba(124, 67, 174, 0.757); */
+
   position: absolute;
   z-index: 4;
   height: 200%;

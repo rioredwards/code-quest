@@ -4,20 +4,14 @@ import "./SpinLight.css";
 interface SpinLightProps {
   cycleSpinState: () => void;
   spinState: SpinState;
-  getRandChoices: () => void;
 }
 
-const SpinLight: React.FC<SpinLightProps> = ({
-  spinState,
-  cycleSpinState,
-  getRandChoices,
-}) => {
+const SpinLight: React.FC<SpinLightProps> = ({ spinState, cycleSpinState }) => {
   const color = calcColorForSpinMode(spinState);
   const offset = calcOffsetPercentForColor(color);
 
   function onClick() {
     if (spinState === SpinState.IDLE_LOOP) {
-      getRandChoices();
       cycleSpinState();
     }
   }
