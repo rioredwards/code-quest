@@ -101,6 +101,11 @@ function App() {
     setAllSpinStates(SpinState.IDLE_START);
   }
 
+  useEffect(() => {
+    // Temp for logging spinState
+    console.log("combinedSpinState", combinedSpinState);
+  }, [combinedSpinState]);
+
   function onClickSpinLight(reelIdx: ReelIdx, spinState: SpinState) {
     if (spinState !== SpinState.IDLE_LOOP) return;
     setSpinState(reelIdx, SpinState.STOPPING);
