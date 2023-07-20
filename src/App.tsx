@@ -82,6 +82,11 @@ function App() {
     setAllSpinStates(SpinState.IDLE_START);
   }
 
+  function onClickSpinLight(reelIdx: ReelIdx, spinState: SpinState) {
+    if (spinState !== SpinState.IDLE_LOOP) return;
+    setSpinState(reelIdx, SpinState.STOPPING);
+  }
+
   const displayText =
     "Cloud Challenge: Stocks using Amazon DynamoDB in 120 minutes";
 
@@ -114,6 +119,9 @@ function App() {
                 chosenIdx={reelState.chosenIdx}
                 setSpinState={(spinState: SpinState) =>
                   setSpinState(idx, spinState)
+                }
+                onClickSpinLight={(spinState: SpinState) =>
+                  onClickSpinLight(idx, spinState)
                 }
               />
             );

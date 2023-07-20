@@ -13,6 +13,7 @@ interface Props {
   setSpinState: (spinState: SpinState) => void;
   choices: Choice[];
   chosenIdx: number | null;
+  onClickSpinLight: (spinState: SpinState) => void;
 }
 
 const ReelUnit: React.FC<Props> = ({
@@ -21,6 +22,7 @@ const ReelUnit: React.FC<Props> = ({
   setSpinState,
   choices,
   chosenIdx,
+  onClickSpinLight,
 }) => {
   const [isLocked, setIsLocked] = useState(false);
   const lockedRef = useRef(isLocked);
@@ -41,7 +43,7 @@ const ReelUnit: React.FC<Props> = ({
         setSpinState={setSpinState}
         isUserLocked={lockedRef.current}
       />
-      <SpinLight spinState={spinState} setSpinState={setSpinState} />
+      <SpinLight spinState={spinState} onClickSpinLight={onClickSpinLight} />
     </div>
   );
 };

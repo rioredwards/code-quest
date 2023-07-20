@@ -2,24 +2,21 @@ import { SpinState } from "../types";
 import "./SpinLight.css";
 
 interface SpinLightProps {
-  setSpinState: (spinState: SpinState) => void;
+  onClickSpinLight: (spinState: SpinState) => void;
   spinState: SpinState;
 }
 
-const SpinLight: React.FC<SpinLightProps> = ({ spinState, setSpinState }) => {
+const SpinLight: React.FC<SpinLightProps> = ({
+  spinState,
+  onClickSpinLight,
+}) => {
   const color = calcColorForSpinMode(spinState);
   const offset = calcOffsetPercentForColor(color);
-
-  function onClick() {
-    if (spinState === SpinState.IDLE_LOOP) {
-      setSpinState(SpinState.STOPPING);
-    }
-  }
 
   return (
     <div className="spin-light-container">
       <div
-        onClick={onClick}
+        onClick={() => onClickSpinLight(spinState)}
         className="spin-light"
         style={{ backgroundPositionX: offset }}
       />
