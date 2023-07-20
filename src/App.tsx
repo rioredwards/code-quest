@@ -8,7 +8,7 @@ import { taskChoices } from "./data/choices/taskChoices";
 import { timeChoices } from "./data/choices/timeChoices";
 import { typeChoices } from "./data/choices/typeChoices";
 import { useEffect, useState } from "react";
-import { AllReelsState, ReelIdx, SpinState } from "./types";
+import { AllReelsState, ReelIdx, ReelState, SpinState } from "./types";
 import ReelUnit from "./components/ReelUnit";
 import { reelConfigs } from "./data/ReelConfigs";
 
@@ -39,19 +39,25 @@ function App() {
   const combinedSpinState = getCombinedSpinState(allReelsState);
 
   useEffect(() => {
-    if (combinedSpinState === SpinState.POST && !displayIsActive) {
+    if (
+      !displayIsActive &&
+      (combinedSpinState === SpinState.POST || challengeText !== "")
+    ) {
       setDisplayIsActive(true);
-    } else if (combinedSpinState !== SpinState.IDLE_START && displayIsActive) {
+    } else if (combinedSpinState === SpinState.IDLE_START && displayIsActive) {
+      if (challengeText !== "") setChallengeText("");
       setDisplayIsActive(false);
     }
-  }, [combinedSpinState, displayIsActive]);
+  }, [combinedSpinState, challengeText, displayIsActive]);
 
-  function setAllSpinStates(spinState: SpinState) {
+  function setAllSpinStates(newSpinState: SpinState) {
     setAllReelsState((prevState) => {
-      const newAllReelsState = [...prevState];
-      newAllReelsState.forEach((_, idx) => {
-        newAllReelsState[idx].spinState = spinState;
-        newAllReelsState[idx].chosenIdx = chosenIdxs[idx]; // TEMP
+      const newAllReelsState = prevState.map((reelState, idx) => {
+        return {
+          ...reelState,
+          spinState: newSpinState,
+          chosenIdx: chosenIdxs[idx],
+        } as ReelState;
       });
       return newAllReelsState as AllReelsState;
     });
@@ -67,10 +73,12 @@ function App() {
 
   function cycleAllSpinStates() {
     setAllReelsState((prevState) => {
-      const newAllReelsState = [...prevState];
-      newAllReelsState.forEach((reelState, idx) => {
-        newAllReelsState[idx].spinState = getNextSpinState(reelState.spinState);
-        newAllReelsState[idx].chosenIdx = chosenIdxs[idx]; // TEMP
+      const newAllReelsState = prevState.map((reelState, idx) => {
+        return {
+          ...reelState,
+          spinState: getNextSpinState(reelState.spinState),
+          chosenIdx: chosenIdxs[idx],
+        } as ReelState;
       });
       return newAllReelsState as AllReelsState;
     });
@@ -146,7 +154,7 @@ function App() {
         </div>
         <div className="display-container">
           <Display
-            isActive={combinedSpinState === SpinState.POST}
+            isActive={displayIsActive}
             text={displayText}
             onComplete={onDisplayTypingComplete}
           />
