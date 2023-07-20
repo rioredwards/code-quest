@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import LockSwitch from "./LockSwitch";
 import "./ReelUnit.css";
 import Sign from "./Sign";
@@ -23,6 +23,12 @@ const ReelUnit: React.FC<Props> = ({
   chosenIdx,
 }) => {
   const [isLocked, setIsLocked] = useState(false);
+  const lockedRef = useRef(isLocked);
+
+  // Only update reel's isLocked state when reel is not spinning
+  if (spinState === SpinState.PRE) {
+    lockedRef.current = isLocked;
+  }
 
   return (
     <div className="reel-unit">
@@ -33,7 +39,7 @@ const ReelUnit: React.FC<Props> = ({
         chosenIdx={chosenIdx}
         spinState={spinState}
         setSpinState={setSpinState}
-        isUserLocked={isLocked}
+        isUserLocked={lockedRef.current}
       />
       <SpinLight spinState={spinState} setSpinState={setSpinState} />
     </div>

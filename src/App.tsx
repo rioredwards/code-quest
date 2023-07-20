@@ -37,7 +37,7 @@ function App() {
   function setAllSpinStates(spinState: SpinState) {
     setAllReelsState((prevState) => {
       const newAllReelsState = [...prevState];
-      newAllReelsState.forEach((reelState, idx) => {
+      newAllReelsState.forEach((_, idx) => {
         newAllReelsState[idx].spinState = spinState;
         newAllReelsState[idx].chosenIdx = chosenIdxs[idx]; // TEMP
       });
@@ -60,15 +60,6 @@ function App() {
         newAllReelsState[idx].spinState = getNextSpinState(reelState.spinState);
         newAllReelsState[idx].chosenIdx = chosenIdxs[idx]; // TEMP
       });
-      return newAllReelsState as AllReelsState;
-    });
-  }
-
-  function cycleSpinState(reelIdx: ReelIdx): void {
-    setAllReelsState((prevState) => {
-      const currSpinState = prevState[reelIdx].spinState;
-      const newAllReelsState = [...prevState];
-      newAllReelsState[reelIdx].spinState = getNextSpinState(currSpinState);
       return newAllReelsState as AllReelsState;
     });
   }

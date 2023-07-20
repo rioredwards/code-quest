@@ -56,14 +56,18 @@ const Reel: React.FC<ReelProps> = ({
   // When spinState changes, animate the reel
   useEffect(() => {
     if (
-      isUserLocked ||
       INTERNALLY_TRIGGERED_SPIN_STATES.includes(spinState) ||
       spinState === activeSpinMotion.current
     ) {
       return;
     }
 
-    activeSpinMotion.current = spinState;
+    if (isUserLocked) {
+      setSpinState(SpinState.POST);
+    } else {
+      activeSpinMotion.current = spinState;
+    }
+
     async function animateSequence(): Promise<void> {
       const animationParams: ReelMotionParams = {
         animate,
@@ -73,7 +77,10 @@ const Reel: React.FC<ReelProps> = ({
         chosenIdx,
       };
 
-      const newSpinState = await setNewAnimation(spinState, animationParams);
+      const newSpinState = await setNewAnimation(
+        activeSpinMotion.current,
+        animationParams
+      );
       if (newSpinState) {
         console.log("newSpinState: ", newSpinState);
         activeSpinMotion.current = newSpinState;
