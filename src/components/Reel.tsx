@@ -31,11 +31,6 @@ interface ReelProps {
   isUserLocked: boolean;
 }
 
-const INTERNALLY_TRIGGERED_SPIN_STATES: ReadonlyArray<SpinState> = [
-  SpinState.IDLE_LOOP,
-  SpinState.POST,
-];
-
 const Reel: React.FC<ReelProps> = ({
   choices,
   spinState,
@@ -43,6 +38,7 @@ const Reel: React.FC<ReelProps> = ({
   chosenIdx,
   isUserLocked,
 }) => {
+  const [isInitial, setIsInitial] = useState(true);
   const activeSpinMotion = useRef(spinState);
   const isSpinLocked = spinState !== SpinState.PRE;
   const [scope, animate] = useAnimate();
@@ -53,12 +49,13 @@ const Reel: React.FC<ReelProps> = ({
   const dragY = useMotionValue(0);
   const yVelocity = useVelocity(yNum);
 
+  useEffect(() => {
+    setIsInitial(false);
+  }, []);
+
   // When spinState changes, animate the reel
   useEffect(() => {
-    if (
-      INTERNALLY_TRIGGERED_SPIN_STATES.includes(spinState) ||
-      spinState === activeSpinMotion.current
-    ) {
+    if (!isInitial && spinState === activeSpinMotion.current) {
       return;
     }
 
@@ -82,7 +79,6 @@ const Reel: React.FC<ReelProps> = ({
         animationParams
       );
       if (newSpinState) {
-        console.log("newSpinState: ", newSpinState);
         activeSpinMotion.current = newSpinState;
         setSpinState(newSpinState);
       }

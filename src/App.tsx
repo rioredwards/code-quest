@@ -7,7 +7,7 @@ import { techChoices } from "./data/choices/techChoices";
 import { taskChoices } from "./data/choices/taskChoices";
 import { timeChoices } from "./data/choices/timeChoices";
 import { typeChoices } from "./data/choices/typeChoices";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AllReelsState, ReelIdx, SpinState } from "./types";
 import ReelUnit from "./components/ReelUnit";
 import { reelConfigs } from "./data/ReelConfigs";
@@ -15,6 +15,8 @@ import { reelConfigs } from "./data/ReelConfigs";
 let chosenIdxs: number[] | null[] = [null, null, null, null];
 
 function App() {
+  const [challengeText, setChallengeText] = useState("");
+  const [displayIsActive, setDisplayIsActive] = useState(false);
   const [allReelsState, setAllReelsState] = useState<AllReelsState>([
     {
       spinState: SpinState.PRE,
@@ -33,6 +35,16 @@ function App() {
       chosenIdx: null,
     },
   ]);
+
+  const combinedSpinState = getCombinedSpinState(allReelsState);
+
+  useEffect(() => {
+    if (combinedSpinState === SpinState.POST && !displayIsActive) {
+      setDisplayIsActive(true);
+    } else if (combinedSpinState !== SpinState.IDLE_START && displayIsActive) {
+      setDisplayIsActive(false);
+    }
+  }, [combinedSpinState, displayIsActive]);
 
   function setAllSpinStates(spinState: SpinState) {
     setAllReelsState((prevState) => {
@@ -75,7 +87,6 @@ function App() {
   }
 
   function onPullLever() {
-    const combinedSpinState = getCombinedSpinState(allReelsState);
     if (combinedSpinState !== SpinState.PRE) return;
 
     getRandChoices();
@@ -91,7 +102,6 @@ function App() {
     "Cloud Challenge: Stocks using Amazon DynamoDB in 120 minutes";
 
   function onClickTestBtn() {
-    const combinedSpinState = getCombinedSpinState(allReelsState);
     if (!combinedSpinState) {
       return;
     } else if (combinedSpinState === SpinState.IDLE_LOOP) {
@@ -102,11 +112,15 @@ function App() {
     }
   }
 
+  function onDisplayTypingComplete() {
+    setAllSpinStates(SpinState.PRE);
+  }
+
   return (
     <div className="App">
       <GameContainer>
         <button className="test-btn" onClick={onClickTestBtn}>
-          {getCombinedSpinState(allReelsState) || "Mixed"}
+          {combinedSpinState || "Mixed"}
         </button>
         <div className="reels-container">
           {allReelsState.map((reelState, idx) => {
@@ -131,7 +145,11 @@ function App() {
           <Lever onPull={onPullLever} />
         </div>
         <div className="display-container">
-          <Display text={displayText} />
+          <Display
+            isActive={combinedSpinState === SpinState.POST}
+            text={displayText}
+            onComplete={onDisplayTypingComplete}
+          />
         </div>
         <Machine />
       </GameContainer>
