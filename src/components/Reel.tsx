@@ -41,6 +41,7 @@ const Reel: React.FC<ReelProps> = ({
   const [isInitial, setIsInitial] = useState(true);
   const activeSpinMotion = useRef(spinState);
   const isSpinLocked = spinState !== SpinState.PRE;
+  const isPostSpinLocked = useRef(false);
   const [scope, animate] = useAnimate();
   const [dragging, setDragging] = useState(false);
   const [dragStartY, setDragStartY] = useState(0);
@@ -55,16 +56,22 @@ const Reel: React.FC<ReelProps> = ({
 
   // When spinState changes, animate the reel
   useEffect(() => {
+    if (isPostSpinLocked.current) {
+      if (spinState === SpinState.POST) return;
+      if (spinState === SpinState.PRE) isPostSpinLocked.current = false;
+    }
+    if (isUserLocked && spinState === SpinState.PRE) {
+      activeSpinMotion.current = SpinState.POST;
+      setSpinState(SpinState.POST);
+    } else if (!isUserLocked && spinState === SpinState.POST) {
+      activeSpinMotion.current = SpinState.PRE;
+      setSpinState(SpinState.PRE);
+    }
     if (!isInitial && spinState === activeSpinMotion.current) {
       return;
     }
 
-    if (isUserLocked) {
-      setSpinState(SpinState.POST);
-    } else {
-      activeSpinMotion.current = spinState;
-    }
-
+    activeSpinMotion.current = spinState;
     async function animateSequence(): Promise<void> {
       const animationParams: ReelMotionParams = {
         animate,
@@ -78,14 +85,17 @@ const Reel: React.FC<ReelProps> = ({
         activeSpinMotion.current,
         animationParams
       );
+
       if (newSpinState) {
+        if (spinState === SpinState.STOPPING && newSpinState === SpinState.POST)
+          isPostSpinLocked.current = true;
         activeSpinMotion.current = newSpinState;
         setSpinState(newSpinState);
       }
     }
 
     animateSequence();
-  }, [spinState]);
+  }, [spinState, isUserLocked]);
 
   function onHoverStart(): void {
     if (dragging) return;
@@ -98,7 +108,6 @@ const Reel: React.FC<ReelProps> = ({
   }
 
   function onDragStart(): void {
-    console.log("onDragStart");
     if (dragStartY) return;
     animate(scope.current, { filter: "brightness(115%)" });
     setDragging(true);
@@ -106,7 +115,6 @@ const Reel: React.FC<ReelProps> = ({
   }
 
   function onDrag(): void {
-    console.log(dragStartY);
     if (!dragStartY) return;
     const currDragY = dragY.get();
     const roundedY = roundYToNearestChoice(dragStartY + currDragY);

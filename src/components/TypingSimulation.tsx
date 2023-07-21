@@ -11,13 +11,18 @@ import {
 
 interface Props {
   text: string;
-  onComplete: () => void;
+  onStartTyping: () => void;
+  onCompleteTyping: () => void;
 }
 
 let timeSinceLetterAdded = 0;
 let timeSinceCursorBlinked = 0;
 
-const TypingSimulation: React.FC<Props> = ({ text, onComplete }) => {
+const TypingSimulation: React.FC<Props> = ({
+  text,
+  onStartTyping,
+  onCompleteTyping,
+}) => {
   const [letterIdx, setLetterIdx] = useState(0);
   const [typing, setTyping] = useState(true);
   const [blinking, setBlinking] = useState(true);
@@ -36,7 +41,7 @@ const TypingSimulation: React.FC<Props> = ({ text, onComplete }) => {
   function onFinishedTypingAndBlinking() {
     setCursorVisible(false);
     setBlinking(false);
-    onComplete();
+    onCompleteTyping();
   }
 
   useAnimationFrame((_, delta) => {

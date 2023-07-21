@@ -8,13 +8,35 @@ import { taskChoices } from "./data/choices/taskChoices";
 import { timeChoices } from "./data/choices/timeChoices";
 import { typeChoices } from "./data/choices/typeChoices";
 import { useEffect, useState } from "react";
-import { AllReelsState, ReelIdx, ReelState, SpinState } from "./types";
+import {
+  AllReelsState,
+  ChallengeState,
+  ReelIdx,
+  ReelState,
+  SpinState,
+} from "./types";
 import ReelUnit from "./components/ReelUnit";
 import { reelConfigs } from "./data/ReelConfigs";
 
 let chosenIdxs: number[] | null[] = [null, null, null, null];
 
+// Because a combination of PRE and POST spin states is possible before and after a spin
+// (The reels don't know whether they haven't spun yet, or just did)
+// And, by default, they switch between PRE and POST depending on whether they are userLocked or not:
+// They are immediately being set back to PRE after spinning if they aren't userLocked! 👎
+// This is a problem because the display is only active when all reels are in POST
+// We need a better way to keep track of when they are all finished spinning and a challenge can be displayed
+// Possible paths to the end state:
+// 1. User pulls lever
+// 2. User locks all reels, putting them in POST (shouldn't be possible... We should keep track of the last locked reel and unlock it if the user locks all of them)
+// Possible ways to check if reels just spun and shouldn't be set to PRE just yet:
+// 1. challengeState!
+// 2. postSpinLock (if last spinState was STOPPING and new spinState is POST, activate postSpinLock)
+
 function App() {
+  const [challengeState, setChallengeState] = useState<ChallengeState>(
+    ChallengeState.NONE
+  );
   const [challengeText, setChallengeText] = useState("");
   const [displayIsActive, setDisplayIsActive] = useState(false);
   const [allReelsState, setAllReelsState] = useState<AllReelsState>([
@@ -99,6 +121,7 @@ function App() {
 
     getRandChoices();
     setAllSpinStates(SpinState.IDLE_START);
+    setChallengeState(ChallengeState.CREATING);
   }
 
   useEffect(() => {
@@ -125,7 +148,11 @@ function App() {
     }
   }
 
-  function onDisplayTypingComplete() {
+  function onDisplayStartTyping() {
+    setChallengeText(displayText);
+  }
+
+  function onDisplayCompleteTyping() {
     setAllSpinStates(SpinState.PRE);
   }
 
@@ -161,7 +188,8 @@ function App() {
           <Display
             isActive={displayIsActive}
             text={displayText}
-            onComplete={onDisplayTypingComplete}
+            onCompleteTyping={onDisplayCompleteTyping}
+            onStartTyping={onDisplayStartTyping}
           />
         </div>
         <Machine />

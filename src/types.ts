@@ -26,6 +26,13 @@ export enum SpinState {
   POST = "postSpin",
 }
 
+export enum ChallengeState {
+  "NONE",
+  "CREATING",
+  "CREATED",
+  "DISPLAYED",
+}
+
 type ChoiceCompatibility = Partial<Record<ReelName, number[]>>;
 
 export type Choice = {
