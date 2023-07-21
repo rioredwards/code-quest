@@ -102,10 +102,29 @@ function App() {
   }
 
   function onPullLever() {
-    if (combinedSpinState !== "PRE") return;
+    console.log("onPullLever");
+    if (
+      allReelsState.every(
+        (reelState) =>
+          reelState.spinState !== "PRE" && reelState.spinState !== "POST"
+      )
+    ) {
+      return;
+    }
 
     getRandChoices();
-    setAllSpinStates("IDLE_START");
+    setAllReelsState((prevState) => {
+      const newAllReelsState = prevState.map((reelState, idx) => {
+        if (reelState.spinState === "POST") return reelState;
+        else
+          return {
+            ...reelState,
+            spinState: "IDLE_START",
+            chosenIdx: chosenIdxs[idx],
+          } as ReelState;
+      });
+      return newAllReelsState as AllReelsState;
+    });
     setChallengeState("CREATING");
   }
 
