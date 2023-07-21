@@ -30,7 +30,7 @@ const ReelUnit: React.FC<Props> = ({
   // Only update reel's isLocked state when reel is not spinning
   if (
     lockedRef.current !== isLocked &&
-    (spinState === SpinState.PRE || spinState === SpinState.POST)
+    (spinState === "PRE" || spinState === "POST")
   ) {
     lockedRef.current = isLocked;
   }

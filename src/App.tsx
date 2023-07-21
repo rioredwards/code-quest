@@ -21,26 +21,24 @@ import { reelConfigs } from "./data/ReelConfigs";
 let chosenIdxs: number[] | null[] = [null, null, null, null];
 
 function App() {
-  const [challengeState, setChallengeState] = useState<ChallengeState>(
-    ChallengeState.NONE
-  );
+  const [challengeState, setChallengeState] = useState<ChallengeState>("NONE");
   const [challengeText, setChallengeText] = useState("");
   const [displayIsActive, setDisplayIsActive] = useState(false);
   const [allReelsState, setAllReelsState] = useState<AllReelsState>([
     {
-      spinState: SpinState.PRE,
+      spinState: "PRE",
       chosenIdx: null,
     },
     {
-      spinState: SpinState.PRE,
+      spinState: "PRE",
       chosenIdx: null,
     },
     {
-      spinState: SpinState.PRE,
+      spinState: "PRE",
       chosenIdx: null,
     },
     {
-      spinState: SpinState.PRE,
+      spinState: "PRE",
       chosenIdx: null,
     },
   ]);
@@ -50,10 +48,10 @@ function App() {
   useEffect(() => {
     if (
       !displayIsActive &&
-      (combinedSpinState === SpinState.POST || challengeText !== "")
+      (combinedSpinState === "POST" || challengeText !== "")
     ) {
       setDisplayIsActive(true);
-    } else if (combinedSpinState === SpinState.IDLE_START && displayIsActive) {
+    } else if (combinedSpinState === "IDLE_START" && displayIsActive) {
       if (challengeText !== "") setChallengeText("");
       setDisplayIsActive(false);
     }
@@ -104,11 +102,11 @@ function App() {
   }
 
   function onPullLever() {
-    if (combinedSpinState !== SpinState.PRE) return;
+    if (combinedSpinState !== "PRE") return;
 
     getRandChoices();
-    setAllSpinStates(SpinState.IDLE_START);
-    setChallengeState(ChallengeState.CREATING);
+    setAllSpinStates("IDLE_START");
+    setChallengeState("CREATING");
   }
 
   useEffect(() => {
@@ -117,8 +115,8 @@ function App() {
   }, [combinedSpinState]);
 
   function onClickSpinLight(reelIdx: ReelIdx, spinState: SpinState) {
-    if (spinState !== SpinState.IDLE_LOOP) return;
-    setSpinState(reelIdx, SpinState.STOPPING);
+    if (spinState !== "IDLE_LOOP") return;
+    setSpinState(reelIdx, "STOPPING");
   }
 
   const displayText =
@@ -127,7 +125,7 @@ function App() {
   function onClickTestBtn() {
     if (!combinedSpinState) {
       return;
-    } else if (combinedSpinState === SpinState.IDLE_LOOP) {
+    } else if (combinedSpinState === "IDLE_LOOP") {
       getRandChoices();
       setRandChoices();
     } else {
@@ -140,7 +138,7 @@ function App() {
   }
 
   function onDisplayCompleteTyping() {
-    setAllSpinStates(SpinState.PRE);
+    setAllSpinStates("PRE");
   }
 
   return (
@@ -214,16 +212,16 @@ function getRandIdx(maxIdx: number) {
 
 function getNextSpinState(spinState: SpinState) {
   switch (spinState) {
-    case SpinState.PRE:
-      return SpinState.IDLE_START;
-    case SpinState.IDLE_START:
-      return SpinState.IDLE_LOOP;
-    case SpinState.IDLE_LOOP:
-      return SpinState.STOPPING;
-    case SpinState.STOPPING:
-      return SpinState.POST;
-    case SpinState.POST:
-      return SpinState.PRE;
+    case "PRE":
+      return "IDLE_START";
+    case "IDLE_START":
+      return "IDLE_LOOP";
+    case "IDLE_LOOP":
+      return "STOPPING";
+    case "STOPPING":
+      return "POST";
+    case "POST":
+      return "PRE";
     default:
       throw new Error("Invalid spin state");
   }

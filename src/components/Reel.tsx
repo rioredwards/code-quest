@@ -40,7 +40,7 @@ const Reel: React.FC<ReelProps> = ({
 }) => {
   const [isInitial, setIsInitial] = useState(true);
   const activeSpinMotion = useRef(spinState);
-  const isSpinLocked = spinState !== SpinState.PRE;
+  const isSpinLocked = spinState !== "PRE";
   const isPostSpinLocked = useRef(false);
   const [scope, animate] = useAnimate();
   const [dragging, setDragging] = useState(false);
@@ -57,15 +57,15 @@ const Reel: React.FC<ReelProps> = ({
   // When spinState changes, animate the reel
   useEffect(() => {
     if (isPostSpinLocked.current) {
-      if (spinState === SpinState.POST) return;
-      if (spinState === SpinState.PRE) isPostSpinLocked.current = false;
+      if (spinState === "POST") return;
+      if (spinState === "PRE") isPostSpinLocked.current = false;
     }
-    if (isUserLocked && spinState === SpinState.PRE) {
-      activeSpinMotion.current = SpinState.POST;
-      setSpinState(SpinState.POST);
-    } else if (!isUserLocked && spinState === SpinState.POST) {
-      activeSpinMotion.current = SpinState.PRE;
-      setSpinState(SpinState.PRE);
+    if (isUserLocked && spinState === "PRE") {
+      activeSpinMotion.current = "POST";
+      setSpinState("POST");
+    } else if (!isUserLocked && spinState === "POST") {
+      activeSpinMotion.current = "PRE";
+      setSpinState("PRE");
     }
     if (!isInitial && spinState === activeSpinMotion.current) {
       return;
@@ -87,7 +87,7 @@ const Reel: React.FC<ReelProps> = ({
       );
 
       if (newSpinState) {
-        if (spinState === SpinState.STOPPING && newSpinState === SpinState.POST)
+        if (spinState === "STOPPING" && newSpinState === "POST")
           isPostSpinLocked.current = true;
         activeSpinMotion.current = newSpinState;
         setSpinState(newSpinState);
@@ -160,7 +160,7 @@ const Reel: React.FC<ReelProps> = ({
         <ChoiceList
           choices={choices}
           chosenIdx={chosenIdx}
-          highlightChosen={spinState === SpinState.POST}
+          highlightChosen={spinState === "POST"}
         />
       </motion.ul>
     </div>
@@ -178,17 +178,17 @@ async function setNewAnimation(
   animationParams: ReelMotionParams
 ): Promise<SpinState | null> {
   switch (spinState) {
-    case SpinState.PRE:
+    case "PRE":
       preSpinAnimation(animationParams);
       return null;
-    case SpinState.IDLE_START:
+    case "IDLE_START":
       await idleStartAnimation(animationParams);
       idleLoopAnimation(animationParams);
-      return SpinState.IDLE_LOOP;
-    case SpinState.STOPPING:
+      return "IDLE_LOOP";
+    case "STOPPING":
       await stoppingAnimation(animationParams);
       postSpinAnimation(animationParams);
-      return SpinState.POST;
+      return "POST";
     default:
       return null;
   }

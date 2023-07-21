@@ -18,20 +18,14 @@ export type ReelState = {
   chosenIdx: number | null;
 };
 
-export enum SpinState {
-  PRE = "preSpin",
-  IDLE_START = "idleSpinStart",
-  IDLE_LOOP = "idleSpinLoop",
-  STOPPING = "stoppingSpin",
-  POST = "postSpin",
-}
+export type SpinState =
+  | "PRE"
+  | "IDLE_START"
+  | "IDLE_LOOP"
+  | "STOPPING"
+  | "POST";
 
-export enum ChallengeState {
-  "NONE",
-  "CREATING",
-  "CREATED",
-  "DISPLAYED",
-}
+export type ChallengeState = "NONE" | "CREATING" | "CREATED" | "DISPLAYED";
 
 type ChoiceCompatibility = Partial<Record<ReelName, number[]>>;
 

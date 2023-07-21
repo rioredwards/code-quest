@@ -41,13 +41,13 @@ function calcOffsetPercentForColor(color: string): string {
 
 function calcColorForSpinMode(state: SpinState) {
   switch (state) {
-    case SpinState.PRE:
+    case "PRE":
       return "red";
-    case SpinState.IDLE_START:
-    case SpinState.IDLE_LOOP:
-    case SpinState.STOPPING:
+    case "IDLE_START":
+    case "IDLE_LOOP":
+    case "STOPPING":
       return "yellow";
-    case SpinState.POST:
+    case "POST":
       return "green";
     default:
       return "green";
