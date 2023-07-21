@@ -1,193 +1,168 @@
-import { MotionValue } from "framer-motion";
+import { AnimationScope, MotionValue } from "framer-motion";
+import { numToVh, vhToNum } from "../utils/genUtils";
 
+/* Motion Constants */
 export const CHOICE_HEIGHT_VH = 3.32; // vh
 export const NUM_CHOICES_VISIBLE = 5;
 export const BASE_SPIN_SPEED = 5; // choices per second
 
-export interface ReelMotionBaseParams {
-  yShift: MotionValue<number>;
+/* Motion Specifications */
+const jumpMotion = { duration: 0 };
+function getIdleStartMotion(spinDur: number) {
+  return { duration: spinDur, ease: "easeIn" };
+}
+function getIdleLoopMotion(spinDur: number) {
+  return { duration: spinDur, ease: "linear", repeat: Infinity };
+}
+const stoppingMotion = {
+  type: "spring",
+  damping: 4,
+  stiffness: 3.8,
+  mass: 3.5,
+  velocity: 80,
+  restSpeed: 0.1,
+};
+
+/* Types */
+export interface ReelMotionParams {
+  reelEl: AnimationScope<HTMLElement>;
+  yVh: MotionValue<string>;
   animate: Function;
-}
-export interface ReelMotionConfig extends ReelMotionBaseParams {
-  reelHeight: number;
   choicesLength: number;
-}
-export interface ChoiceMotionConfig extends ReelMotionBaseParams {
-  choiceHeight: number;
-}
-export interface StoppingMotionConfig
-  extends ReelMotionConfig,
-    ChoiceMotionConfig {
   chosenIdx: number | null;
 }
 
-export interface AllReelMotionParams
-  extends ReelMotionConfig,
-    ChoiceMotionConfig,
-    StoppingMotionConfig {}
-
-const jumpMotion = { duration: 0 };
-
-export async function preSpinAnimation(params: ReelMotionConfig) {
-  const { yShift, reelHeight, animate } = params;
-  const newYShift = translateYShiftToReelCopyIdx(yShift.get(), reelHeight, 1);
-  return await animate(yShift, newYShift, jumpMotion);
+/* Animation Functions */
+export async function preSpinAnimation(params: ReelMotionParams) {
+  const { reelEl, yVh, choicesLength, animate } = params;
+  const currYNum = vhToNum(yVh.get());
+  const startYNum = translateYToReelCopyIdx(currYNum, choicesLength, 1);
+  const startYVh = numToVh(startYNum);
+  return animate(reelEl, { y: startYVh }, jumpMotion);
 }
 
-export async function idleAnimationStart(params: ReelMotionConfig) {
-  const { yShift, reelHeight, animate, choicesLength } = params;
-  const currYShiftVal = yShift.get();
-  const newYShift = shiftYByFullReel(currYShiftVal, reelHeight, 1);
-  const shiftDur = getIdleSpinStartDur(choicesLength);
-  return await animate(yShift, [currYShiftVal, newYShift], {
-    duration: shiftDur,
-    ease: "easeIn",
-  });
-}
+export async function idleStartAnimation(params: ReelMotionParams) {
+  const { reelEl, yVh, choicesLength, animate } = params;
+  const currYNum = vhToNum(yVh.get());
+  const startYNum = translateYToReelCopyIdx(currYNum, choicesLength, 1);
+  const startYVh = numToVh(startYNum);
+  const endYNum = translateYToReelCopyIdx(currYNum, choicesLength, 2);
+  const endYVh = numToVh(endYNum);
+  const spinDur = getIdleSpinStartDur(choicesLength);
+  const startMotion = getIdleStartMotion(spinDur);
 
-export async function idleAnimation(params: ReelMotionConfig) {
-  const { yShift, reelHeight, animate, choicesLength } = params;
-  const currYShiftVal = yShift.get();
-  const translatedCurrYShiftVal = translateYShiftToReelCopyIdx(
-    currYShiftVal,
-    reelHeight,
-    1
-  );
-  const newYShift = shiftYByFullReel(translatedCurrYShiftVal, reelHeight, 1);
-  const shiftDur = getIdleSpinLoopDur(choicesLength);
-  return await animate(yShift, [translatedCurrYShiftVal, newYShift], {
-    duration: shiftDur,
-    ease: "linear",
-    repeat: Infinity,
-  });
-}
-
-export async function stoppingAnimation(params: StoppingMotionConfig) {
-  const {
-    yShift,
-    reelHeight,
-    animate,
-    chosenIdx,
-    choiceHeight,
-    choicesLength,
-  } = params;
-
-  if (chosenIdx === null) {
-    throw new Error("chosenIdx is undefined");
-  }
-  const currYShiftVal = yShift.get();
-  const translatedCurrYShiftVal = translateYShiftToReelCopyIdx(
-    currYShiftVal,
-    reelHeight,
-    1
-  );
-  const choiceYInThirdReel = getYForChoice(
-    chosenIdx,
-    choiceHeight,
-    choicesLength,
-    2
-  );
-  return await animate([
-    [yShift, translatedCurrYShiftVal, jumpMotion],
-    [
-      yShift,
-      [null, choiceYInThirdReel],
-      {
-        type: "spring",
-        damping: 4,
-        stiffness: 3.8,
-        mass: 3.5,
-        velocity: 80,
-        restSpeed: 0.2,
-      },
-    ],
+  return animate([
+    [reelEl, { y: startYVh }, jumpMotion],
+    [reelEl, { y: endYVh }, startMotion],
+    [reelEl, { y: startYVh }, jumpMotion],
   ]);
 }
 
-export async function siftDownOneReel(params: ReelMotionConfig) {
-  const { yShift, reelHeight, animate, choicesLength } = params;
-  const currYShiftVal = yShift.get();
-  const newYShift = shiftYByFullReel(currYShiftVal, reelHeight, 1);
-  const shiftDur = getIdleSpinLoopDur(choicesLength);
-  return await animate(yShift, [currYShiftVal, newYShift], {
-    duration: shiftDur,
-    ease: "linear",
-  });
+export async function idleLoopAnimation(params: ReelMotionParams) {
+  const { reelEl, yVh, choicesLength, animate } = params;
+  const currYNum = vhToNum(yVh.get());
+  const startYNum = translateYToReelCopyIdx(currYNum, choicesLength, 1);
+  const startYVh = numToVh(startYNum);
+  const endYNum = translateYToReelCopyIdx(currYNum, choicesLength, 2);
+  const endYVh = numToVh(endYNum);
+  const spinDur = getIdleSpinLoopDur(choicesLength);
+  const loopMotion = getIdleLoopMotion(spinDur);
+
+  return animate(reelEl, { y: [startYVh, endYVh] }, loopMotion);
 }
 
-export async function jumpUpOneReel(params: ReelMotionConfig) {
-  const { yShift, reelHeight, animate } = params;
-  const currYShiftVal = yShift.get();
-  const newYShift = shiftYByFullReel(currYShiftVal, reelHeight, 1);
-  return await animate(yShift, [currYShiftVal, newYShift], jumpMotion);
+export async function stoppingAnimation(params: ReelMotionParams) {
+  const { reelEl, yVh, choicesLength, animate, chosenIdx } = params;
+  if (chosenIdx === null) throw new Error("chosenIdx is null");
+
+  const currYNum = vhToNum(yVh.get());
+  const startYNum = translateYToReelCopyIdx(currYNum, choicesLength, 1);
+  const chosenIdxYInZeroReel = translateChoiceIdxToY(chosenIdx);
+  const chosenIdxYInFirstReel = translateYToReelCopyIdx(
+    chosenIdxYInZeroReel,
+    choicesLength,
+    1
+  );
+  const chosenIdxYInThirdReel = translateYToReelCopyIdx(
+    chosenIdxYInFirstReel,
+    choicesLength,
+    3
+  );
+  const startYVh = numToVh(startYNum);
+  const chosenIdxYInFirstReelVh = numToVh(chosenIdxYInFirstReel);
+  const chosenIdxYInThirdReelVh = numToVh(chosenIdxYInThirdReel);
+
+  return animate([
+    [reelEl, { y: startYVh }, jumpMotion],
+    [reelEl, { y: chosenIdxYInThirdReelVh }, stoppingMotion],
+    [reelEl, { y: chosenIdxYInFirstReelVh }, jumpMotion],
+  ]);
 }
 
-export async function shiftByNumChoices(
-  params: ChoiceMotionConfig & { numChoices: number }
-) {
-  const { choiceHeight, numChoices } = params;
-  const currYShiftVal = params.yShift.get();
-  const newYShift = shiftYByChoice(currYShiftVal, choiceHeight, numChoices);
-  return [currYShiftVal, newYShift, { duration: 0.1 }];
+export async function postSpinAnimation(params: ReelMotionParams) {
+  const { reelEl, choicesLength, animate, chosenIdx } = params;
+  if (chosenIdx === null) throw new Error("chosenIdx is null");
+
+  const chosenIdxYInZeroReel = translateChoiceIdxToY(chosenIdx);
+  const chosenIdxYInFirstReel = translateYToReelCopyIdx(
+    chosenIdxYInZeroReel,
+    choicesLength,
+    1
+  );
+  const chosenIdxYInFirstReelVh = numToVh(chosenIdxYInFirstReel);
+
+  return animate(reelEl, { y: chosenIdxYInFirstReelVh }, jumpMotion);
 }
 
-export async function shiftDownChoice(params: ChoiceMotionConfig) {
-  const { yShift, choiceHeight } = params;
-  const currYShiftVal = yShift.get();
-  const newYShift = shiftYByChoice(currYShiftVal, choiceHeight, 1);
-  return [currYShiftVal, newYShift, { duration: 0.1 }];
-}
-
-export async function shiftUpChoice(params: ChoiceMotionConfig) {
-  const { yShift, choiceHeight } = params;
-  const currYShiftVal = yShift.get();
-  const newYShift = shiftYByChoice(currYShiftVal, choiceHeight, -1);
-  return [currYShiftVal, newYShift, { duration: 0.1 }];
-}
-
-function getIdleSpinLoopDur(choicesLength: number): number {
-  return choicesLength / BASE_SPIN_SPEED;
-}
-
-function getIdleSpinStartDur(choicesLength: number): number {
-  return choicesLength / BASE_SPIN_SPEED + 1.4;
-}
-
-function shiftYByFullReel(
-  yShift: number,
-  reelHeight: number,
-  numReels: number
-): number {
-  return yShift - reelHeight * numReels;
-}
-
-function shiftYByChoice(
-  yShift: number,
-  choiceHeight: number,
-  numChoices: number
-): number {
-  return yShift - choiceHeight * numChoices;
-}
-
-export function translateYShiftToReelCopyIdx(
-  yShift: number,
-  reelHeight: number,
-  copyIdx: number
-): number {
-  return -((yShift % reelHeight) + reelHeight * copyIdx);
-}
-
-function getYForChoice(
-  chosenIdx: number,
-  choiceHeight: number,
+/* Animation Helper Functions */
+export function translateYToReelCopyIdx(
+  y: number,
   choicesLength: number,
   copyIdx: number
 ): number {
-  const yForChoiceInFirstReel = -(chosenIdx * choiceHeight);
-  const yForChoiceInCopyIdxReel =
-    yForChoiceInFirstReel - choiceHeight * copyIdx * choicesLength;
-  const extraShiftForWindow =
-    Math.floor(NUM_CHOICES_VISIBLE / 2) * choiceHeight;
-  const centeredInWindow = yForChoiceInCopyIdxReel + extraShiftForWindow;
-  return centeredInWindow;
+  const reelHeight = choicesLength * CHOICE_HEIGHT_VH;
+  const translatedY = (y % reelHeight) - reelHeight * copyIdx;
+  return translatedY;
+}
+
+export function translateChosenIdxDownByReelCopy(
+  chosenIdx: number,
+  choicesLength: number,
+  copyIdx: number
+): number {
+  return chosenIdx + choicesLength * copyIdx;
+}
+
+export function roundYToNearestChoice(y: number): number {
+  return Math.round(y / CHOICE_HEIGHT_VH) * CHOICE_HEIGHT_VH;
+}
+
+export function translateChoiceIdxToY(idx: number): number {
+  const idxShiftedToMiddleOfWindow = idx - Math.floor(NUM_CHOICES_VISIBLE / 2);
+  return -idxShiftedToMiddleOfWindow * CHOICE_HEIGHT_VH;
+}
+
+export function yIsOutsideDragBounds(
+  y: number,
+  choicesLength: number
+): boolean {
+  const threshold = CHOICE_HEIGHT_VH * 0.5;
+  const upperBound = translateChoiceIdxToY(0);
+  const translatedUpper = translateYToReelCopyIdx(upperBound, choicesLength, 1);
+
+  const lowerBound = translateChoiceIdxToY(choicesLength - 1);
+  const translatedLower = translateYToReelCopyIdx(lowerBound, choicesLength, 1);
+
+  const isOver = y > translatedUpper + threshold;
+  const isUnder = y < translatedLower - threshold;
+
+  return isOver || isUnder;
+}
+
+export function getIdleSpinLoopDur(choicesLength: number): number {
+  return choicesLength / BASE_SPIN_SPEED;
+}
+
+export function getIdleSpinStartDur(choicesLength: number): number {
+  return choicesLength / BASE_SPIN_SPEED + 1.2;
 }

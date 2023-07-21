@@ -1,17 +1,25 @@
-import { SpinState } from "../App";
+import { SpinState } from "../types";
 import "./SpinLight.css";
 
 interface SpinLightProps {
-  mode: SpinState;
+  onClickSpinLight: (spinState: SpinState) => void;
+  spinState: SpinState;
 }
 
-const SpinLight: React.FC<SpinLightProps> = ({ mode }) => {
-  const color = calcColorForSpinMode(mode);
+const SpinLight: React.FC<SpinLightProps> = ({
+  spinState,
+  onClickSpinLight,
+}) => {
+  const color = calcColorForSpinMode(spinState);
   const offset = calcOffsetPercentForColor(color);
 
   return (
     <div className="spin-light-container">
-      <div className="spin-light" style={{ backgroundPositionX: offset }} />
+      <div
+        onClick={() => onClickSpinLight(spinState)}
+        className="spin-light"
+        style={{ backgroundPositionX: offset }}
+      />
     </div>
   );
 };
@@ -35,7 +43,8 @@ function calcColorForSpinMode(state: SpinState) {
   switch (state) {
     case SpinState.PRE:
       return "red";
-    case SpinState.IDLE:
+    case SpinState.IDLE_START:
+    case SpinState.IDLE_LOOP:
     case SpinState.STOPPING:
       return "yellow";
     case SpinState.POST:

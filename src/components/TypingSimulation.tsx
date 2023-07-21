@@ -11,12 +11,18 @@ import {
 
 interface Props {
   text: string;
+  onStartTyping: () => void;
+  onCompleteTyping: () => void;
 }
 
 let timeSinceLetterAdded = 0;
 let timeSinceCursorBlinked = 0;
 
-const TypingSimulation: React.FC<Props> = ({ text }) => {
+const TypingSimulation: React.FC<Props> = ({
+  text,
+  onStartTyping,
+  onCompleteTyping,
+}) => {
   const [letterIdx, setLetterIdx] = useState(0);
   const [typing, setTyping] = useState(true);
   const [blinking, setBlinking] = useState(true);
@@ -32,6 +38,12 @@ const TypingSimulation: React.FC<Props> = ({ text }) => {
     setLetterIdx((prev) => prev + 1);
   };
 
+  function onFinishedTypingAndBlinking() {
+    setCursorVisible(false);
+    setBlinking(false);
+    onCompleteTyping();
+  }
+
   useAnimationFrame((_, delta) => {
     if (!blinking && !typing) return;
 
@@ -41,8 +53,7 @@ const TypingSimulation: React.FC<Props> = ({ text }) => {
     if (blinking) {
       if (!typing && text.length === TEXT_WRAP_LENGTH - 1) {
         // If the text is about to wrap, don't blink the cursor after typing
-        setCursorVisible(false);
-        setBlinking(false);
+        onFinishedTypingAndBlinking();
         return;
       }
       if (timeSinceCursorBlinked > CURSOR_BLINK_SPEED) {
@@ -52,8 +63,7 @@ const TypingSimulation: React.FC<Props> = ({ text }) => {
       }
       if (timeSinceLetterAdded > BLINK_DURATION_AFTER_TYPING) {
         // Stop blinking the cursor after typing + delay after typing
-        setCursorVisible(false);
-        setBlinking(false);
+        onFinishedTypingAndBlinking();
       }
     }
     if (typing) {
@@ -63,6 +73,8 @@ const TypingSimulation: React.FC<Props> = ({ text }) => {
       }
     }
   });
+
+  // if (!typing && !cursorVisible) onComplete();
 
   return (
     <p className="text">{cursorVisible ? `${displayText}_` : displayText}</p>

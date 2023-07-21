@@ -11,3 +11,57 @@
 .user-dragging {
   cursor: grabbing;
 }
+
+.reels-container {
+  /* background-color: rgba(0, 50, 189, 0.662); */
+  /* border: 1px solid rgb(0, 0, 0); */
+  position: fixed;
+  z-index: 2;
+  --width: 123vh;
+  --center-left-shift: calc(50vw - calc(var(--width) / 2));
+  width: var(--width);
+  height: 34.5%;
+  left: calc(var(--center-left-shift) + 1.7vh);
+  top: 33.4%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.lever-container {
+  /* background-color: rgba(0, 50, 189, 0.433); */
+  /* border: 1px solid rgb(0, 0, 0); */
+  position: fixed;
+  z-index: 2;
+  --width: 18vh;
+  --center-left-shift: calc(50vw - calc(var(--width) / 2));
+  top: 44%;
+  left: calc(var(--center-left-shift) + 77.25vh);
+  height: 24.5%;
+  width: var(--width);
+}
+
+.display-container {
+  --container-height: 6.3vh;
+  --aspect-ratio: 14.5882;
+  --height: var(--container-height);
+  --width: calc(var(--height) * var(--aspect-ratio));
+  --center-left-shift: calc(50vw - calc(var(--width) / 2));
+  /* background-color: rgba(0, 50, 189, 0.433); */
+  /* border: 1px solid rgb(0, 0, 0); */
+  position: fixed;
+  z-index: 2;
+  top: 74.1%;
+  left: calc(var(--center-left-shift) + 7.22vh);
+  height: var(--height);
+  width: var(--width);
+  overflow: hidden;
+  border-radius: 1.2vh;
+}
+
+.test-btn {
+  z-index: 3;
+  position: fixed;
+  width: 10vh;
+  height: 4vh;
+}

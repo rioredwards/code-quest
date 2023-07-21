@@ -13,7 +13,8 @@
 }
 
 .drag-handle {
-  background-color: green;
+  /* background-color: rgba(124, 67, 174, 0.757); */
+
   position: absolute;
   z-index: 4;
   height: 200%;
@@ -29,7 +30,7 @@
   background-image: url(../assets/reel/gradient.png);
   background-repeat: no-repeat;
   background-size: cover;
-  height: 102%;
+  height: 104%;
   width: 100%;
   opacity: 0.6;
   border-radius: 1.2vh;
@@ -40,4 +41,8 @@
   z-index: 2;
   position: relative;
   background-color: rgb(43, 75, 135);
+}
+
+.user-dragging {
+  cursor: grabbing;
 }

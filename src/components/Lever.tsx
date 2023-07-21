@@ -1,42 +1,45 @@
-import { useState } from "react";
 import "./Lever.css";
-import { motion, useMotionValue, useTransform } from "framer-motion";
-import { SpinState } from "../App";
-import { PULL_THRESHOLD } from "../motionConfigs/leverMotion";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { PULL_THRESHOLD, THROTTLE_MS } from "../motionConfigs/leverMotion";
+import { useRef } from "react";
 
 interface LeverProps {
-  setSpinState: (spinState: SpinState) => void;
-  setUserDragging: (isDragging: boolean) => void;
+  onPull: () => void;
 }
 
-const Lever: React.FC<LeverProps> = ({ setSpinState, setUserDragging }) => {
-  const [pulled, setPulled] = useState(false);
+const Lever: React.FC<LeverProps> = ({ onPull }) => {
   const dragYPos = useMotionValue(0);
+  const hoverRotationAngle = useSpring(0);
   const dragXPos = useTransform(dragYPos, [0, 70, 140], [0, 30, 0]);
   const leverYPos = useTransform(dragYPos, [0, 140], [0, 10]);
-  const rotationAngle = useTransform(dragYPos, [0, 140], [-45, 45]);
-
-  function onPull() {
-    setSpinState(SpinState.IDLE);
-  }
-
-  function onDragStart() {
-    setUserDragging(true);
-  }
-
-  function onDragEnd() {
-    setUserDragging(false);
-  }
+  const dragAndHoverRotation = useTransform<number, number>(
+    [dragYPos, hoverRotationAngle],
+    ([latestDragYPos, latestHoverRotationAngle]) =>
+      latestDragYPos + latestHoverRotationAngle
+  );
+  const rotationAngle = useTransform(dragAndHoverRotation, [0, 140], [-45, 45]);
+  const isThrottled = useRef(false);
 
   function onDrag() {
-    if (!pulled && dragYPos.get() > PULL_THRESHOLD) {
+    if (dragYPos.get() > PULL_THRESHOLD && !isThrottled.current) {
       onPull();
-      setPulled(true);
+      isThrottled.current = true;
+      setTimeout(() => {
+        isThrottled.current = false;
+      }, THROTTLE_MS);
     }
   }
 
+  function onHoverStart() {
+    hoverRotationAngle.set(4);
+  }
+
+  function onHoverEnd() {
+    hoverRotationAngle.set(0);
+  }
+
   return (
-    <div className="lever-container">
+    <>
       <motion.div className="lever-base" />
       <motion.div
         style={{ y: leverYPos, rotate: rotationAngle }}
@@ -45,9 +48,10 @@ const Lever: React.FC<LeverProps> = ({ setSpinState, setUserDragging }) => {
       <motion.div
         className="lever-drag-handle"
         drag="y"
-        onDragStart={onDragStart}
         onDrag={onDrag}
-        onDragEnd={onDragEnd}
+        whileTap={{ cursor: "grabbing" }}
+        onHoverStart={onHoverStart}
+        onHoverEnd={onHoverEnd}
         style={{
           y: dragYPos,
           x: dragXPos,
@@ -56,7 +60,7 @@ const Lever: React.FC<LeverProps> = ({ setSpinState, setUserDragging }) => {
         dragElastic={0.1}
         dragSnapToOrigin={true}
       />
-    </div>
+    </>
   );
 };
 

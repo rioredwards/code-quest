@@ -2,11 +2,11 @@ import "./Choice.css";
 
 interface ChoiceProps {
   displayName: string;
-  classes: string;
+  CSSclasses: string;
 }
 
-const Choice: React.FC<ChoiceProps> = ({ classes, displayName }) => {
-  return <li className={classes}>{displayName}</li>;
+const Choice: React.FC<ChoiceProps> = ({ CSSclasses, displayName }) => {
+  return <div className={CSSclasses}>{displayName}</div>;
 };
 
 export default Choice;

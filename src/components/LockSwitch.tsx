@@ -6,24 +6,24 @@ import {
 } from "../motionConfigs/lockSwitchMotion";
 
 interface LockSwitchProps {
-  locked: boolean;
-  setLocked: (isLocked: boolean) => void;
+  isLocked: boolean;
+  setIsLocked: (isLocked: boolean) => void;
 }
 
-const LockSwitch: React.FC<LockSwitchProps> = ({ locked, setLocked }) => {
+const LockSwitch: React.FC<LockSwitchProps> = ({ isLocked, setIsLocked }) => {
   return (
     <motion.div
-      onClick={() => setLocked(!locked)}
+      onClick={() => setIsLocked(!isLocked)}
       className="lock-switch-container">
       <motion.div
-        animate={lockSwitchAnimation(locked)}
+        animate={lockSwitchAnimation(isLocked)}
         transition={lockSwitchSpring}
         className="knob"
       />
       <div className="lock-switch-housing" />
       <div className="lock-icons" />
       <motion.div
-        animate={lockSwitchAnimation(locked)}
+        animate={lockSwitchAnimation(isLocked)}
         transition={lockSwitchSpring}
         className="under-panel"
       />
