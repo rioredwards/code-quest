@@ -95,6 +95,7 @@ const Reel: React.FC<ReelProps> = ({
     }
 
     animateSequence();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [spinState, isUserLocked]);
 
   function onHoverStart(): void {

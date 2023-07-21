@@ -8,20 +8,13 @@ import { taskChoices } from "./data/choices/taskChoices";
 import { timeChoices } from "./data/choices/timeChoices";
 import { typeChoices } from "./data/choices/typeChoices";
 import { useEffect, useState } from "react";
-import {
-  AllReelsState,
-  ChallengeState,
-  ReelIdx,
-  ReelState,
-  SpinState,
-} from "./types";
+import { AllReelsState, ReelIdx, ReelState, SpinState } from "./types";
 import ReelUnit from "./components/ReelUnit";
 import { reelConfigs } from "./data/ReelConfigs";
 
 let chosenIdxs: number[] | null[] = [null, null, null, null];
 
 function App() {
-  const [challengeState, setChallengeState] = useState<ChallengeState>("NONE");
   const [challengeText, setChallengeText] = useState("");
   const [displayIsActive, setDisplayIsActive] = useState(false);
   const [allReelsState, setAllReelsState] = useState<AllReelsState>([
@@ -125,7 +118,6 @@ function App() {
       });
       return newAllReelsState as AllReelsState;
     });
-    setChallengeState("CREATING");
   }
 
   useEffect(() => {
