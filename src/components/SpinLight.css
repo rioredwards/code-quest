@@ -1,13 +1,42 @@
 .spin-light-container {
+  transform: translateX(0.15vh);
   height: 4vh;
   width: 4vh;
 }
 
-.spin-light {
-  background-image: url(../assets/lights.png);
+.spin-light-glass {
+  z-index: 3;
+  background-image: url(../assets/light-glass.png);
   background-repeat: no-repeat;
   background-size: cover;
-  overflow: hidden;
+  overflow: visible;
   height: 100%;
   width: 100%;
+  border-radius: 50%;
+  opacity: 0.3;
+  mix-blend-mode: luminosity;
+}
+
+.spin-light-color {
+  z-index: 2;
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.red {
+  background-color: rgb(255, 98, 98);
+}
+
+.green {
+  background-color: rgb(135, 204, 103);
+}
+
+.yellow {
+  background-color: rgb(246, 198, 65);
+}
+
+.blue {
+  background-color: rgb(79, 216, 205);
 }
