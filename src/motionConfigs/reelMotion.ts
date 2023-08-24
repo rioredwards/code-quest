@@ -20,7 +20,7 @@ const stoppingMotion = {
   stiffness: 3.8,
   mass: 3.5,
   velocity: 80,
-  restSpeed: 0.1,
+  restSpeed: 1.5,
 };
 
 /* Types */
