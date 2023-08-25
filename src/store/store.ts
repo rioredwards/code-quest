@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import counterReducer from "../features/counter/counterSlice";
 import challengeReducer from "./challenge/challengeSlice";
+import reelsReducer from "./reels/reelsSlice";
 
 export const store = configureStore({
   reducer: {
     counter: counterReducer,
     challenge: challengeReducer,
+    reels: reelsReducer,
   },
 });
 

@@ -23,42 +23,42 @@ export const challengeSlice = createSlice({
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
-    setType: (state, action: PayloadAction<string>) => {
+    typeSet: (state, action: PayloadAction<string>) => {
       state.type = action.payload;
     },
-    resetType: (state) => {
+    typeReset: (state) => {
       state.type = null;
     },
-    setTech: (state, action: PayloadAction<string>) => {
+    techSet: (state, action: PayloadAction<string>) => {
       state.tech = action.payload;
     },
-    resetTech: (state) => {
+    techReset: (state) => {
       state.tech = null;
     },
-    setTask: (state, action: PayloadAction<string>) => {
+    taskSet: (state, action: PayloadAction<string>) => {
       state.task = action.payload;
     },
-    resetTask: (state) => {
+    taskReset: (state) => {
       state.task = null;
     },
-    setTime: (state, action: PayloadAction<string>) => {
+    timeSet: (state, action: PayloadAction<string>) => {
       state.time = action.payload;
     },
-    resetTime: (state) => {
+    timeReset: (state) => {
       state.time = null;
     },
   },
 });
 
 export const {
-  setType,
-  resetType,
-  setTech,
-  resetTech,
-  setTask,
-  resetTask,
-  setTime,
-  resetTime,
+  typeSet,
+  typeReset,
+  techSet,
+  techReset,
+  taskSet,
+  taskReset,
+  timeSet,
+  timeReset,
 } = challengeSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type

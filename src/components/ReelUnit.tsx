@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { useAppDispatch } from "../store/hooks";
 import LockSwitch from "./LockSwitch";
 import "./ReelUnit.css";
 import Sign from "./Sign";
@@ -10,22 +11,14 @@ interface Props {
   name: string;
   key: string;
   spinState: SpinState;
-  setSpinState: (spinState: SpinState) => void;
   choices: Choice[];
   chosenIdx: number | null;
-  onClickSpinLight: (spinState: SpinState) => void;
 }
 
-const ReelUnit: React.FC<Props> = ({
-  name,
-  spinState,
-  setSpinState,
-  choices,
-  chosenIdx,
-  onClickSpinLight,
-}) => {
+const ReelUnit: React.FC<Props> = ({ name, spinState, choices, chosenIdx }) => {
   const [isLocked, setIsLocked] = useState(false);
   const lockedRef = useRef(isLocked);
+  const dispatch = useAppDispatch();
 
   // Only update reel's isLocked state when reel is not spinning
   if (
@@ -34,6 +27,21 @@ const ReelUnit: React.FC<Props> = ({
   ) {
     lockedRef.current = isLocked;
   }
+
+  const setSpinState = (spinState: SpinState) => {
+    dispatch({
+      type: "reels/spinStateUpdated",
+      payload: {
+        name,
+        spinState,
+      },
+    });
+  };
+
+  const onClickSpinLight = (spinState: SpinState) => {
+    if (spinState !== "IDLE_LOOP") return;
+    setSpinState("STOPPING");
+  };
 
   return (
     <div className="reel-unit">

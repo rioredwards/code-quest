@@ -1,9 +1,3 @@
-export type AppState = {
-  reels: AllReelsState;
-};
-
-export type AllReelsState = [ReelState, ReelState, ReelState, ReelState];
-
 export type ReelName = "TYPE" | "TECH" | "TASK" | "TIME";
 
 export enum ReelIdx {
@@ -14,6 +8,7 @@ export enum ReelIdx {
 }
 
 export type ReelState = {
+  name: ReelName;
   spinState: SpinState;
   chosenIdx: number | null;
 };

@@ -9,3 +9,7 @@ export function vhToNum(vh: string): number {
 export function numToVh(num: number): string {
   return `${num}vh`;
 }
+
+export function getRandIdx(maxIdx: number) {
+  return Math.floor(Math.random() * maxIdx);
+}

@@ -8,37 +8,21 @@ import { taskChoices } from "./data/choices/taskChoices";
 import { timeChoices } from "./data/choices/timeChoices";
 import { typeChoices } from "./data/choices/typeChoices";
 import { useEffect, useState } from "react";
-import { AllReelsState, ReelIdx, ReelState, SpinState } from "./types";
+import { SpinState } from "./types";
 import ReelUnit from "./components/ReelUnit";
 import { reelConfigs } from "./data/ReelConfigs";
-import { useAppDispatch } from "./store/hooks";
+import { useAppDispatch, useAppSelector } from "./store/hooks";
+import { ReelsState } from "./store/reels/reelsSlice";
+import { getRandIdx } from "./utils/genUtils";
 
 let chosenIdxs: number[] | null[] = [null, null, null, null];
 
 function App() {
   const dispatch = useAppDispatch();
+  const reels = useAppSelector((state) => state.reels);
+  const combinedSpinState = getCombinedSpinState(reels);
 
   const [displayIsActive, setDisplayIsActive] = useState(false);
-  const [allReelsState, setAllReelsState] = useState<AllReelsState>([
-    {
-      spinState: "PRE",
-      chosenIdx: null,
-    },
-    {
-      spinState: "PRE",
-      chosenIdx: null,
-    },
-    {
-      spinState: "PRE",
-      chosenIdx: null,
-    },
-    {
-      spinState: "PRE",
-      chosenIdx: null,
-    },
-  ]);
-
-  const combinedSpinState = getCombinedSpinState(allReelsState);
 
   useEffect(() => {
     if (combinedSpinState === "POST") {
@@ -46,56 +30,11 @@ function App() {
     }
   }, [combinedSpinState]);
 
-  function setAllSpinStates(newSpinState: SpinState) {
-    setAllReelsState((prevState) => {
-      const newAllReelsState = prevState.map((reelState, idx) => {
-        return {
-          ...reelState,
-          spinState: newSpinState,
-          chosenIdx: chosenIdxs[idx],
-        } as ReelState;
-      });
-      return newAllReelsState as AllReelsState;
-    });
-  }
-
-  function setSpinState(reelIdx: ReelIdx, spinState: SpinState) {
-    setAllReelsState((prevState) => {
-      const newAllReelsState = [...prevState];
-      newAllReelsState[reelIdx].spinState = spinState;
-      return newAllReelsState as AllReelsState;
-    });
-  }
-
-  function cycleAllSpinStates() {
-    setAllReelsState((prevState) => {
-      const newAllReelsState = prevState.map((reelState, idx) => {
-        return {
-          ...reelState,
-          spinState: getNextSpinState(reelState.spinState),
-          chosenIdx: chosenIdxs[idx],
-        } as ReelState;
-      });
-      return newAllReelsState as AllReelsState;
-    });
-  }
-
-  function setRandChoices() {
-    setAllReelsState((prevState) => {
-      const newAllReelsState = [...prevState];
-      newAllReelsState.forEach((reelState, idx) => {
-        reelState.chosenIdx = chosenIdxs[idx];
-      });
-      return newAllReelsState as AllReelsState;
-    });
-  }
-
-  function onPullLever() {
+  const onPullLever = () => {
     console.log("onPullLever");
     if (
-      allReelsState.every(
-        (reelState) =>
-          reelState.spinState !== "PRE" && reelState.spinState !== "POST"
+      reels.every(
+        ({ spinState }) => spinState !== "PRE" && spinState !== "POST"
       )
     ) {
       return;
@@ -103,48 +42,46 @@ function App() {
 
     setDisplayIsActive(false);
     getRandChoices();
-    setAllReelsState((prevState) => {
-      const newAllReelsState = prevState.map((reelState, idx) => {
-        if (reelState.spinState === "POST") return reelState;
-        else
-          return {
-            ...reelState,
-            spinState: "IDLE_START",
-            chosenIdx: chosenIdxs[idx],
-          } as ReelState;
+    reels.forEach((reel, idx) => {
+      if (reel.spinState === "POST") return;
+      dispatch({
+        type: "reels/spinStateUpdated",
+        payload: {
+          name: reel.name,
+          spinState: "IDLE_START",
+        },
       });
-      return newAllReelsState as AllReelsState;
+      dispatch({
+        type: "reels/chosenIdxSet",
+        payload: {
+          name: reel.name,
+          chosenIdx: chosenIdxs[idx],
+        },
+      });
     });
-  }
+  };
 
-  function onClickSpinLight(reelIdx: ReelIdx, spinState: SpinState) {
-    if (spinState !== "IDLE_LOOP") return;
-    setSpinState(reelIdx, "STOPPING");
-  }
-
-  function onDisplayCompleteTyping() {
-    setAllSpinStates("PRE");
-  }
+  const onDisplayCompleteTyping = () => {
+    console.log("onDisplayCompleteTyping");
+    dispatch({
+      type: "reels/allSpinStatesUpdated",
+      payload: "PRE",
+    });
+  };
 
   return (
     <div className="App">
       <GameContainer>
         <div className="spin-log">{combinedSpinState || "Mixed"}</div>
         <div className="reels-container">
-          {allReelsState.map((reelState, idx) => {
+          {reels.map((reel, idx) => {
             return (
               <ReelUnit
-                name={reelConfigs[idx].name}
-                key={reelConfigs[idx].name}
-                spinState={reelState.spinState}
+                name={reel.name}
+                key={reel.name}
+                spinState={reel.spinState}
                 choices={reelConfigs[idx].choices}
-                chosenIdx={reelState.chosenIdx}
-                setSpinState={(spinState: SpinState) =>
-                  setSpinState(idx, spinState)
-                }
-                onClickSpinLight={(spinState: SpinState) =>
-                  onClickSpinLight(idx, spinState)
-                }
+                chosenIdx={reel.chosenIdx}
               />
             );
           })}
@@ -164,7 +101,7 @@ function App() {
   );
 }
 
-function getCombinedSpinState(allReelsState: AllReelsState): SpinState | null {
+function getCombinedSpinState(allReelsState: ReelsState): SpinState | null {
   const firstSpinState = allReelsState[0].spinState;
   const allSpinStatesAreEqual = allReelsState.every(
     (reelState) => reelState.spinState === firstSpinState
@@ -183,12 +120,7 @@ function getRandChoices() {
     chosenTaskIdx,
     chosenTimeIdx,
   ];
-  console.log(chosenIdxs);
   chosenIdxs = newChosenIdxs;
-}
-
-function getRandIdx(maxIdx: number) {
-  return Math.floor(Math.random() * maxIdx);
 }
 
 function getNextSpinState(spinState: SpinState) {
