@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import { AllReelsState, ReelIdx, ReelState, SpinState } from "./types";
 import ReelUnit from "./components/ReelUnit";
 import { reelConfigs } from "./data/ReelConfigs";
+import { Counter } from "./features/counter/counter";
 
 let chosenIdxs: number[] | null[] = [null, null, null, null];
 
@@ -150,6 +151,7 @@ function App() {
 
   return (
     <div className="App">
+      {/* <Counter /> */}
       <GameContainer>
         <button className="test-btn" onClick={onClickTestBtn}>
           {combinedSpinState || "Mixed"}
