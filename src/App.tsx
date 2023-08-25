@@ -39,16 +39,10 @@ function App() {
   const combinedSpinState = getCombinedSpinState(allReelsState);
 
   useEffect(() => {
-    if (
-      !displayIsActive &&
-      (combinedSpinState === "POST" || challengeText !== "")
-    ) {
+    if (combinedSpinState === "POST") {
       setDisplayIsActive(true);
-    } else if (combinedSpinState === "IDLE_START" && displayIsActive) {
-      if (challengeText !== "") setChallengeText("");
-      setDisplayIsActive(false);
     }
-  }, [combinedSpinState, challengeText, displayIsActive]);
+  }, [combinedSpinState]);
 
   function setAllSpinStates(newSpinState: SpinState) {
     setAllReelsState((prevState) => {
@@ -105,6 +99,8 @@ function App() {
       return;
     }
 
+    setChallengeText("");
+    setDisplayIsActive(false);
     getRandChoices();
     setAllReelsState((prevState) => {
       const newAllReelsState = prevState.map((reelState, idx) => {
