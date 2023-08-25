@@ -11,15 +11,13 @@ import { useEffect, useState } from "react";
 import { AllReelsState, ReelIdx, ReelState, SpinState } from "./types";
 import ReelUnit from "./components/ReelUnit";
 import { reelConfigs } from "./data/ReelConfigs";
-import { Counter } from "./features/counter/counter";
-import { useAppDispatch, useAppSelector } from "./store/hooks";
+import { useAppDispatch } from "./store/hooks";
 
 let chosenIdxs: number[] | null[] = [null, null, null, null];
 
 function App() {
   const dispatch = useAppDispatch();
 
-  const [challengeText, setChallengeText] = useState("");
   const [displayIsActive, setDisplayIsActive] = useState(false);
   const [allReelsState, setAllReelsState] = useState<AllReelsState>([
     {
@@ -103,7 +101,6 @@ function App() {
       return;
     }
 
-    setChallengeText("");
     setDisplayIsActive(false);
     getRandChoices();
     setAllReelsState((prevState) => {
@@ -120,25 +117,9 @@ function App() {
     });
   }
 
-  useEffect(() => {
-    // Temp for logging spinState
-    console.log("combinedSpinState", combinedSpinState);
-  }, [combinedSpinState]);
-
   function onClickSpinLight(reelIdx: ReelIdx, spinState: SpinState) {
     if (spinState !== "IDLE_LOOP") return;
     setSpinState(reelIdx, "STOPPING");
-  }
-
-  function onClickTestBtn() {
-    if (!combinedSpinState) {
-      return;
-    } else if (combinedSpinState === "IDLE_LOOP") {
-      getRandChoices();
-      setRandChoices();
-    } else {
-      cycleAllSpinStates();
-    }
   }
 
   function onDisplayCompleteTyping() {
@@ -148,9 +129,7 @@ function App() {
   return (
     <div className="App">
       <GameContainer>
-        <button className="test-btn" onClick={onClickTestBtn}>
-          {combinedSpinState || "Mixed"}
-        </button>
+        <div className="spin-log">{combinedSpinState || "Mixed"}</div>
         <div className="reels-container">
           {allReelsState.map((reelState, idx) => {
             return (
