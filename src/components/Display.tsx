@@ -2,20 +2,17 @@ import "./Display.css";
 import { motion } from "framer-motion";
 import TypingSimulation from "./TypingSimulation";
 import { linesAnimation } from "../motionConfigs/displayMotion";
+import { useAppSelector } from "../store/hooks";
 
 interface Props {
-  onStartTyping: () => void;
   onCompleteTyping: () => void;
   isActive: boolean;
-  text: string;
 }
 
-const Display: React.FC<Props> = ({
-  text,
-  onStartTyping,
-  onCompleteTyping,
-  isActive,
-}) => {
+const Display: React.FC<Props> = ({ onCompleteTyping, isActive }) => {
+  const { type, task, tech, time } = useAppSelector((state) => state.challenge);
+  const displayText = `${type} Challenge: ${task} using ${tech} in ${time}!`;
+
   return (
     <div className="display-container">
       <div className="display-glass" />
@@ -23,8 +20,7 @@ const Display: React.FC<Props> = ({
         <>
           <motion.div animate={linesAnimation} className="display-lines" />
           <TypingSimulation
-            text={text}
-            onStartTyping={onStartTyping}
+            text={displayText}
             onCompleteTyping={onCompleteTyping}
           />
         </>

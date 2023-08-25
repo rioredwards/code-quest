@@ -11,18 +11,13 @@ import {
 
 interface Props {
   text: string;
-  onStartTyping: () => void;
   onCompleteTyping: () => void;
 }
 
 let timeSinceLetterAdded = 0;
 let timeSinceCursorBlinked = 0;
 
-const TypingSimulation: React.FC<Props> = ({
-  text,
-  onStartTyping,
-  onCompleteTyping,
-}) => {
+const TypingSimulation: React.FC<Props> = ({ text, onCompleteTyping }) => {
   const [letterIdx, setLetterIdx] = useState(0);
   const [typing, setTyping] = useState(true);
   const [blinking, setBlinking] = useState(true);

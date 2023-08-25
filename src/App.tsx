@@ -12,10 +12,13 @@ import { AllReelsState, ReelIdx, ReelState, SpinState } from "./types";
 import ReelUnit from "./components/ReelUnit";
 import { reelConfigs } from "./data/ReelConfigs";
 import { Counter } from "./features/counter/counter";
+import { useAppDispatch, useAppSelector } from "./store/hooks";
 
 let chosenIdxs: number[] | null[] = [null, null, null, null];
 
 function App() {
+  const dispatch = useAppDispatch();
+
   const [challengeText, setChallengeText] = useState("");
   const [displayIsActive, setDisplayIsActive] = useState(false);
   const [allReelsState, setAllReelsState] = useState<AllReelsState>([
@@ -127,9 +130,6 @@ function App() {
     setSpinState(reelIdx, "STOPPING");
   }
 
-  const displayText =
-    "Cloud Challenge: Stocks using Amazon DynamoDB in 120 minutes";
-
   function onClickTestBtn() {
     if (!combinedSpinState) {
       return;
@@ -141,17 +141,12 @@ function App() {
     }
   }
 
-  function onDisplayStartTyping() {
-    setChallengeText(displayText);
-  }
-
   function onDisplayCompleteTyping() {
     setAllSpinStates("PRE");
   }
 
   return (
     <div className="App">
-      {/* <Counter /> */}
       <GameContainer>
         <button className="test-btn" onClick={onClickTestBtn}>
           {combinedSpinState || "Mixed"}
@@ -181,9 +176,7 @@ function App() {
         <div className="display-container">
           <Display
             isActive={displayIsActive}
-            text={displayText}
             onCompleteTyping={onDisplayCompleteTyping}
-            onStartTyping={onDisplayStartTyping}
           />
         </div>
         <Machine />
