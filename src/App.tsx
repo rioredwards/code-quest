@@ -122,21 +122,4 @@ function getRandChoices() {
   chosenIdxs = newChosenIdxs;
 }
 
-function getNextSpinState(spinState: SpinState) {
-  switch (spinState) {
-    case "PRE":
-      return "IDLE_START";
-    case "IDLE_START":
-      return "IDLE_LOOP";
-    case "IDLE_LOOP":
-      return "STOPPING";
-    case "STOPPING":
-      return "POST";
-    case "POST":
-      return "PRE";
-    default:
-      throw new Error("Invalid spin state");
-  }
-}
-
 export default App;
