@@ -17,15 +17,15 @@ interface Props {
 
 const ReelUnit: React.FC<Props> = ({ name, spinState, choices, chosenIdx }) => {
   const [isLocked, setIsLocked] = useState(false);
-  const lockedRef = useRef(isLocked);
+  const userLockedRef = useRef(isLocked);
   const dispatch = useAppDispatch();
 
-  // Only update reel's isLocked state when reel is not spinning
+  // Only update reel's isUserLocked state when reel is not spinning
   if (
-    lockedRef.current !== isLocked &&
+    userLockedRef.current !== isLocked &&
     (spinState === "PRE" || spinState === "POST")
   ) {
-    lockedRef.current = isLocked;
+    userLockedRef.current = isLocked;
   }
 
   const setSpinState = (spinState: SpinState) => {
@@ -52,7 +52,7 @@ const ReelUnit: React.FC<Props> = ({ name, spinState, choices, chosenIdx }) => {
         chosenIdx={chosenIdx}
         spinState={spinState}
         setSpinState={setSpinState}
-        isUserLocked={lockedRef.current}
+        isUserLocked={userLockedRef.current}
       />
       <SpinLight spinState={spinState} onClickSpinLight={onClickSpinLight} />
     </div>
