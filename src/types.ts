@@ -1,12 +1,5 @@
 export type ReelName = "TYPE" | "TECH" | "TASK" | "TIME";
 
-export enum ReelIdx {
-  TYPE = 0,
-  TECH = 1,
-  TASK = 2,
-  TIME = 3,
-}
-
 export type ReelState = {
   name: ReelName;
   spinState: SpinState;

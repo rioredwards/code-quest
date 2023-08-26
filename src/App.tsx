@@ -45,24 +45,23 @@ function App() {
     reels.forEach((reel, idx) => {
       if (reel.spinState === "POST") return;
       dispatch({
-        type: "reels/spinStateUpdated",
-        payload: {
-          name: reel.name,
-          spinState: "IDLE_START",
-        },
-      });
-      dispatch({
         type: "reels/chosenIdxSet",
         payload: {
           name: reel.name,
           chosenIdx: chosenIdxs[idx],
         },
       });
+      dispatch({
+        type: "reels/spinStateUpdated",
+        payload: {
+          name: reel.name,
+          spinState: "IDLE_START",
+        },
+      });
     });
   };
 
   const onDisplayCompleteTyping = () => {
-    console.log("onDisplayCompleteTyping");
     dispatch({
       type: "reels/allSpinStatesUpdated",
       payload: "PRE",

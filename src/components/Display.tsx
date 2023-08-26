@@ -3,6 +3,11 @@ import { motion } from "framer-motion";
 import TypingSimulation from "./TypingSimulation";
 import { linesAnimation } from "../motionConfigs/displayMotion";
 import { useAppSelector } from "../store/hooks";
+import { typeChoices } from "../data/choices/typeChoices";
+import { taskChoices } from "../data/choices/taskChoices";
+import { techChoices } from "../data/choices/techChoices";
+import { timeChoices } from "../data/choices/timeChoices";
+import { ReelIdx } from "../store/reels/reelsSlice";
 
 interface Props {
   onCompleteTyping: () => void;
@@ -10,7 +15,23 @@ interface Props {
 }
 
 const Display: React.FC<Props> = ({ onCompleteTyping, isActive }) => {
-  const { type, task, tech, time } = useAppSelector((state) => state.challenge);
+  const typeIdx = useAppSelector(
+    (state) => state.reels[ReelIdx.TYPE].chosenIdx
+  );
+  const type = typeIdx ? typeChoices[typeIdx].sentenceName : "";
+  const taskIdx = useAppSelector(
+    (state) => state.reels[ReelIdx.TASK].chosenIdx
+  );
+  const task = taskIdx ? taskChoices[taskIdx].sentenceName : "";
+  const techIdx = useAppSelector(
+    (state) => state.reels[ReelIdx.TECH].chosenIdx
+  );
+  const tech = techIdx ? techChoices[techIdx].sentenceName : "";
+  const timeIdx = useAppSelector(
+    (state) => state.reels[ReelIdx.TIME].chosenIdx
+  );
+  const time = timeIdx ? timeChoices[timeIdx].sentenceName : "";
+
   const displayText = `${type} Challenge: ${task} using ${tech} in ${time}!`;
 
   return (

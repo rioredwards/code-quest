@@ -5,6 +5,12 @@ import { ReelName, ReelState, SpinState } from "../../types";
 
 // Define a type for the state
 export type ReelsState = [ReelState, ReelState, ReelState, ReelState];
+export enum ReelIdx {
+  TYPE = 0,
+  TECH = 1,
+  TASK = 2,
+  TIME = 3,
+}
 
 interface SpinStateUpdated {
   name: ReelName;
