@@ -31,7 +31,9 @@ function calcColorForSpinMode(state: SpinState) {
     case "PRE":
       return "red";
     case "IDLE_START":
+      return "yellow";
     case "IDLE_LOOP":
+      return "blue";
     case "STOPPING":
       return "yellow";
     case "POST":
