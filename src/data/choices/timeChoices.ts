@@ -1,10 +1,10 @@
-import { Choice } from "../types";
+import { Choice } from "../../types";
 
-export const typeChoices: Choice[] = [
+export const timeChoices: Choice[] = [
   {
     id: 0,
-    name: "Leetcode",
-    sentenceName: "Leetcode",
+    name: "1 Hour",
+    sentenceName: "1 Hour",
     compatibleWith: {
       TECH: [0, 1, 2, 3, 4, 5],
       TASK: [0, 1, 2, 3, 4, 5],
@@ -13,8 +13,8 @@ export const typeChoices: Choice[] = [
   },
   {
     id: 1,
-    name: "Backend",
-    sentenceName: "Backend",
+    name: "2 Hours",
+    sentenceName: "2 Hours",
     compatibleWith: {
       TECH: [0, 1, 2, 3, 4, 5],
       TASK: [0, 1, 2, 3, 4, 5],
@@ -23,8 +23,8 @@ export const typeChoices: Choice[] = [
   },
   {
     id: 2,
-    name: "Frontend",
-    sentenceName: "Frontend",
+    name: "3 Hours",
+    sentenceName: "3 Hours",
     compatibleWith: {
       TECH: [0, 1, 2, 3, 4, 5],
       TASK: [0, 1, 2, 3, 4, 5],
@@ -33,8 +33,8 @@ export const typeChoices: Choice[] = [
   },
   {
     id: 3,
-    name: "Fullstack",
-    sentenceName: "Fullstack",
+    name: "4 Hours",
+    sentenceName: "4 Hours",
     compatibleWith: {
       TECH: [0, 1, 2, 3, 4, 5],
       TASK: [0, 1, 2, 3, 4, 5],
@@ -43,8 +43,8 @@ export const typeChoices: Choice[] = [
   },
   {
     id: 4,
-    name: "CLI",
-    sentenceName: "CLI",
+    name: "5 Hours",
+    sentenceName: "5 Hours",
     compatibleWith: {
       TECH: [0, 1, 2, 3, 4, 5],
       TASK: [0, 1, 2, 3, 4, 5],
@@ -53,8 +53,8 @@ export const typeChoices: Choice[] = [
   },
   {
     id: 5,
-    name: "Database",
-    sentenceName: "Database",
+    name: "Unlimited",
+    sentenceName: "Unlimited Time",
     compatibleWith: {
       TECH: [0, 1, 2, 3, 4, 5],
       TASK: [0, 1, 2, 3, 4, 5],

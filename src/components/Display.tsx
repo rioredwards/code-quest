@@ -4,10 +4,10 @@ import TypingSimulation from "./TypingSimulation";
 import { linesAnimation } from "../motionConfigs/displayMotion";
 import { useAppSelector } from "../store/hooks";
 import { ReelIdx } from "../store/reels/reelsSlice";
-import { typeChoices } from "../data/typeChoices";
-import { taskChoices } from "../data/taskChoices";
-import { techChoices } from "../data/techChoices";
-import { timeChoices } from "../data/timeChoices";
+import { typeChoices } from "../data/choices/typeChoices";
+import { taskChoices } from "../data/choices/taskChoices";
+import { techChoices } from "../data/choices/techChoices";
+import { timeChoices } from "../data/choices/timeChoices";
 
 interface Props {
   onCompleteTyping: () => void;

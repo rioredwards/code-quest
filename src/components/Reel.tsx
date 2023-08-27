@@ -24,7 +24,7 @@ import ChoiceList from "./ChoiceList";
 import { Choice, SpinState } from "../types";
 
 interface ReelProps {
-  choices: Choice[];
+  choices: readonly Choice[];
   spinState: SpinState;
   setSpinState: (spinState: SpinState) => void;
   chosenIdx: number | null;

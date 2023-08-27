@@ -1,12 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
-import { Choice, ReelName, SpinState } from "../../types";
-import { typeChoices } from "../../data/typeChoices";
-import { techChoices } from "../../data/techChoices";
-import { taskChoices } from "../../data/taskChoices";
-import { timeChoices } from "../../data/timeChoices";
+import { ReelName, SpinState } from "../../types";
 import { getRandIdx } from "../../utils/genUtils";
+import { allChoices } from "../../data/allChoices";
 
 // Define a type for the state
 export type ReelState = {
@@ -15,7 +12,6 @@ export type ReelState = {
   chosenIdx: number | null;
   isUserLocked: boolean;
   isSpinLocked: boolean;
-  choices: Choice[];
 };
 
 export type ReelsState = [ReelState, ReelState, ReelState, ReelState];
@@ -45,7 +41,6 @@ const initialState: ReelsState = [
     chosenIdx: null,
     isUserLocked: false,
     isSpinLocked: false,
-    choices: typeChoices,
   },
   {
     name: "TECH",
@@ -53,7 +48,6 @@ const initialState: ReelsState = [
     chosenIdx: null,
     isUserLocked: false,
     isSpinLocked: false,
-    choices: techChoices,
   },
   {
     name: "TASK",
@@ -61,7 +55,6 @@ const initialState: ReelsState = [
     chosenIdx: null,
     isUserLocked: false,
     isSpinLocked: false,
-    choices: taskChoices,
   },
   {
     name: "TIME",
@@ -69,7 +62,6 @@ const initialState: ReelsState = [
     chosenIdx: null,
     isUserLocked: false,
     isSpinLocked: false,
-    choices: timeChoices,
   },
 ];
 
@@ -90,7 +82,7 @@ export const reelsSlice = createSlice({
       }
       state.forEach((reel) => {
         if (reel.spinState === "PRE") {
-          reel.chosenIdx = getRandIdx(reel.choices.length);
+          reel.chosenIdx = getRandIdx(allChoices[reel.name].length);
           reel.spinState = "IDLE_START";
         }
         reel.isSpinLocked = true;

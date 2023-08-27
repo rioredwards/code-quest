@@ -8,13 +8,11 @@ import { SpinState } from "./types";
 import ReelUnit from "./components/ReelUnit";
 import { useAppDispatch, useAppSelector } from "./store/hooks";
 import { ReelsState } from "./store/reels/reelsSlice";
-import { getRandIdx } from "./utils/genUtils";
 
 function App() {
   const dispatch = useAppDispatch();
   const reels = useAppSelector((state) => state.reels);
   const combinedSpinState = getCombinedSpinState(reels);
-
   const [displayIsActive, setDisplayIsActive] = useState(false);
 
   useEffect(() => {
@@ -22,37 +20,6 @@ function App() {
       setDisplayIsActive(true);
     }
   }, [combinedSpinState]);
-
-  // const onPullLever = () => {
-  //   console.log("onPullLever");
-  //   if (
-  //     reels.every(
-  //       ({ spinState }) => spinState !== "PRE" && spinState !== "POST"
-  //     )
-  //   ) {
-  //     return;
-  //   }
-
-  //   setDisplayIsActive(false);
-  //   getRandChoices();
-  //   reels.forEach((reel, idx) => {
-  //     if (reel.spinState === "POST") return;
-  //     dispatch({
-  //       type: "reels/chosenIdxSet",
-  //       payload: {
-  //         name: reel.name,
-  //         chosenIdx: chosenIdxs[idx],
-  //       },
-  //     });
-  //     dispatch({
-  //       type: "reels/spinStateUpdated",
-  //       payload: {
-  //         name: reel.name,
-  //         spinState: "IDLE_START",
-  //       },
-  //     });
-  //   });
-  // };
 
   const onDisplayCompleteTyping = () => {
     dispatch({

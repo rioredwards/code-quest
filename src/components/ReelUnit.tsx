@@ -5,10 +5,11 @@ import "./ReelUnit.css";
 import Sign from "./Sign";
 import Reel from "./Reel";
 import SpinLight from "./SpinLight";
-import { SpinState } from "../types";
+import { ReelName, SpinState } from "../types";
+import { allChoices } from "../data/allChoices";
 
 interface Props {
-  name: string;
+  name: ReelName;
   key: string;
   spinState: SpinState;
 }
@@ -18,7 +19,7 @@ const ReelUnit: React.FC<Props> = ({ name, spinState }) => {
   const reelIdx = useAppSelector((state) =>
     state.reels.findIndex((reel) => reel.name === name)
   );
-  const choices = useAppSelector((state) => state.reels[reelIdx].choices);
+  const choices = allChoices[name];
   const chosenIdx = useAppSelector((state) => state.reels[reelIdx].chosenIdx);
   const userLockedRef = useRef(isLocked);
   const dispatch = useAppDispatch();
