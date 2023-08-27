@@ -23,16 +23,6 @@ export enum ReelIdx {
   TIME = 3,
 }
 
-interface SpinStateUpdated {
-  name: ReelName;
-  spinState: SpinState;
-}
-
-interface ChosenIdxSet {
-  name: ReelName;
-  chosenIdx: number | null;
-}
-
 // Define the initial state using that type
 const initialState: ReelsState = [
   {
@@ -115,34 +105,25 @@ export const reelsSlice = createSlice({
         reel.spinState = "STOPPING";
       }
     },
-    spinStateUpdated: (state, action: PayloadAction<SpinStateUpdated>) => {
-      const { name, spinState } = action.payload;
-      const idx = state.findIndex((reel) => reel.name === name);
-      state[idx].spinState = spinState;
-    },
-    chosenIdxSet: (state, action: PayloadAction<ChosenIdxSet>) => {
-      const { name, chosenIdx } = action.payload;
-      const idx = state.findIndex((reel) => reel.name === name);
-      state[idx].chosenIdx = chosenIdx;
-    },
-    allSpinStatesUpdated: (state, action: PayloadAction<SpinState>) => {
+    displayAnimationFinished: (state) => {
       state.forEach((reel) => {
-        reel.spinState = action.payload;
-      });
-    },
-    allChosenIdxsReset: (state) => {
-      state.forEach((reel) => {
+        reel.isSpinLocked = false;
         reel.chosenIdx = null;
+        if (!reel.isUserLocked) {
+          reel.spinState = "PRE";
+        }
       });
     },
   },
 });
 
 export const {
-  spinStateUpdated,
-  chosenIdxSet,
-  allSpinStatesUpdated,
-  allChosenIdxsReset,
+  leverPulled,
+  lockSwitchToggled,
+  finishedIdleStart,
+  finishedStopping,
+  spinLightClicked,
+  displayAnimationFinished,
 } = reelsSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type

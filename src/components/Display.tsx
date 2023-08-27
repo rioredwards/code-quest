@@ -36,8 +36,7 @@ const Display: React.FC<Props> = ({ isActive }) => {
 
   const onCompleteTyping = () => {
     dispatch({
-      type: "reels/allSpinStatesUpdated",
-      payload: "PRE",
+      type: "reels/displayAnimationFinished",
     });
   };
 
