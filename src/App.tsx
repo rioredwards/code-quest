@@ -6,11 +6,10 @@ import Display from "./components/Display";
 import { useEffect, useState } from "react";
 import { SpinState } from "./types";
 import ReelUnit from "./components/ReelUnit";
-import { useAppDispatch, useAppSelector } from "./store/hooks";
+import { useAppSelector } from "./store/hooks";
 import { ReelsState } from "./store/reels/reelsSlice";
 
 function App() {
-  const dispatch = useAppDispatch();
   const reels = useAppSelector((state) => state.reels);
   const combinedSpinState = getCombinedSpinState(reels);
   const [displayIsActive, setDisplayIsActive] = useState(false);
@@ -20,13 +19,6 @@ function App() {
       setDisplayIsActive(true);
     }
   }, [combinedSpinState]);
-
-  const onDisplayCompleteTyping = () => {
-    dispatch({
-      type: "reels/allSpinStatesUpdated",
-      payload: "PRE",
-    });
-  };
 
   return (
     <div className="App">
@@ -47,10 +39,7 @@ function App() {
           <Lever />
         </div>
         <div className="display-container">
-          <Display
-            isActive={displayIsActive}
-            onCompleteTyping={onDisplayCompleteTyping}
-          />
+          <Display isActive={displayIsActive} />
         </div>
         <Machine />
       </GameContainer>
