@@ -11,7 +11,6 @@ interface LockSwitchProps {
 }
 
 const LockSwitch: React.FC<LockSwitchProps> = ({ isLocked, toggleLock }) => {
-  console.log("lockSwitch rendered");
   return (
     <motion.div onClick={toggleLock} className="lock-switch-container">
       <motion.div

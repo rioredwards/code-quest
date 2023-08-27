@@ -7,7 +7,7 @@ import {
   useTransform,
   useVelocity,
 } from "framer-motion";
-import { useEffect, useState } from "react";
+import { MutableRefObject, useEffect, useState } from "react";
 import { numToVh, vhToNum } from "../utils/genUtils";
 import {
   roundYToNearestChoice,
@@ -18,6 +18,7 @@ import {
   idleLoopAnimation,
   stoppingAnimation,
   postSpinAnimation,
+  yToChoiceIdx,
 } from "../motionConfigs/reelMotion";
 import Window from "./Window";
 import ChoiceList from "./ChoiceList";
@@ -30,6 +31,7 @@ interface ReelProps {
   onFinishedStopping: () => void;
   chosenIdx: number | null;
   isLocked: boolean;
+  choiceIdxAtCurrYPos: MutableRefObject<number | null>;
 }
 
 const Reel: React.FC<ReelProps> = ({
@@ -39,6 +41,7 @@ const Reel: React.FC<ReelProps> = ({
   onFinishedStopping,
   chosenIdx,
   isLocked,
+  choiceIdxAtCurrYPos,
 }) => {
   const [scope, animate] = useAnimate();
   const [dragging, setDragging] = useState(false);
@@ -47,10 +50,12 @@ const Reel: React.FC<ReelProps> = ({
   const yNum = useTransform(y, vhToNum);
   const dragY = useMotionValue(0);
   const yVelocity = useVelocity(yNum);
+  choiceIdxAtCurrYPos.current = yToChoiceIdx(vhToNum(y.get()), choices.length);
 
   // When spinState changes, animate the reel
   useEffect(() => {
     async function animateSequence(): Promise<void> {
+      console.log("animating reel: ", spinState);
       const animationParams: ReelMotionParams = {
         animate,
         reelEl: scope.current,
@@ -109,6 +114,10 @@ const Reel: React.FC<ReelProps> = ({
     setDragging(false);
     setDragStartY(0);
     dragY.set(0);
+    choiceIdxAtCurrYPos.current = yToChoiceIdx(
+      vhToNum(y.get()),
+      choices.length
+    );
   }
 
   return (

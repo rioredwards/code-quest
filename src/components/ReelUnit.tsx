@@ -7,6 +7,7 @@ import SpinLight from "./SpinLight";
 import { ReelName, SpinState } from "../types";
 import { allChoices } from "../data/allChoices";
 import { ReelState } from "../store/reels/reelsSlice";
+import { useRef } from "react";
 
 interface Props {
   name: ReelName;
@@ -18,13 +19,14 @@ const ReelUnit: React.FC<Props> = ({ name, spinState }) => {
     state.reels.find((reel) => reel.name === name)
   ) as ReelState;
   const { chosenIdx, isSpinLocked, isUserLocked } = reel;
+  const choiceIdxAtCurrYPos = useRef<null | number>(null);
   const choices = allChoices[name];
   const dispatch = useAppDispatch();
 
   const toggleIsUserLocked = () => {
     dispatch({
       type: "reels/lockSwitchToggled",
-      payload: name,
+      payload: { name, choiceIdxAtCurrYPos: choiceIdxAtCurrYPos.current },
     });
   };
 
@@ -60,6 +62,7 @@ const ReelUnit: React.FC<Props> = ({ name, spinState }) => {
         onFinishedIdleStart={onFinishedIdleStart}
         onFinishedStopping={onFinishedStopping}
         isLocked={isSpinLocked || isUserLocked}
+        choiceIdxAtCurrYPos={choiceIdxAtCurrYPos}
       />
       <SpinLight spinState={spinState} onClickSpinLight={onClickSpinLight} />
     </div>
