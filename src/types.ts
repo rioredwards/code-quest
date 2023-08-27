@@ -1,11 +1,5 @@
 export type ReelName = "TYPE" | "TECH" | "TASK" | "TIME";
 
-export type ReelState = {
-  name: ReelName;
-  spinState: SpinState;
-  chosenIdx: number | null;
-};
-
 export type SpinState =
   | "PRE"
   | "IDLE_START"

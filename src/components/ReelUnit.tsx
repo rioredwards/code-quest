@@ -1,22 +1,25 @@
 import { useRef, useState } from "react";
-import { useAppDispatch } from "../store/hooks";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
 import LockSwitch from "./LockSwitch";
 import "./ReelUnit.css";
 import Sign from "./Sign";
 import Reel from "./Reel";
 import SpinLight from "./SpinLight";
-import { Choice, SpinState } from "../types";
+import { SpinState } from "../types";
 
 interface Props {
   name: string;
   key: string;
   spinState: SpinState;
-  choices: Choice[];
-  chosenIdx: number | null;
 }
 
-const ReelUnit: React.FC<Props> = ({ name, spinState, choices, chosenIdx }) => {
+const ReelUnit: React.FC<Props> = ({ name, spinState }) => {
   const [isLocked, setIsLocked] = useState(false);
+  const reelIdx = useAppSelector((state) =>
+    state.reels.findIndex((reel) => reel.name === name)
+  );
+  const choices = useAppSelector((state) => state.reels[reelIdx].choices);
+  const chosenIdx = useAppSelector((state) => state.reels[reelIdx].chosenIdx);
   const userLockedRef = useRef(isLocked);
   const dispatch = useAppDispatch();
 

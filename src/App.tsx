@@ -3,19 +3,12 @@ import Machine from "./layout/Machine";
 import GameContainer from "./layout/GameContainer";
 import Lever from "./components/Lever";
 import Display from "./components/Display";
-import { techChoices } from "./data/choices/techChoices";
-import { taskChoices } from "./data/choices/taskChoices";
-import { timeChoices } from "./data/choices/timeChoices";
-import { typeChoices } from "./data/choices/typeChoices";
 import { useEffect, useState } from "react";
 import { SpinState } from "./types";
 import ReelUnit from "./components/ReelUnit";
-import { reelConfigs } from "./data/ReelConfigs";
 import { useAppDispatch, useAppSelector } from "./store/hooks";
 import { ReelsState } from "./store/reels/reelsSlice";
 import { getRandIdx } from "./utils/genUtils";
-
-let chosenIdxs: number[] | null[] = [null, null, null, null];
 
 function App() {
   const dispatch = useAppDispatch();
@@ -30,36 +23,36 @@ function App() {
     }
   }, [combinedSpinState]);
 
-  const onPullLever = () => {
-    console.log("onPullLever");
-    if (
-      reels.every(
-        ({ spinState }) => spinState !== "PRE" && spinState !== "POST"
-      )
-    ) {
-      return;
-    }
+  // const onPullLever = () => {
+  //   console.log("onPullLever");
+  //   if (
+  //     reels.every(
+  //       ({ spinState }) => spinState !== "PRE" && spinState !== "POST"
+  //     )
+  //   ) {
+  //     return;
+  //   }
 
-    setDisplayIsActive(false);
-    getRandChoices();
-    reels.forEach((reel, idx) => {
-      if (reel.spinState === "POST") return;
-      dispatch({
-        type: "reels/chosenIdxSet",
-        payload: {
-          name: reel.name,
-          chosenIdx: chosenIdxs[idx],
-        },
-      });
-      dispatch({
-        type: "reels/spinStateUpdated",
-        payload: {
-          name: reel.name,
-          spinState: "IDLE_START",
-        },
-      });
-    });
-  };
+  //   setDisplayIsActive(false);
+  //   getRandChoices();
+  //   reels.forEach((reel, idx) => {
+  //     if (reel.spinState === "POST") return;
+  //     dispatch({
+  //       type: "reels/chosenIdxSet",
+  //       payload: {
+  //         name: reel.name,
+  //         chosenIdx: chosenIdxs[idx],
+  //       },
+  //     });
+  //     dispatch({
+  //       type: "reels/spinStateUpdated",
+  //       payload: {
+  //         name: reel.name,
+  //         spinState: "IDLE_START",
+  //       },
+  //     });
+  //   });
+  // };
 
   const onDisplayCompleteTyping = () => {
     dispatch({
@@ -79,14 +72,12 @@ function App() {
                 name={reel.name}
                 key={reel.name}
                 spinState={reel.spinState}
-                choices={reelConfigs[idx].choices}
-                chosenIdx={reel.chosenIdx}
               />
             );
           })}
         </div>
         <div className="lever-container">
-          <Lever onPull={onPullLever} />
+          <Lever />
         </div>
         <div className="display-container">
           <Display
@@ -106,20 +97,6 @@ function getCombinedSpinState(allReelsState: ReelsState): SpinState | null {
     (reelState) => reelState.spinState === firstSpinState
   );
   return allSpinStatesAreEqual ? firstSpinState : null;
-}
-
-function getRandChoices() {
-  const chosenTypeIdx = getRandIdx(typeChoices.length);
-  const chosenTechIdx = getRandIdx(techChoices.length);
-  const chosenTaskIdx = getRandIdx(taskChoices.length);
-  const chosenTimeIdx = getRandIdx(timeChoices.length);
-  const newChosenIdxs = [
-    chosenTypeIdx,
-    chosenTechIdx,
-    chosenTaskIdx,
-    chosenTimeIdx,
-  ];
-  chosenIdxs = newChosenIdxs;
 }
 
 export default App;

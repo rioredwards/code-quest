@@ -2,12 +2,12 @@ import "./Lever.css";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { PULL_THRESHOLD, THROTTLE_MS } from "../motionConfigs/leverMotion";
 import { useRef } from "react";
+import { useAppDispatch } from "../store/hooks";
 
-interface LeverProps {
-  onPull: () => void;
-}
+interface LeverProps {}
 
-const Lever: React.FC<LeverProps> = ({ onPull }) => {
+const Lever: React.FC<LeverProps> = () => {
+  const dispatch = useAppDispatch();
   const dragYPos = useMotionValue(0);
   const hoverRotationAngle = useSpring(0);
   const dragXPos = useTransform(dragYPos, [0, 70, 140], [0, 30, 0]);
@@ -22,7 +22,7 @@ const Lever: React.FC<LeverProps> = ({ onPull }) => {
 
   function onDrag() {
     if (dragYPos.get() > PULL_THRESHOLD && !isThrottled.current) {
-      onPull();
+      dispatch({ type: "reels/leverPulled" });
       isThrottled.current = true;
       setTimeout(() => {
         isThrottled.current = false;
