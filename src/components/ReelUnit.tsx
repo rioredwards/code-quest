@@ -31,7 +31,7 @@ const ReelUnit: React.FC<Props> = ({ name, spinState }) => {
   // Only update reel's isUserLocked state when reel is not spinning
   const toggleIsUserLocked = () => {
     dispatch({
-      type: "reels/lockToggled",
+      type: "reels/lockSwitchToggled",
       payload: name,
     });
   };

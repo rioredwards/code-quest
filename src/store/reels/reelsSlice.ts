@@ -88,9 +88,15 @@ export const reelsSlice = createSlice({
         reel.isSpinLocked = true;
       });
     },
-    lockToggled: (state, action: PayloadAction<ReelName>) => {
+    lockSwitchToggled: (state, action: PayloadAction<ReelName>) => {
       const reelIdx = state.findIndex((reel) => reel.name === action.payload);
-      state[reelIdx].isUserLocked = !state[reelIdx].isUserLocked;
+      const reel = state[reelIdx];
+      reel.isUserLocked = !reel.isUserLocked;
+      if (reel.spinState === "PRE") {
+        reel.spinState = "POST";
+      } else if (reel.spinState === "POST" && !reel.isSpinLocked) {
+        reel.spinState = "PRE";
+      }
     },
     spinStateUpdated: (state, action: PayloadAction<SpinStateUpdated>) => {
       const { name, spinState } = action.payload;
