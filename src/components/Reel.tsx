@@ -26,7 +26,8 @@ import { Choice, SpinState } from "../types";
 interface ReelProps {
   choices: readonly Choice[];
   spinState: SpinState;
-  setSpinState: (spinState: SpinState) => void;
+  onFinishedIdleStart: () => void;
+  onFinishedStopping: () => void;
   chosenIdx: number | null;
   isLocked: boolean;
 }
@@ -34,7 +35,8 @@ interface ReelProps {
 const Reel: React.FC<ReelProps> = ({
   choices,
   spinState,
-  setSpinState,
+  onFinishedIdleStart,
+  onFinishedStopping,
   chosenIdx,
   isLocked,
 }) => {
@@ -54,13 +56,6 @@ const Reel: React.FC<ReelProps> = ({
 
   // When spinState changes, animate the reel
   useEffect(() => {
-    if (isLocked && spinState === "PRE") {
-      activeSpinMotion.current = "POST";
-      setSpinState("POST");
-    } else if (!isLocked && spinState === "POST") {
-      activeSpinMotion.current = "PRE";
-      setSpinState("PRE");
-    }
     if (!isInitial && spinState === activeSpinMotion.current) {
       return;
     }
@@ -80,9 +75,12 @@ const Reel: React.FC<ReelProps> = ({
         animationParams
       );
 
-      if (newSpinState) {
-        activeSpinMotion.current = newSpinState;
-        setSpinState(newSpinState);
+      if (newSpinState === "IDLE_LOOP") {
+        onFinishedIdleStart();
+      } else if (newSpinState === "POST") {
+        onFinishedStopping();
+      } else {
+        // Do nothing
       }
     }
 
@@ -163,7 +161,6 @@ export default Reel;
 // This function calls an animation function based on the current spinState
 // If the next animation and spinState is triggered by an animation ending,
 // This function will return the next spinState to be updated in the parent component
-// (The next spin state COULD be set within this function, but that would be a strange side effect and bad practice)
 async function setNewAnimation(
   spinState: SpinState,
   animationParams: ReelMotionParams

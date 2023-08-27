@@ -82,7 +82,6 @@ export const reelsSlice = createSlice({
       }
       reels.forEach((reel) => {
         if (reel.spinState === "PRE") {
-          reel.chosenIdx = getRandIdx(allChoices[reel.name].length);
           reel.spinState = "IDLE_START";
         }
         reel.isSpinLocked = true;
@@ -96,6 +95,24 @@ export const reelsSlice = createSlice({
         reel.spinState = "POST";
       } else if (reel.spinState === "POST" && !reel.isSpinLocked) {
         reel.spinState = "PRE";
+      }
+    },
+    finishedIdleStart: (state, action: PayloadAction<ReelName>) => {
+      const reelIdx = state.findIndex((reel) => reel.name === action.payload);
+      const reel = state[reelIdx];
+      reel.spinState = "IDLE_LOOP";
+    },
+    finishedStopping: (state, action: PayloadAction<ReelName>) => {
+      const reelIdx = state.findIndex((reel) => reel.name === action.payload);
+      const reel = state[reelIdx];
+      reel.spinState = "POST";
+    },
+    spinLightClicked: (state, action: PayloadAction<ReelName>) => {
+      const reelIdx = state.findIndex((reel) => reel.name === action.payload);
+      const reel = state[reelIdx];
+      if (reel.spinState === "IDLE_LOOP") {
+        reel.chosenIdx = getRandIdx(allChoices[reel.name].length);
+        reel.spinState = "STOPPING";
       }
     },
     spinStateUpdated: (state, action: PayloadAction<SpinStateUpdated>) => {

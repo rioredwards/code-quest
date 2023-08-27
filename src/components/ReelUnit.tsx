@@ -6,29 +6,21 @@ import Reel from "./Reel";
 import SpinLight from "./SpinLight";
 import { ReelName, SpinState } from "../types";
 import { allChoices } from "../data/allChoices";
+import { ReelState } from "../store/reels/reelsSlice";
 
 interface Props {
   name: ReelName;
-  key: string;
   spinState: SpinState;
 }
 
 const ReelUnit: React.FC<Props> = ({ name, spinState }) => {
-  const reelIdx = useAppSelector((state) =>
-    state.reels.findIndex((reel) => reel.name === name)
-  );
+  const reel = useAppSelector((state) =>
+    state.reels.find((reel) => reel.name === name)
+  ) as ReelState;
+  const { chosenIdx, isSpinLocked, isUserLocked } = reel;
   const choices = allChoices[name];
-  const chosenIdx = useAppSelector((state) => state.reels[reelIdx].chosenIdx);
-  const isSpinLocked = useAppSelector(
-    (state) => state.reels[reelIdx].isSpinLocked
-  );
-  const isUserLocked = useAppSelector(
-    (state) => state.reels[reelIdx].isUserLocked
-  );
-  const isLocked = isSpinLocked || isUserLocked;
   const dispatch = useAppDispatch();
 
-  // Only update reel's isUserLocked state when reel is not spinning
   const toggleIsUserLocked = () => {
     dispatch({
       type: "reels/lockSwitchToggled",
@@ -36,31 +28,38 @@ const ReelUnit: React.FC<Props> = ({ name, spinState }) => {
     });
   };
 
-  const setSpinState = (spinState: SpinState) => {
+  const onFinishedIdleStart = () => {
     dispatch({
-      type: "reels/spinStateUpdated",
-      payload: {
-        name,
-        spinState,
-      },
+      type: "reels/finishedIdleStart",
+      payload: name,
     });
   };
 
-  const onClickSpinLight = (spinState: SpinState) => {
-    if (spinState !== "IDLE_LOOP") return;
-    setSpinState("STOPPING");
+  const onFinishedStopping = () => {
+    dispatch({
+      type: "reels/finishedStopping",
+      payload: name,
+    });
+  };
+
+  const onClickSpinLight = () => {
+    dispatch({
+      type: "reels/spinLightClicked",
+      payload: name,
+    });
   };
 
   return (
     <div className="reel-unit">
       <Sign name={name} />
-      <LockSwitch isLocked={isLocked} toggleLock={toggleIsUserLocked} />
+      <LockSwitch isLocked={isUserLocked} toggleLock={toggleIsUserLocked} />
       <Reel
         choices={choices}
         chosenIdx={chosenIdx}
         spinState={spinState}
-        setSpinState={setSpinState}
-        isLocked={isLocked}
+        onFinishedIdleStart={onFinishedIdleStart}
+        onFinishedStopping={onFinishedStopping}
+        isLocked={isSpinLocked || isUserLocked}
       />
       <SpinLight spinState={spinState} onClickSpinLight={onClickSpinLight} />
     </div>

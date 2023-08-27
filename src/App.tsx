@@ -25,7 +25,7 @@ function App() {
       <GameContainer>
         <div className="spin-log">{combinedSpinState || "Mixed"}</div>
         <div className="reels-container">
-          {reels.map((reel, idx) => {
+          {reels.map((reel) => {
             return (
               <ReelUnit
                 name={reel.name}
