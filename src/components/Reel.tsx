@@ -28,7 +28,7 @@ interface ReelProps {
   spinState: SpinState;
   setSpinState: (spinState: SpinState) => void;
   chosenIdx: number | null;
-  isUserLocked: boolean;
+  isLocked: boolean;
 }
 
 const Reel: React.FC<ReelProps> = ({
@@ -36,12 +36,10 @@ const Reel: React.FC<ReelProps> = ({
   spinState,
   setSpinState,
   chosenIdx,
-  isUserLocked,
+  isLocked,
 }) => {
   const [isInitial, setIsInitial] = useState(true);
   const activeSpinMotion = useRef(spinState);
-  const isSpinLocked = spinState !== "PRE";
-  const isPostSpinLocked = useRef(false);
   const [scope, animate] = useAnimate();
   const [dragging, setDragging] = useState(false);
   const [dragStartY, setDragStartY] = useState(0);
@@ -56,14 +54,10 @@ const Reel: React.FC<ReelProps> = ({
 
   // When spinState changes, animate the reel
   useEffect(() => {
-    if (isPostSpinLocked.current) {
-      if (spinState === "POST") return;
-      if (spinState === "PRE") isPostSpinLocked.current = false;
-    }
-    if (isUserLocked && spinState === "PRE") {
+    if (isLocked && spinState === "PRE") {
       activeSpinMotion.current = "POST";
       setSpinState("POST");
-    } else if (!isUserLocked && spinState === "POST") {
+    } else if (!isLocked && spinState === "POST") {
       activeSpinMotion.current = "PRE";
       setSpinState("PRE");
     }
@@ -87,8 +81,6 @@ const Reel: React.FC<ReelProps> = ({
       );
 
       if (newSpinState) {
-        if (spinState === "STOPPING" && newSpinState === "POST")
-          isPostSpinLocked.current = true;
         activeSpinMotion.current = newSpinState;
         setSpinState(newSpinState);
       }
@@ -96,7 +88,7 @@ const Reel: React.FC<ReelProps> = ({
 
     animateSequence();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [spinState, isUserLocked]);
+  }, [spinState, isLocked]);
 
   function onHoverStart(): void {
     if (dragging) return;
@@ -138,7 +130,7 @@ const Reel: React.FC<ReelProps> = ({
   return (
     <div className="reel-container">
       <div className="reel-gradient" />
-      {!isUserLocked && !isSpinLocked && (
+      {!isLocked && (
         <motion.div
           className="drag-handle"
           style={{ y: dragY }}
@@ -154,9 +146,7 @@ const Reel: React.FC<ReelProps> = ({
           onDragEnd={onDragEnd}
         />
       )}
-      <AnimatePresence>
-        {(isUserLocked || isSpinLocked) && <Window />}
-      </AnimatePresence>
+      <AnimatePresence>{isLocked && <Window />}</AnimatePresence>
       <motion.ul className="reel" style={{ y }} ref={scope}>
         <ChoiceList
           choices={choices}

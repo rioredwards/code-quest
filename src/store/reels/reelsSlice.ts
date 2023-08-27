@@ -80,13 +80,17 @@ export const reelsSlice = createSlice({
       ) {
         return;
       }
-      state.forEach((reel) => {
+      reels.forEach((reel) => {
         if (reel.spinState === "PRE") {
           reel.chosenIdx = getRandIdx(allChoices[reel.name].length);
           reel.spinState = "IDLE_START";
         }
         reel.isSpinLocked = true;
       });
+    },
+    lockToggled: (state, action: PayloadAction<ReelName>) => {
+      const reelIdx = state.findIndex((reel) => reel.name === action.payload);
+      state[reelIdx].isUserLocked = !state[reelIdx].isUserLocked;
     },
     spinStateUpdated: (state, action: PayloadAction<SpinStateUpdated>) => {
       const { name, spinState } = action.payload;

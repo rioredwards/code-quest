@@ -1,4 +1,3 @@
-import { useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import LockSwitch from "./LockSwitch";
 import "./ReelUnit.css";
@@ -15,22 +14,27 @@ interface Props {
 }
 
 const ReelUnit: React.FC<Props> = ({ name, spinState }) => {
-  const [isLocked, setIsLocked] = useState(false);
   const reelIdx = useAppSelector((state) =>
     state.reels.findIndex((reel) => reel.name === name)
   );
   const choices = allChoices[name];
   const chosenIdx = useAppSelector((state) => state.reels[reelIdx].chosenIdx);
-  const userLockedRef = useRef(isLocked);
+  const isSpinLocked = useAppSelector(
+    (state) => state.reels[reelIdx].isSpinLocked
+  );
+  const isUserLocked = useAppSelector(
+    (state) => state.reels[reelIdx].isUserLocked
+  );
+  const isLocked = isSpinLocked || isUserLocked;
   const dispatch = useAppDispatch();
 
   // Only update reel's isUserLocked state when reel is not spinning
-  if (
-    userLockedRef.current !== isLocked &&
-    (spinState === "PRE" || spinState === "POST")
-  ) {
-    userLockedRef.current = isLocked;
-  }
+  const toggleIsUserLocked = () => {
+    dispatch({
+      type: "reels/lockToggled",
+      payload: name,
+    });
+  };
 
   const setSpinState = (spinState: SpinState) => {
     dispatch({
@@ -50,13 +54,13 @@ const ReelUnit: React.FC<Props> = ({ name, spinState }) => {
   return (
     <div className="reel-unit">
       <Sign name={name} />
-      <LockSwitch isLocked={isLocked} setIsLocked={setIsLocked} />
+      <LockSwitch isLocked={isLocked} toggleLock={toggleIsUserLocked} />
       <Reel
         choices={choices}
         chosenIdx={chosenIdx}
         spinState={spinState}
         setSpinState={setSpinState}
-        isUserLocked={userLockedRef.current}
+        isLocked={isLocked}
       />
       <SpinLight spinState={spinState} onClickSpinLight={onClickSpinLight} />
     </div>
