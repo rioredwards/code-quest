@@ -7,7 +7,7 @@ import {
   useTransform,
   useVelocity,
 } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { numToVh, vhToNum } from "../utils/genUtils";
 import {
   roundYToNearestChoice,
@@ -40,8 +40,6 @@ const Reel: React.FC<ReelProps> = ({
   chosenIdx,
   isLocked,
 }) => {
-  const [isInitial, setIsInitial] = useState(true);
-  const activeSpinMotion = useRef(spinState);
   const [scope, animate] = useAnimate();
   const [dragging, setDragging] = useState(false);
   const [dragStartY, setDragStartY] = useState(0);
@@ -50,17 +48,8 @@ const Reel: React.FC<ReelProps> = ({
   const dragY = useMotionValue(0);
   const yVelocity = useVelocity(yNum);
 
-  useEffect(() => {
-    setIsInitial(false);
-  }, []);
-
   // When spinState changes, animate the reel
   useEffect(() => {
-    if (!isInitial && spinState === activeSpinMotion.current) {
-      return;
-    }
-
-    activeSpinMotion.current = spinState;
     async function animateSequence(): Promise<void> {
       const animationParams: ReelMotionParams = {
         animate,
@@ -70,10 +59,7 @@ const Reel: React.FC<ReelProps> = ({
         chosenIdx,
       };
 
-      const newSpinState = await setNewAnimation(
-        activeSpinMotion.current,
-        animationParams
-      );
+      const newSpinState = await setNewAnimation(spinState, animationParams);
 
       if (newSpinState === "IDLE_LOOP") {
         onFinishedIdleStart();
@@ -86,7 +72,7 @@ const Reel: React.FC<ReelProps> = ({
 
     animateSequence();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [spinState, isLocked]);
+  }, [spinState]);
 
   function onHoverStart(): void {
     if (dragging) return;
