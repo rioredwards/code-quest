@@ -50,7 +50,14 @@ const Reel: React.FC<ReelProps> = ({
   const yNum = useTransform(y, vhToNum);
   const dragY = useMotionValue(0);
   const yVelocity = useVelocity(yNum);
-  choiceIdxAtCurrYPos.current = yToChoiceIdx(vhToNum(y.get()), choices.length);
+
+  y.on("change", () => {
+    if (spinState !== "PRE") return;
+    choiceIdxAtCurrYPos.current = yToChoiceIdx(
+      vhToNum(y.get()),
+      choices.length
+    );
+  });
 
   // When spinState changes, animate the reel
   useEffect(() => {
@@ -113,10 +120,6 @@ const Reel: React.FC<ReelProps> = ({
     setDragging(false);
     setDragStartY(0);
     dragY.set(0);
-    choiceIdxAtCurrYPos.current = yToChoiceIdx(
-      vhToNum(y.get()),
-      choices.length
-    );
   }
 
   return (
