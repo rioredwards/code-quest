@@ -47,7 +47,6 @@ export async function preSpinAnimation(params: ReelMotionParams) {
   const { reelEl, yVh, choicesLength, animate } = params;
   const currYNum = vhToNum(yVh.get());
   const startYNum = translateYToReelCopyIdx(currYNum, choicesLength, 1);
-  logReelCopyIdxAtY(startYNum, choicesLength);
   const startYVh = numToVh(startYNum);
   return animate(reelEl, { y: startYVh }, jumpMotion);
 }

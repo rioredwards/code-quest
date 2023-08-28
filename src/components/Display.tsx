@@ -9,6 +9,7 @@ import { taskChoices } from "../data/choices/taskChoices";
 import { techChoices } from "../data/choices/techChoices";
 import { timeChoices } from "../data/choices/timeChoices";
 import { SpinState } from "../types";
+import { useEffect } from "react";
 
 interface Props {}
 
@@ -34,12 +35,14 @@ const Display: React.FC<Props> = () => {
 
   const displayText = `${type} Challenge: ${task} using ${tech} in ${time}!`;
 
-  if (!isOn && combinedSpinState === "POST") {
-    dispatch({
-      type: "display/startDisplay",
-      payload: displayText,
-    });
-  }
+  useEffect(() => {
+    if (!isOn && combinedSpinState === "POST") {
+      dispatch({
+        type: "display/startDisplay",
+        payload: displayText,
+      });
+    }
+  }, [isOn, combinedSpinState, dispatch, displayText]);
 
   const onCompleteTyping = () => {
     dispatch({
