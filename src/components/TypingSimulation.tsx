@@ -7,6 +7,7 @@ import {
   MAX_TYPE_DELAY,
   MIN_TYPE_DELAY,
   TEXT_WRAP_LENGTH,
+  EXTRA_DELAY_BETWEEN_WORDS,
 } from "../motionConfigs/typingSimulationMotion";
 
 interface Props {
@@ -14,15 +15,15 @@ interface Props {
   onCompleteTyping: () => void;
 }
 
-let timeSinceLetterAdded = 0;
-let timeSinceCursorBlinked = 0;
-
 const TypingSimulation: React.FC<Props> = ({ text, onCompleteTyping }) => {
   const letterIdx = useRef(0);
   const blinking = useRef(true);
   const typing = useRef(true);
+  const timeSinceLetterAdded = useRef(0);
+  const timeSinceCursorBlinked = useRef(0);
   const [displayText, setDisplayText] = useState("");
   const [cursorVisible, setCursorVisible] = useState(true);
+  const prevLetterAdded: string | undefined = text[letterIdx.current - 2];
 
   const addNextLetterToDisplayText = () => {
     if (!typing.current) return;
@@ -42,8 +43,8 @@ const TypingSimulation: React.FC<Props> = ({ text, onCompleteTyping }) => {
   useAnimationFrame((_, delta) => {
     if (!blinking.current && !typing.current) return;
 
-    timeSinceLetterAdded += delta;
-    timeSinceCursorBlinked += delta;
+    timeSinceLetterAdded.current += delta;
+    timeSinceCursorBlinked.current += delta;
 
     if (blinking.current) {
       if (!typing.current && text.length === TEXT_WRAP_LENGTH - 1) {
@@ -51,25 +52,37 @@ const TypingSimulation: React.FC<Props> = ({ text, onCompleteTyping }) => {
         onFinishedTypingAndBlinking();
         return;
       }
-      if (timeSinceCursorBlinked > CURSOR_BLINK_SPEED) {
+      if (timeSinceCursorBlinked.current > CURSOR_BLINK_SPEED) {
         // Blink the cursor
         setCursorVisible((prev) => !prev);
-        timeSinceCursorBlinked = 0;
+        timeSinceCursorBlinked.current = 0;
       }
-      if (timeSinceLetterAdded > BLINK_DURATION_AFTER_TYPING) {
+      if (timeSinceLetterAdded.current > BLINK_DURATION_AFTER_TYPING) {
         // Stop blinking the cursor after typing + delay after typing
         onFinishedTypingAndBlinking();
       }
     }
     if (typing.current) {
-      if (timeSinceLetterAdded > randomSpeed(MIN_TYPE_DELAY, MAX_TYPE_DELAY)) {
-        addNextLetterToDisplayText();
-        timeSinceLetterAdded = 0;
+      if (prevLetterAdded !== " " && prevLetterAdded !== undefined) {
+        if (
+          timeSinceLetterAdded.current >
+          randomDelay(MIN_TYPE_DELAY, MAX_TYPE_DELAY)
+        ) {
+          addNextLetterToDisplayText();
+          timeSinceLetterAdded.current = 0;
+        }
+      } else {
+        if (
+          timeSinceLetterAdded.current >
+          randomDelay(MIN_TYPE_DELAY, MAX_TYPE_DELAY) +
+            EXTRA_DELAY_BETWEEN_WORDS
+        ) {
+          addNextLetterToDisplayText();
+          timeSinceLetterAdded.current = 0;
+        }
       }
     }
   });
-
-  // if (!typing && !cursorVisible) onComplete();
 
   return (
     <p className="text">{cursorVisible ? `${displayText}_` : displayText}</p>
@@ -78,6 +91,6 @@ const TypingSimulation: React.FC<Props> = ({ text, onCompleteTyping }) => {
 
 export default TypingSimulation;
 
-const randomSpeed = (min: number, max: number): number => {
+const randomDelay = (min: number, max: number): number => {
   return Math.floor(Math.random() * (max - min) + min);
 };
