@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./TypingSimulation.css";
 import { useAnimationFrame } from "framer-motion";
 import {
@@ -39,6 +39,12 @@ const TypingSimulation: React.FC<Props> = ({ text, onCompleteTyping }) => {
     setCursorVisible(false);
     onCompleteTyping();
   }
+
+  useEffect(() => {
+    if (!typing.current && text !== displayText) {
+      setDisplayText(text);
+    }
+  }, [text, typing, displayText]);
 
   useAnimationFrame((_, delta) => {
     if (!blinking.current && !typing.current) return;

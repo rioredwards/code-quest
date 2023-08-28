@@ -124,7 +124,6 @@ export const reelsSlice = createSlice({
     displayAnimationFinished: (state) => {
       state.forEach((reel) => {
         reel.isSpinLocked = false;
-        reel.chosenIdx = null;
         if (!reel.isUserLocked) {
           reel.spinState = "PRE";
         }

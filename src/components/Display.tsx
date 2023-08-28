@@ -17,7 +17,7 @@ const Display: React.FC<Props> = () => {
   const dispatch = useAppDispatch();
 
   const isOn = useAppSelector((state) => state.display.isOn);
-  const text = useAppSelector((state) => state.display.text);
+  const displayText = useAppSelector((state) => state.display.text);
 
   const combinedSpinState = useAppSelector(({ reels }) =>
     getCombinedSpinState(reels)
@@ -28,21 +28,35 @@ const Display: React.FC<Props> = () => {
   const techIdx = useAppSelector(({ reels }) => reels[ReelIdx.TECH].chosenIdx);
   const timeIdx = useAppSelector(({ reels }) => reels[ReelIdx.TIME].chosenIdx);
 
-  const type = typeIdx !== null ? typeChoices[typeIdx].sentenceName : "";
-  const task = taskIdx !== null ? taskChoices[taskIdx].sentenceName : "";
-  const tech = techIdx !== null ? techChoices[techIdx].sentenceName : "";
-  const time = timeIdx !== null ? timeChoices[timeIdx].sentenceName : "";
+  const type = typeIdx !== null ? typeChoices[typeIdx].sentenceName : null;
+  const task = taskIdx !== null ? taskChoices[taskIdx].sentenceName : null;
+  const tech = techIdx !== null ? techChoices[techIdx].sentenceName : null;
+  const time = timeIdx !== null ? timeChoices[timeIdx].sentenceName : null;
 
-  const displayText = `${type} Challenge: ${task} using ${tech} in ${time}!`;
+  const newDisplayText = formatDisplayText(type, task, tech, time);
+  const needToUpdate = newDisplayText && newDisplayText !== displayText;
 
   useEffect(() => {
-    if (!isOn && combinedSpinState === "POST") {
+    if (!isOn && combinedSpinState === "POST" && newDisplayText) {
+      console.log("newDisplayText", newDisplayText);
       dispatch({
         type: "display/startDisplay",
-        payload: displayText,
+        payload: newDisplayText,
+      });
+    } else if (isOn && needToUpdate) {
+      dispatch({
+        type: "display/updateDisplay",
+        payload: newDisplayText,
       });
     }
-  }, [isOn, combinedSpinState, dispatch, displayText]);
+  }, [
+    isOn,
+    combinedSpinState,
+    dispatch,
+    newDisplayText,
+    displayText,
+    needToUpdate,
+  ]);
 
   const onCompleteTyping = () => {
     dispatch({
@@ -50,18 +64,33 @@ const Display: React.FC<Props> = () => {
     });
   };
 
+  console.log("displayText: ", displayText);
+
   return (
     <div className="display-container">
       <div className="display-glass" />
-      {isOn && (
+      {isOn && !needToUpdate && (
         <>
           <motion.div animate={linesAnimation} className="display-lines" />
-          <TypingSimulation text={text} onCompleteTyping={onCompleteTyping} />
+          <TypingSimulation
+            text={displayText}
+            onCompleteTyping={onCompleteTyping}
+          />
         </>
       )}
     </div>
   );
 };
+
+function formatDisplayText(
+  type: string | null,
+  task: string | null,
+  tech: string | null,
+  time: string | null
+): string | null {
+  if (!type || !task || !tech || !time) return null;
+  return `${type} Challenge: ${task} using ${tech} in ${time}!`;
+}
 
 function getCombinedSpinState(allReelsState: ReelsState): SpinState | null {
   const firstSpinState = allReelsState[0].spinState;

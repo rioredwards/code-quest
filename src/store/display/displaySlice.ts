@@ -26,6 +26,9 @@ export const displaySlice = createSlice({
       state.isOn = false;
       state.text = "";
     },
+    updateDisplay: (state, action: PayloadAction<string>) => {
+      state.text = action.payload;
+    },
   },
 });
 
