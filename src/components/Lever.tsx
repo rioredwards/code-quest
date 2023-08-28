@@ -23,6 +23,7 @@ const Lever: React.FC<LeverProps> = () => {
   function onDrag() {
     if (dragYPos.get() > PULL_THRESHOLD && !isThrottled.current) {
       dispatch({ type: "reels/leverPulled" });
+      dispatch({ type: "display/stopDisplay" });
       isThrottled.current = true;
       setTimeout(() => {
         isThrottled.current = false;

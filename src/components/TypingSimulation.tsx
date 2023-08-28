@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import "./TypingSimulation.css";
 import { useAnimationFrame } from "framer-motion";
 import {
@@ -18,35 +18,35 @@ let timeSinceLetterAdded = 0;
 let timeSinceCursorBlinked = 0;
 
 const TypingSimulation: React.FC<Props> = ({ text, onCompleteTyping }) => {
-  const [letterIdx, setLetterIdx] = useState(0);
-  const [typing, setTyping] = useState(true);
-  const [blinking, setBlinking] = useState(true);
+  const letterIdx = useRef(0);
+  const blinking = useRef(true);
+  const typing = useRef(true);
   const [displayText, setDisplayText] = useState("");
   const [cursorVisible, setCursorVisible] = useState(true);
 
   const addNextLetterToDisplayText = () => {
-    if (!typing) return;
-    if (letterIdx === text.length) setTyping(false);
+    if (!typing.current) return;
+    if (letterIdx.current === text.length) typing.current = false;
 
-    const updatedText = text.slice(0, letterIdx);
+    const updatedText = text.slice(0, letterIdx.current);
     setDisplayText(updatedText);
-    setLetterIdx((prev) => prev + 1);
+    letterIdx.current += 1;
   };
 
   function onFinishedTypingAndBlinking() {
+    blinking.current = false;
     setCursorVisible(false);
-    setBlinking(false);
     onCompleteTyping();
   }
 
   useAnimationFrame((_, delta) => {
-    if (!blinking && !typing) return;
+    if (!blinking.current && !typing.current) return;
 
     timeSinceLetterAdded += delta;
     timeSinceCursorBlinked += delta;
 
-    if (blinking) {
-      if (!typing && text.length === TEXT_WRAP_LENGTH - 1) {
+    if (blinking.current) {
+      if (!typing.current && text.length === TEXT_WRAP_LENGTH - 1) {
         // If the text is about to wrap, don't blink the cursor after typing
         onFinishedTypingAndBlinking();
         return;
@@ -61,7 +61,7 @@ const TypingSimulation: React.FC<Props> = ({ text, onCompleteTyping }) => {
         onFinishedTypingAndBlinking();
       }
     }
-    if (typing) {
+    if (typing.current) {
       if (timeSinceLetterAdded > randomSpeed(MIN_TYPE_DELAY, MAX_TYPE_DELAY)) {
         addNextLetterToDisplayText();
         timeSinceLetterAdded = 0;
