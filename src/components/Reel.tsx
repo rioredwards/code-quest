@@ -55,7 +55,6 @@ const Reel: React.FC<ReelProps> = ({
   // When spinState changes, animate the reel
   useEffect(() => {
     async function animateSequence(): Promise<void> {
-      console.log("animating reel: ", spinState);
       const animationParams: ReelMotionParams = {
         animate,
         reelEl: scope.current,

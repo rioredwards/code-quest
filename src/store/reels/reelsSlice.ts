@@ -94,7 +94,6 @@ export const reelsSlice = createSlice({
       reel.isUserLocked = !reel.isUserLocked;
 
       if (reel.spinState === "PRE") {
-        console.log("action.payload: ", action.payload);
         reel.chosenIdx = action.payload.choiceIdxAtCurrYPos;
         reel.spinState = "POST";
       } else if (reel.spinState === "POST" && !reel.isSpinLocked) {
