@@ -64,8 +64,6 @@ const Display: React.FC<Props> = () => {
     });
   };
 
-  console.log("displayText: ", displayText);
-
   return (
     <div className="display-container">
       <div className="display-glass" />

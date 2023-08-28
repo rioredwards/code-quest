@@ -143,7 +143,7 @@ const Reel: React.FC<ReelProps> = ({
         <ChoiceList
           choices={choices}
           chosenIdx={chosenIdx}
-          highlightChosen={spinState === "POST"}
+          highlightChosen={spinState === "POST" || spinState === "PRE"}
         />
       </motion.ul>
     </div>
