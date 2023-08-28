@@ -143,5 +143,14 @@ export const {
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectReels = (state: RootState) => state.reels;
+export function getCombinedSpinState(
+  allReelsState: ReelsState
+): SpinState | null {
+  const firstSpinState = allReelsState[0].spinState;
+  const allSpinStatesAreEqual = allReelsState.every(
+    (reelState) => reelState.spinState === firstSpinState
+  );
+  return allSpinStatesAreEqual ? firstSpinState : null;
+}
 
 export default reelsSlice.reducer;

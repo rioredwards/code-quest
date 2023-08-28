@@ -3,12 +3,11 @@ import { motion } from "framer-motion";
 import TypingSimulation from "./TypingSimulation";
 import { linesAnimation } from "../motionConfigs/displayMotion";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { ReelIdx, ReelsState } from "../store/reels/reelsSlice";
+import { ReelIdx, getCombinedSpinState } from "../store/reels/reelsSlice";
 import { typeChoices } from "../data/choices/typeChoices";
 import { taskChoices } from "../data/choices/taskChoices";
 import { techChoices } from "../data/choices/techChoices";
 import { timeChoices } from "../data/choices/timeChoices";
-import { SpinState } from "../types";
 import { useEffect } from "react";
 
 interface Props {}
@@ -88,14 +87,6 @@ function formatDisplayText(
 ): string | null {
   if (!type || !task || !tech || !time) return null;
   return `${type} Challenge: ${task} using ${tech} in ${time}!`;
-}
-
-function getCombinedSpinState(allReelsState: ReelsState): SpinState | null {
-  const firstSpinState = allReelsState[0].spinState;
-  const allSpinStatesAreEqual = allReelsState.every(
-    (reelState) => reelState.spinState === firstSpinState
-  );
-  return allSpinStatesAreEqual ? firstSpinState : null;
 }
 
 export default Display;
