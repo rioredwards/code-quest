@@ -78,6 +78,7 @@ export const reelsSlice = createSlice({
       reels.forEach((reel) => {
         if (reel.spinState === "PRE") {
           reel.spinState = "IDLE_START";
+          reel.chosenIdx = null;
         }
         reel.isSpinLocked = true;
       });
@@ -114,12 +115,56 @@ export const reelsSlice = createSlice({
     },
     spinLightClicked: (state, action: PayloadAction<ReelName>) => {
       const reelIdx = state.findIndex((reel) => reel.name === action.payload);
-      const reel = state[reelIdx];
+      const targetReel = state[reelIdx];
 
-      if (reel.spinState === "IDLE_LOOP") {
-        reel.chosenIdx = getRandIdx(allChoices[reel.name].length);
-        reel.spinState = "STOPPING";
+      if (targetReel.spinState !== "IDLE_LOOP") return;
+
+      // compatibilityScores is a Map where the
+      // keys are all the available choices for the reel
+      // and the values are the number of times that choice shows up
+      // in the other reels' choices' compatibleWith arrays
+      const compatibilityScores = new Map<number, number>();
+
+      // Each choice starts with a score of 0
+      for (let i = 0; i < allChoices[targetReel.name].length; i++) {
+        compatibilityScores.set(i, 0);
       }
+
+      // Iterate through all the reels and calculate the compatibility scores
+      state.forEach((reel) => {
+        if (reel.chosenIdx === null) return;
+
+        const choiceCompatibleWith = allChoices[reel.name][reel.chosenIdx]
+          .compatibleWith[targetReel.name] as number[];
+
+        choiceCompatibleWith.forEach((choiceIdx) => {
+          compatibilityScores.set(
+            choiceIdx,
+            compatibilityScores.get(choiceIdx)! + 1
+          );
+        });
+      });
+
+      // Find the choice or choices with the highest compatibility score
+      const maxCompatibilityScore = Math.max(
+        ...Array.from(compatibilityScores.values())
+      );
+      const maxCompatibilityChoiceIdxs = Array.from(
+        compatibilityScores.entries()
+      )
+        .filter(([_, score]) => score === maxCompatibilityScore)
+        .map(([idx]) => idx);
+
+      console.log("compatibilityScores: ", compatibilityScores);
+
+      // Select a random choice from the choices with the highest compatibility score
+      const randIdx = getRandIdx(maxCompatibilityChoiceIdxs.length);
+      const chosenIdx = maxCompatibilityChoiceIdxs[randIdx];
+
+      console.log("chosenIdx: ", chosenIdx);
+
+      targetReel.chosenIdx = chosenIdx;
+      targetReel.spinState = "STOPPING";
     },
     displayAnimationFinished: (state) => {
       state.forEach((reel) => {
@@ -143,14 +188,5 @@ export const {
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectReels = (state: RootState) => state.reels;
-export function getCombinedSpinState(
-  allReelsState: ReelsState
-): SpinState | null {
-  const firstSpinState = allReelsState[0].spinState;
-  const allSpinStatesAreEqual = allReelsState.every(
-    (reelState) => reelState.spinState === firstSpinState
-  );
-  return allSpinStatesAreEqual ? firstSpinState : null;
-}
 
 export default reelsSlice.reducer;
