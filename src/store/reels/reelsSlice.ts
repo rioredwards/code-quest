@@ -18,8 +18,8 @@ export type ReelsState = [ReelState, ReelState, ReelState, ReelState];
 
 export enum ReelIdx {
   TYPE = 0,
-  TECH = 1,
-  TASK = 2,
+  TASK = 1,
+  TECH = 2,
   TIME = 3,
 }
 
@@ -38,14 +38,14 @@ const initialState: ReelsState = [
     isSpinLocked: false,
   },
   {
-    name: "TECH",
+    name: "TASK",
     spinState: "PRE",
     chosenIdx: null,
     isUserLocked: false,
     isSpinLocked: false,
   },
   {
-    name: "TASK",
+    name: "TECH",
     spinState: "PRE",
     chosenIdx: null,
     isUserLocked: false,
