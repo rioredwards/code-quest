@@ -23,18 +23,34 @@
   width: 100%;
   border-radius: 50%;
   overflow: hidden;
+  transition: background-color 0.1s ease-in-out;
 }
 
-.red {
-  background-color: rgb(255, 98, 98);
-}
-
-.green {
+.active {
   background-color: rgb(135, 204, 103);
+  animation: pulse 2s infinite ease-in-out;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
 }
 
-.yellow {
-  background-color: rgb(246, 198, 65);
+.active:hover {
+  background-color: rgb(150, 222, 117);
+}
+
+.inactive {
+  background-color: rgba(255, 76, 76, 0.778);
+}
+
+@keyframes pulse {
+  0% {
+    filter: brightness(105%);
+  }
+  50% {
+    filter: brightness(110%);
+  }
+  100% {
+    filter: brightness(105%);
+  }
 }
 
 .blue {

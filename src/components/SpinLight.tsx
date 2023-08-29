@@ -10,11 +10,11 @@ const SpinLight: React.FC<SpinLightProps> = ({
   spinState,
   onClickSpinLight,
 }) => {
-  const color = calcColorForSpinMode(spinState);
+  const CSSclass = spinState === "IDLE_LOOP" ? "active" : "inactive";
 
   return (
     <div className="spin-light-container">
-      <div className={`spin-light-color ${color}`}>
+      <div className={`spin-light-color ${CSSclass}`}>
         <div
           onClick={() => onClickSpinLight(spinState)}
           className="spin-light-glass"
@@ -25,20 +25,3 @@ const SpinLight: React.FC<SpinLightProps> = ({
 };
 
 export default SpinLight;
-
-function calcColorForSpinMode(state: SpinState) {
-  switch (state) {
-    case "PRE":
-      return "red";
-    case "IDLE_START":
-      return "yellow";
-    case "IDLE_LOOP":
-      return "blue";
-    case "STOPPING":
-      return "yellow";
-    case "POST":
-      return "green";
-    default:
-      return "green";
-  }
-}
