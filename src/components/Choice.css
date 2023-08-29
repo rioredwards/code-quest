@@ -22,7 +22,7 @@
 }
 
 .choiceVarChosen {
-  background-color: rgb(106, 214, 183);
+  background-color: rgb(109, 222, 190);
   animation: pulse 2s infinite ease-in-out;
 }
 
