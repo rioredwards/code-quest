@@ -6,8 +6,8 @@ export const typeChoices: Choice[] = [
     name: "Leetcode",
     sentenceName: "Leetcode",
     compatibleWith: {
-      TECH: [0, 1, 2, 3, 4, 5],
       TASK: [0, 1, 2, 3, 4, 5],
+      TECH: [0, 1, 2, 3, 4, 5],
       TIME: [0, 1, 2, 3, 4, 5],
     },
   },
@@ -16,8 +16,8 @@ export const typeChoices: Choice[] = [
     name: "Backend",
     sentenceName: "Backend",
     compatibleWith: {
-      TECH: [0, 1, 2, 3, 4, 5],
       TASK: [0, 1, 2, 3, 4, 5],
+      TECH: [0, 1, 2, 3, 4, 5],
       TIME: [0, 1, 2, 3, 4, 5],
     },
   },
@@ -26,8 +26,8 @@ export const typeChoices: Choice[] = [
     name: "Frontend",
     sentenceName: "Frontend",
     compatibleWith: {
-      TECH: [0, 1, 2, 3, 4, 5],
       TASK: [0, 1, 2, 3, 4, 5],
+      TECH: [0, 1, 2, 3, 4, 5],
       TIME: [0, 1, 2, 3, 4, 5],
     },
   },
@@ -36,8 +36,8 @@ export const typeChoices: Choice[] = [
     name: "Fullstack",
     sentenceName: "Fullstack",
     compatibleWith: {
-      TECH: [0, 1, 2, 3, 4, 5],
       TASK: [0, 1, 2, 3, 4, 5],
+      TECH: [0, 1, 2, 3, 4, 5],
       TIME: [0, 1, 2, 3, 4, 5],
     },
   },
@@ -46,8 +46,8 @@ export const typeChoices: Choice[] = [
     name: "CLI",
     sentenceName: "CLI",
     compatibleWith: {
-      TECH: [0, 1, 2, 3, 4, 5],
       TASK: [0, 1, 2, 3, 4, 5],
+      TECH: [0, 1, 2, 3, 4, 5],
       TIME: [0, 1, 2, 3, 4, 5],
     },
   },
@@ -56,8 +56,8 @@ export const typeChoices: Choice[] = [
     name: "Database",
     sentenceName: "Database",
     compatibleWith: {
-      TECH: [0, 1, 2, 3, 4, 5],
       TASK: [0, 1, 2, 3, 4, 5],
+      TECH: [0, 1, 2, 3, 4, 5],
       TIME: [0, 1, 2, 3, 4, 5],
     },
   },

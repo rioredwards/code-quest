@@ -6,8 +6,8 @@ export const taskChoices: Choice[] = [
     name: "Two Sum",
     sentenceName: "Two Sum",
     compatibleWith: {
+      TYPE: [0, 1, 2, 3, 4, 5],
       TECH: [0, 1, 2, 3, 4, 5],
-      TASK: [0, 1, 2, 3, 4, 5],
       TIME: [0, 1, 2, 3, 4, 5],
     },
   },
@@ -16,8 +16,8 @@ export const taskChoices: Choice[] = [
     name: "Reverse String",
     sentenceName: "Reverse String",
     compatibleWith: {
+      TYPE: [0, 1, 2, 3, 4, 5],
       TECH: [0, 1, 2, 3, 4, 5],
-      TASK: [0, 1, 2, 3, 4, 5],
       TIME: [0, 1, 2, 3, 4, 5],
     },
   },
@@ -26,8 +26,8 @@ export const taskChoices: Choice[] = [
     name: "Contains Duplicate",
     sentenceName: "Contains Duplicate",
     compatibleWith: {
+      TYPE: [0, 1, 2, 3, 4, 5],
       TECH: [0, 1, 2, 3, 4, 5],
-      TASK: [0, 1, 2, 3, 4, 5],
       TIME: [0, 1, 2, 3, 4, 5],
     },
   },
@@ -36,8 +36,8 @@ export const taskChoices: Choice[] = [
     name: "Valid Anagram",
     sentenceName: "Valid Anagram",
     compatibleWith: {
+      TYPE: [0, 1, 2, 3, 4, 5],
       TECH: [0, 1, 2, 3, 4, 5],
-      TASK: [0, 1, 2, 3, 4, 5],
       TIME: [0, 1, 2, 3, 4, 5],
     },
   },
@@ -46,8 +46,8 @@ export const taskChoices: Choice[] = [
     name: "Group Anagrams",
     sentenceName: "Group Anagrams",
     compatibleWith: {
+      TYPE: [0, 1, 2, 3, 4, 5],
       TECH: [0, 1, 2, 3, 4, 5],
-      TASK: [0, 1, 2, 3, 4, 5],
       TIME: [0, 1, 2, 3, 4, 5],
     },
   },
@@ -56,8 +56,8 @@ export const taskChoices: Choice[] = [
     name: "Top K Frequent Elements",
     sentenceName: "Top K Frequent Elements",
     compatibleWith: {
+      TYPE: [0, 1, 2, 3, 4, 5],
       TECH: [0, 1, 2, 3, 4, 5],
-      TASK: [0, 1, 2, 3, 4, 5],
       TIME: [0, 1, 2, 3, 4, 5],
     },
   },
@@ -66,8 +66,8 @@ export const taskChoices: Choice[] = [
     name: "Valid Palindrome",
     sentenceName: "Valid Palindrome",
     compatibleWith: {
+      TYPE: [0, 1, 2, 3, 4, 5],
       TECH: [0, 1, 2, 3, 4, 5],
-      TASK: [0, 1, 2, 3, 4, 5],
       TIME: [0, 1, 2, 3, 4, 5],
     },
   },
@@ -76,8 +76,8 @@ export const taskChoices: Choice[] = [
     name: "Container With Most Water",
     sentenceName: "Container With Most Water",
     compatibleWith: {
+      TYPE: [0, 1, 2, 3, 4, 5],
       TECH: [0, 1, 2, 3, 4, 5],
-      TASK: [0, 1, 2, 3, 4, 5],
       TIME: [0, 1, 2, 3, 4, 5],
     },
   },
@@ -86,8 +86,8 @@ export const taskChoices: Choice[] = [
     name: "Best Time to Buy And Sell Stock",
     sentenceName: "Best Time to Buy And Sell Stock",
     compatibleWith: {
+      TYPE: [0, 1, 2, 3, 4, 5],
       TECH: [0, 1, 2, 3, 4, 5],
-      TASK: [0, 1, 2, 3, 4, 5],
       TIME: [0, 1, 2, 3, 4, 5],
     },
   },
@@ -96,8 +96,8 @@ export const taskChoices: Choice[] = [
     name: "Longest Substring Without Repeating Characters",
     sentenceName: "Longest Substring Without Repeating Characters",
     compatibleWith: {
+      TYPE: [0, 1, 2, 3, 4, 5],
       TECH: [0, 1, 2, 3, 4, 5],
-      TASK: [0, 1, 2, 3, 4, 5],
       TIME: [0, 1, 2, 3, 4, 5],
     },
   },
@@ -106,8 +106,8 @@ export const taskChoices: Choice[] = [
     name: "Valid Parentheses",
     sentenceName: "Valid Parentheses",
     compatibleWith: {
+      TYPE: [0, 1, 2, 3, 4, 5],
       TECH: [0, 1, 2, 3, 4, 5],
-      TASK: [0, 1, 2, 3, 4, 5],
       TIME: [0, 1, 2, 3, 4, 5],
     },
   },
@@ -116,8 +116,8 @@ export const taskChoices: Choice[] = [
     name: "Merge Two Sorted Lists",
     sentenceName: "Merge Two Sorted Lists",
     compatibleWith: {
+      TYPE: [0, 1, 2, 3, 4, 5],
       TECH: [0, 1, 2, 3, 4, 5],
-      TASK: [0, 1, 2, 3, 4, 5],
       TIME: [0, 1, 2, 3, 4, 5],
     },
   },

@@ -6,9 +6,9 @@ export const timeChoices: Choice[] = [
     name: "1 Hour",
     sentenceName: "1 Hour",
     compatibleWith: {
-      TECH: [0, 1, 2, 3, 4, 5],
+      TYPE: [0, 1, 2, 3, 4, 5],
       TASK: [0, 1, 2, 3, 4, 5],
-      TIME: [0, 1, 2, 3, 4, 5],
+      TECH: [0, 1, 2, 3, 4, 5],
     },
   },
   {
@@ -18,7 +18,7 @@ export const timeChoices: Choice[] = [
     compatibleWith: {
       TECH: [0, 1, 2, 3, 4, 5],
       TASK: [0, 1, 2, 3, 4, 5],
-      TIME: [0, 1, 2, 3, 4, 5],
+      TYPE: [0, 1, 2, 3, 4, 5],
     },
   },
   {
@@ -28,7 +28,7 @@ export const timeChoices: Choice[] = [
     compatibleWith: {
       TECH: [0, 1, 2, 3, 4, 5],
       TASK: [0, 1, 2, 3, 4, 5],
-      TIME: [0, 1, 2, 3, 4, 5],
+      TYPE: [0, 1, 2, 3, 4, 5],
     },
   },
   {
@@ -38,7 +38,7 @@ export const timeChoices: Choice[] = [
     compatibleWith: {
       TECH: [0, 1, 2, 3, 4, 5],
       TASK: [0, 1, 2, 3, 4, 5],
-      TIME: [0, 1, 2, 3, 4, 5],
+      TYPE: [0, 1, 2, 3, 4, 5],
     },
   },
   {
@@ -48,7 +48,7 @@ export const timeChoices: Choice[] = [
     compatibleWith: {
       TECH: [0, 1, 2, 3, 4, 5],
       TASK: [0, 1, 2, 3, 4, 5],
-      TIME: [0, 1, 2, 3, 4, 5],
+      TYPE: [0, 1, 2, 3, 4, 5],
     },
   },
   {
@@ -58,7 +58,7 @@ export const timeChoices: Choice[] = [
     compatibleWith: {
       TECH: [0, 1, 2, 3, 4, 5],
       TASK: [0, 1, 2, 3, 4, 5],
-      TIME: [0, 1, 2, 3, 4, 5],
+      TYPE: [0, 1, 2, 3, 4, 5],
     },
   },
 ];
