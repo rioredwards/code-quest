@@ -1,13 +1,58 @@
 .spin-light-container {
+  transform: translateX(0.15vh);
   height: 4vh;
   width: 4vh;
 }
 
-.spin-light {
-  background-image: url(../assets/lights.png);
+.spin-light-glass {
+  z-index: 3;
+  background-image: url(../assets/light-glass.png);
   background-repeat: no-repeat;
   background-size: cover;
-  overflow: hidden;
+  overflow: visible;
   height: 100%;
   width: 100%;
+  border-radius: 50%;
+  opacity: 0.3;
+  mix-blend-mode: luminosity;
+}
+
+.spin-light-color {
+  z-index: 2;
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+  transition: background-color 0.1s ease-in-out;
+}
+
+.active {
+  background-color: rgb(135, 204, 103);
+  animation: pulse 2s infinite ease-in-out;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.active:hover {
+  background-color: rgb(150, 222, 117);
+}
+
+.inactive {
+  background-color: rgba(255, 76, 76, 0.778);
+}
+
+@keyframes pulse {
+  0% {
+    filter: brightness(105%);
+  }
+  50% {
+    filter: brightness(110%);
+  }
+  100% {
+    filter: brightness(105%);
+  }
+}
+
+.blue {
+  background-color: rgb(79, 216, 205);
 }

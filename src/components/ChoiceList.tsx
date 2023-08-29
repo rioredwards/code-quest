@@ -4,7 +4,7 @@ import { repeatArray } from "../utils/genUtils";
 import Choice from "./Choice";
 
 interface Props {
-  choices: ChoiceType[];
+  choices: readonly ChoiceType[];
   chosenIdx: number | null;
   highlightChosen: boolean;
 }

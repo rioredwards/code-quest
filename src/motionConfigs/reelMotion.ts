@@ -20,7 +20,7 @@ const stoppingMotion = {
   stiffness: 3.8,
   mass: 3.5,
   velocity: 80,
-  restSpeed: 0.1,
+  restSpeed: 1.5,
 };
 
 /* Types */
@@ -30,6 +30,16 @@ export interface ReelMotionParams {
   animate: Function;
   choicesLength: number;
   chosenIdx: number | null;
+}
+
+export async function logReelCopyIdxAtY(yNum: number, choicesLength: number) {
+  const currYNumRounded = roundYToNearestChoice(yNum);
+  const yShiftToMiddleOfWindow =
+    CHOICE_HEIGHT_VH * Math.floor(NUM_CHOICES_VISIBLE / 2);
+  const translatedToMiddle = currYNumRounded - yShiftToMiddleOfWindow;
+  const reelHeight = choicesLength * CHOICE_HEIGHT_VH;
+  const reelCopyIdx = Math.floor(Math.abs(translatedToMiddle / reelHeight));
+  console.log("reelCopyIdx", reelCopyIdx);
 }
 
 /* Animation Functions */
@@ -121,8 +131,11 @@ export function translateYToReelCopyIdx(
   copyIdx: number
 ): number {
   const reelHeight = choicesLength * CHOICE_HEIGHT_VH;
-  const translatedY = (y % reelHeight) - reelHeight * copyIdx;
-  return translatedY;
+  const yShiftToMiddleOfWindow =
+    CHOICE_HEIGHT_VH * Math.floor(NUM_CHOICES_VISIBLE / 2);
+  const yAtMiddleOfWindow = y - yShiftToMiddleOfWindow;
+  const translatedY = (yAtMiddleOfWindow % reelHeight) - reelHeight * copyIdx;
+  return translatedY + yShiftToMiddleOfWindow;
 }
 
 export function translateChosenIdxDownByReelCopy(
@@ -140,6 +153,17 @@ export function roundYToNearestChoice(y: number): number {
 export function translateChoiceIdxToY(idx: number): number {
   const idxShiftedToMiddleOfWindow = idx - Math.floor(NUM_CHOICES_VISIBLE / 2);
   return -idxShiftedToMiddleOfWindow * CHOICE_HEIGHT_VH;
+}
+
+export function yToChoiceIdx(y: number, choicesLength: number): number {
+  const roundedY = roundYToNearestChoice(y);
+  const choiceIdxInFirstReel = Math.abs(
+    Math.floor(roundedY / CHOICE_HEIGHT_VH)
+  );
+  const choiceIdxShiftedToMiddleOfWindow =
+    choiceIdxInFirstReel + Math.floor(NUM_CHOICES_VISIBLE / 2);
+  const choiceIdx = choiceIdxShiftedToMiddleOfWindow % choicesLength;
+  return choiceIdx;
 }
 
 export function yIsOutsideDragBounds(

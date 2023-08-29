@@ -7,7 +7,7 @@ import {
   useTransform,
   useVelocity,
 } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { MutableRefObject, useEffect, useState } from "react";
 import { numToVh, vhToNum } from "../utils/genUtils";
 import {
   roundYToNearestChoice,
@@ -18,30 +18,31 @@ import {
   idleLoopAnimation,
   stoppingAnimation,
   postSpinAnimation,
+  yToChoiceIdx,
 } from "../motionConfigs/reelMotion";
 import Window from "./Window";
 import ChoiceList from "./ChoiceList";
 import { Choice, SpinState } from "../types";
 
 interface ReelProps {
-  choices: Choice[];
+  choices: readonly Choice[];
   spinState: SpinState;
-  setSpinState: (spinState: SpinState) => void;
+  onFinishedIdleStart: () => void;
+  onFinishedStopping: () => void;
   chosenIdx: number | null;
-  isUserLocked: boolean;
+  isLocked: boolean;
+  choiceIdxAtCurrYPos: MutableRefObject<number | null>;
 }
 
 const Reel: React.FC<ReelProps> = ({
   choices,
   spinState,
-  setSpinState,
+  onFinishedIdleStart,
+  onFinishedStopping,
   chosenIdx,
-  isUserLocked,
+  isLocked,
+  choiceIdxAtCurrYPos,
 }) => {
-  const [isInitial, setIsInitial] = useState(true);
-  const activeSpinMotion = useRef(spinState);
-  const isSpinLocked = spinState !== "PRE";
-  const isPostSpinLocked = useRef(false);
   const [scope, animate] = useAnimate();
   const [dragging, setDragging] = useState(false);
   const [dragStartY, setDragStartY] = useState(0);
@@ -50,28 +51,16 @@ const Reel: React.FC<ReelProps> = ({
   const dragY = useMotionValue(0);
   const yVelocity = useVelocity(yNum);
 
-  useEffect(() => {
-    setIsInitial(false);
-  }, []);
+  y.on("change", () => {
+    if (spinState !== "PRE") return;
+    choiceIdxAtCurrYPos.current = yToChoiceIdx(
+      vhToNum(y.get()),
+      choices.length
+    );
+  });
 
   // When spinState changes, animate the reel
   useEffect(() => {
-    if (isPostSpinLocked.current) {
-      if (spinState === "POST") return;
-      if (spinState === "PRE") isPostSpinLocked.current = false;
-    }
-    if (isUserLocked && spinState === "PRE") {
-      activeSpinMotion.current = "POST";
-      setSpinState("POST");
-    } else if (!isUserLocked && spinState === "POST") {
-      activeSpinMotion.current = "PRE";
-      setSpinState("PRE");
-    }
-    if (!isInitial && spinState === activeSpinMotion.current) {
-      return;
-    }
-
-    activeSpinMotion.current = spinState;
     async function animateSequence(): Promise<void> {
       const animationParams: ReelMotionParams = {
         animate,
@@ -81,21 +70,20 @@ const Reel: React.FC<ReelProps> = ({
         chosenIdx,
       };
 
-      const newSpinState = await setNewAnimation(
-        activeSpinMotion.current,
-        animationParams
-      );
+      const newSpinState = await setNewAnimation(spinState, animationParams);
 
-      if (newSpinState) {
-        if (spinState === "STOPPING" && newSpinState === "POST")
-          isPostSpinLocked.current = true;
-        activeSpinMotion.current = newSpinState;
-        setSpinState(newSpinState);
+      if (newSpinState === "IDLE_LOOP") {
+        onFinishedIdleStart();
+      } else if (newSpinState === "POST") {
+        onFinishedStopping();
+      } else {
+        // Do nothing
       }
     }
 
     animateSequence();
-  }, [spinState, isUserLocked]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [spinState]);
 
   function onHoverStart(): void {
     if (dragging) return;
@@ -137,7 +125,7 @@ const Reel: React.FC<ReelProps> = ({
   return (
     <div className="reel-container">
       <div className="reel-gradient" />
-      {!isUserLocked && !isSpinLocked && (
+      {!isLocked && (
         <motion.div
           className="drag-handle"
           style={{ y: dragY }}
@@ -153,14 +141,12 @@ const Reel: React.FC<ReelProps> = ({
           onDragEnd={onDragEnd}
         />
       )}
-      <AnimatePresence>
-        {(isUserLocked || isSpinLocked) && <Window />}
-      </AnimatePresence>
+      <AnimatePresence>{isLocked && <Window />}</AnimatePresence>
       <motion.ul className="reel" style={{ y }} ref={scope}>
         <ChoiceList
           choices={choices}
           chosenIdx={chosenIdx}
-          highlightChosen={spinState === "POST"}
+          highlightChosen={spinState === "POST" || spinState === "PRE"}
         />
       </motion.ul>
     </div>
@@ -172,7 +158,6 @@ export default Reel;
 // This function calls an animation function based on the current spinState
 // If the next animation and spinState is triggered by an animation ending,
 // This function will return the next spinState to be updated in the parent component
-// (The next spin state COULD be set within this function, but that would be a strange side effect and bad practice)
 async function setNewAnimation(
   spinState: SpinState,
   animationParams: ReelMotionParams

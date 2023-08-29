@@ -2,12 +2,12 @@ import "./Lever.css";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { PULL_THRESHOLD, THROTTLE_MS } from "../motionConfigs/leverMotion";
 import { useRef } from "react";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
 
-interface LeverProps {
-  onPull: () => void;
-}
+interface LeverProps {}
 
-const Lever: React.FC<LeverProps> = ({ onPull }) => {
+const Lever: React.FC<LeverProps> = () => {
+  const dispatch = useAppDispatch();
   const dragYPos = useMotionValue(0);
   const hoverRotationAngle = useSpring(0);
   const dragXPos = useTransform(dragYPos, [0, 70, 140], [0, 30, 0]);
@@ -20,9 +20,18 @@ const Lever: React.FC<LeverProps> = ({ onPull }) => {
   const rotationAngle = useTransform(dragAndHoverRotation, [0, 140], [-45, 45]);
   const isThrottled = useRef(false);
 
+  const reelsCanSpin = useAppSelector(({ reels }) =>
+    reels.some((reel) => reel.spinState === "PRE")
+  );
+
   function onDrag() {
-    if (dragYPos.get() > PULL_THRESHOLD && !isThrottled.current) {
-      onPull();
+    if (
+      reelsCanSpin &&
+      dragYPos.get() > PULL_THRESHOLD &&
+      !isThrottled.current
+    ) {
+      dispatch({ type: "reels/leverPulled" });
+      dispatch({ type: "display/stopDisplay" });
       isThrottled.current = true;
       setTimeout(() => {
         isThrottled.current = false;

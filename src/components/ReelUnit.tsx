@@ -1,50 +1,68 @@
-import { useRef, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
 import LockSwitch from "./LockSwitch";
 import "./ReelUnit.css";
 import Sign from "./Sign";
 import Reel from "./Reel";
 import SpinLight from "./SpinLight";
-import { Choice, SpinState } from "../types";
+import { ReelName, SpinState } from "../types";
+import { allChoices } from "../data/allChoices";
+import { ReelState } from "../store/reels/reelsSlice";
+import { useRef } from "react";
 
 interface Props {
-  name: string;
-  key: string;
+  name: ReelName;
   spinState: SpinState;
-  setSpinState: (spinState: SpinState) => void;
-  choices: Choice[];
-  chosenIdx: number | null;
-  onClickSpinLight: (spinState: SpinState) => void;
 }
 
-const ReelUnit: React.FC<Props> = ({
-  name,
-  spinState,
-  setSpinState,
-  choices,
-  chosenIdx,
-  onClickSpinLight,
-}) => {
-  const [isLocked, setIsLocked] = useState(false);
-  const lockedRef = useRef(isLocked);
+const ReelUnit: React.FC<Props> = ({ name, spinState }) => {
+  const reel = useAppSelector((state) =>
+    state.reels.find((reel) => reel.name === name)
+  ) as ReelState;
+  const { chosenIdx, isSpinLocked, isUserLocked } = reel;
+  const choiceIdxAtCurrYPos = useRef<null | number>(null);
+  const choices = allChoices[name];
+  const dispatch = useAppDispatch();
 
-  // Only update reel's isLocked state when reel is not spinning
-  if (
-    lockedRef.current !== isLocked &&
-    (spinState === "PRE" || spinState === "POST")
-  ) {
-    lockedRef.current = isLocked;
-  }
+  const toggleIsUserLocked = () => {
+    dispatch({
+      type: "reels/lockSwitchToggled",
+      payload: { name, choiceIdxAtCurrYPos: choiceIdxAtCurrYPos.current },
+    });
+  };
+
+  const onFinishedIdleStart = () => {
+    dispatch({
+      type: "reels/finishedIdleStart",
+      payload: name,
+    });
+  };
+
+  const onFinishedStopping = () => {
+    dispatch({
+      type: "reels/finishedStopping",
+      payload: name,
+    });
+  };
+
+  const onClickSpinLight = () => {
+    dispatch({
+      type: "reels/spinLightClicked",
+      payload: name,
+    });
+  };
 
   return (
     <div className="reel-unit">
       <Sign name={name} />
-      <LockSwitch isLocked={isLocked} setIsLocked={setIsLocked} />
+      <LockSwitch isLocked={isUserLocked} toggleLock={toggleIsUserLocked} />
       <Reel
         choices={choices}
         chosenIdx={chosenIdx}
         spinState={spinState}
-        setSpinState={setSpinState}
-        isUserLocked={lockedRef.current}
+        onFinishedIdleStart={onFinishedIdleStart}
+        onFinishedStopping={onFinishedStopping}
+        isLocked={isSpinLocked || isUserLocked}
+        choiceIdxAtCurrYPos={choiceIdxAtCurrYPos}
       />
       <SpinLight spinState={spinState} onClickSpinLight={onClickSpinLight} />
     </div>

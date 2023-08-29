@@ -7,14 +7,12 @@ import {
 
 interface LockSwitchProps {
   isLocked: boolean;
-  setIsLocked: (isLocked: boolean) => void;
+  toggleLock: () => void;
 }
 
-const LockSwitch: React.FC<LockSwitchProps> = ({ isLocked, setIsLocked }) => {
+const LockSwitch: React.FC<LockSwitchProps> = ({ isLocked, toggleLock }) => {
   return (
-    <motion.div
-      onClick={() => setIsLocked(!isLocked)}
-      className="lock-switch-container">
+    <motion.div onClick={toggleLock} className="lock-switch-container">
       <motion.div
         animate={lockSwitchAnimation(isLocked)}
         transition={lockSwitchSpring}

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./TypingSimulation.css";
 import { useAnimationFrame } from "framer-motion";
 import {
@@ -7,74 +7,88 @@ import {
   MAX_TYPE_DELAY,
   MIN_TYPE_DELAY,
   TEXT_WRAP_LENGTH,
+  EXTRA_DELAY_BETWEEN_WORDS,
 } from "../motionConfigs/typingSimulationMotion";
 
 interface Props {
   text: string;
-  onStartTyping: () => void;
   onCompleteTyping: () => void;
 }
 
-let timeSinceLetterAdded = 0;
-let timeSinceCursorBlinked = 0;
-
-const TypingSimulation: React.FC<Props> = ({
-  text,
-  onStartTyping,
-  onCompleteTyping,
-}) => {
-  const [letterIdx, setLetterIdx] = useState(0);
-  const [typing, setTyping] = useState(true);
-  const [blinking, setBlinking] = useState(true);
+const TypingSimulation: React.FC<Props> = ({ text, onCompleteTyping }) => {
+  const letterIdx = useRef(0);
+  const blinking = useRef(true);
+  const typing = useRef(true);
+  const timeSinceLetterAdded = useRef(0);
+  const timeSinceCursorBlinked = useRef(0);
   const [displayText, setDisplayText] = useState("");
   const [cursorVisible, setCursorVisible] = useState(true);
+  const prevLetterAdded: string | undefined = text[letterIdx.current - 2];
 
   const addNextLetterToDisplayText = () => {
-    if (!typing) return;
-    if (letterIdx === text.length) setTyping(false);
+    if (!typing.current) return;
+    if (letterIdx.current === text.length) typing.current = false;
 
-    const updatedText = text.slice(0, letterIdx);
+    const updatedText = text.slice(0, letterIdx.current);
     setDisplayText(updatedText);
-    setLetterIdx((prev) => prev + 1);
+    letterIdx.current += 1;
   };
 
   function onFinishedTypingAndBlinking() {
+    blinking.current = false;
     setCursorVisible(false);
-    setBlinking(false);
     onCompleteTyping();
   }
 
+  useEffect(() => {
+    if (!typing.current && text !== displayText) {
+      setDisplayText(text);
+    }
+  }, [text, typing, displayText]);
+
   useAnimationFrame((_, delta) => {
-    if (!blinking && !typing) return;
+    if (!blinking.current && !typing.current) return;
 
-    timeSinceLetterAdded += delta;
-    timeSinceCursorBlinked += delta;
+    timeSinceLetterAdded.current += delta;
+    timeSinceCursorBlinked.current += delta;
 
-    if (blinking) {
-      if (!typing && text.length === TEXT_WRAP_LENGTH - 1) {
+    if (blinking.current) {
+      if (!typing.current && text.length === TEXT_WRAP_LENGTH - 1) {
         // If the text is about to wrap, don't blink the cursor after typing
         onFinishedTypingAndBlinking();
         return;
       }
-      if (timeSinceCursorBlinked > CURSOR_BLINK_SPEED) {
+      if (timeSinceCursorBlinked.current > CURSOR_BLINK_SPEED) {
         // Blink the cursor
         setCursorVisible((prev) => !prev);
-        timeSinceCursorBlinked = 0;
+        timeSinceCursorBlinked.current = 0;
       }
-      if (timeSinceLetterAdded > BLINK_DURATION_AFTER_TYPING) {
+      if (timeSinceLetterAdded.current > BLINK_DURATION_AFTER_TYPING) {
         // Stop blinking the cursor after typing + delay after typing
         onFinishedTypingAndBlinking();
       }
     }
-    if (typing) {
-      if (timeSinceLetterAdded > randomSpeed(MIN_TYPE_DELAY, MAX_TYPE_DELAY)) {
-        addNextLetterToDisplayText();
-        timeSinceLetterAdded = 0;
+    if (typing.current) {
+      if (prevLetterAdded !== " " && prevLetterAdded !== undefined) {
+        if (
+          timeSinceLetterAdded.current >
+          randomDelay(MIN_TYPE_DELAY, MAX_TYPE_DELAY)
+        ) {
+          addNextLetterToDisplayText();
+          timeSinceLetterAdded.current = 0;
+        }
+      } else {
+        if (
+          timeSinceLetterAdded.current >
+          randomDelay(MIN_TYPE_DELAY, MAX_TYPE_DELAY) +
+            EXTRA_DELAY_BETWEEN_WORDS
+        ) {
+          addNextLetterToDisplayText();
+          timeSinceLetterAdded.current = 0;
+        }
       }
     }
   });
-
-  // if (!typing && !cursorVisible) onComplete();
 
   return (
     <p className="text">{cursorVisible ? `${displayText}_` : displayText}</p>
@@ -83,6 +97,6 @@ const TypingSimulation: React.FC<Props> = ({
 
 export default TypingSimulation;
 
-const randomSpeed = (min: number, max: number): number => {
+const randomDelay = (min: number, max: number): number => {
   return Math.floor(Math.random() * (max - min) + min);
 };

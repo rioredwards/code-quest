@@ -1,4 +1,6 @@
-export const timeChoices = [
+import { Choice } from "../../types";
+
+export const timeChoices: Choice[] = [
   {
     id: 0,
     name: "1 Hour",
