@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import TypingSimulation from "./TypingSimulation";
 import { linesAnimation } from "../motionConfigs/displayMotion";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { ReelIdx, getCombinedSpinState } from "../store/reels/reelsSlice";
+import { ReelIdx } from "../store/reels/reelsSlice";
 import { typeChoices } from "../data/choices/typeChoices";
 import { taskChoices } from "../data/choices/taskChoices";
 import { techChoices } from "../data/choices/techChoices";
@@ -18,10 +18,6 @@ const Display: React.FC<Props> = () => {
   const isOn = useAppSelector((state) => state.display.isOn);
   const displayText = useAppSelector((state) => state.display.text);
 
-  const combinedSpinState = useAppSelector(({ reels }) =>
-    getCombinedSpinState(reels)
-  );
-
   const typeIdx = useAppSelector(({ reels }) => reels[ReelIdx.TYPE].chosenIdx);
   const taskIdx = useAppSelector(({ reels }) => reels[ReelIdx.TASK].chosenIdx);
   const techIdx = useAppSelector(({ reels }) => reels[ReelIdx.TECH].chosenIdx);
@@ -34,10 +30,12 @@ const Display: React.FC<Props> = () => {
 
   const newDisplayText = formatDisplayText(type, task, tech, time);
   const needToUpdate = newDisplayText && newDisplayText !== displayText;
+  const allReelsAreStopped = useAppSelector(({ reels }) =>
+    reels.every((reel) => reel.spinState === "PRE" || reel.spinState === "POST")
+  );
 
   useEffect(() => {
-    if (!isOn && combinedSpinState === "POST" && newDisplayText) {
-      console.log("newDisplayText", newDisplayText);
+    if (!isOn && newDisplayText && allReelsAreStopped) {
       dispatch({
         type: "display/startDisplay",
         payload: newDisplayText,
@@ -50,11 +48,11 @@ const Display: React.FC<Props> = () => {
     }
   }, [
     isOn,
-    combinedSpinState,
     dispatch,
     newDisplayText,
     displayText,
     needToUpdate,
+    allReelsAreStopped,
   ]);
 
   const onCompleteTyping = () => {
