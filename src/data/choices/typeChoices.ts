@@ -9,13 +9,20 @@ export enum TypeChoiceIdx {
   CLOUD = 5,
 }
 
+const leetCodeTasks: number[] = [0, 1, 2, 3, 4];
+const CLITasks: number[] = [5, 6, 7, 8, 9];
+const frontendTasks: number[] = [10, 11, 12, 13, 14];
+const fullstackTasks: number[] = [15, 16, 17, 18, 19];
+const backendTasks: number[] = [20, 21, 22, 23, 24];
+const cloudTasks: number[] = [25, 26, 27, 28, 29];
+
 export const typeChoices: Choice[] = [
   {
     id: 0,
     name: "Leetcode",
     sentenceName: "Leetcode",
     compatibleWith: {
-      TASK: [0, 1, 2, 3, 4, 5],
+      TASK: leetCodeTasks,
       TECH: [0, 1, 2, 3, 4, 5],
       TIME: [0, 1, 2, 3, 4, 5],
     },
@@ -25,7 +32,7 @@ export const typeChoices: Choice[] = [
     name: "CLI",
     sentenceName: "CLI",
     compatibleWith: {
-      TASK: [0, 1, 2, 3, 4, 5],
+      TASK: CLITasks,
       TECH: [0, 1, 2, 3, 4, 5],
       TIME: [0, 1, 2, 3, 4, 5],
     },
@@ -35,7 +42,7 @@ export const typeChoices: Choice[] = [
     name: "Frontend",
     sentenceName: "Frontend",
     compatibleWith: {
-      TASK: [0, 1, 2, 3, 4, 5],
+      TASK: frontendTasks,
       TECH: [0, 1, 2, 3, 4, 5],
       TIME: [0, 1, 2, 3, 4, 5],
     },
@@ -45,7 +52,7 @@ export const typeChoices: Choice[] = [
     name: "Fullstack",
     sentenceName: "Fullstack",
     compatibleWith: {
-      TASK: [0, 1, 2, 3, 4, 5],
+      TASK: fullstackTasks,
       TECH: [0, 1, 2, 3, 4, 5],
       TIME: [0, 1, 2, 3, 4, 5],
     },
@@ -55,7 +62,7 @@ export const typeChoices: Choice[] = [
     name: "Backend",
     sentenceName: "Backend",
     compatibleWith: {
-      TASK: [0, 1, 2, 3, 4, 5],
+      TASK: backendTasks,
       TECH: [0, 1, 2, 3, 4, 5],
       TIME: [0, 1, 2, 3, 4, 5],
     },
@@ -65,7 +72,7 @@ export const typeChoices: Choice[] = [
     name: "Cloud",
     sentenceName: "Cloud",
     compatibleWith: {
-      TASK: [0, 1, 2, 3, 4, 5],
+      TASK: cloudTasks,
       TECH: [0, 1, 2, 3, 4, 5],
       TIME: [0, 1, 2, 3, 4, 5],
     },

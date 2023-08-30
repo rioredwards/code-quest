@@ -23,12 +23,6 @@ const leetCodeEasy: TimeChoiceIdx[] = [
   NINETY_MIN,
   INFINITY,
 ];
-const leetCodeMediumish: TimeChoiceIdx[] = [
-  ONE_HOUR,
-  NINETY_MIN,
-  TWO_HOURS,
-  INFINITY,
-];
 const leetCodeMedium: TimeChoiceIdx[] = [
   NINETY_MIN,
   TWO_HOURS,
@@ -84,7 +78,7 @@ export const taskChoices: Choice[] = [
     compatibleWith: {
       TYPE: [LEETCODE],
       TECH: [0, 1, 2, 3, 4, 5],
-      TIME: leetCodeMediumish,
+      TIME: leetCodeMedium,
     },
   },
   {
@@ -109,54 +103,52 @@ export const taskChoices: Choice[] = [
   },
   {
     id: 5,
-    name: "Blog Posts", // Backend -> Easy
-    sentenceName: "CRUD API for Blog Posts",
+    name: "Quick Note", // CLI -> Easy
+    sentenceName: "Quickly save and view notes",
     compatibleWith: {
-      TYPE: [BACKEND],
+      TYPE: [CLI],
       TECH: [0, 1, 2, 3, 4, 5],
-      TIME: backendEasy,
+      TIME: CLIEasy,
     },
   },
   {
     id: 6,
-    name: "Movie List", // Backend -> easy
-    sentenceName:
-      "proxy server for the TheMovieDB API which returns a list of movies",
+    name: "Word Count", // CLI -> Easy
+    sentenceName: "Count the number of words in a file",
     compatibleWith: {
-      TYPE: [BACKEND],
+      TYPE: [CLI],
       TECH: [0, 1, 2, 3, 4, 5],
-      TIME: backendEasy,
+      TIME: CLIEasy,
     },
   },
   {
     id: 7,
-    name: "OpenAI", // Backend -> Medium
-    sentenceName:
-      "proxy server for the OpenAI API to return answers to questions",
+    name: "File Finder", // CLI -> Easy
+    sentenceName: "Find a file by name and open it if it exists",
     compatibleWith: {
-      TYPE: [BACKEND],
+      TYPE: [CLI],
       TECH: [0, 1, 2, 3, 4, 5],
-      TIME: backendMedium,
+      TIME: CLIEasy,
     },
   },
   {
     id: 8,
-    name: "E-Commerce", // Backend -> Hard
-    sentenceName: "API for an E-Commerce site with products and orders",
+    name: "Temperature Check", // CLI -> Medium
+    sentenceName: "Return the current temperature outside",
     compatibleWith: {
-      TYPE: [BACKEND],
+      TYPE: [CLI],
       TECH: [0, 1, 2, 3, 4, 5],
-      TIME: backendHard,
+      TIME: CLIMedium,
     },
   },
   {
     id: 9,
-    name: "GraphQL Space", // Backend -> Hard
-    sentenceName: "GraphQL API for celestial objects in outer space",
+    name: "Do Not Disturb", // CLI -> Hard
+    sentenceName: "Block all notifications for a specified amount of time",
     compatibleWith: {
-      TYPE: [BACKEND],
+      TYPE: [CLI],
       TECH: [0, 1, 2, 3, 4, 5],
-      TIME: backendHard,
+      TIME: CLIHard,
     },
   },
   {
@@ -201,8 +193,8 @@ export const taskChoices: Choice[] = [
   },
   {
     id: 14,
-    name: "Admin Dashboard", // Frontend -> Hard
-    sentenceName: "Admin Dashboard",
+    name: "Giphy TV", // Frontend -> Hard
+    sentenceName: "Giphy TV",
     compatibleWith: {
       TYPE: [FRONTEND],
       TECH: [0, 1, 2, 3, 4, 5],
@@ -261,6 +253,58 @@ export const taskChoices: Choice[] = [
   },
   {
     id: 20,
+    name: "Blog Posts", // Backend -> Easy
+    sentenceName: "CRUD API for Blog Posts",
+    compatibleWith: {
+      TYPE: [BACKEND],
+      TECH: [0, 1, 2, 3, 4, 5],
+      TIME: backendEasy,
+    },
+  },
+  {
+    id: 21,
+    name: "Movie List", // Backend -> easy
+    sentenceName:
+      "proxy server for the TheMovieDB API which returns a list of movies",
+    compatibleWith: {
+      TYPE: [BACKEND],
+      TECH: [0, 1, 2, 3, 4, 5],
+      TIME: backendEasy,
+    },
+  },
+  {
+    id: 22,
+    name: "OpenAI", // Backend -> Medium
+    sentenceName:
+      "proxy server for the OpenAI API to return answers to questions",
+    compatibleWith: {
+      TYPE: [BACKEND],
+      TECH: [0, 1, 2, 3, 4, 5],
+      TIME: backendMedium,
+    },
+  },
+  {
+    id: 23,
+    name: "E-Commerce", // Backend -> Hard
+    sentenceName: "API for an E-Commerce site with products and orders",
+    compatibleWith: {
+      TYPE: [BACKEND],
+      TECH: [0, 1, 2, 3, 4, 5],
+      TIME: backendHard,
+    },
+  },
+  {
+    id: 24,
+    name: "GraphQL Space", // Backend -> Hard
+    sentenceName: "GraphQL API for celestial objects in outer space",
+    compatibleWith: {
+      TYPE: [BACKEND],
+      TECH: [0, 1, 2, 3, 4, 5],
+      TIME: backendHard,
+    },
+  },
+  {
+    id: 25,
     name: "S3 Survey", // Cloud -> Easy
     sentenceName: "Setup a survey that stores responses in an AWS S3 bucket",
     compatibleWith: {
@@ -270,7 +314,7 @@ export const taskChoices: Choice[] = [
     },
   },
   {
-    id: 21,
+    id: 26,
     name: "Cloudception", // Cloud -> Easy
     sentenceName: "Use Cloudinary to store images of clouds in the cloud",
     compatibleWith: {
@@ -280,7 +324,7 @@ export const taskChoices: Choice[] = [
     },
   },
   {
-    id: 22,
+    id: 27,
     name: "CORS Control", // Cloud -> Easy
     sentenceName: "Use serverless functions to query the Yelp API",
     compatibleWith: {
@@ -290,7 +334,7 @@ export const taskChoices: Choice[] = [
     },
   },
   {
-    id: 23,
+    id: 28,
     name: "Firebase OAuth", // Cloud -> Medium
     sentenceName: "With Firebase Auth, allow users to login with Github",
     compatibleWith: {
@@ -300,7 +344,7 @@ export const taskChoices: Choice[] = [
     },
   },
   {
-    id: 24,
+    id: 29,
     name: "Mood Matcher", // Cloud -> Hard
     sentenceName:
       "Use AWS Comprehend to analyze the sentiment of text and change the background color accordingly",
@@ -308,56 +352,6 @@ export const taskChoices: Choice[] = [
       TYPE: [CLOUD],
       TECH: [0, 1, 2, 3, 4, 5],
       TIME: cloudHard,
-    },
-  },
-  {
-    id: 25,
-    name: "Quick Note", // CLI -> Easy
-    sentenceName: "Quickly save and view notes",
-    compatibleWith: {
-      TYPE: [CLI],
-      TECH: [0, 1, 2, 3, 4, 5],
-      TIME: CLIEasy,
-    },
-  },
-  {
-    id: 26,
-    name: "Word Count", // CLI -> Easy
-    sentenceName: "Count the number of words in a file",
-    compatibleWith: {
-      TYPE: [CLI],
-      TECH: [0, 1, 2, 3, 4, 5],
-      TIME: CLIEasy,
-    },
-  },
-  {
-    id: 27,
-    name: "File Finder", // CLI -> Easy
-    sentenceName: "Find a file by name and open it if it exists",
-    compatibleWith: {
-      TYPE: [CLI],
-      TECH: [0, 1, 2, 3, 4, 5],
-      TIME: CLIEasy,
-    },
-  },
-  {
-    id: 28,
-    name: "Temperature Check", // CLI -> Medium
-    sentenceName: "Return the current temperature outside",
-    compatibleWith: {
-      TYPE: [CLI],
-      TECH: [0, 1, 2, 3, 4, 5],
-      TIME: CLIMedium,
-    },
-  },
-  {
-    id: 29,
-    name: "Do Not Disturb", // CLI -> Hard
-    sentenceName: "Block all notifications for a specified amount of time",
-    compatibleWith: {
-      TYPE: [CLI],
-      TECH: [0, 1, 2, 3, 4, 5],
-      TIME: CLIHard,
     },
   },
 ];
