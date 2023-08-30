@@ -9,7 +9,7 @@ export type SpinState =
 
 export type ChallengeState = "NONE" | "CREATING" | "CREATED" | "DISPLAYED";
 
-type ChoiceCompatibility = Partial<Record<ReelName, number[]>>;
+type ChoiceCompatibility = Partial<Record<ReelName, number[] | undefined>>;
 
 export type Choice = {
   id: number;

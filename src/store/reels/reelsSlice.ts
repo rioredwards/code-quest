@@ -134,8 +134,11 @@ export const reelsSlice = createSlice({
       state.forEach((reel) => {
         if (reel.chosenIdx === null) return;
 
-        const choiceCompatibleWith = allChoices[reel.name][reel.chosenIdx]
-          .compatibleWith[targetReel.name] as number[];
+        const choiceCompatibleWith =
+          allChoices[reel.name][reel.chosenIdx].compatibleWith[targetReel.name];
+
+        // If undefined, the choice is compatible with any of the choices in the target reel
+        if (choiceCompatibleWith === undefined) return;
 
         choiceCompatibleWith.forEach((choiceIdx) => {
           compatibilityScores.set(

@@ -8,7 +8,7 @@ export const techChoices: Choice[] = [
     compatibleWith: {
       TYPE: [0, 1, 2, 3, 4, 5],
       TASK: [0, 1, 2, 3, 4, 5],
-      TIME: [0, 1, 2, 3, 4, 5],
+      TIME: undefined,
     },
   },
   {
@@ -18,7 +18,7 @@ export const techChoices: Choice[] = [
     compatibleWith: {
       TYPE: [0, 1, 2, 3, 4, 5],
       TASK: [0, 1, 2, 3, 4, 5],
-      TIME: [0, 1, 2, 3, 4, 5],
+      TIME: undefined,
     },
   },
   {
@@ -28,7 +28,7 @@ export const techChoices: Choice[] = [
     compatibleWith: {
       TYPE: [0, 1, 2, 3, 4, 5],
       TASK: [0, 1, 2, 3, 4, 5],
-      TIME: [0, 1, 2, 3, 4, 5],
+      TIME: undefined,
     },
   },
   {
@@ -38,7 +38,7 @@ export const techChoices: Choice[] = [
     compatibleWith: {
       TYPE: [0, 1, 2, 3, 4, 5],
       TASK: [0, 1, 2, 3, 4, 5],
-      TIME: [0, 1, 2, 3, 4, 5],
+      TIME: undefined,
     },
   },
   {
@@ -48,7 +48,7 @@ export const techChoices: Choice[] = [
     compatibleWith: {
       TYPE: [0, 1, 2, 3, 4, 5],
       TASK: [0, 1, 2, 3, 4, 5],
-      TIME: [0, 1, 2, 3, 4, 5],
+      TIME: undefined,
     },
   },
   {
@@ -58,7 +58,7 @@ export const techChoices: Choice[] = [
     compatibleWith: {
       TYPE: [0, 1, 2, 3, 4, 5],
       TASK: [0, 1, 2, 3, 4, 5],
-      TIME: [0, 1, 2, 3, 4, 5],
+      TIME: undefined,
     },
   },
   {
@@ -68,7 +68,7 @@ export const techChoices: Choice[] = [
     compatibleWith: {
       TYPE: [0, 1, 2, 3, 4, 5],
       TASK: [0, 1, 2, 3, 4, 5],
-      TIME: [0, 1, 2, 3, 4, 5],
+      TIME: undefined,
     },
   },
   {
@@ -78,7 +78,7 @@ export const techChoices: Choice[] = [
     compatibleWith: {
       TYPE: [0, 1, 2, 3, 4, 5],
       TASK: [0, 1, 2, 3, 4, 5],
-      TIME: [0, 1, 2, 3, 4, 5],
+      TIME: undefined,
     },
   },
   {
@@ -88,7 +88,7 @@ export const techChoices: Choice[] = [
     compatibleWith: {
       TYPE: [0, 1, 2, 3, 4, 5],
       TASK: [0, 1, 2, 3, 4, 5],
-      TIME: [0, 1, 2, 3, 4, 5],
+      TIME: undefined,
     },
   },
   {
@@ -98,7 +98,7 @@ export const techChoices: Choice[] = [
     compatibleWith: {
       TYPE: [0, 1, 2, 3, 4, 5],
       TASK: [0, 1, 2, 3, 4, 5],
-      TIME: [0, 1, 2, 3, 4, 5],
+      TIME: undefined,
     },
   },
 ];

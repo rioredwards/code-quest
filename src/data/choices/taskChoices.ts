@@ -1,48 +1,89 @@
 import { Choice } from "../../types";
-import { TimeChoiceIdx } from "./timeChoices";
-import { TypeChoiceIdx } from "./typeChoices";
-
-const {
-  THIRTY_MIN,
-  FORTY_FIVE_MIN,
-  ONE_HOUR,
-  NINETY_MIN,
-  TWO_HOURS,
-  THREE_HOURS,
-  FOUR_HOURS,
-  FIVE_HOURS,
-  SIX_HOURS,
-  INFINITY,
-} = TimeChoiceIdx;
+import { TaskChoiceIdx } from "../choiceEnums/taskEnum";
+import { TypeChoiceIdx } from "../choiceEnums/typeEnum";
+import {
+  CLIEasy,
+  CLIHard,
+  CLIMedium,
+  backendEasy,
+  backendHard,
+  backendMedium,
+  cloudEasy,
+  cloudHard,
+  cloudMedium,
+  frontendEasy,
+  frontendHard,
+  frontendMedium,
+  fullstackEasy,
+  fullstackHard,
+  fullstackMedium,
+  leetCodeEasy,
+  leetCodeMedium,
+} from "./typeChoices";
 
 const { LEETCODE, CLI, FRONTEND, FULLSTACK, BACKEND, CLOUD } = TypeChoiceIdx;
+const {
+  TWO_SUM,
+  VALID_PALINDROME,
+  REVERSE_LINKED_LIST,
+  FREQUENT_ELEMENTS,
+  MOST_WATER,
+  QUICK_NOTE,
+  WORD_COUNT,
+  FILE_FINDER,
+  TEMPERATURE_CHECK,
+  DO_NOT_DISTURB,
+  LANDING_PAGE,
+  CHARACTER_CREATOR,
+  PHOTO_CAROUSEL,
+  CALCULATOR,
+  GIPHY_TV,
+  SITE_VISITS,
+  NOTES_APP,
+  COLOR_COLLAGE,
+  SOCIAL_MEDIA,
+  CHATROOM,
+  BLOG_POSTS,
+  MOVIE_LIST,
+  CHATGPT_ME,
+  E_COMMERCE,
+  GRAPHQL_SPACE,
+  S3_SURVEY,
+  CLOUDCEPTION,
+  CORS_CONTROL,
+  FIREBASE_OAUTH,
+  MOOD_MATCHER,
+} = TaskChoiceIdx;
 
-const leetCodeEasy: TimeChoiceIdx[] = [THIRTY_MIN, FORTY_FIVE_MIN, ONE_HOUR];
-const leetCodeMedium: TimeChoiceIdx[] = [FORTY_FIVE_MIN, ONE_HOUR, NINETY_MIN];
-
-const CLIEasy: TimeChoiceIdx[] = [ONE_HOUR, NINETY_MIN, TWO_HOURS];
-const CLIMedium: TimeChoiceIdx[] = [NINETY_MIN, TWO_HOURS, THREE_HOURS];
-const CLIHard: TimeChoiceIdx[] = [TWO_HOURS, THREE_HOURS, FOUR_HOURS];
-
-const frontendEasy: TimeChoiceIdx[] = [NINETY_MIN, TWO_HOURS, THREE_HOURS];
-const frontendMedium: TimeChoiceIdx[] = [THREE_HOURS, FOUR_HOURS, FIVE_HOURS];
-const frontendHard: TimeChoiceIdx[] = [FIVE_HOURS, SIX_HOURS, INFINITY];
-
-const fullstackEasy: TimeChoiceIdx[] = [THREE_HOURS, FOUR_HOURS, FIVE_HOURS];
-const fullstackMedium: TimeChoiceIdx[] = [FOUR_HOURS, FIVE_HOURS, SIX_HOURS];
-const fullstackHard: TimeChoiceIdx[] = [FIVE_HOURS, SIX_HOURS, INFINITY];
-
-const backendEasy: TimeChoiceIdx[] = [TWO_HOURS, THREE_HOURS, FOUR_HOURS];
-const backendMedium: TimeChoiceIdx[] = [THREE_HOURS, FOUR_HOURS, FIVE_HOURS];
-const backendHard: TimeChoiceIdx[] = [FIVE_HOURS, SIX_HOURS, INFINITY];
-
-const cloudEasy: TimeChoiceIdx[] = [TWO_HOURS, THREE_HOURS, FOUR_HOURS];
-const cloudMedium: TimeChoiceIdx[] = [THREE_HOURS, FOUR_HOURS, FIVE_HOURS];
-const cloudHard: TimeChoiceIdx[] = [FIVE_HOURS, SIX_HOURS, INFINITY];
+export const leetCodeEasyTasks: number[] = [TWO_SUM, VALID_PALINDROME];
+export const leetCodeMediumTasks: number[] = [
+  REVERSE_LINKED_LIST,
+  FREQUENT_ELEMENTS,
+  MOST_WATER,
+];
+export const CLIEasyTasks: number[] = [QUICK_NOTE, WORD_COUNT, FILE_FINDER];
+export const CLIMediumTasks: number[] = [TEMPERATURE_CHECK];
+export const CLIHardTasks: number[] = [DO_NOT_DISTURB];
+export const frontendEasyTasks: number[] = [LANDING_PAGE];
+export const frontendMediumTasks: number[] = [
+  CHARACTER_CREATOR,
+  PHOTO_CAROUSEL,
+  CALCULATOR,
+];
+export const frontendHardTasks: number[] = [GIPHY_TV];
+export const fullstackEasyTasks: number[] = [SITE_VISITS];
+export const fullstackMediumTasks: number[] = [NOTES_APP, COLOR_COLLAGE];
+export const fullstackHardTasks: number[] = [SOCIAL_MEDIA, CHATROOM];
+export const backendEasyTasks: number[] = [BLOG_POSTS, MOVIE_LIST];
+export const backendMediumTasks: number[] = [CHATGPT_ME];
+export const backendHardTasks: number[] = [E_COMMERCE, GRAPHQL_SPACE];
+export const cloudEasyTasks: number[] = [S3_SURVEY, CLOUDCEPTION, CORS_CONTROL];
+export const cloudMediumTasks: number[] = [FIREBASE_OAUTH];
+export const cloudHardTasks: number[] = [MOOD_MATCHER];
 
 export const taskChoices: Choice[] = [
   {
-    id: 0,
+    id: TWO_SUM,
     name: "Two Sum", // Leetcode -> Easy
     sentenceName: "Two Sum",
     compatibleWith: {
@@ -52,7 +93,7 @@ export const taskChoices: Choice[] = [
     },
   },
   {
-    id: 1,
+    id: VALID_PALINDROME,
     name: "Valid Palindrome", // Leetcode -> Easy
     sentenceName: "Valid Palindrome",
     compatibleWith: {
@@ -62,7 +103,7 @@ export const taskChoices: Choice[] = [
     },
   },
   {
-    id: 2,
+    id: REVERSE_LINKED_LIST,
     name: "Reverse Linked List", // Leetcode -> Easy (medium-ish)
     sentenceName: "Reverse Linked List",
     compatibleWith: {
@@ -72,7 +113,7 @@ export const taskChoices: Choice[] = [
     },
   },
   {
-    id: 3,
+    id: FREQUENT_ELEMENTS,
     name: "Frequent Elements", // Leetcode -> Medium
     sentenceName: "Top K Frequent Elements",
     compatibleWith: {
@@ -82,7 +123,7 @@ export const taskChoices: Choice[] = [
     },
   },
   {
-    id: 4,
+    id: MOST_WATER,
     name: "Most Water", // Leetcode -> Medium
     sentenceName: "Container With Most Water",
     compatibleWith: {
@@ -92,7 +133,7 @@ export const taskChoices: Choice[] = [
     },
   },
   {
-    id: 5,
+    id: QUICK_NOTE,
     name: "Quick Note", // CLI -> Easy
     sentenceName: "Quickly save and view notes",
     compatibleWith: {
@@ -102,7 +143,7 @@ export const taskChoices: Choice[] = [
     },
   },
   {
-    id: 6,
+    id: WORD_COUNT,
     name: "Word Count", // CLI -> Easy
     sentenceName: "Count the number of words in a file",
     compatibleWith: {
@@ -112,7 +153,7 @@ export const taskChoices: Choice[] = [
     },
   },
   {
-    id: 7,
+    id: FILE_FINDER,
     name: "File Finder", // CLI -> Easy
     sentenceName: "Find a file by name and open it if it exists",
     compatibleWith: {
@@ -122,7 +163,7 @@ export const taskChoices: Choice[] = [
     },
   },
   {
-    id: 8,
+    id: TEMPERATURE_CHECK,
     name: "Temperature Check", // CLI -> Medium
     sentenceName: "Return the current temperature outside",
     compatibleWith: {
@@ -132,7 +173,7 @@ export const taskChoices: Choice[] = [
     },
   },
   {
-    id: 9,
+    id: DO_NOT_DISTURB,
     name: "Do Not Disturb", // CLI -> Hard
     sentenceName: "Block all notifications for a specified amount of time",
     compatibleWith: {
@@ -142,7 +183,7 @@ export const taskChoices: Choice[] = [
     },
   },
   {
-    id: 10,
+    id: LANDING_PAGE,
     name: "Landing Page", // Frontend -> Easy
     sentenceName: "Landing Page",
     compatibleWith: {
@@ -152,7 +193,7 @@ export const taskChoices: Choice[] = [
     },
   },
   {
-    id: 11,
+    id: CHARACTER_CREATOR,
     name: "Character Creator", // Frontend -> Medium
     sentenceName: "Character Creator",
     compatibleWith: {
@@ -162,7 +203,7 @@ export const taskChoices: Choice[] = [
     },
   },
   {
-    id: 12,
+    id: PHOTO_CAROUSEL,
     name: "Photo Carousel", // Frontend -> Medium
     sentenceName: "Photo Carousel with infinite scroll",
     compatibleWith: {
@@ -172,7 +213,7 @@ export const taskChoices: Choice[] = [
     },
   },
   {
-    id: 13,
+    id: CALCULATOR,
     name: "Calculator", // Frontend -> Medium
     sentenceName: "Calculator with basic arithmetic operations",
     compatibleWith: {
@@ -182,7 +223,7 @@ export const taskChoices: Choice[] = [
     },
   },
   {
-    id: 14,
+    id: GIPHY_TV,
     name: "Giphy TV", // Frontend -> Hard
     sentenceName: "Giphy TV",
     compatibleWith: {
@@ -192,7 +233,7 @@ export const taskChoices: Choice[] = [
     },
   },
   {
-    id: 15,
+    id: SITE_VISITS,
     name: "Site Visits", // Fullstack -> Easy
     sentenceName: "Display the total number of visits to a website",
     compatibleWith: {
@@ -202,7 +243,7 @@ export const taskChoices: Choice[] = [
     },
   },
   {
-    id: 16,
+    id: NOTES_APP,
     name: "Notes App", // Fullstack -> Medium
     sentenceName: "Notes App with CRUD functionality",
     compatibleWith: {
@@ -212,7 +253,7 @@ export const taskChoices: Choice[] = [
     },
   },
   {
-    id: 17,
+    id: COLOR_COLLAGE,
     name: "Color Collage", // Fullstack -> Medium
     sentenceName:
       "Use the Unsplash API to Fetch and display different colored images to match each route. Ex: mySite/red -> red images",
@@ -223,7 +264,7 @@ export const taskChoices: Choice[] = [
     },
   },
   {
-    id: 18,
+    id: SOCIAL_MEDIA,
     name: "Social Media", // Fullstack -> Hard
     sentenceName: "Social Media app with auth, posts, and likes",
     compatibleWith: {
@@ -233,7 +274,7 @@ export const taskChoices: Choice[] = [
     },
   },
   {
-    id: 19,
+    id: CHATROOM,
     name: "Chatroom", // Fullstack -> Hard
     sentenceName: "Chatroom app with auth and realtime messages",
     compatibleWith: {
@@ -243,7 +284,7 @@ export const taskChoices: Choice[] = [
     },
   },
   {
-    id: 20,
+    id: BLOG_POSTS,
     name: "Blog Posts", // Backend -> Easy
     sentenceName: "CRUD API for Blog Posts",
     compatibleWith: {
@@ -253,7 +294,7 @@ export const taskChoices: Choice[] = [
     },
   },
   {
-    id: 21,
+    id: MOVIE_LIST,
     name: "Movie List", // Backend -> easy
     sentenceName:
       "proxy server for the TheMovieDB API which returns a list of movies",
@@ -264,7 +305,7 @@ export const taskChoices: Choice[] = [
     },
   },
   {
-    id: 22,
+    id: CHATGPT_ME,
     name: "ChatGPT Me", // Backend -> Medium
     sentenceName:
       "proxy server for the OpenAI API to return answers to questions",
@@ -275,7 +316,7 @@ export const taskChoices: Choice[] = [
     },
   },
   {
-    id: 23,
+    id: E_COMMERCE,
     name: "E-Commerce", // Backend -> Hard
     sentenceName: "API for an E-Commerce site with products and orders",
     compatibleWith: {
@@ -285,7 +326,7 @@ export const taskChoices: Choice[] = [
     },
   },
   {
-    id: 24,
+    id: GRAPHQL_SPACE,
     name: "GraphQL Space", // Backend -> Hard
     sentenceName: "GraphQL API for celestial objects in outer space",
     compatibleWith: {
@@ -295,7 +336,7 @@ export const taskChoices: Choice[] = [
     },
   },
   {
-    id: 25,
+    id: S3_SURVEY,
     name: "S3 Survey", // Cloud -> Easy
     sentenceName: "Setup a survey that stores responses in an AWS S3 bucket",
     compatibleWith: {
@@ -305,7 +346,7 @@ export const taskChoices: Choice[] = [
     },
   },
   {
-    id: 26,
+    id: CLOUDCEPTION,
     name: "Cloudception", // Cloud -> Easy
     sentenceName: "Use Cloudinary to store images of clouds in the cloud",
     compatibleWith: {
@@ -315,7 +356,7 @@ export const taskChoices: Choice[] = [
     },
   },
   {
-    id: 27,
+    id: CORS_CONTROL,
     name: "CORS Control", // Cloud -> Easy
     sentenceName: "Use serverless functions to query the Yelp API",
     compatibleWith: {
@@ -325,7 +366,7 @@ export const taskChoices: Choice[] = [
     },
   },
   {
-    id: 28,
+    id: FIREBASE_OAUTH,
     name: "Firebase OAuth", // Cloud -> Medium
     sentenceName: "With Firebase Auth, allow users to login with Github",
     compatibleWith: {
@@ -335,7 +376,7 @@ export const taskChoices: Choice[] = [
     },
   },
   {
-    id: 29,
+    id: MOOD_MATCHER,
     name: "Mood Matcher", // Cloud -> Hard
     sentenceName:
       "Use AWS Comprehend to analyze the sentiment of text and change the background color accordingly",
