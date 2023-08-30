@@ -36,7 +36,7 @@ const {
 
 const { LEETCODE, CLI, FRONTEND, FULLSTACK, BACKEND, CLOUD } = TypeChoiceIdx;
 
-const typeToTask = {
+export const typeToTask = {
   [LEETCODE]: [
     TWO_SUM,
     VALID_PALINDROME,

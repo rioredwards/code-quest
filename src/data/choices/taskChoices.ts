@@ -1,6 +1,5 @@
 import { Choice } from "../../types";
 import { TaskChoiceIdx } from "../choiceEnums/taskEnum";
-import { TypeChoiceIdx } from "../choiceEnums/typeEnum";
 import { taskToType } from "../compatibilities/TypeTask";
 import {
   CLIEasyTime,

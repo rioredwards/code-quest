@@ -1,5 +1,7 @@
 import { Choice } from "../../types";
 import { TimeChoiceIdx } from "../choiceEnums/timeEnum";
+import { typeToTask } from "../compatibilities/TypeTask";
+import { TypeChoiceIdx } from "../choiceEnums/typeEnum";
 
 const {
   THIRTY_M,
@@ -64,13 +66,6 @@ export const cloudTimes: number[] = Array.from(
   new Set([...cloudEasyTime, ...cloudMediumTime, ...cloudHardTime])
 );
 
-const leetCodeTasks: number[] = [0, 1, 2, 3, 4];
-const CLITasks: number[] = [5, 6, 7, 8, 9];
-const frontendTasks: number[] = [10, 11, 12, 13, 14];
-const fullstackTasks: number[] = [15, 16, 17, 18, 19];
-const backendTasks: number[] = [20, 21, 22, 23, 24];
-const cloudTasks: number[] = [25, 26, 27, 28, 29];
-
 const leetCodeTech: number[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 const CLITech: number[] = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 19];
 const frontendTech: number[] = [0, 1, 2, 14, 15, 16, 17];
@@ -78,53 +73,55 @@ const fullstackTech: number[] = [0, 1, 2, 17, 21, 22, 23, 24, 25];
 const backendTech: number[] = [18, 19, 20, 21, 22, 24, 25, 26];
 const cloudTech: number[] = [0, 1, 2, 14, 15, 16, 17];
 
+const { LEETCODE, CLI, FRONTEND, FULLSTACK, BACKEND, CLOUD } = TypeChoiceIdx;
+
 export const typeChoices: Choice[] = [
   {
-    id: 0,
+    id: LEETCODE,
     name: "Leetcode",
     sentenceName: "Leetcode",
     compatibleWith: {
-      TASK: leetCodeTasks,
+      TASK: typeToTask[LEETCODE],
       TECH: leetCodeTech,
       TIME: leetCodeTimes,
     },
   },
   {
-    id: 1,
+    id: CLI,
     name: "CLI",
     sentenceName: "CLI",
     compatibleWith: {
-      TASK: CLITasks,
+      TASK: typeToTask[CLI],
       TECH: CLITech,
       TIME: CLITimes,
     },
   },
   {
-    id: 2,
+    id: FRONTEND,
     name: "Frontend",
     sentenceName: "Frontend",
     compatibleWith: {
-      TASK: frontendTasks,
+      TASK: typeToTask[FRONTEND],
       TECH: frontendTech,
       TIME: frontendTimes,
     },
   },
   {
-    id: 3,
+    id: FULLSTACK,
     name: "Fullstack",
     sentenceName: "Fullstack",
     compatibleWith: {
-      TASK: fullstackTasks,
+      TASK: typeToTask[FULLSTACK],
       TECH: fullstackTech,
       TIME: fullstackTimes,
     },
   },
   {
-    id: 4,
+    id: BACKEND,
     name: "Backend",
     sentenceName: "Backend",
     compatibleWith: {
-      TASK: backendTasks,
+      TASK: typeToTask[BACKEND],
       TECH: backendTech,
       TIME: backendTimes,
     },
@@ -134,7 +131,7 @@ export const typeChoices: Choice[] = [
     name: "Cloud",
     sentenceName: "Cloud",
     compatibleWith: {
-      TASK: cloudTasks,
+      TASK: typeToTask[CLOUD],
       TECH: cloudTech,
       TIME: cloudTimes,
     },
