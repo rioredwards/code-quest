@@ -2,23 +2,23 @@ import { Choice } from "../../types";
 import { TaskChoiceIdx } from "../choiceEnums/taskEnum";
 import { TypeChoiceIdx } from "../choiceEnums/typeEnum";
 import {
-  CLIEasy,
-  CLIHard,
-  CLIMedium,
-  backendEasy,
-  backendHard,
-  backendMedium,
-  cloudEasy,
-  cloudHard,
-  cloudMedium,
-  frontendEasy,
-  frontendHard,
-  frontendMedium,
-  fullstackEasy,
-  fullstackHard,
-  fullstackMedium,
-  leetCodeEasy,
-  leetCodeMedium,
+  CLIEasyTime,
+  CLIHardTime,
+  CLIMediumTime,
+  backendEasyTime,
+  backendHardTime,
+  backendMediumTime,
+  cloudEasyTime,
+  cloudHardTime,
+  cloudMediumTime,
+  frontendEasyTime,
+  frontendHardTime,
+  frontendMediumTime,
+  fullstackEasyTime,
+  fullstackHardTime,
+  fullstackMediumTime,
+  leetCodeEasyTime,
+  leetCodeMediumTime,
 } from "./typeChoices";
 
 const { LEETCODE, CLI, FRONTEND, FULLSTACK, BACKEND, CLOUD } = TypeChoiceIdx;
@@ -81,6 +81,13 @@ export const cloudEasyTasks: number[] = [S3_SURVEY, CLOUDCEPTION, CORS_CONTROL];
 export const cloudMediumTasks: number[] = [FIREBASE_OAUTH];
 export const cloudHardTasks: number[] = [MOOD_MATCHER];
 
+export const leetCodeTasks: number[] = [0, 1, 2, 3, 4];
+export const CLITasks: number[] = [5, 6, 7, 8, 9];
+export const frontendTasks: number[] = [10, 11, 12, 13, 14];
+export const fullstackTasks: number[] = [15, 16, 17, 18, 19];
+export const backendTasks: number[] = [20, 21, 22, 23, 24];
+export const cloudTasks: number[] = [25, 26, 27, 28, 29];
+
 export const taskChoices: Choice[] = [
   {
     id: TWO_SUM,
@@ -89,7 +96,7 @@ export const taskChoices: Choice[] = [
     compatibleWith: {
       TYPE: [LEETCODE],
       TECH: [0, 1, 2, 3, 4, 5],
-      TIME: leetCodeEasy,
+      TIME: leetCodeEasyTime,
     },
   },
   {
@@ -99,7 +106,7 @@ export const taskChoices: Choice[] = [
     compatibleWith: {
       TYPE: [LEETCODE],
       TECH: [0, 1, 2, 3, 4, 5],
-      TIME: leetCodeEasy,
+      TIME: leetCodeEasyTime,
     },
   },
   {
@@ -109,7 +116,7 @@ export const taskChoices: Choice[] = [
     compatibleWith: {
       TYPE: [LEETCODE],
       TECH: [0, 1, 2, 3, 4, 5],
-      TIME: leetCodeMedium,
+      TIME: leetCodeMediumTime,
     },
   },
   {
@@ -119,7 +126,7 @@ export const taskChoices: Choice[] = [
     compatibleWith: {
       TYPE: [LEETCODE],
       TECH: [0, 1, 2, 3, 4, 5],
-      TIME: leetCodeMedium,
+      TIME: leetCodeMediumTime,
     },
   },
   {
@@ -129,7 +136,7 @@ export const taskChoices: Choice[] = [
     compatibleWith: {
       TYPE: [LEETCODE],
       TECH: [0, 1, 2, 3, 4, 5],
-      TIME: leetCodeMedium,
+      TIME: leetCodeMediumTime,
     },
   },
   {
@@ -139,7 +146,7 @@ export const taskChoices: Choice[] = [
     compatibleWith: {
       TYPE: [CLI],
       TECH: [0, 1, 2, 3, 4, 5],
-      TIME: CLIEasy,
+      TIME: CLIEasyTime,
     },
   },
   {
@@ -149,7 +156,7 @@ export const taskChoices: Choice[] = [
     compatibleWith: {
       TYPE: [CLI],
       TECH: [0, 1, 2, 3, 4, 5],
-      TIME: CLIEasy,
+      TIME: CLIEasyTime,
     },
   },
   {
@@ -159,7 +166,7 @@ export const taskChoices: Choice[] = [
     compatibleWith: {
       TYPE: [CLI],
       TECH: [0, 1, 2, 3, 4, 5],
-      TIME: CLIEasy,
+      TIME: CLIEasyTime,
     },
   },
   {
@@ -169,7 +176,7 @@ export const taskChoices: Choice[] = [
     compatibleWith: {
       TYPE: [CLI],
       TECH: [0, 1, 2, 3, 4, 5],
-      TIME: CLIMedium,
+      TIME: CLIMediumTime,
     },
   },
   {
@@ -179,7 +186,7 @@ export const taskChoices: Choice[] = [
     compatibleWith: {
       TYPE: [CLI],
       TECH: [0, 1, 2, 3, 4, 5],
-      TIME: CLIHard,
+      TIME: CLIHardTime,
     },
   },
   {
@@ -189,7 +196,7 @@ export const taskChoices: Choice[] = [
     compatibleWith: {
       TYPE: [FRONTEND],
       TECH: [0, 1, 2, 3, 4, 5],
-      TIME: frontendEasy,
+      TIME: frontendEasyTime,
     },
   },
   {
@@ -199,7 +206,7 @@ export const taskChoices: Choice[] = [
     compatibleWith: {
       TYPE: [FRONTEND],
       TECH: [0, 1, 2, 3, 4, 5],
-      TIME: frontendMedium,
+      TIME: frontendMediumTime,
     },
   },
   {
@@ -209,7 +216,7 @@ export const taskChoices: Choice[] = [
     compatibleWith: {
       TYPE: [FRONTEND],
       TECH: [0, 1, 2, 3, 4, 5],
-      TIME: frontendMedium,
+      TIME: frontendMediumTime,
     },
   },
   {
@@ -219,7 +226,7 @@ export const taskChoices: Choice[] = [
     compatibleWith: {
       TYPE: [FRONTEND],
       TECH: [0, 1, 2, 3, 4, 5],
-      TIME: frontendMedium,
+      TIME: frontendMediumTime,
     },
   },
   {
@@ -229,7 +236,7 @@ export const taskChoices: Choice[] = [
     compatibleWith: {
       TYPE: [FRONTEND],
       TECH: [0, 1, 2, 3, 4, 5],
-      TIME: frontendHard,
+      TIME: frontendHardTime,
     },
   },
   {
@@ -239,7 +246,7 @@ export const taskChoices: Choice[] = [
     compatibleWith: {
       TYPE: [FULLSTACK],
       TECH: [0, 1, 2, 3, 4, 5],
-      TIME: fullstackEasy,
+      TIME: fullstackEasyTime,
     },
   },
   {
@@ -249,7 +256,7 @@ export const taskChoices: Choice[] = [
     compatibleWith: {
       TYPE: [FULLSTACK],
       TECH: [0, 1, 2, 3, 4, 5],
-      TIME: fullstackMedium,
+      TIME: fullstackMediumTime,
     },
   },
   {
@@ -260,7 +267,7 @@ export const taskChoices: Choice[] = [
     compatibleWith: {
       TYPE: [FULLSTACK],
       TECH: [0, 1, 2, 3, 4, 5],
-      TIME: fullstackMedium,
+      TIME: fullstackMediumTime,
     },
   },
   {
@@ -270,7 +277,7 @@ export const taskChoices: Choice[] = [
     compatibleWith: {
       TYPE: [FULLSTACK],
       TECH: [0, 1, 2, 3, 4, 5],
-      TIME: fullstackHard,
+      TIME: fullstackHardTime,
     },
   },
   {
@@ -280,7 +287,7 @@ export const taskChoices: Choice[] = [
     compatibleWith: {
       TYPE: [FULLSTACK],
       TECH: [0, 1, 2, 3, 4, 5],
-      TIME: fullstackHard,
+      TIME: fullstackHardTime,
     },
   },
   {
@@ -290,7 +297,7 @@ export const taskChoices: Choice[] = [
     compatibleWith: {
       TYPE: [BACKEND],
       TECH: [0, 1, 2, 3, 4, 5],
-      TIME: backendEasy,
+      TIME: backendEasyTime,
     },
   },
   {
@@ -301,7 +308,7 @@ export const taskChoices: Choice[] = [
     compatibleWith: {
       TYPE: [BACKEND],
       TECH: [0, 1, 2, 3, 4, 5],
-      TIME: backendEasy,
+      TIME: backendEasyTime,
     },
   },
   {
@@ -312,7 +319,7 @@ export const taskChoices: Choice[] = [
     compatibleWith: {
       TYPE: [BACKEND],
       TECH: [0, 1, 2, 3, 4, 5],
-      TIME: backendMedium,
+      TIME: backendMediumTime,
     },
   },
   {
@@ -322,7 +329,7 @@ export const taskChoices: Choice[] = [
     compatibleWith: {
       TYPE: [BACKEND],
       TECH: [0, 1, 2, 3, 4, 5],
-      TIME: backendHard,
+      TIME: backendHardTime,
     },
   },
   {
@@ -332,7 +339,7 @@ export const taskChoices: Choice[] = [
     compatibleWith: {
       TYPE: [BACKEND],
       TECH: [0, 1, 2, 3, 4, 5],
-      TIME: backendHard,
+      TIME: backendHardTime,
     },
   },
   {
@@ -342,7 +349,7 @@ export const taskChoices: Choice[] = [
     compatibleWith: {
       TYPE: [CLOUD],
       TECH: [0, 1, 2, 3, 4, 5],
-      TIME: cloudEasy,
+      TIME: cloudEasyTime,
     },
   },
   {
@@ -352,7 +359,7 @@ export const taskChoices: Choice[] = [
     compatibleWith: {
       TYPE: [CLOUD],
       TECH: [0, 1, 2, 3, 4, 5],
-      TIME: cloudEasy,
+      TIME: cloudEasyTime,
     },
   },
   {
@@ -362,7 +369,7 @@ export const taskChoices: Choice[] = [
     compatibleWith: {
       TYPE: [CLOUD],
       TECH: [0, 1, 2, 3, 4, 5],
-      TIME: cloudEasy,
+      TIME: cloudEasyTime,
     },
   },
   {
@@ -372,7 +379,7 @@ export const taskChoices: Choice[] = [
     compatibleWith: {
       TYPE: [CLOUD],
       TECH: [0, 1, 2, 3, 4, 5],
-      TIME: cloudMedium,
+      TIME: cloudMediumTime,
     },
   },
   {
@@ -383,7 +390,7 @@ export const taskChoices: Choice[] = [
     compatibleWith: {
       TYPE: [CLOUD],
       TECH: [0, 1, 2, 3, 4, 5],
-      TIME: cloudHard,
+      TIME: cloudHardTime,
     },
   },
 ];

@@ -22,6 +22,73 @@ import {
 
 const { LEETCODE, CLI, FRONTEND, FULLSTACK, BACKEND, CLOUD } = TypeChoiceIdx;
 
+const thirtyMinTasks = [...leetCodeEasyTasks];
+const fortyFiveMinTasks = [...leetCodeEasyTasks, ...leetCodeMediumTasks];
+const oneHourTasks = [
+  ...leetCodeEasyTasks,
+  ...leetCodeMediumTasks,
+  ...CLIEasyTasks,
+];
+const ninetyMinTasks = [
+  ...leetCodeMediumTasks,
+  ...CLIEasyTasks,
+  ...CLIMediumTasks,
+  ...frontendEasyTasks,
+];
+const twoHourTasks = [
+  ...CLIEasyTasks,
+  ...CLIMediumTasks,
+  ...CLIHardTasks,
+  ...frontendEasyTasks,
+  ...backendEasyTasks,
+  ...cloudEasyTasks,
+];
+const threeHourTasks = [
+  ...CLIMediumTasks,
+  ...CLIHardTasks,
+  ...frontendEasyTasks,
+  ...frontendMediumTasks,
+  ...fullstackEasyTasks,
+  ...backendEasyTasks,
+  ...backendMediumTasks,
+  ...cloudEasyTasks,
+  ...cloudMediumTasks,
+];
+const fourHourTasks = [
+  ...CLIHardTasks,
+  ...frontendMediumTasks,
+  ...fullstackEasyTasks,
+  ...fullstackMediumTasks,
+  ...backendEasyTasks,
+  ...backendMediumTasks,
+  ...cloudEasyTasks,
+  ...cloudMediumTasks,
+];
+const fiveHourTasks = [
+  ...frontendMediumTasks,
+  ...frontendHardTasks,
+  ...fullstackEasyTasks,
+  ...fullstackMediumTasks,
+  ...fullstackHardTasks,
+  ...backendMediumTasks,
+  ...backendHardTasks,
+  ...cloudMediumTasks,
+  ...cloudHardTasks,
+];
+const sixHourTasks = [
+  ...frontendHardTasks,
+  ...fullstackMediumTasks,
+  ...fullstackHardTasks,
+  ...backendHardTasks,
+  ...cloudHardTasks,
+];
+const infiniteTimeTasks = [
+  ...frontendHardTasks,
+  ...fullstackHardTasks,
+  ...backendHardTasks,
+  ...cloudHardTasks,
+];
+
 export const timeChoices: Choice[] = [
   {
     id: 0,
@@ -29,7 +96,7 @@ export const timeChoices: Choice[] = [
     sentenceName: "30 Minutes",
     compatibleWith: {
       TYPE: [LEETCODE],
-      TASK: Array.from(new Set([...leetCodeEasyTasks])),
+      TASK: thirtyMinTasks,
       TECH: undefined,
     },
   },
@@ -39,7 +106,7 @@ export const timeChoices: Choice[] = [
     sentenceName: "45 Minutes",
     compatibleWith: {
       TYPE: [LEETCODE],
-      TASK: Array.from(new Set([...leetCodeEasyTasks, ...leetCodeMediumTasks])),
+      TASK: fortyFiveMinTasks,
       TECH: undefined,
     },
   },
@@ -49,9 +116,7 @@ export const timeChoices: Choice[] = [
     sentenceName: "1 Hour",
     compatibleWith: {
       TYPE: [LEETCODE, CLI],
-      TASK: Array.from(
-        new Set([...leetCodeEasyTasks, ...leetCodeMediumTasks, ...CLIEasyTasks])
-      ),
+      TASK: oneHourTasks,
       TECH: undefined,
     },
   },
@@ -61,14 +126,7 @@ export const timeChoices: Choice[] = [
     sentenceName: "90 Minutes",
     compatibleWith: {
       TYPE: [LEETCODE, CLI, FRONTEND],
-      TASK: Array.from(
-        new Set([
-          ...leetCodeMediumTasks,
-          ...CLIEasyTasks,
-          ...CLIMediumTasks,
-          ...frontendEasyTasks,
-        ])
-      ),
+      TASK: ninetyMinTasks,
       TECH: undefined,
     },
   },
@@ -78,16 +136,7 @@ export const timeChoices: Choice[] = [
     sentenceName: "2 Hours",
     compatibleWith: {
       TYPE: [CLI, FRONTEND, BACKEND, CLOUD],
-      TASK: Array.from(
-        new Set([
-          ...CLIEasyTasks,
-          ...CLIMediumTasks,
-          ...CLIHardTasks,
-          ...frontendEasyTasks,
-          ...backendEasyTasks,
-          ...cloudEasyTasks,
-        ])
-      ),
+      TASK: twoHourTasks,
       TECH: undefined,
     },
   },
@@ -97,19 +146,7 @@ export const timeChoices: Choice[] = [
     sentenceName: "3 Hours",
     compatibleWith: {
       TYPE: [CLI, FRONTEND, FULLSTACK, BACKEND, CLOUD],
-      TASK: Array.from(
-        new Set([
-          ...CLIMediumTasks,
-          ...CLIHardTasks,
-          ...frontendEasyTasks,
-          ...frontendMediumTasks,
-          ...fullstackEasyTasks,
-          ...backendEasyTasks,
-          ...backendMediumTasks,
-          ...cloudEasyTasks,
-          ...cloudMediumTasks,
-        ])
-      ),
+      TASK: threeHourTasks,
       TECH: undefined,
     },
   },
@@ -119,18 +156,7 @@ export const timeChoices: Choice[] = [
     sentenceName: "4 Hours",
     compatibleWith: {
       TYPE: [CLI, FRONTEND, FULLSTACK, BACKEND, CLOUD],
-      TASK: Array.from(
-        new Set([
-          ...CLIHardTasks,
-          ...frontendMediumTasks,
-          ...fullstackEasyTasks,
-          ...fullstackMediumTasks,
-          ...backendEasyTasks,
-          ...backendMediumTasks,
-          ...cloudEasyTasks,
-          ...cloudMediumTasks,
-        ])
-      ),
+      TASK: fourHourTasks,
       TECH: undefined,
     },
   },
@@ -140,19 +166,7 @@ export const timeChoices: Choice[] = [
     sentenceName: "5 Hours",
     compatibleWith: {
       TYPE: [FRONTEND, FULLSTACK, BACKEND, CLOUD],
-      TASK: Array.from(
-        new Set([
-          ...frontendMediumTasks,
-          ...frontendHardTasks,
-          ...fullstackEasyTasks,
-          ...fullstackMediumTasks,
-          ...fullstackHardTasks,
-          ...backendMediumTasks,
-          ...backendHardTasks,
-          ...cloudMediumTasks,
-          ...cloudHardTasks,
-        ])
-      ),
+      TASK: fiveHourTasks,
       TECH: undefined,
     },
   },
@@ -162,15 +176,7 @@ export const timeChoices: Choice[] = [
     sentenceName: "6 Hours",
     compatibleWith: {
       TYPE: [FRONTEND, FULLSTACK, BACKEND, CLOUD],
-      TASK: Array.from(
-        new Set([
-          ...frontendHardTasks,
-          ...fullstackMediumTasks,
-          ...fullstackHardTasks,
-          ...backendHardTasks,
-          ...cloudHardTasks,
-        ])
-      ),
+      TASK: sixHourTasks,
       TECH: undefined,
     },
   },
@@ -180,14 +186,7 @@ export const timeChoices: Choice[] = [
     sentenceName: "Unlimited Time",
     compatibleWith: {
       TYPE: [FRONTEND, FULLSTACK, BACKEND, CLOUD],
-      TASK: Array.from(
-        new Set([
-          ...frontendHardTasks,
-          ...fullstackHardTasks,
-          ...backendHardTasks,
-          ...cloudHardTasks,
-        ])
-      ),
+      TASK: infiniteTimeTasks,
       TECH: undefined,
     },
   },
