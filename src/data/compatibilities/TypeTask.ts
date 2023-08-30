@@ -36,36 +36,44 @@ const {
 
 const { LEETCODE, CLI, FRONTEND, FULLSTACK, BACKEND, CLOUD } = TypeChoiceIdx;
 
-type TypeToTask = {
-  [key in keyof typeof TypeChoiceIdx]: TaskChoiceIdx[];
-};
-
-const typeToTask: TypeToTask = {
-  LEETCODE: [
+const typeToTask = {
+  [LEETCODE]: [
     TWO_SUM,
     VALID_PALINDROME,
     REVERSE_LINKED_LIST,
     FREQUENT_ELEMENTS,
     MOST_WATER,
   ],
-  CLI: [QUICK_NOTE, WORD_COUNT, FILE_FINDER, TEMPERATURE_CHECK, DO_NOT_DISTURB],
-  FRONTEND: [
+  [CLI]: [
+    QUICK_NOTE,
+    WORD_COUNT,
+    FILE_FINDER,
+    TEMPERATURE_CHECK,
+    DO_NOT_DISTURB,
+  ],
+  [FRONTEND]: [
     LANDING_PAGE,
     CHARACTER_CREATOR,
     PHOTO_CAROUSEL,
     CALCULATOR,
     GIPHY_TV,
   ],
-  FULLSTACK: [SITE_VISITS, NOTES_APP, COLOR_COLLAGE, SOCIAL_MEDIA, CHATROOM],
-  BACKEND: [BLOG_POSTS, MOVIE_LIST, CHATGPT_ME, E_COMMERCE, GRAPHQL_SPACE],
-  CLOUD: [S3_SURVEY, CLOUDCEPTION, CORS_CONTROL, FIREBASE_OAUTH, MOOD_MATCHER],
+  [FULLSTACK]: [SITE_VISITS, NOTES_APP, COLOR_COLLAGE, SOCIAL_MEDIA, CHATROOM],
+  [BACKEND]: [BLOG_POSTS, MOVIE_LIST, CHATGPT_ME, E_COMMERCE, GRAPHQL_SPACE],
+  [CLOUD]: [
+    S3_SURVEY,
+    CLOUDCEPTION,
+    CORS_CONTROL,
+    FIREBASE_OAUTH,
+    MOOD_MATCHER,
+  ],
 };
 
 type TaskToType = {
-  [key in keyof typeof TaskChoiceIdx]?: TypeChoiceIdx[];
+  [key in keyof typeof TaskChoiceIdx]: TypeChoiceIdx[];
 };
 
-const taskToType: TaskToType = {};
+export const taskToType: TaskToType = {} as TaskToType;
 
 for (const [type, tasks] of Object.entries(typeToTask)) {
   if (!tasks) throw new Error("Tasks not found in typeToTask");
