@@ -11,44 +11,34 @@ const {
   THREE_HOURS,
   FOUR_HOURS,
   FIVE_HOURS,
+  SIX_HOURS,
   INFINITY,
 } = TimeChoiceIdx;
 
 const { LEETCODE, CLI, FRONTEND, FULLSTACK, BACKEND, CLOUD } = TypeChoiceIdx;
 
-const leetCodeEasy: TimeChoiceIdx[] = [
-  THIRTY_MIN,
-  FORTY_FIVE_MIN,
-  ONE_HOUR,
-  NINETY_MIN,
-  INFINITY,
-];
-const leetCodeMedium: TimeChoiceIdx[] = [
-  NINETY_MIN,
-  TWO_HOURS,
-  THREE_HOURS,
-  INFINITY,
-];
+const leetCodeEasy: TimeChoiceIdx[] = [THIRTY_MIN, FORTY_FIVE_MIN, ONE_HOUR];
+const leetCodeMedium: TimeChoiceIdx[] = [FORTY_FIVE_MIN, ONE_HOUR, NINETY_MIN];
 
-const backendEasy: TimeChoiceIdx[] = [TWO_HOURS, THREE_HOURS, INFINITY];
-const backendMedium: TimeChoiceIdx[] = [THREE_HOURS, FOUR_HOURS, INFINITY];
-const backendHard: TimeChoiceIdx[] = [FOUR_HOURS, FIVE_HOURS, INFINITY];
+const CLIEasy: TimeChoiceIdx[] = [ONE_HOUR, NINETY_MIN, TWO_HOURS];
+const CLIMedium: TimeChoiceIdx[] = [NINETY_MIN, TWO_HOURS, THREE_HOURS];
+const CLIHard: TimeChoiceIdx[] = [TWO_HOURS, THREE_HOURS, FOUR_HOURS];
 
-const frontendEasy: TimeChoiceIdx[] = backendEasy;
-const frontendMedium: TimeChoiceIdx[] = backendMedium;
-const frontendHard: TimeChoiceIdx[] = backendHard;
+const frontendEasy: TimeChoiceIdx[] = [NINETY_MIN, TWO_HOURS, THREE_HOURS];
+const frontendMedium: TimeChoiceIdx[] = [THREE_HOURS, FOUR_HOURS, FIVE_HOURS];
+const frontendHard: TimeChoiceIdx[] = [FIVE_HOURS, SIX_HOURS, INFINITY];
 
-const fullstackEasy: TimeChoiceIdx[] = backendEasy;
-const fullstackMedium: TimeChoiceIdx[] = backendMedium;
-const fullstackHard: TimeChoiceIdx[] = backendHard;
+const fullstackEasy: TimeChoiceIdx[] = [THREE_HOURS, FOUR_HOURS, FIVE_HOURS];
+const fullstackMedium: TimeChoiceIdx[] = [FOUR_HOURS, FIVE_HOURS, SIX_HOURS];
+const fullstackHard: TimeChoiceIdx[] = [FIVE_HOURS, SIX_HOURS, INFINITY];
 
-const cloudEasy: TimeChoiceIdx[] = backendEasy;
-const cloudMedium: TimeChoiceIdx[] = backendMedium;
-const cloudHard: TimeChoiceIdx[] = backendHard;
+const backendEasy: TimeChoiceIdx[] = [TWO_HOURS, THREE_HOURS, FOUR_HOURS];
+const backendMedium: TimeChoiceIdx[] = [THREE_HOURS, FOUR_HOURS, FIVE_HOURS];
+const backendHard: TimeChoiceIdx[] = [FIVE_HOURS, SIX_HOURS, INFINITY];
 
-const CLIEasy: TimeChoiceIdx[] = backendEasy;
-const CLIMedium: TimeChoiceIdx[] = backendMedium;
-const CLIHard: TimeChoiceIdx[] = backendHard;
+const cloudEasy: TimeChoiceIdx[] = [TWO_HOURS, THREE_HOURS, FOUR_HOURS];
+const cloudMedium: TimeChoiceIdx[] = [THREE_HOURS, FOUR_HOURS, FIVE_HOURS];
+const cloudHard: TimeChoiceIdx[] = [FIVE_HOURS, SIX_HOURS, INFINITY];
 
 export const taskChoices: Choice[] = [
   {
@@ -203,16 +193,6 @@ export const taskChoices: Choice[] = [
   },
   {
     id: 15,
-    name: "Notes App", // Fullstack -> Easy
-    sentenceName: "Notes App with CRUD functionality",
-    compatibleWith: {
-      TYPE: [FULLSTACK],
-      TECH: [0, 1, 2, 3, 4, 5],
-      TIME: fullstackEasy,
-    },
-  },
-  {
-    id: 16,
     name: "Site Visits", // Fullstack -> Easy
     sentenceName: "Display the total number of visits to a website",
     compatibleWith: {
@@ -222,9 +202,20 @@ export const taskChoices: Choice[] = [
     },
   },
   {
+    id: 16,
+    name: "Notes App", // Fullstack -> Medium
+    sentenceName: "Notes App with CRUD functionality",
+    compatibleWith: {
+      TYPE: [FULLSTACK],
+      TECH: [0, 1, 2, 3, 4, 5],
+      TIME: fullstackMedium,
+    },
+  },
+  {
     id: 17,
-    name: "Fav Hotkeys", // Fullstack -> Medium
-    sentenceName: "Allow users to store their favorite hotkeys",
+    name: "Color Collage", // Fullstack -> Medium
+    sentenceName:
+      "Use the Unsplash API to Fetch and display different colored images to match each route. Ex: mySite/red -> red images",
     compatibleWith: {
       TYPE: [FULLSTACK],
       TECH: [0, 1, 2, 3, 4, 5],
@@ -274,7 +265,7 @@ export const taskChoices: Choice[] = [
   },
   {
     id: 22,
-    name: "OpenAI", // Backend -> Medium
+    name: "ChatGPT Me", // Backend -> Medium
     sentenceName:
       "proxy server for the OpenAI API to return answers to questions",
     compatibleWith: {

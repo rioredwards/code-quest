@@ -9,7 +9,8 @@ export enum TimeChoiceIdx {
   THREE_HOURS = 5,
   FOUR_HOURS = 6,
   FIVE_HOURS = 7,
-  INFINITY = 8,
+  SIX_HOURS = 8,
+  INFINITY = 9,
 }
 
 export const timeChoices: Choice[] = [
@@ -95,6 +96,16 @@ export const timeChoices: Choice[] = [
   },
   {
     id: 8,
+    name: "6 Hours",
+    sentenceName: "6 Hours",
+    compatibleWith: {
+      TECH: [0, 1, 2, 3, 4, 5],
+      TASK: [0, 1, 2, 3, 4, 5],
+      TYPE: [0, 1, 2, 3, 4, 5],
+    },
+  },
+  {
+    id: 9,
     name: "∞",
     sentenceName: "Unlimited Time",
     compatibleWith: {
