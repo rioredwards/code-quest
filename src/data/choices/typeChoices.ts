@@ -2,6 +2,8 @@ import { Choice } from "../../types";
 import { TimeChoiceIdx } from "../choiceEnums/timeEnum";
 import { typeToTask } from "../compatibilities/TypeTask";
 import { TypeChoiceIdx } from "../choiceEnums/typeEnum";
+import { TechChoiceIdx } from "../choiceEnums/techEnum";
+import { typeToTech } from "../compatibilities/TypeTech.";
 
 const {
   THIRTY_M,
@@ -66,13 +68,6 @@ export const cloudTimes: number[] = Array.from(
   new Set([...cloudEasyTime, ...cloudMediumTime, ...cloudHardTime])
 );
 
-const leetCodeTech: number[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-const CLITech: number[] = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 19];
-const frontendTech: number[] = [0, 1, 2, 14, 15, 16, 17];
-const fullstackTech: number[] = [0, 1, 2, 17, 21, 22, 23, 24, 25];
-const backendTech: number[] = [18, 19, 20, 21, 22, 24, 25, 26];
-const cloudTech: number[] = [0, 1, 2, 14, 15, 16, 17];
-
 const { LEETCODE, CLI, FRONTEND, FULLSTACK, BACKEND, CLOUD } = TypeChoiceIdx;
 
 export const typeChoices: Choice[] = [
@@ -82,7 +77,7 @@ export const typeChoices: Choice[] = [
     sentenceName: "Leetcode",
     compatibleWith: {
       TASK: typeToTask[LEETCODE],
-      TECH: leetCodeTech,
+      TECH: typeToTech[LEETCODE],
       TIME: leetCodeTimes,
     },
   },
@@ -92,7 +87,7 @@ export const typeChoices: Choice[] = [
     sentenceName: "CLI",
     compatibleWith: {
       TASK: typeToTask[CLI],
-      TECH: CLITech,
+      TECH: typeToTech[CLI],
       TIME: CLITimes,
     },
   },
@@ -102,7 +97,7 @@ export const typeChoices: Choice[] = [
     sentenceName: "Frontend",
     compatibleWith: {
       TASK: typeToTask[FRONTEND],
-      TECH: frontendTech,
+      TECH: typeToTech[FRONTEND],
       TIME: frontendTimes,
     },
   },
@@ -112,7 +107,7 @@ export const typeChoices: Choice[] = [
     sentenceName: "Fullstack",
     compatibleWith: {
       TASK: typeToTask[FULLSTACK],
-      TECH: fullstackTech,
+      TECH: typeToTech[FULLSTACK],
       TIME: fullstackTimes,
     },
   },
@@ -122,7 +117,7 @@ export const typeChoices: Choice[] = [
     sentenceName: "Backend",
     compatibleWith: {
       TASK: typeToTask[BACKEND],
-      TECH: backendTech,
+      TECH: typeToTech[BACKEND],
       TIME: backendTimes,
     },
   },
@@ -132,7 +127,7 @@ export const typeChoices: Choice[] = [
     sentenceName: "Cloud",
     compatibleWith: {
       TASK: typeToTask[CLOUD],
-      TECH: cloudTech,
+      TECH: typeToTech[CLOUD],
       TIME: cloudTimes,
     },
   },

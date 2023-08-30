@@ -1,3 +1,4 @@
+import { ValuesOf } from "../../utils/utilityTypes";
 import { TaskChoiceIdx } from "../choiceEnums/taskEnum";
 import { TypeChoiceIdx } from "../choiceEnums/typeEnum";
 
@@ -36,7 +37,11 @@ const {
 
 const { LEETCODE, CLI, FRONTEND, FULLSTACK, BACKEND, CLOUD } = TypeChoiceIdx;
 
-export const typeToTask = {
+type TypeToTask = {
+  [key in ValuesOf<typeof TypeChoiceIdx>]: TaskChoiceIdx[];
+};
+
+export const typeToTask: TypeToTask = {
   [LEETCODE]: [
     TWO_SUM,
     VALID_PALINDROME,
@@ -70,7 +75,7 @@ export const typeToTask = {
 };
 
 type TaskToType = {
-  [key in keyof typeof TaskChoiceIdx]: TypeChoiceIdx[];
+  [key in ValuesOf<typeof TaskChoiceIdx>]: TypeChoiceIdx[];
 };
 
 export const taskToType: TaskToType = {} as TaskToType;

@@ -1,5 +1,6 @@
 import { Choice } from "../../types";
-import { TypeChoiceIdx } from "../choiceEnums/typeEnum";
+import { TechChoiceIdx } from "../choiceEnums/techEnum";
+import { techToType } from "../compatibilities/TypeTech.";
 import {
   CLITasks,
   backendTasks,
@@ -17,15 +18,43 @@ import {
   cloudTimes,
 } from "./typeChoices";
 
-const { LEETCODE, CLI, FRONTEND, FULLSTACK, BACKEND, CLOUD } = TypeChoiceIdx;
+const {
+  JAVASCRIPT,
+  TYPESCRIPT,
+  PYTHON,
+  JAVA,
+  C,
+  CPP,
+  CSHARP,
+  GO,
+  RUST,
+  PHP,
+  RUBY,
+  SWIFT,
+  DART,
+  BASH,
+  REACT,
+  ANGULAR,
+  VUE,
+  NEXT,
+  NEST,
+  NODE,
+  EXPRESS,
+  DJANGO,
+  SPRING,
+  RAILS,
+  LARAVEL,
+  DOTNET,
+  GIN,
+} = TechChoiceIdx;
 
 export const techChoices: Choice[] = [
   {
-    id: 0,
+    id: JAVASCRIPT,
     name: "Javascript",
     sentenceName: "Javascript",
     compatibleWith: {
-      TYPE: [LEETCODE, FRONTEND, FULLSTACK, CLOUD],
+      TYPE: techToType[JAVASCRIPT],
       TASK: [
         ...leetCodeTasks,
         ...frontendTasks,
@@ -36,11 +65,11 @@ export const techChoices: Choice[] = [
     },
   },
   {
-    id: 1,
+    id: TYPESCRIPT,
     name: "Typescript",
     sentenceName: "Typescript",
     compatibleWith: {
-      TYPE: [LEETCODE, FRONTEND, FULLSTACK, CLOUD],
+      TYPE: techToType[TYPESCRIPT],
       TASK: [
         ...leetCodeTasks,
         ...frontendTasks,
@@ -56,11 +85,11 @@ export const techChoices: Choice[] = [
     },
   },
   {
-    id: 2,
+    id: PYTHON,
     name: "Python",
     sentenceName: "Python",
     compatibleWith: {
-      TYPE: [LEETCODE, CLI, FRONTEND, FULLSTACK, CLOUD],
+      TYPE: techToType[PYTHON],
       TASK: [
         ...leetCodeTasks,
         ...CLITasks,
@@ -78,241 +107,241 @@ export const techChoices: Choice[] = [
     },
   },
   {
-    id: 3,
+    id: JAVA,
     name: "Java",
     sentenceName: "Java",
     compatibleWith: {
-      TYPE: [LEETCODE, CLI],
+      TYPE: techToType[JAVA],
       TASK: [...leetCodeTasks, ...CLITasks],
       TIME: [...leetCodeTimes, ...CLITimes],
     },
   },
   {
-    id: 4,
+    id: C,
     name: "C",
     sentenceName: "C",
     compatibleWith: {
-      TYPE: [LEETCODE, CLI],
+      TYPE: techToType[C],
       TASK: [...leetCodeTasks, ...CLITasks],
       TIME: [...leetCodeTimes, ...CLITimes],
     },
   },
   {
-    id: 5,
+    id: CPP,
     name: "C++",
     sentenceName: "C++",
     compatibleWith: {
-      TYPE: [LEETCODE, CLI],
+      TYPE: techToType[CPP],
       TASK: [...leetCodeTasks, ...CLITasks],
       TIME: [...leetCodeTimes, ...CLITimes],
     },
   },
   {
-    id: 6,
+    id: CSHARP,
     name: "C#",
     sentenceName: "C#",
     compatibleWith: {
-      TYPE: [LEETCODE, CLI],
+      TYPE: techToType[CSHARP],
       TASK: [...leetCodeTasks, ...CLITasks],
       TIME: [...leetCodeTimes, ...CLITimes],
     },
   },
   {
-    id: 7,
+    id: GO,
     name: "Go",
     sentenceName: "Go",
     compatibleWith: {
-      TYPE: [LEETCODE, CLI],
+      TYPE: techToType[GO],
       TASK: [...leetCodeTasks, ...CLITasks],
       TIME: [...leetCodeTimes, ...CLITimes],
     },
   },
   {
-    id: 8,
+    id: RUST,
     name: "Rust",
     sentenceName: "Rust",
     compatibleWith: {
-      TYPE: [LEETCODE, CLI],
+      TYPE: techToType[RUST],
       TASK: [...leetCodeTasks, ...CLITasks],
       TIME: [...leetCodeTimes, ...CLITimes],
     },
   },
   {
-    id: 9,
+    id: PHP,
     name: "PHP",
     sentenceName: "PHP",
     compatibleWith: {
-      TYPE: [LEETCODE, CLI],
+      TYPE: techToType[PHP],
       TASK: [...leetCodeTasks, ...CLITasks],
       TIME: [...leetCodeTimes, ...CLITimes],
     },
   },
   {
-    id: 10,
+    id: RUBY,
     name: "Ruby",
     sentenceName: "Ruby",
     compatibleWith: {
-      TYPE: [LEETCODE, CLI],
+      TYPE: techToType[RUBY],
       TASK: [...leetCodeTasks, ...CLITasks],
       TIME: [...leetCodeTimes, ...CLITimes],
     },
   },
   {
-    id: 11,
+    id: SWIFT,
     name: "Swift",
     sentenceName: "Swift",
     compatibleWith: {
-      TYPE: [LEETCODE, CLI],
+      TYPE: techToType[SWIFT],
       TASK: [...leetCodeTasks, ...CLITasks],
       TIME: [...leetCodeTimes, ...CLITimes],
     },
   },
   {
-    id: 12,
+    id: DART,
     name: "Dart",
     sentenceName: "Dart",
     compatibleWith: {
-      TYPE: [LEETCODE, CLI],
+      TYPE: techToType[DART],
       TASK: [...leetCodeTasks, ...CLITasks],
       TIME: [...leetCodeTimes, ...CLITimes],
     },
   },
   {
-    id: 13,
+    id: BASH,
     name: "Bash",
     sentenceName: "Bash",
     compatibleWith: {
-      TYPE: [CLI],
+      TYPE: techToType[BASH],
       TASK: [...CLITasks],
       TIME: [...CLITimes],
     },
   },
   {
-    id: 14,
+    id: REACT,
     name: "React",
     sentenceName: "React",
     compatibleWith: {
-      TYPE: [FRONTEND, CLOUD],
+      TYPE: techToType[REACT],
       TASK: [...frontendTasks, ...cloudTasks],
       TIME: [...frontendTimes, ...cloudTimes],
     },
   },
   {
-    id: 15,
+    id: ANGULAR,
     name: "Angular",
     sentenceName: "Angular",
     compatibleWith: {
-      TYPE: [FRONTEND, CLOUD],
+      TYPE: techToType[ANGULAR],
       TASK: [...frontendTasks, ...cloudTasks],
       TIME: [...frontendTimes, ...cloudTimes],
     },
   },
   {
-    id: 16,
+    id: VUE,
     name: "Vue",
     sentenceName: "Vue",
     compatibleWith: {
-      TYPE: [FRONTEND, CLOUD],
+      TYPE: techToType[VUE],
       TASK: [...frontendTasks, ...cloudTasks],
       TIME: [...frontendTimes, ...cloudTimes],
     },
   },
   {
-    id: 17,
+    id: NEXT,
     name: "Next.js",
     sentenceName: "Next.js",
     compatibleWith: {
-      TYPE: [FRONTEND, FULLSTACK, CLOUD],
+      TYPE: techToType[NEXT],
       TASK: [...frontendTasks, ...fullstackTimes, ...cloudTasks],
       TIME: [...frontendTimes, ...fullstackTimes, ...cloudTimes],
     },
   },
   {
-    id: 18,
+    id: NEST,
     name: "Nest.js",
     sentenceName: "Nest.js",
     compatibleWith: {
-      TYPE: [BACKEND],
+      TYPE: techToType[NEST],
       TASK: [...backendTasks],
       TIME: [...backendTimes],
     },
   },
   {
-    id: 19,
+    id: NODE,
     name: "Node.js",
     sentenceName: "Node.js",
     compatibleWith: {
-      TYPE: [CLI, BACKEND],
+      TYPE: techToType[NODE],
       TASK: [...CLITasks, ...backendTasks],
       TIME: [...CLITimes, ...backendTimes],
     },
   },
   {
-    id: 20,
+    id: EXPRESS,
     name: "Express.js",
     sentenceName: "Express.js",
     compatibleWith: {
-      TYPE: [BACKEND],
+      TYPE: techToType[EXPRESS],
       TASK: [...backendTasks],
       TIME: [...backendTimes],
     },
   },
   {
-    id: 21,
+    id: DJANGO,
     name: "Django",
     sentenceName: "Django",
     compatibleWith: {
-      TYPE: [FULLSTACK, BACKEND],
+      TYPE: techToType[DJANGO],
       TASK: [...fullstackTasks, ...backendTasks],
       TIME: [...fullstackTimes, ...backendTimes],
     },
   },
   {
-    id: 22,
+    id: SPRING,
     name: "Spring Boot",
     sentenceName: "Spring Boot",
     compatibleWith: {
-      TYPE: [FULLSTACK, BACKEND],
+      TYPE: techToType[SPRING],
       TASK: [...fullstackTasks, ...backendTasks],
       TIME: [...fullstackTimes, ...backendTimes],
     },
   },
   {
-    id: 23,
+    id: RAILS,
     name: "Ruby on Rails",
     sentenceName: "Ruby on Rails",
     compatibleWith: {
-      TYPE: [FULLSTACK],
+      TYPE: techToType[RAILS],
       TASK: [...fullstackTasks],
       TIME: [...fullstackTimes],
     },
   },
   {
-    id: 24,
+    id: LARAVEL,
     name: "Laravel",
     sentenceName: "Laravel",
     compatibleWith: {
-      TYPE: [FULLSTACK, BACKEND],
+      TYPE: techToType[LARAVEL],
       TASK: [...fullstackTasks, ...backendTasks],
       TIME: [...fullstackTimes, ...backendTimes],
     },
   },
   {
-    id: 25,
+    id: DOTNET,
     name: "ASP.NET Core",
     sentenceName: "ASP.NET Core",
     compatibleWith: {
-      TYPE: [FULLSTACK, BACKEND],
+      TYPE: techToType[DOTNET],
       TASK: [...fullstackTasks, ...backendTasks],
       TIME: [...fullstackTimes, ...backendTimes],
     },
   },
   {
-    id: 26,
+    id: GIN,
     name: "Gin",
     sentenceName: "Gin",
     compatibleWith: {
-      TYPE: [BACKEND],
+      TYPE: techToType[GIN],
       TASK: [...backendTasks],
       TIME: [...backendTimes],
     },
