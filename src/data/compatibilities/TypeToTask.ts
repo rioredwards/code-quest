@@ -1,6 +1,7 @@
-import { ValuesOf } from "../../utils/utilityTypes";
+import { ChoiceMap } from "../../utils/choiceRelations";
 import { TaskChoiceIdx } from "../choiceIdxs/taskIdxs";
 import { TypeChoiceIdx } from "../choiceIdxs/typeIdxs";
+import { logCompatibilities } from "./Logging";
 
 const {
   TWO_SUM,
@@ -37,11 +38,7 @@ const {
 
 const { LEETCODE, CLI, FRONTEND, FULLSTACK, BACKEND, CLOUD } = TypeChoiceIdx;
 
-type TypeToTask = {
-  [key in ValuesOf<typeof TypeChoiceIdx>]: TaskChoiceIdx[];
-};
-
-export const typeToTask: TypeToTask = {
+export const typeToTask: ChoiceMap = {
   [LEETCODE]: [
     TWO_SUM,
     VALID_PALINDROME,
@@ -73,3 +70,5 @@ export const typeToTask: TypeToTask = {
     MOOD_MATCHER,
   ],
 };
+
+logCompatibilities(typeToTask, TypeChoiceIdx, TaskChoiceIdx);

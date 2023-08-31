@@ -17,19 +17,3 @@ export type Choice = {
   sentenceName: string;
   compatibleWith: ChoiceCompatibility;
 };
-
-// type SpinLight = {
-//   spinState: SpinState;
-// };
-
-// type Lever = {
-//   spinState: SpinState;
-// };
-
-// type LockSwitch = {
-//   isLocked: boolean;
-// };
-
-// type Challenge = {
-//   [key in ReelName]: number | null;
-// };

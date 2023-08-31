@@ -1,10 +1,7 @@
-import { ValuesOf } from "../../utils/utilityTypes";
+import { ChoiceMap } from "../../utils/choiceRelations";
 import { TaskChoiceIdx } from "../choiceIdxs/taskIdxs";
 import { TimeChoiceIdx } from "../choiceIdxs/timeIdxs";
-
-type TaskToTime = {
-  [key in `${ValuesOf<typeof TaskChoiceIdx>}`]: TimeChoiceIdx[];
-};
+import { logCompatibilities } from "./Logging";
 
 const {
   THIRTY_M,
@@ -87,7 +84,7 @@ const cloudTimes = {
   hard: [FIVE_H, SIX_H, INFINITY],
 };
 
-export const taskToTime: TaskToTime = {
+export const taskToTime: ChoiceMap = {
   [TWO_SUM]: leetCodeTimes.easy,
   [VALID_PALINDROME]: leetCodeTimes.easy,
   [REVERSE_LINKED_LIST]: leetCodeTimes.medium,
@@ -119,3 +116,5 @@ export const taskToTime: TaskToTime = {
   [FIREBASE_OAUTH]: cloudTimes.medium,
   [MOOD_MATCHER]: cloudTimes.hard,
 };
+
+logCompatibilities(taskToTime, TaskChoiceIdx, TimeChoiceIdx);

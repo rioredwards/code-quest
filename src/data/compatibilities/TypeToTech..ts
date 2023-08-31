@@ -1,10 +1,6 @@
-import { ValuesOf } from "../../utils/utilityTypes";
+import { ChoiceMap } from "../../utils/choiceRelations";
 import { TechChoiceIdx } from "../choiceIdxs/techIdxs";
 import { TypeChoiceIdx } from "../choiceIdxs/typeIdxs";
-
-type TypeToTech = {
-  [key in `${ValuesOf<typeof TypeChoiceIdx>}`]: TechChoiceIdx[];
-};
 
 const {
   JAVASCRIPT,
@@ -38,7 +34,7 @@ const {
 
 const { LEETCODE, CLI, FRONTEND, FULLSTACK, BACKEND, CLOUD } = TypeChoiceIdx;
 
-export const typeToTech: TypeToTech = {
+export const typeToTech: ChoiceMap = {
   [LEETCODE]: [
     JAVASCRIPT,
     TYPESCRIPT,
