@@ -2,6 +2,14 @@ import { ValuesOf } from "../../utils/utilityTypes";
 import { TechChoiceIdx } from "../choiceEnums/techEnum";
 import { TypeChoiceIdx } from "../choiceEnums/typeEnum";
 
+type TypeToTech = {
+  [key in `${ValuesOf<typeof TypeChoiceIdx>}`]: TechChoiceIdx[];
+};
+
+type TechToType = {
+  [key in `${ValuesOf<typeof TechChoiceIdx>}`]: TypeChoiceIdx[];
+};
+
 const {
   JAVASCRIPT,
   TYPESCRIPT,
@@ -33,10 +41,6 @@ const {
 } = TechChoiceIdx;
 
 const { LEETCODE, CLI, FRONTEND, FULLSTACK, BACKEND, CLOUD } = TypeChoiceIdx;
-
-type TypeToTech = {
-  [key in ValuesOf<typeof TypeChoiceIdx>]: TechChoiceIdx[];
-};
 
 export const typeToTech: TypeToTech = {
   [LEETCODE]: [
@@ -82,16 +86,26 @@ export const typeToTech: TypeToTech = {
     DOTNET,
   ],
   [BACKEND]: [NEST, NODE, EXPRESS, DJANGO, SPRING, LARAVEL, DOTNET, GIN],
-  [CLOUD]: [NEST, NODE, EXPRESS, DJANGO, SPRING, LARAVEL, DOTNET, GIN],
-};
-
-type TechToType = {
-  [key in ValuesOf<typeof TechChoiceIdx>]: TypeChoiceIdx[];
+  [CLOUD]: [
+    JAVASCRIPT,
+    TYPESCRIPT,
+    REACT,
+    ANGULAR,
+    VUE,
+    NEXT,
+    DJANGO,
+    RAILS,
+    LARAVEL,
+    DOTNET,
+  ],
 };
 
 export const techToType: TechToType = {} as TechToType;
 
-for (const [type, techs] of Object.entries(techToType)) {
+for (const [type, techs] of Object.entries(typeToTech) as [
+  keyof typeof typeToTech,
+  TechChoiceIdx[]
+][]) {
   if (!techs) throw new Error("Techs not found in typeToTech");
 
   techs.forEach((tech) => {

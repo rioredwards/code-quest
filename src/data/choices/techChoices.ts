@@ -1,14 +1,7 @@
 import { Choice } from "../../types";
 import { TechChoiceIdx } from "../choiceEnums/techEnum";
+import { techToTask } from "../compatibilities/TaskTech";
 import { techToType } from "../compatibilities/TypeTech.";
-import {
-  CLITasks,
-  backendTasks,
-  cloudTasks,
-  frontendTasks,
-  fullstackTasks,
-  leetCodeTasks,
-} from "./taskChoices";
 import {
   frontendTimes,
   leetCodeTimes,
@@ -55,12 +48,7 @@ export const techChoices: Choice[] = [
     sentenceName: "Javascript",
     compatibleWith: {
       TYPE: techToType[JAVASCRIPT],
-      TASK: [
-        ...leetCodeTasks,
-        ...frontendTasks,
-        ...fullstackTasks,
-        ...cloudTasks,
-      ],
+      TASK: techToTask[JAVASCRIPT],
       TIME: [...leetCodeTimes, ...frontendTimes],
     },
   },
@@ -70,12 +58,7 @@ export const techChoices: Choice[] = [
     sentenceName: "Typescript",
     compatibleWith: {
       TYPE: techToType[TYPESCRIPT],
-      TASK: [
-        ...leetCodeTasks,
-        ...frontendTasks,
-        ...fullstackTasks,
-        ...cloudTasks,
-      ],
+      TASK: techToTask[TYPESCRIPT],
       TIME: [
         ...leetCodeTimes,
         ...frontendTimes,
@@ -90,13 +73,7 @@ export const techChoices: Choice[] = [
     sentenceName: "Python",
     compatibleWith: {
       TYPE: techToType[PYTHON],
-      TASK: [
-        ...leetCodeTasks,
-        ...CLITasks,
-        ...frontendTasks,
-        ...fullstackTasks,
-        ...cloudTasks,
-      ],
+      TASK: techToTask[PYTHON],
       TIME: [
         ...leetCodeTimes,
         ...CLITimes,
@@ -112,7 +89,7 @@ export const techChoices: Choice[] = [
     sentenceName: "Java",
     compatibleWith: {
       TYPE: techToType[JAVA],
-      TASK: [...leetCodeTasks, ...CLITasks],
+      TASK: techToTask[JAVA],
       TIME: [...leetCodeTimes, ...CLITimes],
     },
   },
@@ -122,7 +99,7 @@ export const techChoices: Choice[] = [
     sentenceName: "C",
     compatibleWith: {
       TYPE: techToType[C],
-      TASK: [...leetCodeTasks, ...CLITasks],
+      TASK: techToTask[C],
       TIME: [...leetCodeTimes, ...CLITimes],
     },
   },
@@ -132,7 +109,7 @@ export const techChoices: Choice[] = [
     sentenceName: "C++",
     compatibleWith: {
       TYPE: techToType[CPP],
-      TASK: [...leetCodeTasks, ...CLITasks],
+      TASK: techToTask[CPP],
       TIME: [...leetCodeTimes, ...CLITimes],
     },
   },
@@ -142,7 +119,7 @@ export const techChoices: Choice[] = [
     sentenceName: "C#",
     compatibleWith: {
       TYPE: techToType[CSHARP],
-      TASK: [...leetCodeTasks, ...CLITasks],
+      TASK: techToTask[CSHARP],
       TIME: [...leetCodeTimes, ...CLITimes],
     },
   },
@@ -152,7 +129,7 @@ export const techChoices: Choice[] = [
     sentenceName: "Go",
     compatibleWith: {
       TYPE: techToType[GO],
-      TASK: [...leetCodeTasks, ...CLITasks],
+      TASK: techToTask[GO],
       TIME: [...leetCodeTimes, ...CLITimes],
     },
   },
@@ -162,7 +139,7 @@ export const techChoices: Choice[] = [
     sentenceName: "Rust",
     compatibleWith: {
       TYPE: techToType[RUST],
-      TASK: [...leetCodeTasks, ...CLITasks],
+      TASK: techToTask[RUST],
       TIME: [...leetCodeTimes, ...CLITimes],
     },
   },
@@ -172,7 +149,7 @@ export const techChoices: Choice[] = [
     sentenceName: "PHP",
     compatibleWith: {
       TYPE: techToType[PHP],
-      TASK: [...leetCodeTasks, ...CLITasks],
+      TASK: techToTask[PHP],
       TIME: [...leetCodeTimes, ...CLITimes],
     },
   },
@@ -182,7 +159,7 @@ export const techChoices: Choice[] = [
     sentenceName: "Ruby",
     compatibleWith: {
       TYPE: techToType[RUBY],
-      TASK: [...leetCodeTasks, ...CLITasks],
+      TASK: techToTask[RUBY],
       TIME: [...leetCodeTimes, ...CLITimes],
     },
   },
@@ -192,7 +169,7 @@ export const techChoices: Choice[] = [
     sentenceName: "Swift",
     compatibleWith: {
       TYPE: techToType[SWIFT],
-      TASK: [...leetCodeTasks, ...CLITasks],
+      TASK: techToTask[SWIFT],
       TIME: [...leetCodeTimes, ...CLITimes],
     },
   },
@@ -202,7 +179,7 @@ export const techChoices: Choice[] = [
     sentenceName: "Dart",
     compatibleWith: {
       TYPE: techToType[DART],
-      TASK: [...leetCodeTasks, ...CLITasks],
+      TASK: techToTask[DART],
       TIME: [...leetCodeTimes, ...CLITimes],
     },
   },
@@ -212,7 +189,7 @@ export const techChoices: Choice[] = [
     sentenceName: "Bash",
     compatibleWith: {
       TYPE: techToType[BASH],
-      TASK: [...CLITasks],
+      TASK: techToTask[BASH],
       TIME: [...CLITimes],
     },
   },
@@ -222,7 +199,7 @@ export const techChoices: Choice[] = [
     sentenceName: "React",
     compatibleWith: {
       TYPE: techToType[REACT],
-      TASK: [...frontendTasks, ...cloudTasks],
+      TASK: techToTask[REACT],
       TIME: [...frontendTimes, ...cloudTimes],
     },
   },
@@ -232,7 +209,7 @@ export const techChoices: Choice[] = [
     sentenceName: "Angular",
     compatibleWith: {
       TYPE: techToType[ANGULAR],
-      TASK: [...frontendTasks, ...cloudTasks],
+      TASK: techToTask[ANGULAR],
       TIME: [...frontendTimes, ...cloudTimes],
     },
   },
@@ -242,7 +219,7 @@ export const techChoices: Choice[] = [
     sentenceName: "Vue",
     compatibleWith: {
       TYPE: techToType[VUE],
-      TASK: [...frontendTasks, ...cloudTasks],
+      TASK: techToTask[VUE],
       TIME: [...frontendTimes, ...cloudTimes],
     },
   },
@@ -252,7 +229,7 @@ export const techChoices: Choice[] = [
     sentenceName: "Next.js",
     compatibleWith: {
       TYPE: techToType[NEXT],
-      TASK: [...frontendTasks, ...fullstackTimes, ...cloudTasks],
+      TASK: techToTask[NEXT],
       TIME: [...frontendTimes, ...fullstackTimes, ...cloudTimes],
     },
   },
@@ -262,7 +239,7 @@ export const techChoices: Choice[] = [
     sentenceName: "Nest.js",
     compatibleWith: {
       TYPE: techToType[NEST],
-      TASK: [...backendTasks],
+      TASK: techToTask[NEST],
       TIME: [...backendTimes],
     },
   },
@@ -272,7 +249,7 @@ export const techChoices: Choice[] = [
     sentenceName: "Node.js",
     compatibleWith: {
       TYPE: techToType[NODE],
-      TASK: [...CLITasks, ...backendTasks],
+      TASK: techToTask[NODE],
       TIME: [...CLITimes, ...backendTimes],
     },
   },
@@ -282,7 +259,7 @@ export const techChoices: Choice[] = [
     sentenceName: "Express.js",
     compatibleWith: {
       TYPE: techToType[EXPRESS],
-      TASK: [...backendTasks],
+      TASK: techToTask[EXPRESS],
       TIME: [...backendTimes],
     },
   },
@@ -292,7 +269,7 @@ export const techChoices: Choice[] = [
     sentenceName: "Django",
     compatibleWith: {
       TYPE: techToType[DJANGO],
-      TASK: [...fullstackTasks, ...backendTasks],
+      TASK: techToTask[DJANGO],
       TIME: [...fullstackTimes, ...backendTimes],
     },
   },
@@ -302,7 +279,7 @@ export const techChoices: Choice[] = [
     sentenceName: "Spring Boot",
     compatibleWith: {
       TYPE: techToType[SPRING],
-      TASK: [...fullstackTasks, ...backendTasks],
+      TASK: techToTask[SPRING],
       TIME: [...fullstackTimes, ...backendTimes],
     },
   },
@@ -312,7 +289,7 @@ export const techChoices: Choice[] = [
     sentenceName: "Ruby on Rails",
     compatibleWith: {
       TYPE: techToType[RAILS],
-      TASK: [...fullstackTasks],
+      TASK: techToTask[RAILS],
       TIME: [...fullstackTimes],
     },
   },
@@ -322,7 +299,7 @@ export const techChoices: Choice[] = [
     sentenceName: "Laravel",
     compatibleWith: {
       TYPE: techToType[LARAVEL],
-      TASK: [...fullstackTasks, ...backendTasks],
+      TASK: techToTask[LARAVEL],
       TIME: [...fullstackTimes, ...backendTimes],
     },
   },
@@ -332,7 +309,7 @@ export const techChoices: Choice[] = [
     sentenceName: "ASP.NET Core",
     compatibleWith: {
       TYPE: techToType[DOTNET],
-      TASK: [...fullstackTasks, ...backendTasks],
+      TASK: techToTask[DOTNET],
       TIME: [...fullstackTimes, ...backendTimes],
     },
   },
@@ -342,7 +319,7 @@ export const techChoices: Choice[] = [
     sentenceName: "Gin",
     compatibleWith: {
       TYPE: techToType[GIN],
-      TASK: [...backendTasks],
+      TASK: techToTask[GIN],
       TIME: [...backendTimes],
     },
   },

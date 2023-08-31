@@ -1,5 +1,6 @@
 import { Choice } from "../../types";
 import { TaskChoiceIdx } from "../choiceEnums/taskEnum";
+import { taskToTech } from "../compatibilities/TaskTech";
 import { taskToType } from "../compatibilities/TypeTask";
 import {
   CLIEasyTime,
@@ -80,13 +81,6 @@ export const cloudEasyTasks: number[] = [S3_SURVEY, CLOUDCEPTION, CORS_CONTROL];
 export const cloudMediumTasks: number[] = [FIREBASE_OAUTH];
 export const cloudHardTasks: number[] = [MOOD_MATCHER];
 
-export const leetCodeTasks: number[] = [0, 1, 2, 3, 4];
-export const CLITasks: number[] = [5, 6, 7, 8, 9];
-export const frontendTasks: number[] = [10, 11, 12, 13, 14];
-export const fullstackTasks: number[] = [15, 16, 17, 18, 19];
-export const backendTasks: number[] = [20, 21, 22, 23, 24];
-export const cloudTasks: number[] = [25, 26, 27, 28, 29];
-
 export const taskChoices: Choice[] = [
   {
     id: TWO_SUM,
@@ -94,7 +88,7 @@ export const taskChoices: Choice[] = [
     sentenceName: "Two Sum",
     compatibleWith: {
       TYPE: taskToType[TWO_SUM],
-      TECH: [0, 1, 2, 3, 4, 5],
+      TECH: taskToTech[TWO_SUM],
       TIME: leetCodeEasyTime,
     },
   },
@@ -104,7 +98,7 @@ export const taskChoices: Choice[] = [
     sentenceName: "Valid Palindrome",
     compatibleWith: {
       TYPE: taskToType[VALID_PALINDROME],
-      TECH: [0, 1, 2, 3, 4, 5],
+      TECH: taskToTech[VALID_PALINDROME],
       TIME: leetCodeEasyTime,
     },
   },
@@ -114,7 +108,7 @@ export const taskChoices: Choice[] = [
     sentenceName: "Reverse Linked List",
     compatibleWith: {
       TYPE: taskToType[REVERSE_LINKED_LIST],
-      TECH: [0, 1, 2, 3, 4, 5],
+      TECH: taskToTech[REVERSE_LINKED_LIST],
       TIME: leetCodeMediumTime,
     },
   },
@@ -124,7 +118,7 @@ export const taskChoices: Choice[] = [
     sentenceName: "Top K Frequent Elements",
     compatibleWith: {
       TYPE: taskToType[FREQUENT_ELEMENTS],
-      TECH: [0, 1, 2, 3, 4, 5],
+      TECH: taskToTech[FREQUENT_ELEMENTS],
       TIME: leetCodeMediumTime,
     },
   },
@@ -134,7 +128,7 @@ export const taskChoices: Choice[] = [
     sentenceName: "Container With Most Water",
     compatibleWith: {
       TYPE: taskToType[MOST_WATER],
-      TECH: [0, 1, 2, 3, 4, 5],
+      TECH: taskToTech[MOST_WATER],
       TIME: leetCodeMediumTime,
     },
   },
@@ -144,7 +138,7 @@ export const taskChoices: Choice[] = [
     sentenceName: "Quickly save and view notes",
     compatibleWith: {
       TYPE: taskToType[QUICK_NOTE],
-      TECH: [0, 1, 2, 3, 4, 5],
+      TECH: taskToTech[QUICK_NOTE],
       TIME: CLIEasyTime,
     },
   },
@@ -154,7 +148,7 @@ export const taskChoices: Choice[] = [
     sentenceName: "Count the number of words in a file",
     compatibleWith: {
       TYPE: taskToType[WORD_COUNT],
-      TECH: [0, 1, 2, 3, 4, 5],
+      TECH: taskToTech[WORD_COUNT],
       TIME: CLIEasyTime,
     },
   },
@@ -164,7 +158,7 @@ export const taskChoices: Choice[] = [
     sentenceName: "Find a file by name and open it if it exists",
     compatibleWith: {
       TYPE: taskToType[FILE_FINDER],
-      TECH: [0, 1, 2, 3, 4, 5],
+      TECH: taskToTech[FILE_FINDER],
       TIME: CLIEasyTime,
     },
   },
@@ -174,7 +168,7 @@ export const taskChoices: Choice[] = [
     sentenceName: "Return the current temperature outside",
     compatibleWith: {
       TYPE: taskToType[TEMPERATURE_CHECK],
-      TECH: [0, 1, 2, 3, 4, 5],
+      TECH: taskToTech[TEMPERATURE_CHECK],
       TIME: CLIMediumTime,
     },
   },
@@ -184,7 +178,7 @@ export const taskChoices: Choice[] = [
     sentenceName: "Block all notifications for a specified amount of time",
     compatibleWith: {
       TYPE: taskToType[DO_NOT_DISTURB],
-      TECH: [0, 1, 2, 3, 4, 5],
+      TECH: taskToTech[DO_NOT_DISTURB],
       TIME: CLIHardTime,
     },
   },
@@ -194,7 +188,7 @@ export const taskChoices: Choice[] = [
     sentenceName: "Landing Page",
     compatibleWith: {
       TYPE: taskToType[LANDING_PAGE],
-      TECH: [0, 1, 2, 3, 4, 5],
+      TECH: taskToTech[LANDING_PAGE],
       TIME: frontendEasyTime,
     },
   },
@@ -204,7 +198,7 @@ export const taskChoices: Choice[] = [
     sentenceName: "Character Creator",
     compatibleWith: {
       TYPE: taskToType[CHARACTER_CREATOR],
-      TECH: [0, 1, 2, 3, 4, 5],
+      TECH: taskToTech[CHARACTER_CREATOR],
       TIME: frontendMediumTime,
     },
   },
@@ -214,7 +208,7 @@ export const taskChoices: Choice[] = [
     sentenceName: "Photo Carousel with infinite scroll",
     compatibleWith: {
       TYPE: taskToType[PHOTO_CAROUSEL],
-      TECH: [0, 1, 2, 3, 4, 5],
+      TECH: taskToTech[PHOTO_CAROUSEL],
       TIME: frontendMediumTime,
     },
   },
@@ -224,7 +218,7 @@ export const taskChoices: Choice[] = [
     sentenceName: "Calculator with basic arithmetic operations",
     compatibleWith: {
       TYPE: taskToType[CALCULATOR],
-      TECH: [0, 1, 2, 3, 4, 5],
+      TECH: taskToTech[CALCULATOR],
       TIME: frontendMediumTime,
     },
   },
@@ -234,7 +228,7 @@ export const taskChoices: Choice[] = [
     sentenceName: "Giphy TV",
     compatibleWith: {
       TYPE: taskToType[GIPHY_TV],
-      TECH: [0, 1, 2, 3, 4, 5],
+      TECH: taskToTech[GIPHY_TV],
       TIME: frontendHardTime,
     },
   },
@@ -244,7 +238,7 @@ export const taskChoices: Choice[] = [
     sentenceName: "Display the total number of visits to a website",
     compatibleWith: {
       TYPE: taskToType[SITE_VISITS],
-      TECH: [0, 1, 2, 3, 4, 5],
+      TECH: taskToTech[SITE_VISITS],
       TIME: fullstackEasyTime,
     },
   },
@@ -254,7 +248,7 @@ export const taskChoices: Choice[] = [
     sentenceName: "Notes App with CRUD functionality",
     compatibleWith: {
       TYPE: taskToType[NOTES_APP],
-      TECH: [0, 1, 2, 3, 4, 5],
+      TECH: taskToTech[NOTES_APP],
       TIME: fullstackMediumTime,
     },
   },
@@ -265,7 +259,7 @@ export const taskChoices: Choice[] = [
       "Use the Unsplash API to Fetch and display different colored images to match each route. Ex: mySite/red -> red images",
     compatibleWith: {
       TYPE: taskToType[COLOR_COLLAGE],
-      TECH: [0, 1, 2, 3, 4, 5],
+      TECH: taskToTech[COLOR_COLLAGE],
       TIME: fullstackMediumTime,
     },
   },
@@ -275,7 +269,7 @@ export const taskChoices: Choice[] = [
     sentenceName: "Social Media app with auth, posts, and likes",
     compatibleWith: {
       TYPE: taskToType[SOCIAL_MEDIA],
-      TECH: [0, 1, 2, 3, 4, 5],
+      TECH: taskToTech[SOCIAL_MEDIA],
       TIME: fullstackHardTime,
     },
   },
@@ -285,7 +279,7 @@ export const taskChoices: Choice[] = [
     sentenceName: "Chatroom app with auth and realtime messages",
     compatibleWith: {
       TYPE: taskToType[CHATROOM],
-      TECH: [0, 1, 2, 3, 4, 5],
+      TECH: taskToTech[CHATROOM],
       TIME: fullstackHardTime,
     },
   },
@@ -295,7 +289,7 @@ export const taskChoices: Choice[] = [
     sentenceName: "CRUD API for Blog Posts",
     compatibleWith: {
       TYPE: taskToType[BLOG_POSTS],
-      TECH: [0, 1, 2, 3, 4, 5],
+      TECH: taskToTech[BLOG_POSTS],
       TIME: backendEasyTime,
     },
   },
@@ -306,7 +300,7 @@ export const taskChoices: Choice[] = [
       "proxy server for the TheMovieDB API which returns a list of movies",
     compatibleWith: {
       TYPE: taskToType[MOVIE_LIST],
-      TECH: [0, 1, 2, 3, 4, 5],
+      TECH: taskToTech[MOVIE_LIST],
       TIME: backendEasyTime,
     },
   },
@@ -317,7 +311,7 @@ export const taskChoices: Choice[] = [
       "proxy server for the OpenAI API to return answers to questions",
     compatibleWith: {
       TYPE: taskToType[CHATGPT_ME],
-      TECH: [0, 1, 2, 3, 4, 5],
+      TECH: taskToTech[CHATGPT_ME],
       TIME: backendMediumTime,
     },
   },
@@ -327,7 +321,7 @@ export const taskChoices: Choice[] = [
     sentenceName: "API for an E-Commerce site with products and orders",
     compatibleWith: {
       TYPE: taskToType[E_COMMERCE],
-      TECH: [0, 1, 2, 3, 4, 5],
+      TECH: taskToTech[E_COMMERCE],
       TIME: backendHardTime,
     },
   },
@@ -337,7 +331,7 @@ export const taskChoices: Choice[] = [
     sentenceName: "GraphQL API for celestial objects in outer space",
     compatibleWith: {
       TYPE: taskToType[GRAPHQL_SPACE],
-      TECH: [0, 1, 2, 3, 4, 5],
+      TECH: taskToTech[GRAPHQL_SPACE],
       TIME: backendHardTime,
     },
   },
@@ -347,7 +341,7 @@ export const taskChoices: Choice[] = [
     sentenceName: "Setup a survey that stores responses in an AWS S3 bucket",
     compatibleWith: {
       TYPE: taskToType[S3_SURVEY],
-      TECH: [0, 1, 2, 3, 4, 5],
+      TECH: taskToTech[S3_SURVEY],
       TIME: cloudEasyTime,
     },
   },
@@ -357,7 +351,7 @@ export const taskChoices: Choice[] = [
     sentenceName: "Use Cloudinary to store images of clouds in the cloud",
     compatibleWith: {
       TYPE: taskToType[CLOUDCEPTION],
-      TECH: [0, 1, 2, 3, 4, 5],
+      TECH: taskToTech[CLOUDCEPTION],
       TIME: cloudEasyTime,
     },
   },
@@ -367,7 +361,7 @@ export const taskChoices: Choice[] = [
     sentenceName: "Use serverless functions to query the Yelp API",
     compatibleWith: {
       TYPE: taskToType[CORS_CONTROL],
-      TECH: [0, 1, 2, 3, 4, 5],
+      TECH: taskToTech[CORS_CONTROL],
       TIME: cloudEasyTime,
     },
   },
@@ -377,7 +371,7 @@ export const taskChoices: Choice[] = [
     sentenceName: "With Firebase Auth, allow users to login with Github",
     compatibleWith: {
       TYPE: taskToType[FIREBASE_OAUTH],
-      TECH: [0, 1, 2, 3, 4, 5],
+      TECH: taskToTech[FIREBASE_OAUTH],
       TIME: cloudMediumTime,
     },
   },
@@ -388,7 +382,7 @@ export const taskChoices: Choice[] = [
       "Use AWS Comprehend to analyze the sentiment of text and change the background color accordingly",
     compatibleWith: {
       TYPE: taskToType[MOOD_MATCHER],
-      TECH: [0, 1, 2, 3, 4, 5],
+      TECH: taskToTech[MOOD_MATCHER],
       TIME: cloudHardTime,
     },
   },

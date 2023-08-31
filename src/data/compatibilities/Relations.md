@@ -18,7 +18,7 @@
 ## Task <-> Tech
 
 - Many <-> Many
-- Inherited from Type <-> Tech
+- Inherited from Type <-> Tech and Type <-> Task
 
 ## Task <-> Time
 
