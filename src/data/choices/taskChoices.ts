@@ -1,26 +1,8 @@
 import { Choice } from "../../types";
-import { TaskChoiceIdx } from "../choiceEnums/taskEnum";
-import { taskToTech } from "../compatibilities/TaskTech";
-import { taskToType } from "../compatibilities/TypeTask";
-import {
-  CLIEasyTime,
-  CLIHardTime,
-  CLIMediumTime,
-  backendEasyTime,
-  backendHardTime,
-  backendMediumTime,
-  cloudEasyTime,
-  cloudHardTime,
-  cloudMediumTime,
-  frontendEasyTime,
-  frontendHardTime,
-  frontendMediumTime,
-  fullstackEasyTime,
-  fullstackHardTime,
-  fullstackMediumTime,
-  leetCodeEasyTime,
-  leetCodeMediumTime,
-} from "./typeChoices";
+import { TaskChoiceIdx } from "../choiceIdxs/taskIdxs";
+import { taskToTech } from "../compatibilities/TaskToTech";
+import { taskToTime } from "../compatibilities/TaskToTime";
+import { taskToType } from "../compatibilities/TaskToType";
 
 const {
   TWO_SUM,
@@ -55,32 +37,6 @@ const {
   MOOD_MATCHER,
 } = TaskChoiceIdx;
 
-export const leetCodeEasyTasks: number[] = [TWO_SUM, VALID_PALINDROME];
-export const leetCodeMediumTasks: number[] = [
-  REVERSE_LINKED_LIST,
-  FREQUENT_ELEMENTS,
-  MOST_WATER,
-];
-export const CLIEasyTasks: number[] = [QUICK_NOTE, WORD_COUNT, FILE_FINDER];
-export const CLIMediumTasks: number[] = [TEMPERATURE_CHECK];
-export const CLIHardTasks: number[] = [DO_NOT_DISTURB];
-export const frontendEasyTasks: number[] = [LANDING_PAGE];
-export const frontendMediumTasks: number[] = [
-  CHARACTER_CREATOR,
-  PHOTO_CAROUSEL,
-  CALCULATOR,
-];
-export const frontendHardTasks: number[] = [GIPHY_TV];
-export const fullstackEasyTasks: number[] = [SITE_VISITS];
-export const fullstackMediumTasks: number[] = [NOTES_APP, COLOR_COLLAGE];
-export const fullstackHardTasks: number[] = [SOCIAL_MEDIA, CHATROOM];
-export const backendEasyTasks: number[] = [BLOG_POSTS, MOVIE_LIST];
-export const backendMediumTasks: number[] = [CHATGPT_ME];
-export const backendHardTasks: number[] = [E_COMMERCE, GRAPHQL_SPACE];
-export const cloudEasyTasks: number[] = [S3_SURVEY, CLOUDCEPTION, CORS_CONTROL];
-export const cloudMediumTasks: number[] = [FIREBASE_OAUTH];
-export const cloudHardTasks: number[] = [MOOD_MATCHER];
-
 export const taskChoices: Choice[] = [
   {
     id: TWO_SUM,
@@ -89,7 +45,7 @@ export const taskChoices: Choice[] = [
     compatibleWith: {
       TYPE: taskToType[TWO_SUM],
       TECH: taskToTech[TWO_SUM],
-      TIME: leetCodeEasyTime,
+      TIME: taskToTime[TWO_SUM],
     },
   },
   {
@@ -99,7 +55,7 @@ export const taskChoices: Choice[] = [
     compatibleWith: {
       TYPE: taskToType[VALID_PALINDROME],
       TECH: taskToTech[VALID_PALINDROME],
-      TIME: leetCodeEasyTime,
+      TIME: taskToTime[VALID_PALINDROME],
     },
   },
   {
@@ -109,7 +65,7 @@ export const taskChoices: Choice[] = [
     compatibleWith: {
       TYPE: taskToType[REVERSE_LINKED_LIST],
       TECH: taskToTech[REVERSE_LINKED_LIST],
-      TIME: leetCodeMediumTime,
+      TIME: taskToTime[REVERSE_LINKED_LIST],
     },
   },
   {
@@ -119,7 +75,7 @@ export const taskChoices: Choice[] = [
     compatibleWith: {
       TYPE: taskToType[FREQUENT_ELEMENTS],
       TECH: taskToTech[FREQUENT_ELEMENTS],
-      TIME: leetCodeMediumTime,
+      TIME: taskToTime[FREQUENT_ELEMENTS],
     },
   },
   {
@@ -129,7 +85,7 @@ export const taskChoices: Choice[] = [
     compatibleWith: {
       TYPE: taskToType[MOST_WATER],
       TECH: taskToTech[MOST_WATER],
-      TIME: leetCodeMediumTime,
+      TIME: taskToTime[MOST_WATER],
     },
   },
   {
@@ -139,7 +95,7 @@ export const taskChoices: Choice[] = [
     compatibleWith: {
       TYPE: taskToType[QUICK_NOTE],
       TECH: taskToTech[QUICK_NOTE],
-      TIME: CLIEasyTime,
+      TIME: taskToTime[QUICK_NOTE],
     },
   },
   {
@@ -149,7 +105,7 @@ export const taskChoices: Choice[] = [
     compatibleWith: {
       TYPE: taskToType[WORD_COUNT],
       TECH: taskToTech[WORD_COUNT],
-      TIME: CLIEasyTime,
+      TIME: taskToTime[WORD_COUNT],
     },
   },
   {
@@ -159,7 +115,7 @@ export const taskChoices: Choice[] = [
     compatibleWith: {
       TYPE: taskToType[FILE_FINDER],
       TECH: taskToTech[FILE_FINDER],
-      TIME: CLIEasyTime,
+      TIME: taskToTime[FILE_FINDER],
     },
   },
   {
@@ -169,7 +125,7 @@ export const taskChoices: Choice[] = [
     compatibleWith: {
       TYPE: taskToType[TEMPERATURE_CHECK],
       TECH: taskToTech[TEMPERATURE_CHECK],
-      TIME: CLIMediumTime,
+      TIME: taskToTime[TEMPERATURE_CHECK],
     },
   },
   {
@@ -179,7 +135,7 @@ export const taskChoices: Choice[] = [
     compatibleWith: {
       TYPE: taskToType[DO_NOT_DISTURB],
       TECH: taskToTech[DO_NOT_DISTURB],
-      TIME: CLIHardTime,
+      TIME: taskToTime[DO_NOT_DISTURB],
     },
   },
   {
@@ -189,7 +145,7 @@ export const taskChoices: Choice[] = [
     compatibleWith: {
       TYPE: taskToType[LANDING_PAGE],
       TECH: taskToTech[LANDING_PAGE],
-      TIME: frontendEasyTime,
+      TIME: taskToTime[LANDING_PAGE],
     },
   },
   {
@@ -199,7 +155,7 @@ export const taskChoices: Choice[] = [
     compatibleWith: {
       TYPE: taskToType[CHARACTER_CREATOR],
       TECH: taskToTech[CHARACTER_CREATOR],
-      TIME: frontendMediumTime,
+      TIME: taskToTime[CHARACTER_CREATOR],
     },
   },
   {
@@ -209,7 +165,7 @@ export const taskChoices: Choice[] = [
     compatibleWith: {
       TYPE: taskToType[PHOTO_CAROUSEL],
       TECH: taskToTech[PHOTO_CAROUSEL],
-      TIME: frontendMediumTime,
+      TIME: taskToTime[PHOTO_CAROUSEL],
     },
   },
   {
@@ -219,7 +175,7 @@ export const taskChoices: Choice[] = [
     compatibleWith: {
       TYPE: taskToType[CALCULATOR],
       TECH: taskToTech[CALCULATOR],
-      TIME: frontendMediumTime,
+      TIME: taskToTime[CALCULATOR],
     },
   },
   {
@@ -229,7 +185,7 @@ export const taskChoices: Choice[] = [
     compatibleWith: {
       TYPE: taskToType[GIPHY_TV],
       TECH: taskToTech[GIPHY_TV],
-      TIME: frontendHardTime,
+      TIME: taskToTime[GIPHY_TV],
     },
   },
   {
@@ -239,7 +195,7 @@ export const taskChoices: Choice[] = [
     compatibleWith: {
       TYPE: taskToType[SITE_VISITS],
       TECH: taskToTech[SITE_VISITS],
-      TIME: fullstackEasyTime,
+      TIME: taskToTime[SITE_VISITS],
     },
   },
   {
@@ -249,7 +205,7 @@ export const taskChoices: Choice[] = [
     compatibleWith: {
       TYPE: taskToType[NOTES_APP],
       TECH: taskToTech[NOTES_APP],
-      TIME: fullstackMediumTime,
+      TIME: taskToTime[NOTES_APP],
     },
   },
   {
@@ -260,7 +216,7 @@ export const taskChoices: Choice[] = [
     compatibleWith: {
       TYPE: taskToType[COLOR_COLLAGE],
       TECH: taskToTech[COLOR_COLLAGE],
-      TIME: fullstackMediumTime,
+      TIME: taskToTime[COLOR_COLLAGE],
     },
   },
   {
@@ -270,7 +226,7 @@ export const taskChoices: Choice[] = [
     compatibleWith: {
       TYPE: taskToType[SOCIAL_MEDIA],
       TECH: taskToTech[SOCIAL_MEDIA],
-      TIME: fullstackHardTime,
+      TIME: taskToTime[SOCIAL_MEDIA],
     },
   },
   {
@@ -280,7 +236,7 @@ export const taskChoices: Choice[] = [
     compatibleWith: {
       TYPE: taskToType[CHATROOM],
       TECH: taskToTech[CHATROOM],
-      TIME: fullstackHardTime,
+      TIME: taskToTime[CHATROOM],
     },
   },
   {
@@ -290,7 +246,7 @@ export const taskChoices: Choice[] = [
     compatibleWith: {
       TYPE: taskToType[BLOG_POSTS],
       TECH: taskToTech[BLOG_POSTS],
-      TIME: backendEasyTime,
+      TIME: taskToTime[BLOG_POSTS],
     },
   },
   {
@@ -301,7 +257,7 @@ export const taskChoices: Choice[] = [
     compatibleWith: {
       TYPE: taskToType[MOVIE_LIST],
       TECH: taskToTech[MOVIE_LIST],
-      TIME: backendEasyTime,
+      TIME: taskToTime[MOVIE_LIST],
     },
   },
   {
@@ -312,7 +268,7 @@ export const taskChoices: Choice[] = [
     compatibleWith: {
       TYPE: taskToType[CHATGPT_ME],
       TECH: taskToTech[CHATGPT_ME],
-      TIME: backendMediumTime,
+      TIME: taskToTime[CHATGPT_ME],
     },
   },
   {
@@ -322,7 +278,7 @@ export const taskChoices: Choice[] = [
     compatibleWith: {
       TYPE: taskToType[E_COMMERCE],
       TECH: taskToTech[E_COMMERCE],
-      TIME: backendHardTime,
+      TIME: taskToTime[E_COMMERCE],
     },
   },
   {
@@ -332,7 +288,7 @@ export const taskChoices: Choice[] = [
     compatibleWith: {
       TYPE: taskToType[GRAPHQL_SPACE],
       TECH: taskToTech[GRAPHQL_SPACE],
-      TIME: backendHardTime,
+      TIME: taskToTime[GRAPHQL_SPACE],
     },
   },
   {
@@ -342,7 +298,7 @@ export const taskChoices: Choice[] = [
     compatibleWith: {
       TYPE: taskToType[S3_SURVEY],
       TECH: taskToTech[S3_SURVEY],
-      TIME: cloudEasyTime,
+      TIME: taskToTime[S3_SURVEY],
     },
   },
   {
@@ -352,7 +308,7 @@ export const taskChoices: Choice[] = [
     compatibleWith: {
       TYPE: taskToType[CLOUDCEPTION],
       TECH: taskToTech[CLOUDCEPTION],
-      TIME: cloudEasyTime,
+      TIME: taskToTime[CLOUDCEPTION],
     },
   },
   {
@@ -362,7 +318,7 @@ export const taskChoices: Choice[] = [
     compatibleWith: {
       TYPE: taskToType[CORS_CONTROL],
       TECH: taskToTech[CORS_CONTROL],
-      TIME: cloudEasyTime,
+      TIME: taskToTime[CORS_CONTROL],
     },
   },
   {
@@ -372,7 +328,7 @@ export const taskChoices: Choice[] = [
     compatibleWith: {
       TYPE: taskToType[FIREBASE_OAUTH],
       TECH: taskToTech[FIREBASE_OAUTH],
-      TIME: cloudMediumTime,
+      TIME: taskToTime[FIREBASE_OAUTH],
     },
   },
   {
@@ -383,7 +339,7 @@ export const taskChoices: Choice[] = [
     compatibleWith: {
       TYPE: taskToType[MOOD_MATCHER],
       TECH: taskToTech[MOOD_MATCHER],
-      TIME: cloudHardTime,
+      TIME: taskToTime[MOOD_MATCHER],
     },
   },
 ];

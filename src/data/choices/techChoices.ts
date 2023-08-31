@@ -1,7 +1,7 @@
 import { Choice } from "../../types";
-import { TechChoiceIdx } from "../choiceEnums/techEnum";
-import { techToTask } from "../compatibilities/TaskTech";
-import { techToType } from "../compatibilities/TypeTech.";
+import { TechChoiceIdx } from "../choiceIdxs/techIdxs";
+import { techToTask } from "../compatibilities/TechToTask";
+import { techToType } from "../compatibilities/TechToType";
 import {
   frontendTimes,
   leetCodeTimes,

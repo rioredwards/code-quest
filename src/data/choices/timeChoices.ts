@@ -1,192 +1,121 @@
 import { Choice } from "../../types";
-import { TypeChoiceIdx } from "../choiceEnums/typeEnum";
-import {
-  CLIEasyTasks,
-  CLIHardTasks,
-  CLIMediumTasks,
-  frontendEasyTasks,
-  frontendHardTasks,
-  frontendMediumTasks,
-  fullstackEasyTasks,
-  fullstackMediumTasks,
-  fullstackHardTasks,
-  leetCodeEasyTasks,
-  leetCodeMediumTasks,
-  backendEasyTasks,
-  backendMediumTasks,
-  backendHardTasks,
-  cloudEasyTasks,
-  cloudMediumTasks,
-  cloudHardTasks,
-} from "./taskChoices";
+import { TimeChoiceIdx } from "../choiceIdxs/timeIdxs";
+import { TypeChoiceIdx } from "../choiceIdxs/typeIdxs";
+import { timeToTask } from "../compatibilities/TimeToTask";
 
 const { LEETCODE, CLI, FRONTEND, FULLSTACK, BACKEND, CLOUD } = TypeChoiceIdx;
 
-const thirtyMinTasks = [...leetCodeEasyTasks];
-const fortyFiveMinTasks = [...leetCodeEasyTasks, ...leetCodeMediumTasks];
-const oneHourTasks = [
-  ...leetCodeEasyTasks,
-  ...leetCodeMediumTasks,
-  ...CLIEasyTasks,
-];
-const ninetyMinTasks = [
-  ...leetCodeMediumTasks,
-  ...CLIEasyTasks,
-  ...CLIMediumTasks,
-  ...frontendEasyTasks,
-];
-const twoHourTasks = [
-  ...CLIEasyTasks,
-  ...CLIMediumTasks,
-  ...CLIHardTasks,
-  ...frontendEasyTasks,
-  ...backendEasyTasks,
-  ...cloudEasyTasks,
-];
-const threeHourTasks = [
-  ...CLIMediumTasks,
-  ...CLIHardTasks,
-  ...frontendEasyTasks,
-  ...frontendMediumTasks,
-  ...fullstackEasyTasks,
-  ...backendEasyTasks,
-  ...backendMediumTasks,
-  ...cloudEasyTasks,
-  ...cloudMediumTasks,
-];
-const fourHourTasks = [
-  ...CLIHardTasks,
-  ...frontendMediumTasks,
-  ...fullstackEasyTasks,
-  ...fullstackMediumTasks,
-  ...backendEasyTasks,
-  ...backendMediumTasks,
-  ...cloudEasyTasks,
-  ...cloudMediumTasks,
-];
-const fiveHourTasks = [
-  ...frontendMediumTasks,
-  ...frontendHardTasks,
-  ...fullstackEasyTasks,
-  ...fullstackMediumTasks,
-  ...fullstackHardTasks,
-  ...backendMediumTasks,
-  ...backendHardTasks,
-  ...cloudMediumTasks,
-  ...cloudHardTasks,
-];
-const sixHourTasks = [
-  ...frontendHardTasks,
-  ...fullstackMediumTasks,
-  ...fullstackHardTasks,
-  ...backendHardTasks,
-  ...cloudHardTasks,
-];
-const infiniteTimeTasks = [
-  ...frontendHardTasks,
-  ...fullstackHardTasks,
-  ...backendHardTasks,
-  ...cloudHardTasks,
-];
+const {
+  THIRTY_M,
+  FORTY_FIVE_M,
+  ONE_H,
+  NINETY_M,
+  TWO_H,
+  THREE_H,
+  FOUR_H,
+  FIVE_H,
+  SIX_H,
+  INFINITY,
+} = TimeChoiceIdx;
 
 export const timeChoices: Choice[] = [
   {
-    id: 0,
+    id: THIRTY_M,
     name: "30 Min",
     sentenceName: "30 Minutes",
     compatibleWith: {
       TYPE: [LEETCODE],
-      TASK: thirtyMinTasks,
+      TASK: timeToTask[THIRTY_M],
       TECH: undefined,
     },
   },
   {
-    id: 1,
+    id: FORTY_FIVE_M,
     name: "45 Min",
     sentenceName: "45 Minutes",
     compatibleWith: {
       TYPE: [LEETCODE],
-      TASK: fortyFiveMinTasks,
+      TASK: timeToTask[FORTY_FIVE_M],
       TECH: undefined,
     },
   },
   {
-    id: 2,
+    id: ONE_H,
     name: "1 Hour",
     sentenceName: "1 Hour",
     compatibleWith: {
       TYPE: [LEETCODE, CLI],
-      TASK: oneHourTasks,
+      TASK: timeToTask[ONE_H],
       TECH: undefined,
     },
   },
   {
-    id: 3,
+    id: NINETY_M,
     name: "90 Min",
     sentenceName: "90 Minutes",
     compatibleWith: {
       TYPE: [LEETCODE, CLI, FRONTEND],
-      TASK: ninetyMinTasks,
+      TASK: timeToTask[NINETY_M],
       TECH: undefined,
     },
   },
   {
-    id: 4,
+    id: TWO_H,
     name: "2 Hours",
     sentenceName: "2 Hours",
     compatibleWith: {
       TYPE: [CLI, FRONTEND, BACKEND, CLOUD],
-      TASK: twoHourTasks,
+      TASK: timeToTask[TWO_H],
       TECH: undefined,
     },
   },
   {
-    id: 5,
+    id: THREE_H,
     name: "3 Hours",
     sentenceName: "3 Hours",
     compatibleWith: {
       TYPE: [CLI, FRONTEND, FULLSTACK, BACKEND, CLOUD],
-      TASK: threeHourTasks,
+      TASK: timeToTask[THREE_H],
       TECH: undefined,
     },
   },
   {
-    id: 6,
+    id: FOUR_H,
     name: "4 Hours",
     sentenceName: "4 Hours",
     compatibleWith: {
       TYPE: [CLI, FRONTEND, FULLSTACK, BACKEND, CLOUD],
-      TASK: fourHourTasks,
+      TASK: timeToTask[FOUR_H],
       TECH: undefined,
     },
   },
   {
-    id: 7,
+    id: FIVE_H,
     name: "5 Hours",
     sentenceName: "5 Hours",
     compatibleWith: {
       TYPE: [FRONTEND, FULLSTACK, BACKEND, CLOUD],
-      TASK: fiveHourTasks,
+      TASK: timeToTask[FIVE_H],
       TECH: undefined,
     },
   },
   {
-    id: 8,
+    id: SIX_H,
     name: "6 Hours",
     sentenceName: "6 Hours",
     compatibleWith: {
       TYPE: [FRONTEND, FULLSTACK, BACKEND, CLOUD],
-      TASK: sixHourTasks,
+      TASK: timeToTask[SIX_H],
       TECH: undefined,
     },
   },
   {
-    id: 9,
+    id: INFINITY,
     name: "∞",
     sentenceName: "Unlimited Time",
     compatibleWith: {
       TYPE: [FRONTEND, FULLSTACK, BACKEND, CLOUD],
-      TASK: infiniteTimeTasks,
+      TASK: timeToTask[INFINITY],
       TECH: undefined,
     },
   },

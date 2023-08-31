@@ -1,9 +1,8 @@
 import { Choice } from "../../types";
-import { TimeChoiceIdx } from "../choiceEnums/timeEnum";
-import { typeToTask } from "../compatibilities/TypeTask";
-import { TypeChoiceIdx } from "../choiceEnums/typeEnum";
-import { TechChoiceIdx } from "../choiceEnums/techEnum";
-import { typeToTech } from "../compatibilities/TypeTech.";
+import { TimeChoiceIdx } from "../choiceIdxs/timeIdxs";
+import { typeToTask } from "../compatibilities/TypeToTask";
+import { TypeChoiceIdx } from "../choiceIdxs/typeIdxs";
+import { typeToTech } from "../compatibilities/TypeToTech.";
 
 const {
   THIRTY_M,

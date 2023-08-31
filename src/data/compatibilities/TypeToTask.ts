@@ -1,6 +1,6 @@
 import { ValuesOf } from "../../utils/utilityTypes";
-import { TaskChoiceIdx } from "../choiceEnums/taskEnum";
-import { TypeChoiceIdx } from "../choiceEnums/typeEnum";
+import { TaskChoiceIdx } from "../choiceIdxs/taskIdxs";
+import { TypeChoiceIdx } from "../choiceIdxs/typeIdxs";
 
 const {
   TWO_SUM,
@@ -73,20 +73,3 @@ export const typeToTask: TypeToTask = {
     MOOD_MATCHER,
   ],
 };
-
-type TaskToType = {
-  [key in ValuesOf<typeof TaskChoiceIdx>]: TypeChoiceIdx[];
-};
-
-export const taskToType: TaskToType = {} as TaskToType;
-
-for (const [type, tasks] of Object.entries(typeToTask)) {
-  if (!tasks) throw new Error("Tasks not found in typeToTask");
-
-  tasks.forEach((task) => {
-    if (taskToType[task] === undefined) {
-      taskToType[task] = [];
-    }
-    taskToType[task]!.push(Number(type));
-  });
-}
