@@ -13,7 +13,12 @@
 ## Type <-> Time
 
 - Many <-> Many
-- Inherited from Task <-> Time
+- Inherited from Task <-> Time and Task <-> Type
+
+## Tech <-> Time
+
+- Many <-> Many
+- Inherited from Task <-> Time and Task <-> Tech
 
 ## Task <-> Tech
 
@@ -24,8 +29,3 @@
 
 - Many <-> Many
 - Driving <-> Following
-
-## Tech <-> Time
-
-- Many <-> Many
-- Inherited from Task <-> Time

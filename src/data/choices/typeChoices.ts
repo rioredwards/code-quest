@@ -1,71 +1,8 @@
 import { Choice } from "../../types";
-import { TimeChoiceIdx } from "../choiceIdxs/timeIdxs";
 import { typeToTask } from "../compatibilities/TypeToTask";
 import { TypeChoiceIdx } from "../choiceIdxs/typeIdxs";
 import { typeToTech } from "../compatibilities/TypeToTech.";
-
-const {
-  THIRTY_M,
-  FORTY_FIVE_M,
-  ONE_H,
-  NINETY_M,
-  TWO_H,
-  THREE_H,
-  FOUR_H,
-  FIVE_H,
-  SIX_H,
-  INFINITY,
-} = TimeChoiceIdx;
-
-export const leetCodeEasyTime: TimeChoiceIdx[] = [
-  THIRTY_M,
-  FORTY_FIVE_M,
-  ONE_H,
-];
-export const leetCodeMediumTime: TimeChoiceIdx[] = [
-  FORTY_FIVE_M,
-  ONE_H,
-  NINETY_M,
-];
-
-export const CLIEasyTime: TimeChoiceIdx[] = [ONE_H, NINETY_M, TWO_H];
-export const CLIMediumTime: TimeChoiceIdx[] = [NINETY_M, TWO_H, THREE_H];
-export const CLIHardTime: TimeChoiceIdx[] = [TWO_H, THREE_H, FOUR_H];
-
-export const frontendEasyTime: TimeChoiceIdx[] = [NINETY_M, TWO_H, THREE_H];
-export const frontendMediumTime: TimeChoiceIdx[] = [THREE_H, FOUR_H, FIVE_H];
-export const frontendHardTime: TimeChoiceIdx[] = [FIVE_H, SIX_H, INFINITY];
-
-export const fullstackEasyTime: TimeChoiceIdx[] = [THREE_H, FOUR_H, FIVE_H];
-export const fullstackMediumTime: TimeChoiceIdx[] = [FOUR_H, FIVE_H, SIX_H];
-export const fullstackHardTime: TimeChoiceIdx[] = [FIVE_H, SIX_H, INFINITY];
-
-export const backendEasyTime: TimeChoiceIdx[] = [TWO_H, THREE_H, FOUR_H];
-export const backendMediumTime: TimeChoiceIdx[] = [THREE_H, FOUR_H, FIVE_H];
-export const backendHardTime: TimeChoiceIdx[] = [FIVE_H, SIX_H, INFINITY];
-
-export const cloudEasyTime: TimeChoiceIdx[] = [TWO_H, THREE_H, FOUR_H];
-export const cloudMediumTime: TimeChoiceIdx[] = [THREE_H, FOUR_H, FIVE_H];
-export const cloudHardTime: TimeChoiceIdx[] = [FIVE_H, SIX_H, INFINITY];
-
-export const leetCodeTimes: number[] = Array.from(
-  new Set([...leetCodeEasyTime, ...leetCodeMediumTime])
-);
-export const CLITimes: number[] = Array.from(
-  new Set([...CLIEasyTime, ...CLIMediumTime, ...CLIHardTime])
-);
-export const frontendTimes: number[] = Array.from(
-  new Set([...frontendEasyTime, ...frontendMediumTime, ...frontendHardTime])
-);
-export const fullstackTimes: number[] = Array.from(
-  new Set([...fullstackEasyTime, ...fullstackMediumTime, ...fullstackHardTime])
-);
-export const backendTimes: number[] = Array.from(
-  new Set([...backendEasyTime, ...backendMediumTime, ...backendHardTime])
-);
-export const cloudTimes: number[] = Array.from(
-  new Set([...cloudEasyTime, ...cloudMediumTime, ...cloudHardTime])
-);
+import { typeToTime } from "../compatibilities/TypeToTime";
 
 const { LEETCODE, CLI, FRONTEND, FULLSTACK, BACKEND, CLOUD } = TypeChoiceIdx;
 
@@ -77,7 +14,7 @@ export const typeChoices: Choice[] = [
     compatibleWith: {
       TASK: typeToTask[LEETCODE],
       TECH: typeToTech[LEETCODE],
-      TIME: leetCodeTimes,
+      TIME: typeToTime[LEETCODE],
     },
   },
   {
@@ -87,7 +24,7 @@ export const typeChoices: Choice[] = [
     compatibleWith: {
       TASK: typeToTask[CLI],
       TECH: typeToTech[CLI],
-      TIME: CLITimes,
+      TIME: typeToTime[CLI],
     },
   },
   {
@@ -97,7 +34,7 @@ export const typeChoices: Choice[] = [
     compatibleWith: {
       TASK: typeToTask[FRONTEND],
       TECH: typeToTech[FRONTEND],
-      TIME: frontendTimes,
+      TIME: typeToTime[FRONTEND],
     },
   },
   {
@@ -107,7 +44,7 @@ export const typeChoices: Choice[] = [
     compatibleWith: {
       TASK: typeToTask[FULLSTACK],
       TECH: typeToTech[FULLSTACK],
-      TIME: fullstackTimes,
+      TIME: typeToTime[FULLSTACK],
     },
   },
   {
@@ -117,7 +54,7 @@ export const typeChoices: Choice[] = [
     compatibleWith: {
       TASK: typeToTask[BACKEND],
       TECH: typeToTech[BACKEND],
-      TIME: backendTimes,
+      TIME: typeToTime[BACKEND],
     },
   },
   {
@@ -127,7 +64,7 @@ export const typeChoices: Choice[] = [
     compatibleWith: {
       TASK: typeToTask[CLOUD],
       TECH: typeToTech[CLOUD],
-      TIME: cloudTimes,
+      TIME: typeToTime[CLOUD],
     },
   },
 ];

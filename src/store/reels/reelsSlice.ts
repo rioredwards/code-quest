@@ -164,8 +164,6 @@ export const reelsSlice = createSlice({
       const randIdx = getRandIdx(maxCompatibilityChoiceIdxs.length);
       const chosenIdx = maxCompatibilityChoiceIdxs[randIdx];
 
-      console.log("chosenIdx: ", chosenIdx);
-
       targetReel.chosenIdx = chosenIdx;
       targetReel.spinState = "STOPPING";
     },

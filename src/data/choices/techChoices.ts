@@ -1,15 +1,8 @@
 import { Choice } from "../../types";
 import { TechChoiceIdx } from "../choiceIdxs/techIdxs";
 import { techToTask } from "../compatibilities/TechToTask";
+import { techToTime } from "../compatibilities/TechToTime";
 import { techToType } from "../compatibilities/TechToType";
-import {
-  frontendTimes,
-  leetCodeTimes,
-  CLITimes,
-  fullstackTimes,
-  backendTimes,
-  cloudTimes,
-} from "./typeChoices";
 
 const {
   JAVASCRIPT,
@@ -49,7 +42,7 @@ export const techChoices: Choice[] = [
     compatibleWith: {
       TYPE: techToType[JAVASCRIPT],
       TASK: techToTask[JAVASCRIPT],
-      TIME: [...leetCodeTimes, ...frontendTimes],
+      TIME: techToTime[JAVASCRIPT],
     },
   },
   {
@@ -59,12 +52,7 @@ export const techChoices: Choice[] = [
     compatibleWith: {
       TYPE: techToType[TYPESCRIPT],
       TASK: techToTask[TYPESCRIPT],
-      TIME: [
-        ...leetCodeTimes,
-        ...frontendTimes,
-        ...fullstackTimes,
-        ...cloudTimes,
-      ],
+      TIME: techToTime[TYPESCRIPT],
     },
   },
   {
@@ -74,13 +62,7 @@ export const techChoices: Choice[] = [
     compatibleWith: {
       TYPE: techToType[PYTHON],
       TASK: techToTask[PYTHON],
-      TIME: [
-        ...leetCodeTimes,
-        ...CLITimes,
-        ...frontendTimes,
-        ...fullstackTimes,
-        ...cloudTimes,
-      ],
+      TIME: techToTime[PYTHON],
     },
   },
   {
@@ -90,7 +72,7 @@ export const techChoices: Choice[] = [
     compatibleWith: {
       TYPE: techToType[JAVA],
       TASK: techToTask[JAVA],
-      TIME: [...leetCodeTimes, ...CLITimes],
+      TIME: techToTime[JAVA],
     },
   },
   {
@@ -100,7 +82,7 @@ export const techChoices: Choice[] = [
     compatibleWith: {
       TYPE: techToType[C],
       TASK: techToTask[C],
-      TIME: [...leetCodeTimes, ...CLITimes],
+      TIME: techToTime[C],
     },
   },
   {
@@ -110,7 +92,7 @@ export const techChoices: Choice[] = [
     compatibleWith: {
       TYPE: techToType[CPP],
       TASK: techToTask[CPP],
-      TIME: [...leetCodeTimes, ...CLITimes],
+      TIME: techToTime[CPP],
     },
   },
   {
@@ -120,7 +102,7 @@ export const techChoices: Choice[] = [
     compatibleWith: {
       TYPE: techToType[CSHARP],
       TASK: techToTask[CSHARP],
-      TIME: [...leetCodeTimes, ...CLITimes],
+      TIME: techToTime[CSHARP],
     },
   },
   {
@@ -130,7 +112,7 @@ export const techChoices: Choice[] = [
     compatibleWith: {
       TYPE: techToType[GO],
       TASK: techToTask[GO],
-      TIME: [...leetCodeTimes, ...CLITimes],
+      TIME: techToTime[GO],
     },
   },
   {
@@ -140,7 +122,7 @@ export const techChoices: Choice[] = [
     compatibleWith: {
       TYPE: techToType[RUST],
       TASK: techToTask[RUST],
-      TIME: [...leetCodeTimes, ...CLITimes],
+      TIME: techToTime[RUST],
     },
   },
   {
@@ -150,7 +132,7 @@ export const techChoices: Choice[] = [
     compatibleWith: {
       TYPE: techToType[PHP],
       TASK: techToTask[PHP],
-      TIME: [...leetCodeTimes, ...CLITimes],
+      TIME: techToTime[PHP],
     },
   },
   {
@@ -160,7 +142,7 @@ export const techChoices: Choice[] = [
     compatibleWith: {
       TYPE: techToType[RUBY],
       TASK: techToTask[RUBY],
-      TIME: [...leetCodeTimes, ...CLITimes],
+      TIME: techToTime[RUBY],
     },
   },
   {
@@ -170,7 +152,7 @@ export const techChoices: Choice[] = [
     compatibleWith: {
       TYPE: techToType[SWIFT],
       TASK: techToTask[SWIFT],
-      TIME: [...leetCodeTimes, ...CLITimes],
+      TIME: techToTime[SWIFT],
     },
   },
   {
@@ -180,7 +162,7 @@ export const techChoices: Choice[] = [
     compatibleWith: {
       TYPE: techToType[DART],
       TASK: techToTask[DART],
-      TIME: [...leetCodeTimes, ...CLITimes],
+      TIME: techToTime[DART],
     },
   },
   {
@@ -190,7 +172,7 @@ export const techChoices: Choice[] = [
     compatibleWith: {
       TYPE: techToType[BASH],
       TASK: techToTask[BASH],
-      TIME: [...CLITimes],
+      TIME: techToTime[BASH],
     },
   },
   {
@@ -200,7 +182,7 @@ export const techChoices: Choice[] = [
     compatibleWith: {
       TYPE: techToType[REACT],
       TASK: techToTask[REACT],
-      TIME: [...frontendTimes, ...cloudTimes],
+      TIME: techToTime[REACT],
     },
   },
   {
@@ -210,7 +192,7 @@ export const techChoices: Choice[] = [
     compatibleWith: {
       TYPE: techToType[ANGULAR],
       TASK: techToTask[ANGULAR],
-      TIME: [...frontendTimes, ...cloudTimes],
+      TIME: techToTime[ANGULAR],
     },
   },
   {
@@ -220,7 +202,7 @@ export const techChoices: Choice[] = [
     compatibleWith: {
       TYPE: techToType[VUE],
       TASK: techToTask[VUE],
-      TIME: [...frontendTimes, ...cloudTimes],
+      TIME: techToTime[VUE],
     },
   },
   {
@@ -230,7 +212,7 @@ export const techChoices: Choice[] = [
     compatibleWith: {
       TYPE: techToType[NEXT],
       TASK: techToTask[NEXT],
-      TIME: [...frontendTimes, ...fullstackTimes, ...cloudTimes],
+      TIME: techToTime[NEXT],
     },
   },
   {
@@ -240,7 +222,7 @@ export const techChoices: Choice[] = [
     compatibleWith: {
       TYPE: techToType[NEST],
       TASK: techToTask[NEST],
-      TIME: [...backendTimes],
+      TIME: techToTime[NEST],
     },
   },
   {
@@ -250,7 +232,7 @@ export const techChoices: Choice[] = [
     compatibleWith: {
       TYPE: techToType[NODE],
       TASK: techToTask[NODE],
-      TIME: [...CLITimes, ...backendTimes],
+      TIME: techToTime[NODE],
     },
   },
   {
@@ -260,7 +242,7 @@ export const techChoices: Choice[] = [
     compatibleWith: {
       TYPE: techToType[EXPRESS],
       TASK: techToTask[EXPRESS],
-      TIME: [...backendTimes],
+      TIME: techToTime[EXPRESS],
     },
   },
   {
@@ -270,7 +252,7 @@ export const techChoices: Choice[] = [
     compatibleWith: {
       TYPE: techToType[DJANGO],
       TASK: techToTask[DJANGO],
-      TIME: [...fullstackTimes, ...backendTimes],
+      TIME: techToTime[DJANGO],
     },
   },
   {
@@ -280,7 +262,7 @@ export const techChoices: Choice[] = [
     compatibleWith: {
       TYPE: techToType[SPRING],
       TASK: techToTask[SPRING],
-      TIME: [...fullstackTimes, ...backendTimes],
+      TIME: techToTime[SPRING],
     },
   },
   {
@@ -290,7 +272,7 @@ export const techChoices: Choice[] = [
     compatibleWith: {
       TYPE: techToType[RAILS],
       TASK: techToTask[RAILS],
-      TIME: [...fullstackTimes],
+      TIME: techToTime[RAILS],
     },
   },
   {
@@ -300,7 +282,7 @@ export const techChoices: Choice[] = [
     compatibleWith: {
       TYPE: techToType[LARAVEL],
       TASK: techToTask[LARAVEL],
-      TIME: [...fullstackTimes, ...backendTimes],
+      TIME: techToTime[LARAVEL],
     },
   },
   {
@@ -310,7 +292,7 @@ export const techChoices: Choice[] = [
     compatibleWith: {
       TYPE: techToType[DOTNET],
       TASK: techToTask[DOTNET],
-      TIME: [...fullstackTimes, ...backendTimes],
+      TIME: techToTime[DOTNET],
     },
   },
   {
@@ -320,7 +302,7 @@ export const techChoices: Choice[] = [
     compatibleWith: {
       TYPE: techToType[GIN],
       TASK: techToTask[GIN],
-      TIME: [...backendTimes],
+      TIME: techToTime[GIN],
     },
   },
 ];

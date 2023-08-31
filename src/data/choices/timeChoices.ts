@@ -1,9 +1,8 @@
 import { Choice } from "../../types";
 import { TimeChoiceIdx } from "../choiceIdxs/timeIdxs";
-import { TypeChoiceIdx } from "../choiceIdxs/typeIdxs";
 import { timeToTask } from "../compatibilities/TimeToTask";
-
-const { LEETCODE, CLI, FRONTEND, FULLSTACK, BACKEND, CLOUD } = TypeChoiceIdx;
+import { timeToTech } from "../compatibilities/TimeToTech";
+import { timeToType } from "../compatibilities/TimeToType";
 
 const {
   THIRTY_M,
@@ -24,9 +23,9 @@ export const timeChoices: Choice[] = [
     name: "30 Min",
     sentenceName: "30 Minutes",
     compatibleWith: {
-      TYPE: [LEETCODE],
+      TYPE: timeToType[THIRTY_M],
       TASK: timeToTask[THIRTY_M],
-      TECH: undefined,
+      TIME: timeToTech[THIRTY_M],
     },
   },
   {
@@ -34,9 +33,9 @@ export const timeChoices: Choice[] = [
     name: "45 Min",
     sentenceName: "45 Minutes",
     compatibleWith: {
-      TYPE: [LEETCODE],
+      TYPE: timeToType[FORTY_FIVE_M],
       TASK: timeToTask[FORTY_FIVE_M],
-      TECH: undefined,
+      TIME: timeToTech[FORTY_FIVE_M],
     },
   },
   {
@@ -44,9 +43,9 @@ export const timeChoices: Choice[] = [
     name: "1 Hour",
     sentenceName: "1 Hour",
     compatibleWith: {
-      TYPE: [LEETCODE, CLI],
+      TYPE: timeToType[ONE_H],
       TASK: timeToTask[ONE_H],
-      TECH: undefined,
+      TIME: timeToTech[ONE_H],
     },
   },
   {
@@ -54,9 +53,9 @@ export const timeChoices: Choice[] = [
     name: "90 Min",
     sentenceName: "90 Minutes",
     compatibleWith: {
-      TYPE: [LEETCODE, CLI, FRONTEND],
+      TYPE: timeToType[NINETY_M],
       TASK: timeToTask[NINETY_M],
-      TECH: undefined,
+      TIME: timeToTech[NINETY_M],
     },
   },
   {
@@ -64,9 +63,9 @@ export const timeChoices: Choice[] = [
     name: "2 Hours",
     sentenceName: "2 Hours",
     compatibleWith: {
-      TYPE: [CLI, FRONTEND, BACKEND, CLOUD],
+      TYPE: timeToType[TWO_H],
       TASK: timeToTask[TWO_H],
-      TECH: undefined,
+      TIME: timeToTech[TWO_H],
     },
   },
   {
@@ -74,9 +73,9 @@ export const timeChoices: Choice[] = [
     name: "3 Hours",
     sentenceName: "3 Hours",
     compatibleWith: {
-      TYPE: [CLI, FRONTEND, FULLSTACK, BACKEND, CLOUD],
+      TYPE: timeToType[THREE_H],
       TASK: timeToTask[THREE_H],
-      TECH: undefined,
+      TIME: timeToTech[THREE_H],
     },
   },
   {
@@ -84,9 +83,9 @@ export const timeChoices: Choice[] = [
     name: "4 Hours",
     sentenceName: "4 Hours",
     compatibleWith: {
-      TYPE: [CLI, FRONTEND, FULLSTACK, BACKEND, CLOUD],
+      TYPE: timeToType[FOUR_H],
       TASK: timeToTask[FOUR_H],
-      TECH: undefined,
+      TIME: timeToTech[FOUR_H],
     },
   },
   {
@@ -94,9 +93,9 @@ export const timeChoices: Choice[] = [
     name: "5 Hours",
     sentenceName: "5 Hours",
     compatibleWith: {
-      TYPE: [FRONTEND, FULLSTACK, BACKEND, CLOUD],
+      TYPE: timeToType[FIVE_H],
       TASK: timeToTask[FIVE_H],
-      TECH: undefined,
+      TIME: timeToTech[FIVE_H],
     },
   },
   {
@@ -104,9 +103,9 @@ export const timeChoices: Choice[] = [
     name: "6 Hours",
     sentenceName: "6 Hours",
     compatibleWith: {
-      TYPE: [FRONTEND, FULLSTACK, BACKEND, CLOUD],
+      TYPE: timeToType[SIX_H],
       TASK: timeToTask[SIX_H],
-      TECH: undefined,
+      TIME: timeToTech[SIX_H],
     },
   },
   {
@@ -114,9 +113,9 @@ export const timeChoices: Choice[] = [
     name: "∞",
     sentenceName: "Unlimited Time",
     compatibleWith: {
-      TYPE: [FRONTEND, FULLSTACK, BACKEND, CLOUD],
+      TYPE: timeToType[INFINITY],
       TASK: timeToTask[INFINITY],
-      TECH: undefined,
+      TIME: timeToTech[INFINITY],
     },
   },
 ];
