@@ -25,7 +25,6 @@ const {
   NEXT,
   NEST,
   NODE,
-  EXPRESS,
   DJANGO,
   SPRING,
   RAILS,
@@ -233,16 +232,6 @@ export const techChoices: Choice[] = [
       TYPE: techToType[NODE],
       TASK: techToTask[NODE],
       TIME: techToTime[NODE],
-    },
-  },
-  {
-    id: EXPRESS,
-    name: "Express.js",
-    sentenceName: "Express.js",
-    compatibleWith: {
-      TYPE: techToType[EXPRESS],
-      TASK: techToTask[EXPRESS],
-      TIME: techToTime[EXPRESS],
     },
   },
   {

@@ -23,7 +23,6 @@ const {
   NEXT,
   NEST,
   NODE,
-  EXPRESS,
   DJANGO,
   SPRING,
   RAILS,
@@ -77,7 +76,7 @@ export const typeToTech: ChoiceMap = {
     LARAVEL,
     DOTNET,
   ],
-  [BACKEND]: [NEST, NODE, EXPRESS, DJANGO, SPRING, LARAVEL, DOTNET, GIN],
+  [BACKEND]: [NEST, NODE, DJANGO, SPRING, LARAVEL, DOTNET, GIN],
   [CLOUD]: [
     JAVASCRIPT,
     TYPESCRIPT,
