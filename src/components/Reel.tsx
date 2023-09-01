@@ -8,11 +8,10 @@ import {
   useTransform,
   useVelocity,
 } from "framer-motion";
-import { MutableRefObject, useEffect, useRef, useState } from "react";
+import { MutableRefObject, useEffect, useRef } from "react";
 import { numToVh, vhToNum } from "../utils/genUtils";
 import {
   roundYToNearestChoice,
-  yIsOutsideDragBounds,
   preSpinAnimation,
   ReelMotionParams,
   idleStartAnimation,
@@ -20,6 +19,7 @@ import {
   stoppingAnimation,
   postSpinAnimation,
   yToChoiceIdx,
+  yIsOutsideDragBounds,
 } from "../motionConfigs/reelMotion";
 import Window from "./Window";
 import ChoiceList from "./ChoiceList";
@@ -45,11 +45,11 @@ const Reel: React.FC<ReelProps> = ({
   choiceIdxAtCurrYPos,
 }) => {
   const [scope, animate] = useAnimate();
-  const [dragging, setDragging] = useState(false);
-  const [dragStartY, setDragStartY] = useState(0);
   const y = useMotionValue("0vh");
   const yNum = useTransform(y, vhToNum);
   const dragY = useMotionValue(0);
+  const dragStartY = useRef<number>(0);
+  const dragging = useRef<boolean>(false);
   const yVelocity = useVelocity(yNum);
   const animationControls = useRef<AnimationPlaybackControls | null>(null);
   const prevSpinState = useRef<SpinState>(spinState);
@@ -60,7 +60,6 @@ const Reel: React.FC<ReelProps> = ({
       vhToNum(y.get()),
       choices.length
     );
-    console.log(choiceIdxAtCurrYPos.current);
   });
 
   // When spinState changes, animate the reel
@@ -100,27 +99,29 @@ const Reel: React.FC<ReelProps> = ({
   }, [spinState]);
 
   function onHoverStart(): void {
-    if (dragging) return;
+    if (dragging.current) return;
     animate(scope.current, { filter: "brightness(105%)" });
   }
 
   function onHoverEnd(): void {
-    if (dragging) return;
+    if (dragging.current) return;
     animate(scope.current, { filter: "brightness(100%)" });
   }
 
   function onDragStart(): void {
-    if (dragStartY) return;
+    if (dragStartY.current) return;
     animate(scope.current, { filter: "brightness(115%)" });
-    setDragging(true);
-    setDragStartY(vhToNum(y.get()));
+    dragging.current = true;
+    dragStartY.current = vhToNum(y.get());
   }
 
   function onDrag(): void {
-    if (!dragStartY) return;
+    if (!dragStartY.current) return;
+
     const currDragY = dragY.get();
-    const roundedY = roundYToNearestChoice(dragStartY + currDragY);
-    if (yIsOutsideDragBounds(roundedY, choices.length)) return;
+    const distanceFromDragStart = dragStartY.current + currDragY;
+    const roundedY = roundYToNearestChoice(distanceFromDragStart);
+    if (yIsOutsideDragBounds(distanceFromDragStart, choices.length)) return;
 
     animate(
       scope.current,
@@ -131,8 +132,8 @@ const Reel: React.FC<ReelProps> = ({
 
   function onDragEnd(): void {
     animate(scope.current, { filter: "brightness(100%)" });
-    setDragging(false);
-    setDragStartY(0);
+    dragging.current = false;
+    dragStartY.current = 0;
     dragY.set(0);
   }
 

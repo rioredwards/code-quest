@@ -197,6 +197,7 @@ export function yIsOutsideDragBounds(
   choicesLength: number
 ): boolean {
   const threshold = CHOICE_HEIGHT_VH * 0.5;
+
   const upperBound = translateChoiceIdxToY(0);
   const translatedUpper = translateYToReelCopyIdx(upperBound, choicesLength, 1);
 
