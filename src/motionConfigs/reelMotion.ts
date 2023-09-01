@@ -1,5 +1,10 @@
-import { AnimationScope, MotionValue } from "framer-motion";
+import {
+  AnimationPlaybackControls,
+  AnimationScope,
+  MotionValue,
+} from "framer-motion";
 import { numToVh, vhToNum } from "../utils/genUtils";
+import { MutableRefObject } from "react";
 
 /* Motion Constants */
 export const CHOICE_HEIGHT_VH = 3.32; // vh
@@ -43,7 +48,7 @@ export async function logReelCopyIdxAtY(yNum: number, choicesLength: number) {
 }
 
 /* Animation Functions */
-export async function preSpinAnimation(params: ReelMotionParams) {
+export function preSpinAnimation(params: ReelMotionParams) {
   const { reelEl, yVh, choicesLength, animate } = params;
   const currYNum = vhToNum(yVh.get());
   const startYNum = translateYToReelCopyIdx(currYNum, choicesLength, 1);
@@ -51,7 +56,9 @@ export async function preSpinAnimation(params: ReelMotionParams) {
   return animate(reelEl, { y: startYVh }, jumpMotion);
 }
 
-export async function idleStartAnimation(params: ReelMotionParams) {
+export function idleStartAnimation(
+  params: ReelMotionParams
+): AnimationPlaybackControls {
   const { reelEl, yVh, choicesLength, animate } = params;
   const currYNum = vhToNum(yVh.get());
   const startYNum = translateYToReelCopyIdx(currYNum, choicesLength, 1);
@@ -68,7 +75,7 @@ export async function idleStartAnimation(params: ReelMotionParams) {
   ]);
 }
 
-export async function idleLoopAnimation(params: ReelMotionParams) {
+export function idleLoopAnimation(params: ReelMotionParams) {
   const { reelEl, yVh, choicesLength, animate } = params;
   const currYNum = vhToNum(yVh.get());
   const startYNum = translateYToReelCopyIdx(currYNum, choicesLength, 1);
@@ -81,7 +88,7 @@ export async function idleLoopAnimation(params: ReelMotionParams) {
   return animate(reelEl, { y: [startYVh, endYVh] }, loopMotion);
 }
 
-export async function stoppingAnimation(params: ReelMotionParams) {
+export function stoppingAnimation(params: ReelMotionParams) {
   const { reelEl, yVh, choicesLength, animate, chosenIdx } = params;
   if (chosenIdx === null) throw new Error("chosenIdx is null");
 
@@ -102,6 +109,8 @@ export async function stoppingAnimation(params: ReelMotionParams) {
   const chosenIdxYInFirstReelVh = numToVh(chosenIdxYInFirstReel);
   const chosenIdxYInThirdReelVh = numToVh(chosenIdxYInThirdReel);
 
+  console.log("stoppingAnimation");
+
   return animate([
     [reelEl, { y: startYVh }, jumpMotion],
     [reelEl, { y: chosenIdxYInThirdReelVh }, stoppingMotion],
@@ -109,7 +118,7 @@ export async function stoppingAnimation(params: ReelMotionParams) {
   ]);
 }
 
-export async function postSpinAnimation(params: ReelMotionParams) {
+export function postSpinAnimation(params: ReelMotionParams) {
   const { reelEl, choicesLength, animate, chosenIdx } = params;
   if (chosenIdx === null) throw new Error("chosenIdx is null");
 

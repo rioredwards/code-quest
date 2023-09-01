@@ -1,7 +1,7 @@
 export const lockSwitchSpring = {
   type: "spring",
-  bounce: 0.2,
-  duration: 0.3,
+  bounce: 0.35,
+  duration: 0.5,
 };
 
 export const lockSwitchAnimation = (locked: boolean) => ({

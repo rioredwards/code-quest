@@ -1,13 +1,14 @@
 import "./Reel.css";
 import {
   AnimatePresence,
+  AnimationPlaybackControls,
   motion,
   useAnimate,
   useMotionValue,
   useTransform,
   useVelocity,
 } from "framer-motion";
-import { MutableRefObject, useEffect, useState } from "react";
+import { MutableRefObject, useEffect, useRef, useState } from "react";
 import { numToVh, vhToNum } from "../utils/genUtils";
 import {
   roundYToNearestChoice,
@@ -50,6 +51,8 @@ const Reel: React.FC<ReelProps> = ({
   const yNum = useTransform(y, vhToNum);
   const dragY = useMotionValue(0);
   const yVelocity = useVelocity(yNum);
+  const animationControls = useRef<AnimationPlaybackControls | null>(null);
+  const prevSpinState = useRef<SpinState>(spinState);
 
   y.on("change", () => {
     if (spinState !== "PRE") return;
@@ -61,6 +64,8 @@ const Reel: React.FC<ReelProps> = ({
 
   // When spinState changes, animate the reel
   useEffect(() => {
+    prevSpinState.current = spinState;
+
     async function animateSequence(): Promise<void> {
       const animationParams: ReelMotionParams = {
         animate,
@@ -70,14 +75,11 @@ const Reel: React.FC<ReelProps> = ({
         chosenIdx,
       };
 
-      const newSpinState = await setNewAnimation(spinState, animationParams);
-
-      if (newSpinState === "IDLE_LOOP") {
-        onFinishedIdleStart();
-      } else if (newSpinState === "POST") {
-        onFinishedStopping();
-      } else {
-        // Do nothing
+      animationControls.current = setNewAnimation(spinState, animationParams);
+      if (spinState === "IDLE_START") {
+        animationControls.current?.then(() => onFinishedIdleStart());
+      } else if (spinState === "STOPPING") {
+        animationControls.current?.then(() => onFinishedStopping());
       }
     }
 
@@ -158,22 +160,21 @@ export default Reel;
 // This function calls an animation function based on the current spinState
 // If the next animation and spinState is triggered by an animation ending,
 // This function will return the next spinState to be updated in the parent component
-async function setNewAnimation(
+function setNewAnimation(
   spinState: SpinState,
   animationParams: ReelMotionParams
-): Promise<SpinState | null> {
+): AnimationPlaybackControls | null {
   switch (spinState) {
     case "PRE":
-      preSpinAnimation(animationParams);
-      return null;
+      return preSpinAnimation(animationParams);
     case "IDLE_START":
-      await idleStartAnimation(animationParams);
-      idleLoopAnimation(animationParams);
-      return "IDLE_LOOP";
+      return idleStartAnimation(animationParams);
+    case "IDLE_LOOP":
+      return idleLoopAnimation(animationParams);
     case "STOPPING":
-      await stoppingAnimation(animationParams);
-      postSpinAnimation(animationParams);
-      return "POST";
+      return stoppingAnimation(animationParams);
+    case "POST":
+      return postSpinAnimation(animationParams);
     default:
       return null;
   }

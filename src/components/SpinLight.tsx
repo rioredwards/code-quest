@@ -10,7 +10,10 @@ const SpinLight: React.FC<SpinLightProps> = ({
   spinState,
   onClickSpinLight,
 }) => {
-  const CSSclass = spinState === "IDLE_LOOP" ? "active" : "inactive";
+  const CSSclass =
+    spinState === "IDLE_START" || spinState === "IDLE_LOOP"
+      ? "active"
+      : "inactive";
 
   return (
     <div className="spin-light-container">

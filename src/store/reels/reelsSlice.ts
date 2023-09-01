@@ -117,7 +117,9 @@ export const reelsSlice = createSlice({
       const reelIdx = state.findIndex((reel) => reel.name === action.payload);
       const targetReel = state[reelIdx];
 
-      if (targetReel.spinState !== "IDLE_LOOP") return;
+      const currSpinState = targetReel.spinState;
+      if (currSpinState !== "IDLE_START" && currSpinState !== "IDLE_LOOP")
+        return;
 
       // compatibilityScores is a Map where the
       // keys are all the available choices for the reel
