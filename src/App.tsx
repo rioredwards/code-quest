@@ -14,13 +14,7 @@ function App() {
       <GameContainer>
         <div className="reels-container">
           {reels.map((reel) => {
-            return (
-              <ReelUnit
-                name={reel.name}
-                key={reel.name}
-                spinState={reel.spinState}
-              />
-            );
+            return <ReelUnit name={reel.name} key={reel.name} />;
           })}
         </div>
         <div className="lever-container">
