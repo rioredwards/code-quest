@@ -60,6 +60,7 @@ const Reel: React.FC<ReelProps> = ({
       vhToNum(y.get()),
       choices.length
     );
+    console.log(choiceIdxAtCurrYPos.current);
   });
 
   // When spinState changes, animate the reel

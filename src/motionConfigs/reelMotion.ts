@@ -183,11 +183,12 @@ export function translateChoiceIdxToY(idx: number): number {
 export function yToChoiceIdx(y: number, choicesLength: number): number {
   const roundedY = roundYToNearestChoice(y);
   const choiceIdxInFirstReel = Math.abs(
-    Math.floor(roundedY / CHOICE_HEIGHT_VH)
+    Math.round(roundedY / CHOICE_HEIGHT_VH)
   );
   const choiceIdxShiftedToMiddleOfWindow =
     choiceIdxInFirstReel + Math.floor(NUM_CHOICES_VISIBLE / 2);
   const choiceIdx = choiceIdxShiftedToMiddleOfWindow % choicesLength;
+
   return choiceIdx;
 }
 

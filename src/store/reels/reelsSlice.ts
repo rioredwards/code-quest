@@ -160,8 +160,6 @@ export const reelsSlice = createSlice({
         .filter(([_, score]) => score === maxCompatibilityScore)
         .map(([idx]) => idx);
 
-      console.log("compatibilityScores: ", compatibilityScores);
-
       // Select a random choice from the choices with the highest compatibility score
       const randIdx = getRandIdx(maxCompatibilityChoiceIdxs.length);
       const chosenIdx = maxCompatibilityChoiceIdxs[randIdx];
