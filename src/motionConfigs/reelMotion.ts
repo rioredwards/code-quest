@@ -9,6 +9,7 @@ import { numToVh, vhToNum } from "../utils/genUtils";
 export const CHOICE_HEIGHT_VH = 3.32; // vh
 export const NUM_CHOICES_VISIBLE = 5;
 export const BASE_SPIN_SPEED = 5; // choices per second
+const MIN_DISTANCE_TO_STOP = CHOICE_HEIGHT_VH * 20;
 
 /* Motion Specifications */
 const jumpMotion = { duration: 0 };
@@ -20,10 +21,10 @@ function getIdleLoopMotion(spinDur: number) {
 }
 const stoppingMotion = {
   type: "spring",
-  damping: 4,
-  stiffness: 3.8,
-  mass: 3.5,
-  velocity: 80,
+  damping: 2.9, // Strength of opposing force. Set to 10 by default.
+  mass: 4.5, // Mass of the moving object. Higher values will result in more lethargic movement. Set to 1 by default.
+  stiffness: 2.8, // Stiffness of the spring. Higher values will create more sudden movement. Set to 100 by default.
+  velocity: 55, // The initial velocity of the spring. By default this is the current velocity of the component.
   restSpeed: 1.5,
 };
 
@@ -93,27 +94,43 @@ export function stoppingAnimation(params: ReelMotionParams) {
 
   const currYNum = vhToNum(yVh.get());
   const startYNum = translateYToReelCopyIdx(currYNum, choicesLength, 1);
-  const chosenIdxYInZeroReel = translateChoiceIdxToY(chosenIdx);
-  const chosenIdxYInFirstReel = translateYToReelCopyIdx(
-    chosenIdxYInZeroReel,
+  const chosenIdxYInReelZero = translateChoiceIdxToY(chosenIdx);
+  const chosenIdxYInReelOne = translateYToReelCopyIdx(
+    chosenIdxYInReelZero,
     choicesLength,
     1
   );
-  const chosenIdxYInThirdReel = translateYToReelCopyIdx(
-    chosenIdxYInFirstReel,
-    choicesLength,
-    3
-  );
-  const startYVh = numToVh(startYNum);
-  const chosenIdxYInFirstReelVh = numToVh(chosenIdxYInFirstReel);
-  const chosenIdxYInThirdReelVh = numToVh(chosenIdxYInThirdReel);
 
-  console.log("stoppingAnimation");
+  let chosenReelY = chosenIdxYInReelOne;
+
+  const distanceToChosenIdxInReelOne =
+    Math.abs(chosenIdxYInReelOne) - Math.abs(startYNum);
+
+  if (distanceToChosenIdxInReelOne < MIN_DISTANCE_TO_STOP) {
+    chosenReelY = translateYToReelCopyIdx(
+      chosenIdxYInReelZero,
+      choicesLength,
+      2
+    );
+    const distanceToChosenIdxInReelTwo =
+      Math.abs(chosenReelY) - Math.abs(startYNum);
+    if (distanceToChosenIdxInReelTwo < MIN_DISTANCE_TO_STOP) {
+      chosenReelY = translateYToReelCopyIdx(
+        chosenIdxYInReelZero,
+        choicesLength,
+        3
+      );
+    }
+  }
+
+  const startYVh = numToVh(startYNum);
+  const chosenIdxYInReelOneVh = numToVh(chosenIdxYInReelOne);
+  const chosenIdxYInChosenReelVh = numToVh(chosenReelY);
 
   return animate([
     [reelEl, { y: startYVh }, jumpMotion],
-    [reelEl, { y: chosenIdxYInThirdReelVh }, stoppingMotion],
-    [reelEl, { y: chosenIdxYInFirstReelVh }, jumpMotion],
+    [reelEl, { y: chosenIdxYInChosenReelVh }, stoppingMotion],
+    [reelEl, { y: chosenIdxYInReelOneVh }, jumpMotion],
   ]);
 }
 
@@ -121,15 +138,15 @@ export function postSpinAnimation(params: ReelMotionParams) {
   const { reelEl, choicesLength, animate, chosenIdx } = params;
   if (chosenIdx === null) throw new Error("chosenIdx is null");
 
-  const chosenIdxYInZeroReel = translateChoiceIdxToY(chosenIdx);
-  const chosenIdxYInFirstReel = translateYToReelCopyIdx(
-    chosenIdxYInZeroReel,
+  const chosenIdxYInReelZero = translateChoiceIdxToY(chosenIdx);
+  const chosenIdxYInReelOne = translateYToReelCopyIdx(
+    chosenIdxYInReelZero,
     choicesLength,
     1
   );
-  const chosenIdxYInFirstReelVh = numToVh(chosenIdxYInFirstReel);
+  const chosenIdxYInReelOneVh = numToVh(chosenIdxYInReelOne);
 
-  return animate(reelEl, { y: chosenIdxYInFirstReelVh }, jumpMotion);
+  return animate(reelEl, { y: chosenIdxYInReelOneVh }, jumpMotion);
 }
 
 /* Animation Helper Functions */
