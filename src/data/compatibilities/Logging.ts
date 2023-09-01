@@ -11,5 +11,5 @@ export function logCompatibilities(obj: any, keyIdxs: any, valIdxs: any) {
       stringified[keyName].push(valIdxs[val]);
     }
   }
-  console.log(stringified);
+  // console.log(stringified);
 }

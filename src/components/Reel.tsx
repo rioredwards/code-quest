@@ -64,8 +64,6 @@ const Reel: React.FC<ReelProps> = ({
 
   // When spinState changes, animate the reel
   useEffect(() => {
-    prevSpinState.current = spinState;
-
     async function animateSequence(): Promise<void> {
       const animationParams: ReelMotionParams = {
         animate,
@@ -75,15 +73,28 @@ const Reel: React.FC<ReelProps> = ({
         chosenIdx,
       };
 
-      animationControls.current = setNewAnimation(spinState, animationParams);
       if (spinState === "IDLE_START") {
-        animationControls.current?.then(() => onFinishedIdleStart());
+        animationControls.current = setNewAnimation(spinState, animationParams);
+        animationControls.current?.then(() => {
+          // This check prevents the animation if the user
+          // clicks the spin light to stop the reel
+          // before the idle animation has started
+          if (prevSpinState.current === "IDLE_START") {
+            onFinishedIdleStart();
+          }
+        });
       } else if (spinState === "STOPPING") {
+        if (prevSpinState.current === "IDLE_START")
+          animationControls.current?.stop();
+        animationControls.current = setNewAnimation(spinState, animationParams);
         animationControls.current?.then(() => onFinishedStopping());
+      } else {
+        animationControls.current = setNewAnimation(spinState, animationParams);
       }
     }
 
     animateSequence();
+    prevSpinState.current = spinState;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [spinState]);
 

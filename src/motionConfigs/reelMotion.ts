@@ -4,7 +4,6 @@ import {
   MotionValue,
 } from "framer-motion";
 import { numToVh, vhToNum } from "../utils/genUtils";
-import { MutableRefObject } from "react";
 
 /* Motion Constants */
 export const CHOICE_HEIGHT_VH = 3.32; // vh
