@@ -65,3 +65,19 @@
   width: 10vh;
   height: 4vh;
 }
+
+.pickers {
+  /* border: 1px solid red; */
+  z-index: 4;
+  background-image: url(assets/pickers.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+  position: fixed;
+  --width: 130vh;
+  --center-left-shift: calc(50vw - calc(var(--width) / 2));
+  top: 52%;
+  left: calc(var(--center-left-shift) + 2vh);
+  height: 4%;
+  width: var(--width);
+  pointer-events: none;
+}

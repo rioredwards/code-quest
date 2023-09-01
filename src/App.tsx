@@ -30,6 +30,7 @@ function App() {
           <Display />
         </div>
         <Machine />
+        <div className="pickers" />
       </GameContainer>
     </div>
   );
