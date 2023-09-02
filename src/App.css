@@ -81,3 +81,12 @@
   width: var(--width);
   pointer-events: none;
 }
+
+.cursor-dragging {
+  cursor: grabbing;
+  height: 100%;
+  width: 100%;
+  z-index: 10;
+  position: fixed;
+  /* background-color: red; */
+}

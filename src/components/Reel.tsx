@@ -24,6 +24,7 @@ import {
 import Window from "./Window";
 import ChoiceList from "./ChoiceList";
 import { Choice, SpinState } from "../types";
+import { useDispatch } from "react-redux";
 
 interface ReelProps {
   choices: readonly Choice[];
@@ -44,6 +45,7 @@ const Reel: React.FC<ReelProps> = ({
   isLocked,
   choiceIdxAtCurrYPos,
 }) => {
+  const dispatch = useDispatch();
   const [scope, animate] = useAnimate();
   const y = useMotionValue("0vh");
   const yNum = useTransform(y, vhToNum);
@@ -113,6 +115,7 @@ const Reel: React.FC<ReelProps> = ({
     animate(scope.current, { filter: "brightness(115%)" });
     dragging.current = true;
     dragStartY.current = vhToNum(y.get());
+    dispatch({ type: "cursor/dragging" });
   }
 
   function onDrag(): void {
@@ -135,6 +138,7 @@ const Reel: React.FC<ReelProps> = ({
     dragging.current = false;
     dragStartY.current = 0;
     dragY.set(0);
+    dispatch({ type: "cursor/stopDragging" });
   }
 
   return (

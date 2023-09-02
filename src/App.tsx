@@ -8,9 +8,11 @@ import { useAppSelector } from "./store/hooks";
 
 function App() {
   const reels = useAppSelector((state) => state.reels);
+  const cursorIsDragging = useAppSelector((state) => state.cursor.dragging);
 
   return (
     <div className="App">
+      {cursorIsDragging && <div className="cursor-dragging" />}
       <GameContainer>
         <div className="reels-container">
           {reels.map((reel) => {

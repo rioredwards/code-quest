@@ -47,6 +47,14 @@ const Lever: React.FC<LeverProps> = () => {
     hoverRotationAngle.set(0);
   }
 
+  function onDragStart() {
+    dispatch({ type: "cursor/dragging" });
+  }
+
+  function onDragEnd() {
+    dispatch({ type: "cursor/stopDragging" });
+  }
+
   return (
     <>
       <motion.div className="lever-base" />
@@ -58,6 +66,8 @@ const Lever: React.FC<LeverProps> = () => {
         className="lever-drag-handle"
         drag="y"
         onDrag={onDrag}
+        onDragStart={onDragStart}
+        onDragEnd={onDragEnd}
         whileTap={{ cursor: "grabbing" }}
         onHoverStart={onHoverStart}
         onHoverEnd={onHoverEnd}

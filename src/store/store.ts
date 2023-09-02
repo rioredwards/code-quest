@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import reelsReducer from "./reels/reelsSlice";
 import displayReducer from "./display/displaySlice";
+import cursorReducer from "./cursor/cursorSlice";
 
 export const store = configureStore({
   reducer: {
     reels: reelsReducer,
     display: displayReducer,
+    cursor: cursorReducer,
   },
 });
 
