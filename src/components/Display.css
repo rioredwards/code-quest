@@ -6,6 +6,15 @@
   background-size: cover;
   height: 100%;
   width: 100%;
+  /* cursor: pointer; */
+}
+
+.copied {
+  cursor: default;
+}
+
+.notCopied {
+  cursor: copy;
 }
 
 .display-lines {

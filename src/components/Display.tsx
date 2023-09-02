@@ -8,15 +8,29 @@ import { typeChoices } from "../data/choices/typeChoices";
 import { taskChoices } from "../data/choices/taskChoices";
 import { techChoices } from "../data/choices/techChoices";
 import { timeChoices } from "../data/choices/timeChoices";
-import { useEffect, useRef } from "react";
-import CopyButton from "./CopyButton";
+import { useEffect } from "react";
+import CopyIcon from "./CopyButton";
 
 interface Props {}
+
+const displayVariants = {
+  off: {
+    filter: "brightness(80%)",
+  },
+  onNotHovering: {
+    filter: "brightness(110%)",
+  },
+  onHovering: {
+    filter: "brightness(120%)",
+  },
+};
 
 const Display: React.FC<Props> = () => {
   const dispatch = useAppDispatch();
 
-  const { isOn, text, userHovering } = useAppSelector((state) => state.display);
+  const { isOn, text, userHovering, copied } = useAppSelector(
+    (state) => state.display
+  );
 
   const typeIdx = useAppSelector(({ reels }) => reels[ReelIdx.TYPE].chosenIdx);
   const taskIdx = useAppSelector(({ reels }) => reels[ReelIdx.TASK].chosenIdx);
@@ -66,20 +80,30 @@ const Display: React.FC<Props> = () => {
     });
   };
 
+  const copyToClipboard = () => {
+    dispatch({ type: "display/copied" });
+    navigator.clipboard.writeText(text);
+  };
+
   return (
     <motion.div
       onHoverStart={onHoverStart}
       onHoverEnd={onHoverEnd}
-      className="display-container">
+      onClick={copyToClipboard}
+      variants={displayVariants}
+      animate={!isOn ? "off" : !userHovering ? "onNotHovering" : "onHovering"}
+      className={`display-container ${
+        isOn ? (copied ? "copied" : "notCopied") : "off"
+      }`}>
       <div className="display-glass" />
+      {isOn && (
+        <motion.div animate={linesAnimation} className="display-lines" />
+      )}
       <AnimatePresence>
-        {isOn && !needToUpdate && userHovering && <CopyButton text={text} />}
+        {isOn && (userHovering || copied) && <CopyIcon />}
       </AnimatePresence>
       {isOn && !needToUpdate && (
-        <>
-          <motion.div animate={linesAnimation} className="display-lines" />
-          <TypingSimulation text={text} onCompleteTyping={onCompleteTyping} />
-        </>
+        <TypingSimulation text={text} onCompleteTyping={onCompleteTyping} />
       )}
     </motion.div>
   );

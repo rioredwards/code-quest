@@ -1,15 +1,13 @@
+import "./CopyIcon.css";
 import { useEffect } from "react";
-import "./CopyButton.css";
 import { motion } from "framer-motion";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 
-interface Props {
-  text: string;
-}
+interface Props {}
 
-const buttonVariants = {
+const containerVariants = {
   visible: { opacity: 1, transition: { duration: 0.4 } },
-  hidden: { opacity: 0, transition: { duration: 1 } },
+  hidden: { opacity: 0, transition: { duration: 0.4 } },
 };
 
 const tickVariants = {
@@ -22,7 +20,7 @@ const boxVariants = {
   hidden: { opacity: 0, scale: 0.1 },
 };
 
-const CopyButton: React.FC<Props> = ({ text }) => {
+const CopyIcon: React.FC<Props> = () => {
   const dispatch = useAppDispatch();
   const copied = useAppSelector(({ display }) => display.copied);
 
@@ -35,18 +33,12 @@ const CopyButton: React.FC<Props> = ({ text }) => {
     }
   }, [copied, dispatch]);
 
-  const copyToClipboard = () => {
-    dispatch({ type: "display/copied" });
-    navigator.clipboard.writeText(text);
-  };
-
   return (
-    <motion.button
+    <motion.div
       initial={"visible"}
       exit={"hidden"}
-      variants={buttonVariants}
-      className="copy-button-button"
-      onClick={copyToClipboard}>
+      variants={containerVariants}
+      className="copy-icon-container">
       <motion.svg viewBox="0 0 49.56 49.56" className="copy-button-svg">
         <motion.polyline
           className="check"
@@ -73,8 +65,8 @@ const CopyButton: React.FC<Props> = ({ text }) => {
           ry="4.87"
         />
       </motion.svg>
-    </motion.button>
+    </motion.div>
   );
 };
 
-export default CopyButton;
+export default CopyIcon;
