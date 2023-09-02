@@ -1,0 +1,29 @@
+.copy-button-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  padding: 0;
+  position: absolute;
+  right: 1.4vh;
+  top: 1.1vh;
+  z-index: 4;
+}
+
+.box,
+.check {
+  fill: none;
+  stroke: #a5efa5a9;
+  stroke-miterlimit: 10;
+  stroke-width: 0.7vh;
+  opacity: 0.8;
+}
+
+.copy-button-svg {
+  height: 3.8vh;
+  width: 3.8vh;
+}
+
+.copy-button-svg:focus {
+  outline: none;
+}

@@ -5,12 +5,16 @@ import type { RootState } from "../store";
 export type DisplayState = {
   isOn: boolean;
   text: string;
+  userHovering: boolean;
+  copied: boolean;
 };
 
 // Define the initial state using that type
 const initialState: DisplayState = {
   isOn: false,
   text: "",
+  userHovering: false,
+  copied: false,
 };
 
 export const displaySlice = createSlice({
@@ -28,6 +32,18 @@ export const displaySlice = createSlice({
     },
     updateDisplay: (state, action: PayloadAction<string>) => {
       state.text = action.payload;
+    },
+    userHovering: (state) => {
+      state.userHovering = true;
+    },
+    userNotHovering: (state) => {
+      state.userHovering = false;
+    },
+    copied: (state) => {
+      state.copied = true;
+    },
+    copiedTimeout: (state) => {
+      state.copied = false;
     },
   },
 });

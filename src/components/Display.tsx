@@ -1,5 +1,5 @@
 import "./Display.css";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import TypingSimulation from "./TypingSimulation";
 import { linesAnimation } from "../motionConfigs/displayMotion";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
@@ -8,15 +8,15 @@ import { typeChoices } from "../data/choices/typeChoices";
 import { taskChoices } from "../data/choices/taskChoices";
 import { techChoices } from "../data/choices/techChoices";
 import { timeChoices } from "../data/choices/timeChoices";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
+import CopyButton from "./CopyButton";
 
 interface Props {}
 
 const Display: React.FC<Props> = () => {
   const dispatch = useAppDispatch();
 
-  const isOn = useAppSelector((state) => state.display.isOn);
-  const displayText = useAppSelector((state) => state.display.text);
+  const { isOn, text, userHovering } = useAppSelector((state) => state.display);
 
   const typeIdx = useAppSelector(({ reels }) => reels[ReelIdx.TYPE].chosenIdx);
   const taskIdx = useAppSelector(({ reels }) => reels[ReelIdx.TASK].chosenIdx);
@@ -29,7 +29,7 @@ const Display: React.FC<Props> = () => {
   const time = timeIdx !== null ? timeChoices[timeIdx].sentenceName : null;
 
   const newDisplayText = formatDisplayText(type, task, tech, time);
-  const needToUpdate = newDisplayText && newDisplayText !== displayText;
+  const needToUpdate = newDisplayText && newDisplayText !== text;
   const allReelsAreStopped = useAppSelector(({ reels }) =>
     reels.every((reel) => reel.spinState === "PRE" || reel.spinState === "POST")
   );
@@ -46,14 +46,7 @@ const Display: React.FC<Props> = () => {
         payload: newDisplayText,
       });
     }
-  }, [
-    isOn,
-    dispatch,
-    newDisplayText,
-    displayText,
-    needToUpdate,
-    allReelsAreStopped,
-  ]);
+  }, [isOn, dispatch, newDisplayText, text, needToUpdate, allReelsAreStopped]);
 
   const onCompleteTyping = () => {
     dispatch({
@@ -61,19 +54,34 @@ const Display: React.FC<Props> = () => {
     });
   };
 
+  const onHoverStart = () => {
+    dispatch({
+      type: "display/userHovering",
+    });
+  };
+
+  const onHoverEnd = () => {
+    dispatch({
+      type: "display/userNotHovering",
+    });
+  };
+
   return (
-    <div className="display-container">
+    <motion.div
+      onHoverStart={onHoverStart}
+      onHoverEnd={onHoverEnd}
+      className="display-container">
       <div className="display-glass" />
+      <AnimatePresence>
+        {isOn && !needToUpdate && userHovering && <CopyButton text={text} />}
+      </AnimatePresence>
       {isOn && !needToUpdate && (
         <>
           <motion.div animate={linesAnimation} className="display-lines" />
-          <TypingSimulation
-            text={displayText}
-            onCompleteTyping={onCompleteTyping}
-          />
+          <TypingSimulation text={text} onCompleteTyping={onCompleteTyping} />
         </>
       )}
-    </div>
+    </motion.div>
   );
 };
 
