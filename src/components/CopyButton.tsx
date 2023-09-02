@@ -2,23 +2,13 @@ import "./CopyIcon.css";
 import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
+import {
+  boxVariants,
+  containerVariants,
+  tickVariants,
+} from "../motionConfigs/copyIconMotion";
 
 interface Props {}
-
-const containerVariants = {
-  visible: { opacity: 1, transition: { duration: 0.4 } },
-  hidden: { opacity: 0, transition: { duration: 0.4 } },
-};
-
-const tickVariants = {
-  visible: { opacity: 1, scale: 1, pathLength: 1 },
-  hidden: { opacity: 0, scale: 0.1, pathLength: 0 },
-};
-
-const boxVariants = {
-  visible: { opacity: 1, scale: 1 },
-  hidden: { opacity: 0, scale: 0.1 },
-};
 
 const CopyIcon: React.FC<Props> = () => {
   const dispatch = useAppDispatch();

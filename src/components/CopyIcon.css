@@ -5,22 +5,21 @@
   padding: 0;
   position: absolute;
   right: 1.4vh;
-  top: 1.1vh;
+  top: 1.3vh;
   z-index: 4;
 }
 
 .box,
 .check {
   fill: none;
-  stroke: #a5efa5a9;
+  stroke: #b4e0b4a9;
   stroke-miterlimit: 10;
-  stroke-width: 0.7vh;
-  opacity: 0.8;
+  stroke-width: 0.8vh;
 }
 
 .copy-button-svg {
-  height: 3.8vh;
-  width: 3.8vh;
+  height: 3.4vh;
+  width: 3.4vh;
 }
 
 .copy-button-svg:focus {

@@ -1,7 +1,10 @@
 import "./Display.css";
 import { AnimatePresence, motion } from "framer-motion";
 import TypingSimulation from "./TypingSimulation";
-import { linesAnimation } from "../motionConfigs/displayMotion";
+import {
+  displayVariants,
+  linesAnimation,
+} from "../motionConfigs/displayMotion";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { ReelIdx } from "../store/reels/reelsSlice";
 import { typeChoices } from "../data/choices/typeChoices";
@@ -12,18 +15,6 @@ import { useEffect } from "react";
 import CopyIcon from "./CopyButton";
 
 interface Props {}
-
-const displayVariants = {
-  off: {
-    filter: "brightness(80%)",
-  },
-  onNotHovering: {
-    filter: "brightness(110%)",
-  },
-  onHovering: {
-    filter: "brightness(120%)",
-  },
-};
 
 const Display: React.FC<Props> = () => {
   const dispatch = useAppDispatch();
@@ -92,9 +83,8 @@ const Display: React.FC<Props> = () => {
       onClick={copyToClipboard}
       variants={displayVariants}
       animate={!isOn ? "off" : !userHovering ? "onNotHovering" : "onHovering"}
-      className={`display-container ${
-        isOn ? (copied ? "copied" : "notCopied") : "off"
-      }`}>
+      className={`display-container 
+      ${!isOn ? "off" : copied ? "copied" : "notCopied"}`}>
       <div className="display-glass" />
       {isOn && (
         <motion.div animate={linesAnimation} className="display-lines" />

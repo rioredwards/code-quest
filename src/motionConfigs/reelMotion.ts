@@ -22,10 +22,10 @@ function getIdleLoopMotion(spinDur: number) {
 const stoppingMotion = {
   type: "spring",
   damping: 2.9, // Strength of opposing force. Set to 10 by default.
-  mass: 4.5, // Mass of the moving object. Higher values will result in more lethargic movement. Set to 1 by default.
-  stiffness: 2.8, // Stiffness of the spring. Higher values will create more sudden movement. Set to 100 by default.
+  mass: 4.2, // Mass of the moving object. Higher values will result in more lethargic movement. Set to 1 by default.
+  stiffness: 2.4, // Stiffness of the spring. Higher values will create more sudden movement. Set to 100 by default.
   velocity: 55, // The initial velocity of the spring. By default this is the current velocity of the component.
-  restSpeed: 1.5,
+  restSpeed: 1.3,
 };
 
 /* Types */
