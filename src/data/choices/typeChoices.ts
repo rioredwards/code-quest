@@ -58,7 +58,7 @@ export const typeChoices: Choice[] = [
     },
   },
   {
-    id: 5,
+    id: CLOUD,
     name: "Cloud",
     sentenceName: "Cloud",
     compatibleWith: {

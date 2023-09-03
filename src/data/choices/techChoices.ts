@@ -256,7 +256,7 @@ export const techChoices: Choice[] = [
   },
   {
     id: RAILS,
-    name: "Ruby on Rails",
+    name: "Rails",
     sentenceName: "Ruby on Rails",
     compatibleWith: {
       TYPE: techToType[RAILS],
@@ -276,8 +276,8 @@ export const techChoices: Choice[] = [
   },
   {
     id: DOTNET,
-    name: "ASP.NET Core",
-    sentenceName: "ASP.NET Core",
+    name: ".NET",
+    sentenceName: ".NET",
     compatibleWith: {
       TYPE: techToType[DOTNET],
       TASK: techToTask[DOTNET],

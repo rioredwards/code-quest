@@ -10,30 +10,30 @@ const {
   REVERSE_LINKED_LIST,
   FREQUENT_ELEMENTS,
   MOST_WATER,
-  QUICK_NOTE,
-  WORD_COUNT,
-  FILE_FINDER,
-  TEMPERATURE_CHECK,
-  DO_NOT_DISTURB,
-  LANDING_PAGE,
+  DEAR_DIARY,
+  WAY_WITH_WORDS,
+  POMODORO,
+  RAIN_CHECK,
+  PUSH_THE_ENVELOPE,
+  BIG_MAC,
   CHARACTER_CREATOR,
-  PHOTO_CAROUSEL,
+  SPACE_RACE,
   CALCULATOR,
-  GIPHY_TV,
-  SITE_VISITS,
-  NOTES_APP,
-  COLOR_COLLAGE,
-  SOCIAL_MEDIA,
-  CHATROOM,
-  BLOG_POSTS,
+  PRICE_IS_RIGHT,
+  HEAD_COUNT,
+  RETAIL_THERAPY,
+  QUERY_STRING_QUEST,
+  SHARING_IS_CARING,
+  HELLO_WORLD,
+  HOT_TAKES,
   MOVIE_LIST,
-  CHATGPT_ME,
-  E_COMMERCE,
-  GRAPHQL_SPACE,
-  S3_SURVEY,
+  TOP_SECRET,
+  ADD_TO_CART,
+  BOOKWORM,
+  BIG_DATA,
   CLOUDCEPTION,
   CORS_CONTROL,
-  FIREBASE_OAUTH,
+  TICKET_TO_RIDE,
   MOOD_MATCHER,
 } = TaskChoiceIdx;
 
@@ -41,7 +41,7 @@ export const taskChoices: Choice[] = [
   {
     id: TWO_SUM,
     name: "Two Sum", // Leetcode -> Easy
-    sentenceName: "Two Sum",
+    sentenceName: "#1 Two Sum",
     compatibleWith: {
       TYPE: taskToType[TWO_SUM],
       TECH: taskToTech[TWO_SUM],
@@ -51,7 +51,7 @@ export const taskChoices: Choice[] = [
   {
     id: VALID_PALINDROME,
     name: "Valid Palindrome", // Leetcode -> Easy
-    sentenceName: "Valid Palindrome",
+    sentenceName: "#125 Valid Palindrome",
     compatibleWith: {
       TYPE: taskToType[VALID_PALINDROME],
       TECH: taskToTech[VALID_PALINDROME],
@@ -61,7 +61,7 @@ export const taskChoices: Choice[] = [
   {
     id: REVERSE_LINKED_LIST,
     name: "Reverse Linked List", // Leetcode -> Easy (medium-ish)
-    sentenceName: "Reverse Linked List",
+    sentenceName: "#206 Reverse Linked List",
     compatibleWith: {
       TYPE: taskToType[REVERSE_LINKED_LIST],
       TECH: taskToTech[REVERSE_LINKED_LIST],
@@ -71,7 +71,7 @@ export const taskChoices: Choice[] = [
   {
     id: FREQUENT_ELEMENTS,
     name: "Frequent Elements", // Leetcode -> Medium
-    sentenceName: "Top K Frequent Elements",
+    sentenceName: "#347 Top K Frequent Elements",
     compatibleWith: {
       TYPE: taskToType[FREQUENT_ELEMENTS],
       TECH: taskToTech[FREQUENT_ELEMENTS],
@@ -81,7 +81,7 @@ export const taskChoices: Choice[] = [
   {
     id: MOST_WATER,
     name: "Most Water", // Leetcode -> Medium
-    sentenceName: "Container With Most Water",
+    sentenceName: "#11 Container With Most Water",
     compatibleWith: {
       TYPE: taskToType[MOST_WATER],
       TECH: taskToTech[MOST_WATER],
@@ -89,69 +89,69 @@ export const taskChoices: Choice[] = [
     },
   },
   {
-    id: QUICK_NOTE,
-    name: "Quick Note", // CLI -> Easy
-    sentenceName: "Quickly save and view notes",
+    id: DEAR_DIARY,
+    name: "Dear Diary...", // CLI -> Easy
+    sentenceName: "quickly create and retrieve notes",
     compatibleWith: {
-      TYPE: taskToType[QUICK_NOTE],
-      TECH: taskToTech[QUICK_NOTE],
-      TIME: taskToTime[QUICK_NOTE],
+      TYPE: taskToType[DEAR_DIARY],
+      TECH: taskToTech[DEAR_DIARY],
+      TIME: taskToTime[DEAR_DIARY],
     },
   },
   {
-    id: WORD_COUNT,
-    name: "Word Count", // CLI -> Easy
-    sentenceName: "Count the number of words in a file",
+    id: WAY_WITH_WORDS,
+    name: "Way With Words", // CLI -> Easy
+    sentenceName: "count the number of words in a file",
     compatibleWith: {
-      TYPE: taskToType[WORD_COUNT],
-      TECH: taskToTech[WORD_COUNT],
-      TIME: taskToTime[WORD_COUNT],
+      TYPE: taskToType[WAY_WITH_WORDS],
+      TECH: taskToTech[WAY_WITH_WORDS],
+      TIME: taskToTime[WAY_WITH_WORDS],
     },
   },
   {
-    id: FILE_FINDER,
-    name: "File Finder", // CLI -> Easy
-    sentenceName: "Find a file by name and open it if it exists",
+    id: POMODORO,
+    name: "Pomodoro", // CLI -> Medium
+    sentenceName: 'timer for the "Pomodoro Technique"',
     compatibleWith: {
-      TYPE: taskToType[FILE_FINDER],
-      TECH: taskToTech[FILE_FINDER],
-      TIME: taskToTime[FILE_FINDER],
+      TYPE: taskToType[POMODORO],
+      TECH: taskToTech[POMODORO],
+      TIME: taskToTime[POMODORO],
     },
   },
   {
-    id: TEMPERATURE_CHECK,
-    name: "Temperature Check", // CLI -> Medium
-    sentenceName: "Return the current temperature outside",
+    id: RAIN_CHECK,
+    name: "Rain Check", // CLI -> Medium
+    sentenceName: "return the current weather outside",
     compatibleWith: {
-      TYPE: taskToType[TEMPERATURE_CHECK],
-      TECH: taskToTech[TEMPERATURE_CHECK],
-      TIME: taskToTime[TEMPERATURE_CHECK],
+      TYPE: taskToType[RAIN_CHECK],
+      TECH: taskToTech[RAIN_CHECK],
+      TIME: taskToTime[RAIN_CHECK],
     },
   },
   {
-    id: DO_NOT_DISTURB,
-    name: "Do Not Disturb", // CLI -> Hard
-    sentenceName: "Block all notifications for a specified amount of time",
+    id: PUSH_THE_ENVELOPE,
+    name: "Push the Envelope", // CLI -> Hard
+    sentenceName: "send an email",
     compatibleWith: {
-      TYPE: taskToType[DO_NOT_DISTURB],
-      TECH: taskToTech[DO_NOT_DISTURB],
-      TIME: taskToTime[DO_NOT_DISTURB],
+      TYPE: taskToType[PUSH_THE_ENVELOPE],
+      TECH: taskToTech[PUSH_THE_ENVELOPE],
+      TIME: taskToTime[PUSH_THE_ENVELOPE],
     },
   },
   {
-    id: LANDING_PAGE,
-    name: "Landing Page", // Frontend -> Easy
-    sentenceName: "Landing Page",
+    id: BIG_MAC,
+    name: "Big Mac", // Frontend -> Easy
+    sentenceName: `responsive navbar where links become a "hamburger" menu`,
     compatibleWith: {
-      TYPE: taskToType[LANDING_PAGE],
-      TECH: taskToTech[LANDING_PAGE],
-      TIME: taskToTime[LANDING_PAGE],
+      TYPE: taskToType[BIG_MAC],
+      TECH: taskToTech[BIG_MAC],
+      TIME: taskToTime[BIG_MAC],
     },
   },
   {
     id: CHARACTER_CREATOR,
     name: "Character Creator", // Frontend -> Medium
-    sentenceName: "Character Creator",
+    sentenceName: "create a character with a form and preview",
     compatibleWith: {
       TYPE: taskToType[CHARACTER_CREATOR],
       TECH: taskToTech[CHARACTER_CREATOR],
@@ -159,13 +159,13 @@ export const taskChoices: Choice[] = [
     },
   },
   {
-    id: PHOTO_CAROUSEL,
-    name: "Photo Carousel", // Frontend -> Medium
-    sentenceName: "Photo Carousel with infinite scroll",
+    id: SPACE_RACE,
+    name: "Space Race", // Frontend -> Medium
+    sentenceName: "display images from a NASA API with pagination and search",
     compatibleWith: {
-      TYPE: taskToType[PHOTO_CAROUSEL],
-      TECH: taskToTech[PHOTO_CAROUSEL],
-      TIME: taskToTime[PHOTO_CAROUSEL],
+      TYPE: taskToType[SPACE_RACE],
+      TECH: taskToTech[SPACE_RACE],
+      TIME: taskToTime[SPACE_RACE],
     },
   },
   {
@@ -179,81 +179,79 @@ export const taskChoices: Choice[] = [
     },
   },
   {
-    id: GIPHY_TV,
-    name: "Giphy TV", // Frontend -> Hard
-    sentenceName: "Giphy TV",
+    id: PRICE_IS_RIGHT,
+    name: "Price Is Right", // Frontend -> Hard
+    sentenceName: "chart that updates with a stock's prices in realtime",
     compatibleWith: {
-      TYPE: taskToType[GIPHY_TV],
-      TECH: taskToTech[GIPHY_TV],
-      TIME: taskToTime[GIPHY_TV],
+      TYPE: taskToType[PRICE_IS_RIGHT],
+      TECH: taskToTech[PRICE_IS_RIGHT],
+      TIME: taskToTime[PRICE_IS_RIGHT],
     },
   },
   {
-    id: SITE_VISITS,
-    name: "Site Visits", // Fullstack -> Easy
-    sentenceName: "Display the total number of visits to a website",
+    id: HEAD_COUNT,
+    name: "Head Count", // Fullstack -> Easy
+    sentenceName: "display the total number of visits to a website",
     compatibleWith: {
-      TYPE: taskToType[SITE_VISITS],
-      TECH: taskToTech[SITE_VISITS],
-      TIME: taskToTime[SITE_VISITS],
+      TYPE: taskToType[HEAD_COUNT],
+      TECH: taskToTech[HEAD_COUNT],
+      TIME: taskToTime[HEAD_COUNT],
     },
   },
   {
-    id: NOTES_APP,
-    name: "Notes App", // Fullstack -> Medium
-    sentenceName: "Notes App with CRUD functionality",
+    id: RETAIL_THERAPY,
+    name: "Retail Therapy", // Fullstack -> Medium
+    sentenceName: "shopping list with CRUD functionality",
     compatibleWith: {
-      TYPE: taskToType[NOTES_APP],
-      TECH: taskToTech[NOTES_APP],
-      TIME: taskToTime[NOTES_APP],
+      TYPE: taskToType[RETAIL_THERAPY],
+      TECH: taskToTech[RETAIL_THERAPY],
+      TIME: taskToTime[RETAIL_THERAPY],
     },
   },
   {
-    id: COLOR_COLLAGE,
-    name: "Color Collage", // Fullstack -> Medium
-    sentenceName:
-      "Use the Unsplash API to Fetch and display different colored images to match each route. Ex: mySite/red -> red images",
+    id: QUERY_STRING_QUEST,
+    name: "Query String Quest", // Fullstack -> Medium
+    sentenceName: "fetch images from an API to match URL parameters",
     compatibleWith: {
-      TYPE: taskToType[COLOR_COLLAGE],
-      TECH: taskToTech[COLOR_COLLAGE],
-      TIME: taskToTime[COLOR_COLLAGE],
+      TYPE: taskToType[QUERY_STRING_QUEST],
+      TECH: taskToTech[QUERY_STRING_QUEST],
+      TIME: taskToTime[QUERY_STRING_QUEST],
     },
   },
   {
-    id: SOCIAL_MEDIA,
-    name: "Social Media", // Fullstack -> Hard
-    sentenceName: "Social Media app with auth, posts, and likes",
+    id: SHARING_IS_CARING,
+    name: "Sharing Is Caring", // Fullstack -> Hard
+    sentenceName: "social media app with auth, posts, and likes",
     compatibleWith: {
-      TYPE: taskToType[SOCIAL_MEDIA],
-      TECH: taskToTech[SOCIAL_MEDIA],
-      TIME: taskToTime[SOCIAL_MEDIA],
+      TYPE: taskToType[SHARING_IS_CARING],
+      TECH: taskToTech[SHARING_IS_CARING],
+      TIME: taskToTime[SHARING_IS_CARING],
     },
   },
   {
-    id: CHATROOM,
-    name: "Chatroom", // Fullstack -> Hard
-    sentenceName: "Chatroom app with auth and realtime messages",
+    id: HELLO_WORLD,
+    name: "Hello World!", // Fullstack -> Hard
+    sentenceName: "Chat room app with auth and realtime messages",
     compatibleWith: {
-      TYPE: taskToType[CHATROOM],
-      TECH: taskToTech[CHATROOM],
-      TIME: taskToTime[CHATROOM],
+      TYPE: taskToType[HELLO_WORLD],
+      TECH: taskToTech[HELLO_WORLD],
+      TIME: taskToTime[HELLO_WORLD],
     },
   },
   {
-    id: BLOG_POSTS,
-    name: "Blog Posts", // Backend -> Easy
-    sentenceName: "CRUD API for Blog Posts",
+    id: HOT_TAKES,
+    name: "Hot Takes", // Backend -> Easy
+    sentenceName: "CRUD API for Blog Posts with a database",
     compatibleWith: {
-      TYPE: taskToType[BLOG_POSTS],
-      TECH: taskToTech[BLOG_POSTS],
-      TIME: taskToTime[BLOG_POSTS],
+      TYPE: taskToType[HOT_TAKES],
+      TECH: taskToTech[HOT_TAKES],
+      TIME: taskToTime[HOT_TAKES],
     },
   },
   {
     id: MOVIE_LIST,
-    name: "Movie List", // Backend -> easy
-    sentenceName:
-      "proxy server for the TheMovieDB API which returns a list of movies",
+    name: "Spoiler alert", // Backend -> easy
+    sentenceName: "return info about movies from TheMovieDB API",
     compatibleWith: {
       TYPE: taskToType[MOVIE_LIST],
       TECH: taskToTech[MOVIE_LIST],
@@ -261,50 +259,49 @@ export const taskChoices: Choice[] = [
     },
   },
   {
-    id: CHATGPT_ME,
-    name: "ChatGPT Me", // Backend -> Medium
-    sentenceName:
-      "proxy server for the OpenAI API to return answers to questions",
+    id: TOP_SECRET,
+    name: "Top Secret", // Backend -> Medium
+    sentenceName: "REST API with auth and protected routes",
     compatibleWith: {
-      TYPE: taskToType[CHATGPT_ME],
-      TECH: taskToTech[CHATGPT_ME],
-      TIME: taskToTime[CHATGPT_ME],
+      TYPE: taskToType[TOP_SECRET],
+      TECH: taskToTech[TOP_SECRET],
+      TIME: taskToTime[TOP_SECRET],
     },
   },
   {
-    id: E_COMMERCE,
-    name: "E-Commerce", // Backend -> Hard
-    sentenceName: "API for an E-Commerce site with products and orders",
+    id: ADD_TO_CART,
+    name: "Add To Cart", // Backend -> Hard
+    sentenceName: "REST API for an E-Commerce site with products and orders",
     compatibleWith: {
-      TYPE: taskToType[E_COMMERCE],
-      TECH: taskToTech[E_COMMERCE],
-      TIME: taskToTime[E_COMMERCE],
+      TYPE: taskToType[ADD_TO_CART],
+      TECH: taskToTech[ADD_TO_CART],
+      TIME: taskToTime[ADD_TO_CART],
     },
   },
   {
-    id: GRAPHQL_SPACE,
-    name: "GraphQL Space", // Backend -> Hard
-    sentenceName: "GraphQL API for celestial objects in outer space",
+    id: BOOKWORM,
+    name: "Bookworm", // Backend -> Hard
+    sentenceName: "GraphQL server for books and authors with a database",
     compatibleWith: {
-      TYPE: taskToType[GRAPHQL_SPACE],
-      TECH: taskToTech[GRAPHQL_SPACE],
-      TIME: taskToTime[GRAPHQL_SPACE],
+      TYPE: taskToType[BOOKWORM],
+      TECH: taskToTech[BOOKWORM],
+      TIME: taskToTime[BOOKWORM],
     },
   },
   {
-    id: S3_SURVEY,
-    name: "S3 Survey", // Cloud -> Easy
-    sentenceName: "Setup a survey that stores responses in an AWS S3 bucket",
+    id: BIG_DATA,
+    name: "Big Data", // Cloud -> Easy
+    sentenceName: "survey that stores responses in an AWS S3 bucket",
     compatibleWith: {
-      TYPE: taskToType[S3_SURVEY],
-      TECH: taskToTech[S3_SURVEY],
-      TIME: taskToTime[S3_SURVEY],
+      TYPE: taskToType[BIG_DATA],
+      TECH: taskToTech[BIG_DATA],
+      TIME: taskToTime[BIG_DATA],
     },
   },
   {
     id: CLOUDCEPTION,
     name: "Cloudception", // Cloud -> Easy
-    sentenceName: "Use Cloudinary to store images of clouds in the cloud",
+    sentenceName: "store images of clouds in Cloudinary",
     compatibleWith: {
       TYPE: taskToType[CLOUDCEPTION],
       TECH: taskToTech[CLOUDCEPTION],
@@ -314,7 +311,7 @@ export const taskChoices: Choice[] = [
   {
     id: CORS_CONTROL,
     name: "CORS Control", // Cloud -> Easy
-    sentenceName: "Use serverless functions to query the Yelp API",
+    sentenceName: "create serverless functions to query the Yelp API",
     compatibleWith: {
       TYPE: taskToType[CORS_CONTROL],
       TECH: taskToTech[CORS_CONTROL],
@@ -322,20 +319,20 @@ export const taskChoices: Choice[] = [
     },
   },
   {
-    id: FIREBASE_OAUTH,
-    name: "Firebase OAuth", // Cloud -> Medium
-    sentenceName: "With Firebase Auth, allow users to login with Github",
+    id: TICKET_TO_RIDE,
+    name: "Ticket To Ride", // Cloud -> Medium
+    sentenceName: "setup Firebase Auth to allow users to login with Github",
     compatibleWith: {
-      TYPE: taskToType[FIREBASE_OAUTH],
-      TECH: taskToTech[FIREBASE_OAUTH],
-      TIME: taskToTime[FIREBASE_OAUTH],
+      TYPE: taskToType[TICKET_TO_RIDE],
+      TECH: taskToTech[TICKET_TO_RIDE],
+      TIME: taskToTime[TICKET_TO_RIDE],
     },
   },
   {
     id: MOOD_MATCHER,
     name: "Mood Matcher", // Cloud -> Hard
     sentenceName:
-      "Use AWS Comprehend to analyze the sentiment of text and change the background color accordingly",
+      "match the color of text with its sentiment with AWS Comprehend",
     compatibleWith: {
       TYPE: taskToType[MOOD_MATCHER],
       TECH: taskToTech[MOOD_MATCHER],
