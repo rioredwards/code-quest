@@ -3,6 +3,7 @@ import type { RootState } from "../store";
 
 const INITIAL_TEXT = "Pull the lever!";
 const REELS_SPINNING_TEXT = "Click the green buttons to stop the reels!";
+const REELS_STOPPING_TEXT = "Your challenge is being generated...";
 
 export type Modes = "challenge" | "info" | "off";
 export type DisplayState = {
@@ -23,9 +24,13 @@ export const displaySlice = createSlice({
   name: "display",
   initialState,
   reducers: {
-    leverPulled: (state) => {
+    reelsSpinning: (state) => {
       state.mode = "info";
       state.text = REELS_SPINNING_TEXT;
+    },
+    reelsStopping: (state) => {
+      state.mode = "info";
+      state.text = REELS_STOPPING_TEXT;
     },
     challengeCreated: (state, action: PayloadAction<string>) => {
       state.mode = "challenge";
@@ -47,7 +52,8 @@ export const displaySlice = createSlice({
 });
 
 export const {
-  leverPulled,
+  reelsSpinning,
+  reelsStopping,
   challengeCreated,
   userHovering,
   userNotHovering,

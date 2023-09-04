@@ -31,7 +31,6 @@ const Lever: React.FC<LeverProps> = () => {
       !isThrottled.current
     ) {
       dispatch({ type: "reels/leverPulled" });
-      dispatch({ type: "display/leverPulled" });
       isThrottled.current = true;
       setTimeout(() => {
         isThrottled.current = false;

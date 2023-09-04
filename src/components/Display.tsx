@@ -33,9 +33,18 @@ const Display: React.FC<Props> = () => {
 
   const newChallengeText = formatDisplayText(type, task, tech, time);
   const prevChallengeText = useRef<string | null>(null);
-  const combinedSpinState = getCombinedSpinState(
-    useAppSelector((state) => state.reels)
-  );
+  const reelsState = useAppSelector((state) => state.reels);
+  const combinedSpinState = getCombinedSpinState(reelsState);
+
+  useEffect(() => {
+    if (reelsState.some(({ spinState }) => spinState === "IDLE_LOOP")) {
+      // Any reels are spinning
+      dispatch({ type: "display/reelsSpinning" });
+    } else if (reelsState.some(({ spinState }) => spinState === "STOPPING")) {
+      // No reels are spinning, but some are stopping
+      dispatch({ type: "display/reelsStopping" });
+    }
+  }, [reelsState, dispatch]);
 
   useEffect(() => {
     if (
