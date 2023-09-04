@@ -167,7 +167,7 @@ export const reelsSlice = createSlice({
       targetReel.chosenIdx = chosenIdx;
       targetReel.spinState = "STOPPING";
     },
-    displayAnimationFinished: (state) => {
+    finishedPrintingChallenge: (state) => {
       state.forEach((reel) => {
         reel.isSpinLocked = false;
         if (!reel.isUserLocked) {
@@ -184,7 +184,7 @@ export const {
   finishedIdleStart,
   finishedStopping,
   spinLightClicked,
-  displayAnimationFinished,
+  finishedPrintingChallenge,
 } = reelsSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type

@@ -16,6 +16,7 @@ interface Props {
 }
 
 const TypingSimulation: React.FC<Props> = ({ text, onCompleteTyping }) => {
+  const prevText = useRef<string | null>(null);
   const letterIdx = useRef(0);
   const blinking = useRef(true);
   const typing = useRef(true);
@@ -45,6 +46,20 @@ const TypingSimulation: React.FC<Props> = ({ text, onCompleteTyping }) => {
       setDisplayText(text);
     }
   }, [text, typing, displayText]);
+
+  useEffect(() => {
+    if (prevText.current === null || prevText.current !== text) {
+      prevText.current = text;
+      letterIdx.current = 0;
+      blinking.current = true;
+      typing.current = true;
+      timeSinceLetterAdded.current = 0;
+      timeSinceCursorBlinked.current = 0;
+      setDisplayText("");
+      setCursorVisible(true);
+    }
+    /* eslint-disable-next-line react-hooks/exhaustive-deps */
+  }, [text]);
 
   useAnimationFrame((_, delta) => {
     if (!blinking.current && !typing.current) return;

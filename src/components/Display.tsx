@@ -6,13 +6,14 @@ import {
   linesAnimation,
 } from "../motionConfigs/displayMotion";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { ReelIdx } from "../store/reels/reelsSlice";
+import { ReelIdx, ReelsState } from "../store/reels/reelsSlice";
 import { typeChoices } from "../data/choices/typeChoices";
 import { taskChoices } from "../data/choices/taskChoices";
 import { techChoices } from "../data/choices/techChoices";
 import { timeChoices } from "../data/choices/timeChoices";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import CopyIcon from "./CopyButton";
+import { SpinState } from "../types";
 
 interface Props {}
 
@@ -34,35 +35,29 @@ const Display: React.FC<Props> = () => {
   const time = timeIdx !== null ? timeChoices[timeIdx].sentenceName : null;
 
   const newChallengeText = formatDisplayText(type, task, tech, time);
-  const needToUpdate = newChallengeText && newChallengeText !== text;
-  const allReelsAreStopped = useAppSelector(({ reels }) =>
-    reels.every((reel) => reel.spinState === "PRE" || reel.spinState === "POST")
+  const prevChallengeText = useRef<string | null>(null);
+  const combinedSpinState = getCombinedSpinState(
+    useAppSelector((state) => state.reels)
   );
 
   useEffect(() => {
-    if (newChallengeText && allReelsAreStopped) {
+    if (
+      combinedSpinState === "POST" ||
+      (mode === "challenge" && newChallengeText !== prevChallengeText.current)
+    ) {
+      // Challenge created
       dispatch({
-        type: "display/reelsFinishedStopping",
+        type: "display/challengeCreated",
         payload: newChallengeText,
       });
-    } else if (mode === "challenge" && needToUpdate) {
-      dispatch({
-        type: "display/updatedChallenge",
-        payload: newChallengeText,
-      });
+      prevChallengeText.current = newChallengeText;
     }
-  }, [
-    mode,
-    dispatch,
-    newChallengeText,
-    text,
-    needToUpdate,
-    allReelsAreStopped,
-  ]);
+  }, [combinedSpinState, newChallengeText, mode, prevChallengeText, dispatch]);
 
   const onCompleteTyping = () => {
+    if (mode !== "challenge") return;
     dispatch({
-      type: "reels/displayAnimationFinished",
+      type: "reels/finishedPrintingChallenge",
     });
   };
 
@@ -98,12 +93,19 @@ const Display: React.FC<Props> = () => {
       <AnimatePresence>
         {mode === "challenge" && (userHovering || copied) && <CopyIcon />}
       </AnimatePresence>
-      {!needToUpdate && (
-        <TypingSimulation text={text} onCompleteTyping={onCompleteTyping} />
-      )}
+      <TypingSimulation text={text} onCompleteTyping={onCompleteTyping} />
     </motion.div>
   );
 };
+
+function getCombinedSpinState(reels: ReelsState): SpinState | "MIXED" {
+  const referenceSpinState = reels[0].spinState;
+  const allReelsHaveSameSpinState = reels.every(
+    (reel) => reel.spinState === referenceSpinState
+  );
+  if (allReelsHaveSameSpinState) return referenceSpinState;
+  return "MIXED";
+}
 
 function formatDisplayText(
   type: string | null,
