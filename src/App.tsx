@@ -5,10 +5,11 @@ import Lever from "./components/Lever";
 import Display from "./components/Display";
 import ReelUnit from "./components/ReelUnit";
 import { useAppSelector } from "./store/hooks";
+import { selectCursorDragState } from "./store/cursor/cursorSlice";
 
 function App() {
   const reels = useAppSelector((state) => state.reels);
-  const cursorIsDragging = useAppSelector((state) => state.cursor.dragging);
+  const cursorIsDragging = useAppSelector(selectCursorDragState);
 
   return (
     <div className="App">
