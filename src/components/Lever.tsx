@@ -40,10 +40,17 @@ const Lever: React.FC<LeverProps> = () => {
 
   function onHoverStart() {
     hoverRotationAngle.set(4);
+    dispatch({
+      type: "cursor/onHoverTarget",
+      payload: "LEVER",
+    });
   }
 
   function onHoverEnd() {
     hoverRotationAngle.set(0);
+    dispatch({
+      type: "cursor/offHoverTarget",
+    });
   }
 
   function onDragStart() {

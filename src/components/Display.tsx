@@ -10,23 +10,25 @@ import {
 import { useEffect, useRef } from "react";
 import CopyIcon from "./CopyButton";
 import { selectDisplay } from "../store/display/displaySlice";
+import { selectCursorHoverTarget } from "../store/cursor/cursorSlice";
 
 interface Props {}
 
 const Display: React.FC<Props> = () => {
   const dispatch = useAppDispatch();
 
-  const { mode, text, userHovering, copied } = useAppSelector(selectDisplay);
+  const { mode, text, copied } = useAppSelector(selectDisplay);
   const chosenChoices = useAppSelector(selectReelChosenChoices);
   const spins = useAppSelector(selectReelsSpinStates);
+  const hoverTarget = useAppSelector(selectCursorHoverTarget);
 
   const newChallengeText = formatDisplayText(chosenChoices);
   const prevChallengeText = useRef<string | null>(null);
 
   useEffect(() => {
-    if (spins.includes("IDLE_START") || spins.includes("IDLE_LOOP")) {
+    if (mode === "info" && hoverTarget !== null) {
       // Any reels are spinning
-      dispatch({ type: "display/reelsSpinning" });
+      dispatch({ type: "display/showTooltip", payload: hoverTarget });
     } else if (spins.includes("STOPPING")) {
       // No reels are spinning, but some are stopping
       dispatch({ type: "display/reelsStopping" });
@@ -43,7 +45,7 @@ const Display: React.FC<Props> = () => {
     } else {
       // Do nothing
     }
-  }, [spins, newChallengeText, mode, prevChallengeText, dispatch]);
+  }, [spins, hoverTarget, newChallengeText, mode, prevChallengeText, dispatch]);
 
   const onCompleteTyping = () => {
     if (mode !== "challenge") return;
@@ -54,13 +56,14 @@ const Display: React.FC<Props> = () => {
 
   const onHoverStart = () => {
     dispatch({
-      type: "display/userHovering",
+      type: "cursor/onHoverTarget",
+      payload: "DISPLAY",
     });
   };
 
   const onHoverEnd = () => {
     dispatch({
-      type: "display/userNotHovering",
+      type: "cursor/offHoverTarget",
     });
   };
 
@@ -80,7 +83,9 @@ const Display: React.FC<Props> = () => {
       <div className="display-glass" />
       <motion.div animate={linesAnimation} className="display-lines" />
       <AnimatePresence>
-        {mode === "challenge" && (userHovering || copied) && <CopyIcon />}
+        {mode === "challenge" && (hoverTarget === "DISPLAY" || copied) && (
+          <CopyIcon />
+        )}
       </AnimatePresence>
       <TypingSimulation text={text} onCompleteTyping={onCompleteTyping} />
     </motion.div>
