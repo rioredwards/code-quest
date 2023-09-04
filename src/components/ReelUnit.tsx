@@ -6,7 +6,7 @@ import Reel from "./Reel";
 import SpinLight from "./SpinLight";
 import { ReelName } from "../types";
 import { allChoices } from "../data/allChoices";
-import { ReelState } from "../store/reels/reelsSlice";
+import { selectReelByName } from "../store/reels/reelsSlice";
 import { useRef } from "react";
 
 interface Props {
@@ -14,9 +14,7 @@ interface Props {
 }
 
 const ReelUnit: React.FC<Props> = ({ name }) => {
-  const reel = useAppSelector((state) =>
-    state.reels.find((reel) => reel.name === name)
-  ) as ReelState;
+  const reel = useAppSelector((state) => selectReelByName(state, name));
   const { spinState, chosenIdx, isSpinLocked, isUserLocked } = reel;
   const choiceIdxAtCurrYPos = useRef<null | number>(null);
   const choices = allChoices[name];

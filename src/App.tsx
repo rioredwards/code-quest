@@ -6,9 +6,10 @@ import Display from "./components/Display";
 import ReelUnit from "./components/ReelUnit";
 import { useAppSelector } from "./store/hooks";
 import { selectCursorDragState } from "./store/cursor/cursorSlice";
+import { selectReels } from "./store/reels/reelsSlice";
 
 function App() {
-  const reels = useAppSelector((state) => state.reels);
+  const reels = useAppSelector(selectReels);
   const cursorIsDragging = useAppSelector(selectCursorDragState);
 
   return (
@@ -16,8 +17,8 @@ function App() {
       {cursorIsDragging && <div className="cursor-dragging" />}
       <GameContainer>
         <div className="reels-container">
-          {reels.map((reel) => {
-            return <ReelUnit name={reel.name} key={reel.name} />;
+          {reels.map(({ name }) => {
+            return <ReelUnit name={name} key={name} />;
           })}
         </div>
         <div className="lever-container">

@@ -3,6 +3,7 @@ import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { PULL_THRESHOLD, THROTTLE_MS } from "../motionConfigs/leverMotion";
 import { useRef } from "react";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { selectReelsSpinStates } from "../store/reels/reelsSlice";
 
 interface LeverProps {}
 
@@ -20,9 +21,8 @@ const Lever: React.FC<LeverProps> = () => {
   const rotationAngle = useTransform(dragAndHoverRotation, [0, 140], [-45, 45]);
   const isThrottled = useRef(false);
 
-  const reelsCanSpin = useAppSelector(({ reels }) =>
-    reels.some((reel) => reel.spinState === "PRE")
-  );
+  const spinStates = useAppSelector(selectReelsSpinStates);
+  const reelsCanSpin = spinStates.includes("PRE");
 
   function onDrag() {
     if (

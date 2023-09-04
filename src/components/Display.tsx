@@ -3,62 +3,47 @@ import { AnimatePresence, motion } from "framer-motion";
 import TypingSimulation from "./TypingSimulation";
 import { linesAnimation } from "../motionConfigs/displayMotion";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { ReelIdx, ReelsState } from "../store/reels/reelsSlice";
-import { typeChoices } from "../data/choices/typeChoices";
-import { taskChoices } from "../data/choices/taskChoices";
-import { techChoices } from "../data/choices/techChoices";
-import { timeChoices } from "../data/choices/timeChoices";
+import {
+  selectReelChosenChoices,
+  selectReelsSpinStates,
+} from "../store/reels/reelsSlice";
 import { useEffect, useRef } from "react";
 import CopyIcon from "./CopyButton";
-import { SpinState } from "../types";
+import { selectDisplay } from "../store/display/displaySlice";
 
 interface Props {}
 
 const Display: React.FC<Props> = () => {
   const dispatch = useAppDispatch();
 
-  const { mode, text, userHovering, copied } = useAppSelector(
-    (state) => state.display
-  );
+  const { mode, text, userHovering, copied } = useAppSelector(selectDisplay);
+  const chosenChoices = useAppSelector(selectReelChosenChoices);
+  const spins = useAppSelector(selectReelsSpinStates);
 
-  const typeIdx = useAppSelector(({ reels }) => reels[ReelIdx.TYPE].chosenIdx);
-  const taskIdx = useAppSelector(({ reels }) => reels[ReelIdx.TASK].chosenIdx);
-  const techIdx = useAppSelector(({ reels }) => reels[ReelIdx.TECH].chosenIdx);
-  const timeIdx = useAppSelector(({ reels }) => reels[ReelIdx.TIME].chosenIdx);
-
-  const type = typeIdx !== null ? typeChoices[typeIdx].sentenceName : null;
-  const task = taskIdx !== null ? taskChoices[taskIdx].sentenceName : null;
-  const tech = techIdx !== null ? techChoices[techIdx].sentenceName : null;
-  const time = timeIdx !== null ? timeChoices[timeIdx].sentenceName : null;
-
-  const newChallengeText = formatDisplayText(type, task, tech, time);
+  const newChallengeText = formatDisplayText(chosenChoices);
   const prevChallengeText = useRef<string | null>(null);
-  const reelsState = useAppSelector((state) => state.reels);
-  const combinedSpinState = getCombinedSpinState(reelsState);
 
   useEffect(() => {
-    if (reelsState.some(({ spinState }) => spinState === "IDLE_LOOP")) {
+    if (spins.includes("IDLE_START") || spins.includes("IDLE_LOOP")) {
       // Any reels are spinning
       dispatch({ type: "display/reelsSpinning" });
-    } else if (reelsState.some(({ spinState }) => spinState === "STOPPING")) {
+    } else if (spins.includes("STOPPING")) {
       // No reels are spinning, but some are stopping
       dispatch({ type: "display/reelsStopping" });
-    }
-  }, [reelsState, dispatch]);
-
-  useEffect(() => {
-    if (
-      combinedSpinState === "POST" ||
+    } else if (
+      spins.every((spin) => spin === "POST") ||
       (mode === "challenge" && newChallengeText !== prevChallengeText.current)
     ) {
-      // Challenge created
+      // Challenge created or updated
       dispatch({
         type: "display/challengeCreated",
         payload: newChallengeText,
       });
       prevChallengeText.current = newChallengeText;
+    } else {
+      // Do nothing
     }
-  }, [combinedSpinState, newChallengeText, mode, prevChallengeText, dispatch]);
+  }, [spins, newChallengeText, mode, prevChallengeText, dispatch]);
 
   const onCompleteTyping = () => {
     if (mode !== "challenge") return;
@@ -102,23 +87,12 @@ const Display: React.FC<Props> = () => {
   );
 };
 
-function getCombinedSpinState(reels: ReelsState): SpinState | "MIXED" {
-  const referenceSpinState = reels[0].spinState;
-  const allReelsHaveSameSpinState = reels.every(
-    (reel) => reel.spinState === referenceSpinState
-  );
-  if (allReelsHaveSameSpinState) return referenceSpinState;
-  return "MIXED";
-}
-
 function formatDisplayText(
-  type: string | null,
-  task: string | null,
-  tech: string | null,
-  time: string | null
+  chosenChoices: ReturnType<typeof selectReelChosenChoices>
 ): string | null {
-  if (!type || !task || !tech || !time) return null;
-  return `${type} Challenge: ${task} using ${tech} in ${time}!`;
+  const { chosenType, chosenTask, chosenTech, chosenTime } = chosenChoices;
+  if (!chosenType || !chosenTask || !chosenTech || !chosenTime) return null;
+  return `${chosenType} Challenge: ${chosenTask} using ${chosenTech} in ${chosenTime}!`;
 }
 
 export default Display;

@@ -61,6 +61,6 @@ export const {
   copiedTimeout,
 } = displaySlice.actions;
 
-export const selectDisplay = (state: RootState) => state.reels;
+export const selectDisplay = (state: RootState) => state.display;
 
 export default displaySlice.reducer;

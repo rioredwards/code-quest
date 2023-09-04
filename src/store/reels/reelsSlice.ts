@@ -189,5 +189,20 @@ export const {
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectReels = (state: RootState) => state.reels;
+export const selectReelByName = (state: RootState, name: ReelName) =>
+  state.reels.find((reel) => reel.name === name) as ReelState;
+export const selectReelsSpinStates = (state: RootState) =>
+  state.reels.map(({ spinState }) => spinState);
+export const selectReelChosenChoice = (state: RootState, name: ReelName) => {
+  const chosenIdx = state.reels.find((reel) => reel.name === name)!.chosenIdx;
+  return chosenIdx !== null ? allChoices[name][chosenIdx].sentenceName : null;
+};
+export const selectReelChosenChoices = (state: RootState) => {
+  const chosenType = selectReelChosenChoice(state, "TYPE");
+  const chosenTask = selectReelChosenChoice(state, "TASK");
+  const chosenTech = selectReelChosenChoice(state, "TECH");
+  const chosenTime = selectReelChosenChoice(state, "TIME");
+  return { chosenType, chosenTask, chosenTech, chosenTime };
+};
 
 export default reelsSlice.reducer;
