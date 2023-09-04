@@ -8,9 +8,6 @@ export const linesAnimation = {
 };
 
 export const displayVariants = {
-  off: {
-    filter: "brightness(80%)",
-  },
   onNotHovering: {
     filter: "brightness(110%)",
   },

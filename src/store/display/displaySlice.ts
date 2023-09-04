@@ -1,9 +1,12 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
 
+const INITIAL_TEXT = "Pull the lever!";
+const REELS_SPINNING_TEXT = "Click the green button to stop the reels!";
+
 // Define a type for the state
 export type DisplayState = {
-  isOn: boolean;
+  mode: "challenge" | "info" | "off";
   text: string;
   userHovering: boolean;
   copied: boolean;
@@ -11,8 +14,8 @@ export type DisplayState = {
 
 // Define the initial state using that type
 const initialState: DisplayState = {
-  isOn: false,
-  text: "",
+  mode: "info",
+  text: INITIAL_TEXT,
   userHovering: false,
   copied: false,
 };
@@ -22,15 +25,15 @@ export const displaySlice = createSlice({
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
-    startDisplay: (state, action: PayloadAction<string>) => {
-      state.isOn = true;
+    leverPulled: (state) => {
+      state.mode = "info";
+      state.text = REELS_SPINNING_TEXT;
+    },
+    reelsFinishedStopping: (state, action: PayloadAction<string>) => {
+      state.mode = "challenge";
       state.text = action.payload;
     },
-    stopDisplay: (state) => {
-      state.isOn = false;
-      state.text = "";
-    },
-    updateDisplay: (state, action: PayloadAction<string>) => {
+    updatedChallenge: (state, action: PayloadAction<string>) => {
       state.text = action.payload;
     },
     userHovering: (state) => {
@@ -48,7 +51,15 @@ export const displaySlice = createSlice({
   },
 });
 
-export const { startDisplay, stopDisplay } = displaySlice.actions;
+export const {
+  leverPulled,
+  reelsFinishedStopping,
+  updatedChallenge,
+  userHovering,
+  userNotHovering,
+  copied,
+  copiedTimeout,
+} = displaySlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectDisplay = (state: RootState) => state.reels;

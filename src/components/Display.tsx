@@ -19,7 +19,7 @@ interface Props {}
 const Display: React.FC<Props> = () => {
   const dispatch = useAppDispatch();
 
-  const { isOn, text, userHovering, copied } = useAppSelector(
+  const { mode, text, userHovering, copied } = useAppSelector(
     (state) => state.display
   );
 
@@ -33,25 +33,32 @@ const Display: React.FC<Props> = () => {
   const tech = techIdx !== null ? techChoices[techIdx].sentenceName : null;
   const time = timeIdx !== null ? timeChoices[timeIdx].sentenceName : null;
 
-  const newDisplayText = formatDisplayText(type, task, tech, time);
-  const needToUpdate = newDisplayText && newDisplayText !== text;
+  const newChallengeText = formatDisplayText(type, task, tech, time);
+  const needToUpdate = newChallengeText && newChallengeText !== text;
   const allReelsAreStopped = useAppSelector(({ reels }) =>
     reels.every((reel) => reel.spinState === "PRE" || reel.spinState === "POST")
   );
 
   useEffect(() => {
-    if (!isOn && newDisplayText && allReelsAreStopped) {
+    if (newChallengeText && allReelsAreStopped) {
       dispatch({
-        type: "display/startDisplay",
-        payload: newDisplayText,
+        type: "display/reelsFinishedStopping",
+        payload: newChallengeText,
       });
-    } else if (isOn && needToUpdate) {
+    } else if (mode === "challenge" && needToUpdate) {
       dispatch({
-        type: "display/updateDisplay",
-        payload: newDisplayText,
+        type: "display/updatedChallenge",
+        payload: newChallengeText,
       });
     }
-  }, [isOn, dispatch, newDisplayText, text, needToUpdate, allReelsAreStopped]);
+  }, [
+    mode,
+    dispatch,
+    newChallengeText,
+    text,
+    needToUpdate,
+    allReelsAreStopped,
+  ]);
 
   const onCompleteTyping = () => {
     dispatch({
@@ -82,17 +89,16 @@ const Display: React.FC<Props> = () => {
       onHoverEnd={onHoverEnd}
       onClick={copyToClipboard}
       variants={displayVariants}
-      animate={!isOn ? "off" : !userHovering ? "onNotHovering" : "onHovering"}
-      className={`display-container 
-      ${!isOn ? "off" : copied ? "copied" : "notCopied"}`}>
+      animate={userHovering ? "onHovering" : "onNotHovering"}
+      className={`display-container ${
+        mode === "challenge" && !copied ? "copyable" : ""
+      }`}>
       <div className="display-glass" />
-      {isOn && (
-        <motion.div animate={linesAnimation} className="display-lines" />
-      )}
+      <motion.div animate={linesAnimation} className="display-lines" />
       <AnimatePresence>
-        {isOn && (userHovering || copied) && <CopyIcon />}
+        {mode === "challenge" && (userHovering || copied) && <CopyIcon />}
       </AnimatePresence>
-      {isOn && !needToUpdate && (
+      {!needToUpdate && (
         <TypingSimulation text={text} onCompleteTyping={onCompleteTyping} />
       )}
     </motion.div>
