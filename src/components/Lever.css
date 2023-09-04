@@ -13,7 +13,7 @@
 
 .lever-handle,
 .lever-drag-handle {
-  z-index: 1;
+  /* z-index: 1; */
   position: absolute;
 }
 

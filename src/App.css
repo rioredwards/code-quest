@@ -94,7 +94,16 @@
 .tutorial-screen-cover {
   height: 100%;
   width: 100%;
-  z-index: 9;
+  z-index: 5;
   position: fixed;
   background-color: rgba(255, 255, 255, 0.5);
+}
+
+.tutorial-btn {
+  z-index: 7;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 4vh;
+  width: 8vh;
 }
