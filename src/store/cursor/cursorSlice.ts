@@ -8,12 +8,12 @@ export type HoverTarget =
   | "LEVER"
   | "DISPLAY";
 
-export type CursorSlice = {
+export type CursorState = {
   dragging: boolean;
   hoverTarget: HoverTarget | null;
 };
 
-const initialState: CursorSlice = {
+const initialState: CursorState = {
   dragging: false,
   hoverTarget: null,
 };

@@ -7,15 +7,18 @@ import ReelUnit from "./components/ReelUnit";
 import { useAppSelector } from "./store/hooks";
 import { selectCursorDragState } from "./store/cursor/cursorSlice";
 import { selectReels } from "./store/reels/reelsSlice";
+import { selectTutorialIsActiveState } from "./store/tutorial/tutorialSlice";
 
 function App() {
   const reels = useAppSelector(selectReels);
   const cursorIsDragging = useAppSelector(selectCursorDragState);
+  const tutIsActive = useAppSelector(selectTutorialIsActiveState);
 
   return (
     <div className="App">
-      {cursorIsDragging && <div className="cursor-dragging" />}
+      {cursorIsDragging && <div className="cursor-dragging-screen-cover" />}
       <GameContainer>
+        {!tutIsActive && <div className="tutorial-screen-cover" />}
         <div className="reels-container">
           {reels.map(({ name }) => {
             return <ReelUnit name={name} key={name} />;
