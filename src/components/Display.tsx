@@ -1,10 +1,7 @@
 import "./Display.css";
 import { AnimatePresence, motion } from "framer-motion";
 import TypingSimulation from "./TypingSimulation";
-import {
-  displayVariants,
-  linesAnimation,
-} from "../motionConfigs/displayMotion";
+import { linesAnimation } from "../motionConfigs/displayMotion";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { ReelIdx, ReelsState } from "../store/reels/reelsSlice";
 import { typeChoices } from "../data/choices/typeChoices";
@@ -83,8 +80,6 @@ const Display: React.FC<Props> = () => {
       onHoverStart={onHoverStart}
       onHoverEnd={onHoverEnd}
       onClick={copyToClipboard}
-      variants={displayVariants}
-      animate={userHovering ? "onHovering" : "onNotHovering"}
       className={`display-container ${
         mode === "challenge" && !copied ? "copyable" : ""
       }`}>

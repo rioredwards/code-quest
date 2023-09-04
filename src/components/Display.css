@@ -9,11 +9,7 @@
 }
 
 .copyable {
-  cursor: default;
-}
-
-.notCopyable {
-  cursor: copy;
+  cursor: copy !important;
 }
 
 .display-lines {

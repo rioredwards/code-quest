@@ -6,12 +6,3 @@ export const linesAnimation = {
   y: [`0vh`, `${numToVh(CONTAINER_HEIGHT)}`],
   transition: { duration: 3, ease: "linear", repeat: Infinity },
 };
-
-export const displayVariants = {
-  onNotHovering: {
-    filter: "brightness(110%)",
-  },
-  onHovering: {
-    filter: "brightness(120%)",
-  },
-};
