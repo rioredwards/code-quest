@@ -12,6 +12,17 @@ export type DisplayState = {
   text: string;
   copied: boolean;
 };
+type TooltipText = {
+  [K in HoverTarget]: string;
+};
+
+const TOOLTIP_TEXT: TooltipText = {
+  REEL: "Drag to select a choice and click the lock switch to lock it in",
+  LOCK_SWITCH: "Click to lock/unlock the reel in place",
+  SPIN_BTN: "Click to stop spinning reels",
+  LEVER: "Drag to spin the reels",
+  DISPLAY: "Click to copy your challenge to the clipboard",
+};
 
 const initialState: DisplayState = {
   mode: "info",
@@ -25,7 +36,7 @@ export const displaySlice = createSlice({
   reducers: {
     showTooltip: (state, action: PayloadAction<HoverTarget>) => {
       state.mode = "info";
-      state.text = action.payload || "";
+      state.text = TOOLTIP_TEXT[action.payload];
     },
     reelsStopping: (state) => {
       state.mode = "info";

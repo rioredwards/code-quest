@@ -6,12 +6,11 @@ export type HoverTarget =
   | "LOCK_SWITCH"
   | "SPIN_BTN"
   | "LEVER"
-  | "DISPLAY"
-  | null;
+  | "DISPLAY";
 
 export type CursorSlice = {
   dragging: boolean;
-  hoverTarget: HoverTarget;
+  hoverTarget: HoverTarget | null;
 };
 
 const initialState: CursorSlice = {

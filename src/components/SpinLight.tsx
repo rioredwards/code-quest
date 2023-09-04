@@ -20,7 +20,7 @@ const SpinLight: React.FC<SpinLightProps> = ({
       : "inactive";
 
   function onHoverStart(): void {
-    dispatch({ type: "cursor/onHoverTarget", payload: "SPIN_LIGHT" });
+    dispatch({ type: "cursor/onHoverTarget", payload: "SPIN_BTN" });
   }
 
   function onHoverEnd(): void {
