@@ -3,12 +3,12 @@ import LockSwitch from "./LockSwitch";
 import "./ReelUnit.css";
 import Sign from "./Sign";
 import Reel from "./Reel";
-import SpinLight from "./SpinLight";
 import { ReelName } from "../types";
 import { allChoices } from "../data/allChoices";
 import { selectReelByName } from "../store/reels/reelsSlice";
 import { useRef } from "react";
 import HelpTarget from "./HelpTarget";
+import StopButton from "./StopButton";
 
 interface Props {
   name: ReelName;
@@ -42,10 +42,10 @@ const ReelUnit: React.FC<Props> = ({ name }) => {
     });
   };
 
-  const onClickSpinLight = () => {
+  const onClickStopButton = () => {
     dispatch({ type: "tutorial/targetElActivated" });
     dispatch({
-      type: "reels/spinLightClicked",
+      type: "reels/stopButtonClicked",
       payload: name,
     });
   };
@@ -63,8 +63,11 @@ const ReelUnit: React.FC<Props> = ({ name }) => {
         isLocked={isSpinLocked || isUserLocked}
         choiceIdxAtCurrYPos={choiceIdxAtCurrYPos}
       />
-      <HelpTarget childName="SPIN_BTN">
-        <SpinLight spinState={spinState} onClickSpinLight={onClickSpinLight} />
+      <HelpTarget childName="STOP_BUTTON">
+        <StopButton
+          spinState={spinState}
+          onClickStopButton={onClickStopButton}
+        />
       </HelpTarget>
     </div>
   );

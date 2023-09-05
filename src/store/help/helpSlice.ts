@@ -3,7 +3,7 @@ import type { RootState } from "../store";
 
 export type HelpItemName =
   | "LEVER"
-  | "SPIN_BTN"
+  | "STOP_BUTTON"
   | "REEL"
   | "LOCK_SWITCH"
   | "DISPLAY";
@@ -18,9 +18,9 @@ const helpItems: Record<HelpItemName, HelpItem> = {
     displayName: "Lever",
     description: "Pull the lever to spin the reels.",
   },
-  SPIN_BTN: {
+  STOP_BUTTON: {
     displayName: "Stop Button",
-    description: "Click the spin button to spin the reels.",
+    description: "Click the stop buttons to stop spinning reels.",
   },
   REEL: {
     displayName: "Reels",

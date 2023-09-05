@@ -1,10 +1,10 @@
-.spin-light-container {
+.stop-button-container {
   transform: translateX(0.15vh);
   height: 4vh;
   width: 4vh;
 }
 
-.spin-light-glass {
+.stop-button-glass {
   z-index: 3;
   background-image: url(../assets/light-glass.png);
   background-repeat: no-repeat;
@@ -17,7 +17,7 @@
   mix-blend-mode: luminosity;
 }
 
-.spin-light-color {
+.stop-button-color {
   z-index: 2;
   height: 100%;
   width: 100%;

@@ -1,16 +1,16 @@
 import { useDispatch } from "react-redux";
 import { SpinState } from "../types";
-import "./SpinLight.css";
+import "./StopButton.css";
 import { motion } from "framer-motion";
 
-interface SpinLightProps {
-  onClickSpinLight: (spinState: SpinState) => void;
+interface StopButtonProps {
+  onClickStopButton: (spinState: SpinState) => void;
   spinState: SpinState;
 }
 
-const SpinLight: React.FC<SpinLightProps> = ({
+const StopButton: React.FC<StopButtonProps> = ({
   spinState,
-  onClickSpinLight,
+  onClickStopButton,
 }) => {
   const dispatch = useDispatch();
 
@@ -31,15 +31,15 @@ const SpinLight: React.FC<SpinLightProps> = ({
     <motion.div
       onHoverStart={onHoverStart}
       onHoverEnd={onHoverEnd}
-      className="spin-light-container">
-      <div className={`spin-light-color ${CSSclass}`}>
+      className="stop-button-container">
+      <div className={`stop-button-color ${CSSclass}`}>
         <div
-          onClick={() => onClickSpinLight(spinState)}
-          className="spin-light-glass"
+          onClick={() => onClickStopButton(spinState)}
+          className="stop-button-glass"
         />
       </div>
     </motion.div>
   );
 };
 
-export default SpinLight;
+export default StopButton;

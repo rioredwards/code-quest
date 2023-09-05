@@ -113,7 +113,7 @@ export const reelsSlice = createSlice({
 
       reel.spinState = "POST";
     },
-    spinLightClicked: (state, action: PayloadAction<ReelName>) => {
+    stopLightClicked: (state, action: PayloadAction<ReelName>) => {
       const reelIdx = state.findIndex((reel) => reel.name === action.payload);
       const targetReel = state[reelIdx];
 
@@ -183,7 +183,7 @@ export const {
   lockSwitchToggled,
   finishedIdleStart,
   finishedStopping,
-  spinLightClicked,
+  stopLightClicked,
   finishedPrintingChallenge,
 } = reelsSlice.actions;
 

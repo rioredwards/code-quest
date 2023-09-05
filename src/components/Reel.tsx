@@ -79,7 +79,7 @@ const Reel: React.FC<ReelProps> = ({
         animationControls.current = setNewAnimation(spinState, animationParams);
         animationControls.current?.then(() => {
           // This check prevents the animation if the user
-          // clicks the spin light to stop the reel
+          // clicks the stop button to stop the reel
           // before the idle animation has started
           if (prevSpinState.current === "IDLE_START") {
             onFinishedIdleStart();
