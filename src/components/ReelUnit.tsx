@@ -1,7 +1,6 @@
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import LockSwitch from "./LockSwitch";
 import "./ReelUnit.css";
-import "./TutorialTarget.css";
 import Sign from "./Sign";
 import Reel from "./Reel";
 import SpinLight from "./SpinLight";
@@ -9,7 +8,7 @@ import { ReelName } from "../types";
 import { allChoices } from "../data/allChoices";
 import { selectReelByName } from "../store/reels/reelsSlice";
 import { useRef } from "react";
-import TutorialTarget from "./TutorialTarget";
+import HelpTarget from "./HelpTarget";
 
 interface Props {
   name: ReelName;
@@ -64,9 +63,9 @@ const ReelUnit: React.FC<Props> = ({ name }) => {
         isLocked={isSpinLocked || isUserLocked}
         choiceIdxAtCurrYPos={choiceIdxAtCurrYPos}
       />
-      <TutorialTarget childName="SPIN_BTN">
+      <HelpTarget childName="SPIN_BTN">
         <SpinLight spinState={spinState} onClickSpinLight={onClickSpinLight} />
-      </TutorialTarget>
+      </HelpTarget>
     </div>
   );
 };

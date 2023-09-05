@@ -1,0 +1,17 @@
+.help-btn {
+  position: relative;
+  z-index: 6;
+  --width: 10.4vh;
+  top: 11.3vh;
+  left: 150.95vh;
+  height: var(--width);
+  width: var(--width);
+  border-radius: 50%;
+  font-size: 6vh;
+  font-family: "Courier New", Courier, monospace;
+  font-weight: bold;
+  background-color: transparent;
+  border: none;
+  color: rgba(137, 137, 137, 0.316);
+  cursor: pointer;
+}

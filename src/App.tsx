@@ -4,24 +4,21 @@ import GameContainer from "./layout/GameContainer";
 import Lever from "./components/Lever";
 import Display from "./components/Display";
 import ReelUnit from "./components/ReelUnit";
-import { useAppDispatch, useAppSelector } from "./store/hooks";
+import { useAppSelector } from "./store/hooks";
 import { selectCursorDragState } from "./store/cursor/cursorSlice";
 import { selectReels } from "./store/reels/reelsSlice";
-import TutorialTarget from "./components/TutorialTarget";
+import TutorialTarget from "./components/HelpTarget";
+import HelpBtn from "./components/HelpBtn";
 
 function App() {
-  const dispatch = useAppDispatch();
   const reels = useAppSelector(selectReels);
   const cursorIsDragging = useAppSelector(selectCursorDragState);
-
-  function onClickTutorial() {
-    dispatch({ type: "tutorial/startTutorial" });
-  }
 
   return (
     <div className="App">
       {cursorIsDragging && <div className="cursor-dragging-screen-cover" />}
       <GameContainer>
+        <HelpBtn />
         <div className="reels-container">
           {reels.map(({ name }) => {
             return <ReelUnit name={name} key={name} />;
@@ -39,9 +36,6 @@ function App() {
         </TutorialTarget>
         <Machine />
         <div className="pickers" />
-        <button className="tutorial-btn" onClick={onClickTutorial}>
-          Tutorial
-        </button>
       </GameContainer>
     </div>
   );
