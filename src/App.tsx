@@ -9,16 +9,20 @@ import { selectCursorDragState } from "./store/cursor/cursorSlice";
 import { selectReels } from "./store/reels/reelsSlice";
 import TutorialTarget from "./components/HelpTarget";
 import HelpBtn from "./components/HelpBtn";
+import { selectHelpStateMenu } from "./store/help/helpSlice";
+import HelpMenu from "./components/HelpMenu";
 
 function App() {
   const reels = useAppSelector(selectReels);
   const cursorIsDragging = useAppSelector(selectCursorDragState);
+  const helpMenuIsOpen = useAppSelector(selectHelpStateMenu);
 
   return (
     <div className="App">
       {cursorIsDragging && <div className="cursor-dragging-screen-cover" />}
       <GameContainer>
         <HelpBtn />
+        {helpMenuIsOpen && <HelpMenu />}
         <div className="reels-container">
           {reels.map(({ name }) => {
             return <ReelUnit name={name} key={name} />;

@@ -1,9 +1,20 @@
+import { useAppDispatch } from "../store/hooks";
 import "./HelpBtn.css";
 
 interface Props {}
 
 const HelpBtn: React.FC<Props> = () => {
-  return <button className="help-btn">?</button>;
+  const dispatch = useAppDispatch();
+
+  function onClickHelpBtn() {
+    dispatch({ type: "help/helpBtnClicked" });
+  }
+
+  return (
+    <button onClick={onClickHelpBtn} className="help-btn">
+      ?
+    </button>
+  );
 };
 
 export default HelpBtn;

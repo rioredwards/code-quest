@@ -2,10 +2,10 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
 
 export type HelpItem =
+  | "LEVER"
+  | "SPIN_BTN"
   | "REEL"
   | "LOCK_SWITCH"
-  | "SPIN_BTN"
-  | "LEVER"
   | "DISPLAY";
 
 export type HelpState = {
@@ -22,8 +22,8 @@ export const helpSlice = createSlice({
   name: "help",
   initialState,
   reducers: {
-    openHelpMenu: (state) => {
-      state.helpMenuIsOpen = true;
+    helpBtnClicked: (state) => {
+      state.helpMenuIsOpen = !state.helpMenuIsOpen;
     },
     closeHelpMenu: (state) => {
       state.helpMenuIsOpen = false;
@@ -36,10 +36,12 @@ export const helpSlice = createSlice({
   },
 });
 
-export const { openHelpMenu, closeHelpMenu, helpItemHovered } =
+export const { helpBtnClicked, closeHelpMenu, helpItemHovered } =
   helpSlice.actions;
 
 export const selectHelpState = (state: RootState) => state.help;
+export const selectHelpStateMenu = (state: RootState) =>
+  state.help.helpMenuIsOpen;
 export const selectHelpTargetEl = (state: RootState): HelpItem | null => {
   const { helpItemHover, helpMenuIsOpen } = state.help;
   return helpMenuIsOpen ? helpItemHover : null;

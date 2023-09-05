@@ -1,0 +1,14 @@
+.help-item {
+  display: flex;
+  align-items: center;
+  gap: 2vh;
+}
+
+.help-item-name {
+  font-size: 2.5vh;
+  width: 4rem;
+}
+
+.help-item-description {
+  font-size: 2vh;
+}
