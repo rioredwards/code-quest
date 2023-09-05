@@ -1,6 +1,7 @@
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import LockSwitch from "./LockSwitch";
 import "./ReelUnit.css";
+import "./TutorialTarget.css";
 import Sign from "./Sign";
 import Reel from "./Reel";
 import SpinLight from "./SpinLight";
@@ -8,6 +9,7 @@ import { ReelName } from "../types";
 import { allChoices } from "../data/allChoices";
 import { selectReelByName } from "../store/reels/reelsSlice";
 import { useRef } from "react";
+import TutorialTarget from "./TutorialTarget";
 
 interface Props {
   name: ReelName;
@@ -42,6 +44,7 @@ const ReelUnit: React.FC<Props> = ({ name }) => {
   };
 
   const onClickSpinLight = () => {
+    dispatch({ type: "tutorial/targetElActivated" });
     dispatch({
       type: "reels/spinLightClicked",
       payload: name,
@@ -61,7 +64,9 @@ const ReelUnit: React.FC<Props> = ({ name }) => {
         isLocked={isSpinLocked || isUserLocked}
         choiceIdxAtCurrYPos={choiceIdxAtCurrYPos}
       />
-      <SpinLight spinState={spinState} onClickSpinLight={onClickSpinLight} />
+      <TutorialTarget childName="SPIN_BTN">
+        <SpinLight spinState={spinState} onClickSpinLight={onClickSpinLight} />
+      </TutorialTarget>
     </div>
   );
 };

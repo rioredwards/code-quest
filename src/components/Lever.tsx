@@ -30,6 +30,7 @@ const Lever: React.FC<LeverProps> = () => {
       dragYPos.get() > PULL_THRESHOLD &&
       !isThrottled.current
     ) {
+      dispatch({ type: "tutorial/targetElActivated" });
       dispatch({ type: "reels/leverPulled" });
       isThrottled.current = true;
       setTimeout(() => {

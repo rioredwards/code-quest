@@ -36,7 +36,9 @@ export const tutorialSlice = createSlice({
       state.tutIsActive = true;
       state.tutStep = TutorialStep.PULLING_LEVER;
     },
-    nextTutorialStep: (state) => {
+    targetElActivated: (state) => {
+      if (!state.tutIsActive) return;
+
       if (state.tutStep === TutorialStep.SPIN_AGAIN) {
         state.tutStep = TutorialStep.PULLING_LEVER;
         state.tutIsActive = false;
@@ -50,7 +52,8 @@ export const tutorialSlice = createSlice({
   },
 });
 
-export const { startTutorial, stopTutorial } = tutorialSlice.actions;
+export const { startTutorial, stopTutorial, targetElActivated } =
+  tutorialSlice.actions;
 
 export const selectTutorialState = (state: RootState) => state.tutorial;
 export const selectTutorialTargetEl = (
