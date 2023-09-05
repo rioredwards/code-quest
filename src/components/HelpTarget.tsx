@@ -1,9 +1,9 @@
 import "./HelpTarget.css";
 import { useAppSelector } from "../store/hooks";
-import { HelpItem, selectHelpTargetEl } from "../store/help/helpSlice";
+import { HelpItemName, selectHelpTargetEl } from "../store/help/helpSlice";
 
 interface Props {
-  childName: HelpItem;
+  childName: HelpItemName;
   children: React.ReactNode;
 }
 
