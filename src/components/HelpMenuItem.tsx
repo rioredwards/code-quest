@@ -1,4 +1,4 @@
-import { HelpItemName } from "../store/help/helpSlice";
+import { HelpItemName, getHelpItemFromName } from "../store/help/helpSlice";
 import "./HelpMenuItem.css";
 
 interface Props {
@@ -6,13 +6,13 @@ interface Props {
 }
 
 const HelpMenuItem: React.FC<Props> = ({ itemName }) => {
+  const helpItem = getHelpItemFromName(itemName);
+
   return (
     <li className="help-item">
-      <h2 className="help-item-name">{itemName}</h2>
-      <p className="help-item-description">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda Lorem
-        ipsum dolor sit
-      </p>
+      <h2 className="help-item-name">{helpItem.displayName}</h2>
+      <p className="help-item-divider">-</p>
+      <p className="help-item-description">{helpItem.description}</p>
     </li>
   );
 };

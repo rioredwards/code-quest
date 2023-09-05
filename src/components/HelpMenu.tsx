@@ -10,8 +10,8 @@ const HelpMenu: React.FC<Props> = () => {
       <ul className="help-menu-list">
         <HelpMenuItem itemName="LEVER" />
         <HelpMenuItem itemName="STOP_BUTTON" />
-        <HelpMenuItem itemName="LOCK_SWITCH" />
         <HelpMenuItem itemName="REEL" />
+        <HelpMenuItem itemName="LOCK_SWITCH" />
         <HelpMenuItem itemName="DISPLAY" />
       </ul>
     </div>

@@ -15,24 +15,26 @@ type HelpItem = {
 
 const helpItems: Record<HelpItemName, HelpItem> = {
   LEVER: {
-    displayName: "Lever",
-    description: "Pull the lever to spin the reels.",
+    displayName: "LEVER",
+    description: "Pull to spin the reels!",
   },
   STOP_BUTTON: {
-    displayName: "Stop Button",
-    description: "Click the stop buttons to stop spinning reels.",
+    displayName: "STOP BUTTONS",
+    description: "Click when green to stop spinning reels.",
   },
   REEL: {
-    displayName: "Reels",
-    description: "The reels will spin and stop randomly.",
+    displayName: "REELS",
+    description:
+      "Drag to manually select an option, then lock it in place with the lock-switch.",
   },
   LOCK_SWITCH: {
-    displayName: "Lock Switch",
-    description: "Lock the reels to keep them from spinning.",
+    displayName: "LOCK SWITCHES",
+    description:
+      "Lock a reel in place to keep it from spinning when the lever is pulled.",
   },
   DISPLAY: {
-    displayName: "Display",
-    description: "The display shows the current state of the game.",
+    displayName: "DISPLAY",
+    description: "View your completed challenge and copy it to your clipboard.",
   },
 };
 
@@ -74,5 +76,7 @@ export const selectHelpTargetEl = (state: RootState): HelpItemName | null => {
   const { helpItemHover, helpMenuIsOpen } = state.help;
   return helpMenuIsOpen ? helpItemHover : null;
 };
+export const getHelpItemFromName = (helpItemName: HelpItemName) =>
+  helpItems[helpItemName];
 
 export default helpSlice.reducer;
