@@ -1,21 +1,12 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
-
-export type HoverTarget =
-  | "REEL"
-  | "LOCK_SWITCH"
-  | "SPIN_BTN"
-  | "LEVER"
-  | "DISPLAY";
 
 export type CursorState = {
   dragging: boolean;
-  hoverTarget: HoverTarget | null;
 };
 
 const initialState: CursorState = {
   dragging: false,
-  hoverTarget: null,
 };
 
 export const cursorSlice = createSlice({
@@ -28,20 +19,12 @@ export const cursorSlice = createSlice({
     stopDragging: (state) => {
       state.dragging = false;
     },
-    onHoverTarget: (state, action: PayloadAction<HoverTarget>) => {
-      state.hoverTarget = action.payload;
-    },
-    offHoverTarget: (state) => {
-      state.hoverTarget = null;
-    },
   },
 });
 
-export const { dragging, stopDragging, onHoverTarget } = cursorSlice.actions;
+export const { dragging, stopDragging } = cursorSlice.actions;
 
 export const selectCursorDragState = (state: RootState) =>
   state.cursor.dragging;
-export const selectCursorHoverTarget = (state: RootState) =>
-  state.cursor.hoverTarget;
 
 export default cursorSlice.reducer;

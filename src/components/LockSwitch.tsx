@@ -15,11 +15,14 @@ const LockSwitch: React.FC<LockSwitchProps> = ({ isLocked, toggleLock }) => {
   const dispatch = useDispatch();
 
   function onHoverStart(): void {
-    dispatch({ type: "cursor/onHoverTarget", payload: "LOCK_SWITCH" });
+    dispatch({
+      type: "help/startHoveringOverHelpTarget",
+      payload: "LOCK_SWITCH",
+    });
   }
 
   function onHoverEnd(): void {
-    dispatch({ type: "cursor/offHoverTarget" });
+    dispatch({ type: "help/stopHoveringOverHelpTarget" });
   }
 
   return (

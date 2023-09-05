@@ -58,15 +58,19 @@ export const helpSlice = createSlice({
     closeHelpMenu: (state) => {
       state.helpMenuIsOpen = false;
     },
-    helpItemHovered: (state, action: PayloadAction<HelpItemName>) => {
-      if (!state.helpMenuIsOpen) return;
-
+    startHoveringOverHelpTarget: (
+      state,
+      action: PayloadAction<HelpItemName>
+    ) => {
       state.helpItemHover = action.payload;
+    },
+    stopHoveringOverHelpTarget: (state) => {
+      state.helpItemHover = null;
     },
   },
 });
 
-export const { helpBtnClicked, closeHelpMenu, helpItemHovered } =
+export const { helpBtnClicked, closeHelpMenu, startHoveringOverHelpTarget } =
   helpSlice.actions;
 
 export const selectHelpState = (state: RootState) => state.help;

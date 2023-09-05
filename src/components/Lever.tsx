@@ -30,7 +30,7 @@ const Lever: React.FC<LeverProps> = () => {
       dragYPos.get() > PULL_THRESHOLD &&
       !isThrottled.current
     ) {
-      dispatch({ type: "tutorial/targetElActivated" });
+      dispatch({ type: "display/stopDisplay" });
       dispatch({ type: "reels/leverPulled" });
       isThrottled.current = true;
       setTimeout(() => {
@@ -42,7 +42,7 @@ const Lever: React.FC<LeverProps> = () => {
   function onHoverStart() {
     hoverRotationAngle.set(4);
     dispatch({
-      type: "cursor/onHoverTarget",
+      type: "help/startHoveringOverHelpTarget",
       payload: "LEVER",
     });
   }
@@ -50,7 +50,7 @@ const Lever: React.FC<LeverProps> = () => {
   function onHoverEnd() {
     hoverRotationAngle.set(0);
     dispatch({
-      type: "cursor/offHoverTarget",
+      type: "help/stopHoveringOverHelpTarget",
     });
   }
 

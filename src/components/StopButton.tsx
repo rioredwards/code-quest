@@ -20,11 +20,16 @@ const StopButton: React.FC<StopButtonProps> = ({
       : "inactive";
 
   function onHoverStart(): void {
-    dispatch({ type: "cursor/onHoverTarget", payload: "SPIN_BTN" });
+    dispatch({
+      type: "help/startHoveringOverHelpTarget",
+      payload: "STOP_BUTTON",
+    });
   }
 
   function onHoverEnd(): void {
-    dispatch({ type: "cursor/offHoverTarget" });
+    dispatch({
+      type: "help/stopHoveringOverHelpTarget",
+    });
   }
 
   return (

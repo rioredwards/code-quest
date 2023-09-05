@@ -10,45 +10,38 @@ import {
 import { useEffect, useRef } from "react";
 import CopyIcon from "./CopyButton";
 import { selectDisplay } from "../store/display/displaySlice";
-import { selectCursorHoverTarget } from "../store/cursor/cursorSlice";
 
 interface Props {}
 
 const Display: React.FC<Props> = () => {
   const dispatch = useAppDispatch();
+  const userIsHovering = useRef(false);
 
-  const { mode, text, copied } = useAppSelector(selectDisplay);
+  const { isOn, text, copied } = useAppSelector(selectDisplay);
   const chosenChoices = useAppSelector(selectReelChosenChoices);
   const spins = useAppSelector(selectReelsSpinStates);
-  const hoverTarget = useAppSelector(selectCursorHoverTarget);
 
   const newChallengeText = formatDisplayText(chosenChoices);
   const prevChallengeText = useRef<string | null>(null);
 
   useEffect(() => {
-    if (mode === "info" && hoverTarget !== null) {
-      // Any reels are spinning
-      dispatch({ type: "display/showTooltip", payload: hoverTarget });
-    } else if (spins.includes("STOPPING")) {
-      // No reels are spinning, but some are stopping
-      dispatch({ type: "display/reelsStopping" });
-    } else if (
-      spins.every((spin) => spin === "POST") ||
-      (mode === "challenge" && newChallengeText !== prevChallengeText.current)
+    if (
+      spins.every((spin) => spin === "PRE" || spin === "POST") &&
+      ((!isOn && newChallengeText !== null) ||
+        (isOn && newChallengeText !== prevChallengeText.current))
     ) {
       // Challenge created or updated
       dispatch({
-        type: "display/challengeCreated",
+        type: "display/startDisplay",
         payload: newChallengeText,
       });
       prevChallengeText.current = newChallengeText;
     } else {
       // Do nothing
     }
-  }, [spins, hoverTarget, newChallengeText, mode, prevChallengeText, dispatch]);
+  }, [spins, newChallengeText, isOn, prevChallengeText, dispatch]);
 
   const onCompleteTyping = () => {
-    if (mode !== "challenge") return;
     dispatch({
       type: "reels/finishedPrintingChallenge",
     });
@@ -56,18 +49,21 @@ const Display: React.FC<Props> = () => {
 
   const onHoverStart = () => {
     dispatch({
-      type: "cursor/onHoverTarget",
+      type: "help/startHoveringOverHelpTarget",
       payload: "DISPLAY",
     });
+    userIsHovering.current = true;
   };
 
   const onHoverEnd = () => {
     dispatch({
-      type: "cursor/offHoverTarget",
+      type: "help/stopHoveringOverHelpTarget",
     });
+    userIsHovering.current = false;
   };
 
   const copyToClipboard = () => {
+    if (!text) return;
     dispatch({ type: "display/copied" });
     navigator.clipboard.writeText(text);
   };
@@ -77,17 +73,17 @@ const Display: React.FC<Props> = () => {
       onHoverStart={onHoverStart}
       onHoverEnd={onHoverEnd}
       onClick={copyToClipboard}
-      className={`display-container ${
-        mode === "challenge" && !copied ? "copyable" : ""
-      }`}>
+      className={`display-container ${!isOn ? "" : copied ? "" : "copyable"}`}>
       <div className="display-glass" />
-      <motion.div animate={linesAnimation} className="display-lines" />
+      {isOn && (
+        <motion.div animate={linesAnimation} className="display-lines" />
+      )}
       <AnimatePresence>
-        {mode === "challenge" && (hoverTarget === "DISPLAY" || copied) && (
-          <CopyIcon />
-        )}
+        {isOn && (userIsHovering.current || copied) && <CopyIcon />}
       </AnimatePresence>
-      <TypingSimulation text={text} onCompleteTyping={onCompleteTyping} />
+      {isOn && text !== null && (
+        <TypingSimulation text={text} onCompleteTyping={onCompleteTyping} />
+      )}
     </motion.div>
   );
 };
