@@ -15,8 +15,3 @@ export const filterVariants: Variants = {
   onHover: hoverAnimation,
   offHover: { filter: "brightness(1)" },
 };
-
-// export const linesAnimation = {
-//   y: [`0vh`, `${numToVh(CONTAINER_HEIGHT)}`],
-//   transition: { duration: 3, ease: "linear", repeat: Infinity },
-// };

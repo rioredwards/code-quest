@@ -41,18 +41,19 @@
   background-color: rgba(255, 76, 76, 0.778);
 }
 
-@keyframes pulse {
-  0% {
-    filter: brightness(105%);
-  }
-  50% {
-    filter: brightness(110%);
-  }
-  100% {
-    filter: brightness(105%);
-  }
+.stop-button-color.help-hover {
+  background-color: rgb(97, 221, 210);
+  animation: pulse 2s infinite ease-in-out;
 }
 
-.blue {
-  background-color: rgb(79, 216, 205);
+@keyframes pulse {
+  0% {
+    filter: brightness(100%);
+  }
+  50% {
+    filter: brightness(115%);
+  }
+  100% {
+    filter: brightness(100%);
+  }
 }

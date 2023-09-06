@@ -2,6 +2,8 @@ import { useDispatch } from "react-redux";
 import { SpinState } from "../types";
 import "./StopButton.css";
 import { motion } from "framer-motion";
+import { useAppSelector } from "../store/hooks";
+import { selectHelpTargetEl } from "../store/help/helpSlice";
 
 interface StopButtonProps {
   onClickStopButton: (spinState: SpinState) => void;
@@ -13,11 +15,13 @@ const StopButton: React.FC<StopButtonProps> = ({
   onClickStopButton,
 }) => {
   const dispatch = useDispatch();
+  const highlightedForHelp =
+    useAppSelector(selectHelpTargetEl) === "STOP_BUTTON";
 
-  const CSSclass =
-    spinState === "IDLE_START" || spinState === "IDLE_LOOP"
-      ? "active"
-      : "inactive";
+  const additionalCSSClasses = getAdditionalCSSClasses(
+    spinState,
+    highlightedForHelp
+  );
 
   function onHoverStart(): void {
     dispatch({
@@ -37,7 +41,7 @@ const StopButton: React.FC<StopButtonProps> = ({
       onHoverStart={onHoverStart}
       onHoverEnd={onHoverEnd}
       className="stop-button-container">
-      <div className={`stop-button-color ${CSSclass}`}>
+      <div className={`stop-button-color ${additionalCSSClasses}`}>
         <div
           onClick={() => onClickStopButton(spinState)}
           className="stop-button-glass"
@@ -46,5 +50,18 @@ const StopButton: React.FC<StopButtonProps> = ({
     </motion.div>
   );
 };
+
+function getAdditionalCSSClasses(
+  spinState: SpinState,
+  highlightedForHelp: boolean
+): string {
+  if (highlightedForHelp) {
+    return "help-hover";
+  } else if (spinState === "IDLE_START" || spinState === "IDLE_LOOP") {
+    return "active";
+  } else {
+    return "inactive";
+  }
+}
 
 export default StopButton;

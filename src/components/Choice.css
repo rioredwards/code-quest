@@ -26,6 +26,10 @@
   animation: pulse 2s infinite ease-in-out;
 }
 
+.choice.help-hover {
+  animation: help-pulse 2s infinite ease-in-out;
+}
+
 @keyframes pulse {
   0% {
     filter: brightness(100%);
@@ -35,5 +39,17 @@
   }
   100% {
     filter: brightness(100%);
+  }
+}
+
+@keyframes help-pulse {
+  0% {
+    filter: brightness(115%) saturate(110%);
+  }
+  50% {
+    filter: brightness(135%) saturate(110%);
+  }
+  100% {
+    filter: brightness(115%) saturate(110%);
   }
 }
