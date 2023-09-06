@@ -24,7 +24,7 @@ function App() {
       <GameContainer>
         <Cloud />
         <Sun />
-        {/* <HelpBtn /> */}
+        <HelpBtn />
         {helpMenuIsOpen && <HelpMenu />}
         <div className="reels-container">
           {reels.map(({ name }) => {
