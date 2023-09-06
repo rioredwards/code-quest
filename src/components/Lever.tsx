@@ -1,9 +1,14 @@
 import "./Lever.css";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { PULL_THRESHOLD, THROTTLE_MS } from "../motionConfigs/leverMotion";
+import {
+  PULL_THRESHOLD,
+  THROTTLE_MS,
+  filterVariants,
+} from "../motionConfigs/leverMotion";
 import { useRef } from "react";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { selectReelsSpinStates } from "../store/reels/reelsSlice";
+import { selectHelpTargetEl } from "../store/help/helpSlice";
 
 interface LeverProps {}
 
@@ -23,6 +28,8 @@ const Lever: React.FC<LeverProps> = () => {
 
   const spinStates = useAppSelector(selectReelsSpinStates);
   const reelsCanSpin = spinStates.includes("PRE");
+
+  const highlightedForHelp = useAppSelector(selectHelpTargetEl) === "LEVER";
 
   function onDrag() {
     if (
@@ -64,10 +71,16 @@ const Lever: React.FC<LeverProps> = () => {
 
   return (
     <>
-      <motion.div className="lever-base" />
+      <motion.div
+        animate={highlightedForHelp ? "onHover" : "offHover"}
+        variants={filterVariants}
+        className="lever-base"
+      />
       <motion.div
         style={{ y: leverYPos, rotate: rotationAngle }}
         className="lever-handle"
+        animate={highlightedForHelp ? "onHover" : "offHover"}
+        variants={filterVariants}
       />
       <motion.div
         className="lever-drag-handle"
