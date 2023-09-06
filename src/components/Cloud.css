@@ -1,0 +1,12 @@
+.cloud {
+  --width: 45vh;
+  --aspect-ratio: 0.19;
+  left: 10vh;
+  top: 10vh;
+  position: absolute;
+  background-image: url(../assets/bg/cloud.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: var(--width);
+  height: calc(var(--width) * var(--aspect-ratio));
+}
