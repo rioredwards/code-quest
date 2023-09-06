@@ -11,6 +11,7 @@ import HelpBtn from "./components/HelpBtn";
 import { selectHelpStateMenu } from "./store/help/helpSlice";
 import HelpMenu from "./components/HelpMenu";
 import Cloud from "./components/Cloud";
+import Sun from "./components/Sun";
 
 function App() {
   const reels = useAppSelector(selectReels);
@@ -22,7 +23,8 @@ function App() {
       {cursorIsDragging && <div className="cursor-dragging-screen-cover" />}
       <GameContainer>
         <Cloud />
-        <HelpBtn />
+        <Sun />
+        {/* <HelpBtn /> */}
         {helpMenuIsOpen && <HelpMenu />}
         <div className="reels-container">
           {reels.map(({ name }) => {

@@ -1,0 +1,20 @@
+.inner-sun,
+.outer-sun {
+  --width: 12vh;
+  width: var(--width);
+  height: var(--width);
+  left: 152vh;
+  top: 6vh;
+  z-index: 1;
+  border-radius: 50%;
+  position: absolute;
+  background-color: rgb(255, 242, 193);
+}
+
+.inner-sun {
+  z-index: 2;
+}
+
+.outer-sun {
+  opacity: 0.4;
+}
