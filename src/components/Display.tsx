@@ -7,7 +7,7 @@ import {
   selectReelChosenChoices,
   selectReelsSpinStates,
 } from "../store/reels/reelsSlice";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import CopyIcon from "./CopyButton";
 import { selectDisplay } from "../store/display/displaySlice";
 import { selectHelpTargetEl } from "../store/help/helpSlice";
@@ -16,7 +16,7 @@ interface Props {}
 
 const Display: React.FC<Props> = () => {
   const dispatch = useAppDispatch();
-  const userIsHovering = useRef(false);
+  const [userIsHovering, setUserIsHovering] = useState(false);
   const highlightedForHelp = useAppSelector(selectHelpTargetEl) === "DISPLAY";
 
   const { isOn, text, copied } = useAppSelector(selectDisplay);
@@ -50,18 +50,11 @@ const Display: React.FC<Props> = () => {
   };
 
   const onHoverStart = () => {
-    dispatch({
-      type: "help/startHoveringOverHelpTarget",
-      payload: "DISPLAY",
-    });
-    userIsHovering.current = true;
+    setUserIsHovering(true);
   };
 
   const onHoverEnd = () => {
-    dispatch({
-      type: "help/stopHoveringOverHelpTarget",
-    });
-    userIsHovering.current = false;
+    setUserIsHovering(false);
   };
 
   const copyToClipboard = () => {
@@ -83,7 +76,7 @@ const Display: React.FC<Props> = () => {
         <motion.div animate={linesAnimation} className="display-lines" />
       )}
       <AnimatePresence>
-        {isOn && (userIsHovering.current || copied) && <CopyIcon />}
+        {isOn && (userIsHovering || copied) && <CopyIcon />}
       </AnimatePresence>
       {isOn && text !== null && (
         <TypingSimulation text={text} onCompleteTyping={onCompleteTyping} />

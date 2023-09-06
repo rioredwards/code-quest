@@ -103,13 +103,11 @@ const Reel: React.FC<ReelProps> = ({
   function onHoverStart(): void {
     if (dragging.current) return;
     animate(scope.current, { filter: "brightness(105%)" });
-    dispatch({ type: "help/startHoveringOverHelpTarget", payload: "REEL" });
   }
 
   function onHoverEnd(): void {
     if (dragging.current) return;
     animate(scope.current, { filter: "brightness(100%)" });
-    dispatch({ type: "help/stopHoveringOverHelpTarget" });
   }
 
   function onDragStart(): void {

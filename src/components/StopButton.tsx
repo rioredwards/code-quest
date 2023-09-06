@@ -1,4 +1,3 @@
-import { useDispatch } from "react-redux";
 import { SpinState } from "../types";
 import "./StopButton.css";
 import { motion } from "framer-motion";
@@ -14,7 +13,6 @@ const StopButton: React.FC<StopButtonProps> = ({
   spinState,
   onClickStopButton,
 }) => {
-  const dispatch = useDispatch();
   const highlightedForHelp =
     useAppSelector(selectHelpTargetEl) === "STOP_BUTTON";
 
@@ -23,24 +21,8 @@ const StopButton: React.FC<StopButtonProps> = ({
     highlightedForHelp
   );
 
-  function onHoverStart(): void {
-    dispatch({
-      type: "help/startHoveringOverHelpTarget",
-      payload: "STOP_BUTTON",
-    });
-  }
-
-  function onHoverEnd(): void {
-    dispatch({
-      type: "help/stopHoveringOverHelpTarget",
-    });
-  }
-
   return (
-    <motion.div
-      onHoverStart={onHoverStart}
-      onHoverEnd={onHoverEnd}
-      className="stop-button-container">
+    <motion.div className="stop-button-container">
       <div className={`stop-button-color ${additionalCSSClasses}`}>
         <div
           onClick={() => onClickStopButton(spinState)}

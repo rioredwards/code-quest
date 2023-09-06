@@ -7,7 +7,6 @@ import { ReelName } from "../types";
 import { allChoices } from "../data/allChoices";
 import { selectReelByName } from "../store/reels/reelsSlice";
 import { useRef } from "react";
-import HelpTarget from "./HelpTarget";
 import StopButton from "./StopButton";
 
 interface Props {
@@ -63,12 +62,7 @@ const ReelUnit: React.FC<Props> = ({ name }) => {
         isLocked={isSpinLocked || isUserLocked}
         choiceIdxAtCurrYPos={choiceIdxAtCurrYPos}
       />
-      <HelpTarget childName="STOP_BUTTON">
-        <StopButton
-          spinState={spinState}
-          onClickStopButton={onClickStopButton}
-        />
-      </HelpTarget>
+      <StopButton spinState={spinState} onClickStopButton={onClickStopButton} />
     </div>
   );
 };

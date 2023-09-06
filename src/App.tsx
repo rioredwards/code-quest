@@ -7,7 +7,6 @@ import ReelUnit from "./components/ReelUnit";
 import { useAppSelector } from "./store/hooks";
 import { selectCursorDragState } from "./store/cursor/cursorSlice";
 import { selectReels } from "./store/reels/reelsSlice";
-import TutorialTarget from "./components/HelpTarget";
 import HelpBtn from "./components/HelpBtn";
 import { selectHelpStateMenu } from "./store/help/helpSlice";
 import HelpMenu from "./components/HelpMenu";
@@ -28,16 +27,12 @@ function App() {
             return <ReelUnit name={name} key={name} />;
           })}
         </div>
-        <TutorialTarget childName="LEVER">
-          <div className="lever-container">
-            <Lever />
-          </div>
-        </TutorialTarget>
-        <TutorialTarget childName="DISPLAY">
-          <div className="display-container">
-            <Display />
-          </div>
-        </TutorialTarget>
+        <div className="lever-container">
+          <Lever />
+        </div>
+        <div className="display-container">
+          <Display />
+        </div>
         <Machine />
         <div className="pickers" />
       </GameContainer>
