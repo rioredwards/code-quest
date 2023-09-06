@@ -1,12 +1,10 @@
 .help-menu-container {
   position: absolute;
   z-index: 7;
-  top: 2.5vh;
-  left: 36vh;
-  height: 23vh;
-  width: 110vh;
+  top: 1.5vh;
+  left: 44vh;
   border-radius: 2vh;
-  padding: 1vh;
+  padding: 1.5vh;
   background-color: rgba(228, 228, 228, 0.804);
   opacity: 0.8;
   display: flex;
@@ -23,9 +21,11 @@
   align-items: flex-start;
   height: 100%;
   width: 100%;
+  /* gap: 0.3vh; */
 }
 
 .help-menu-title {
   font-size: 3vh;
   font-weight: bold;
+  padding: 0 0 1vh 0;
 }
