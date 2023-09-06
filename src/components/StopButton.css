@@ -42,7 +42,7 @@
 }
 
 .stop-button-color.help-hover {
-  background-color: rgb(97, 221, 210);
+  background-color: rgb(97, 209, 221);
   animation: pulse 2s infinite ease-in-out;
 }
 

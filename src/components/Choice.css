@@ -44,12 +44,12 @@
 
 @keyframes help-pulse {
   0% {
-    filter: brightness(115%) saturate(110%);
+    filter: brightness(115%) saturate(130%) hue-rotate(10deg);
   }
   50% {
-    filter: brightness(135%) saturate(110%);
+    filter: brightness(125%) saturate(130%) hue-rotate(10deg);
   }
   100% {
-    filter: brightness(115%) saturate(110%);
+    filter: brightness(115%) saturate(130%) hue-rotate(10deg);
   }
 }

@@ -9,7 +9,7 @@
 }
 
 .display-glass.help-hover {
-  backdrop-filter: hue-rotate(-20deg) saturate(1.2) brightness(1.1);
+  backdrop-filter: hue-rotate(10deg) saturate(1.3) brightness(1);
   filter: hue-rotate(90deg) brightness(1.2);
 }
 
