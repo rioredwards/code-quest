@@ -38,13 +38,17 @@ const helpItems: Record<HelpItemName, HelpItem> = {
   },
 };
 
+export type MenuType = "HOW_TO" | "ABOUT";
+
 export type HelpState = {
   helpMenuIsOpen: boolean;
+  activeMenu: MenuType;
   helpItemHover: HelpItemName | null;
 };
 
 const initialState: HelpState = {
   helpMenuIsOpen: false,
+  activeMenu: "HOW_TO",
   helpItemHover: null,
 };
 
@@ -57,6 +61,9 @@ export const helpSlice = createSlice({
     },
     closeHelpMenu: (state) => {
       state.helpMenuIsOpen = false;
+    },
+    setActiveMenu: (state, action: PayloadAction<MenuType>) => {
+      state.activeMenu = action.payload;
     },
     startHoveringOverHelpTarget: (
       state,
