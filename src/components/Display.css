@@ -8,6 +8,11 @@
   width: 100%;
 }
 
+.display-glass.help-hover {
+  backdrop-filter: hue-rotate(-20deg) saturate(1.2) brightness(1.1);
+  filter: hue-rotate(90deg) brightness(1.2);
+}
+
 .copyable {
   cursor: copy !important;
 }

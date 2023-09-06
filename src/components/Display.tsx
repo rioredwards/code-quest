@@ -10,12 +10,14 @@ import {
 import { useEffect, useRef } from "react";
 import CopyIcon from "./CopyButton";
 import { selectDisplay } from "../store/display/displaySlice";
+import { selectHelpTargetEl } from "../store/help/helpSlice";
 
 interface Props {}
 
 const Display: React.FC<Props> = () => {
   const dispatch = useAppDispatch();
   const userIsHovering = useRef(false);
+  const highlightedForHelp = useAppSelector(selectHelpTargetEl) === "DISPLAY";
 
   const { isOn, text, copied } = useAppSelector(selectDisplay);
   const chosenChoices = useAppSelector(selectReelChosenChoices);
@@ -74,7 +76,9 @@ const Display: React.FC<Props> = () => {
       onHoverEnd={onHoverEnd}
       onClick={copyToClipboard}
       className={`display-container ${!isOn ? "" : copied ? "" : "copyable"}`}>
-      <div className="display-glass" />
+      <div
+        className={`display-glass ${highlightedForHelp ? "help-hover" : ""}`}
+      />
       {isOn && (
         <motion.div animate={linesAnimation} className="display-lines" />
       )}

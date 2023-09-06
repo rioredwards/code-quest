@@ -25,7 +25,7 @@
 .lock-icons {
   --aspect-ratio: 1.8125;
   --height: calc(var(--switch-size) * 0.67);
-  z-index: 0;
+  z-index: 1;
   background-image: url(../assets/lock-switch/icons.png);
   background-repeat: no-repeat;
   background-size: contain;
@@ -36,7 +36,7 @@
   left: calc(50% - var(--height) * var(--aspect-ratio) / 2);
 }
 
-.under-panel {
+.under-knob-panel {
   --aspect-ratio: 0.9302;
   --height: calc(var(--switch-size) * 0.9);
   z-index: 1;
@@ -48,6 +48,20 @@
   width: calc(var(--height) * var(--aspect-ratio));
   top: calc(50% - var(--height) / 2);
   left: calc((50% - var(--height) * var(--aspect-ratio) / 2) - 0.95vh);
+}
+
+.under-icon-panel {
+  /* This element is only made visible for help-hover */
+
+  --aspect-ratio: 1.54;
+  --height: calc(var(--switch-size) * 0.9);
+  z-index: 0;
+  background-color: rgb(64, 188, 251);
+  position: absolute;
+  height: var(--height);
+  width: calc(var(--height) * var(--aspect-ratio));
+  top: calc(50% - var(--height) / 2);
+  left: calc((50% - var(--height) * var(--aspect-ratio) / 2));
 }
 
 .knob {
@@ -62,4 +76,22 @@
   width: calc(var(--height) * var(--aspect-ratio));
   top: calc(50% - var(--height) / 2);
   left: calc((50% - var(--height) * var(--aspect-ratio) / 2) - 0.95vh);
+}
+
+.knob.help-hover,
+.under-knob-panel.help-hover,
+.lock-switch-housing.help-hover {
+  animation: lock-pulse 2s infinite ease-in-out;
+}
+
+@keyframes lock-pulse {
+  0% {
+    filter: brightness(100%) hue-rotate(180deg);
+  }
+  50% {
+    filter: brightness(115%) hue-rotate(180deg);
+  }
+  100% {
+    filter: brightness(100%) hue-rotate(180deg);
+  }
 }

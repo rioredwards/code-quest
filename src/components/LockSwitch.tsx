@@ -5,6 +5,8 @@ import {
   lockSwitchSpring,
 } from "../motionConfigs/lockSwitchMotion";
 import { useDispatch } from "react-redux";
+import { useAppSelector } from "../store/hooks";
+import { selectHelpTargetEl } from "../store/help/helpSlice";
 
 interface LockSwitchProps {
   isLocked: boolean;
@@ -13,6 +15,8 @@ interface LockSwitchProps {
 
 const LockSwitch: React.FC<LockSwitchProps> = ({ isLocked, toggleLock }) => {
   const dispatch = useDispatch();
+  const highlightedForHelp =
+    useAppSelector(selectHelpTargetEl) === "LOCK_SWITCH";
 
   function onHoverStart(): void {
     dispatch({
@@ -34,14 +38,19 @@ const LockSwitch: React.FC<LockSwitchProps> = ({ isLocked, toggleLock }) => {
       <motion.div
         animate={lockSwitchAnimation(isLocked)}
         transition={lockSwitchSpring}
-        className="knob"
+        className={`knob ${highlightedForHelp ? "help-hover" : ""}`}
       />
-      <div className="lock-switch-housing" />
+      <div
+        className={`lock-switch-housing ${
+          highlightedForHelp ? "help-hover" : ""
+        }`}
+      />
       <div className="lock-icons" />
+      {highlightedForHelp && <div className="under-icon-panel" />}
       <motion.div
         animate={lockSwitchAnimation(isLocked)}
         transition={lockSwitchSpring}
-        className="under-panel"
+        className={`under-knob-panel ${highlightedForHelp ? "help-hover" : ""}`}
       />
     </motion.div>
   );
