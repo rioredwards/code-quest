@@ -5,7 +5,6 @@
   height: var(--height);
   width: var(--width);
   border-radius: calc(var(--height) / 2);
-  border: 0.2vh inset rgba(255, 255, 255, 0.504);
   opacity: 0.8;
   display: flex;
   justify-content: space-around;
@@ -16,8 +15,8 @@
 .help-menu-title-text {
   display: inline-block;
   text-align: center;
-  padding-top: 0.5vh;
-  height: calc(var(--height) - 0.2vh);
+  padding-top: 0.3vh;
+  height: calc(var(--height) - 0.3vh);
   width: calc((var(--width) / 2) - 0.3vh);
   font-size: 2.8vh;
   font-weight: bold;
@@ -26,13 +25,7 @@
 
 .active-menu-title {
   background-color: rgba(175, 175, 175, 0.804);
+  border: 0.2vh inset rgba(255, 255, 255, 0.504);
+  border-radius: calc(var(--height) / 2);
   cursor: default;
-}
-
-.active-menu-title.left {
-  border-radius: calc(var(--height) / 2) 0 0 calc(var(--height) / 2);
-}
-
-.active-menu-title.right {
-  border-radius: 0 calc(var(--height) / 2) calc(var(--height) / 2) 0;
 }

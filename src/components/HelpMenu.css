@@ -43,7 +43,7 @@
 .links {
   display: flex;
   justify-content: space-between;
-  width: 18%;
+  width: 24%;
   margin: 0.5vh auto 0;
   font-size: 2.5vh;
 }
@@ -52,16 +52,25 @@
   color: rgb(0, 102, 255);
   text-decoration: none;
   font-size: 2vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-.icon.youtube {
+.icon {
+  display: inline-block;
+  width: 4vh;
+}
+
+.fa-icon.youtube {
   color: #ff0000;
 }
 
-.icon.linkedin {
+.fa-icon.linkedin {
   color: #0077b5;
 }
 
-.icon.github {
+.fa-icon.github {
   color: #000000;
 }

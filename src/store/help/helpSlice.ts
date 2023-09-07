@@ -59,6 +59,9 @@ export const helpSlice = createSlice({
     helpBtnClicked: (state) => {
       state.helpMenuIsOpen = !state.helpMenuIsOpen;
     },
+    openHelpMenu: (state) => {
+      state.helpMenuIsOpen = true;
+    },
     closeHelpMenu: (state) => {
       state.helpMenuIsOpen = false;
     },
@@ -77,8 +80,14 @@ export const helpSlice = createSlice({
   },
 });
 
-export const { helpBtnClicked, closeHelpMenu, startHoveringOverHelpTarget } =
-  helpSlice.actions;
+export const {
+  helpBtnClicked,
+  openHelpMenu,
+  closeHelpMenu,
+  setActiveMenu,
+  startHoveringOverHelpTarget,
+  stopHoveringOverHelpTarget,
+} = helpSlice.actions;
 
 export const selectHelpState = (state: RootState) => state.help;
 export const selectHelpStateMenu = (state: RootState) =>
