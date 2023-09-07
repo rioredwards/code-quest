@@ -31,3 +31,9 @@
   color: var(--sky-color);
   border: 2px solid var(--sky-color);
 }
+
+.menu-open:hover {
+  background-color: var(--sky-color);
+  color: var(--color);
+  border: none;
+}

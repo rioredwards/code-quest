@@ -1,6 +1,6 @@
 import { HelpItemName, getHelpItemFromName } from "../store/help/helpSlice";
 import { useAppDispatch } from "../store/hooks";
-import "./HelpMenuItem.css";
+import "./HowToMenuItem.css";
 import { motion } from "framer-motion";
 
 interface Props {
