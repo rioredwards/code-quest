@@ -1,7 +1,7 @@
+import { logChoiceCompatibilities } from "../../logging";
 import { ChoiceMap } from "../../utils/choiceRelations";
 import { TaskChoiceIdx } from "../choiceIdxs/taskIdxs";
 import { TypeChoiceIdx } from "../choiceIdxs/typeIdxs";
-import { logCompatibilities } from "./Logging";
 
 const {
   TWO_SUM,
@@ -65,4 +65,4 @@ export const typeToTask: ChoiceMap = {
   [CLOUD]: [BIG_DATA, CLOUDCEPTION, CORS_CONTROL, TICKET_TO_RIDE, MOOD_MATCHER],
 };
 
-logCompatibilities(typeToTask, TypeChoiceIdx, TaskChoiceIdx);
+logChoiceCompatibilities(typeToTask, TypeChoiceIdx, TaskChoiceIdx);

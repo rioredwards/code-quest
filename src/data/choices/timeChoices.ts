@@ -25,7 +25,7 @@ export const timeChoices: Choice[] = [
     compatibleWith: {
       TYPE: timeToType[THIRTY_M],
       TASK: timeToTask[THIRTY_M],
-      TIME: timeToTech[THIRTY_M],
+      TECH: timeToTech[THIRTY_M],
     },
   },
   {
@@ -35,7 +35,7 @@ export const timeChoices: Choice[] = [
     compatibleWith: {
       TYPE: timeToType[FORTY_FIVE_M],
       TASK: timeToTask[FORTY_FIVE_M],
-      TIME: timeToTech[FORTY_FIVE_M],
+      TECH: timeToTech[FORTY_FIVE_M],
     },
   },
   {
@@ -45,7 +45,7 @@ export const timeChoices: Choice[] = [
     compatibleWith: {
       TYPE: timeToType[ONE_H],
       TASK: timeToTask[ONE_H],
-      TIME: timeToTech[ONE_H],
+      TECH: timeToTech[ONE_H],
     },
   },
   {
@@ -55,7 +55,7 @@ export const timeChoices: Choice[] = [
     compatibleWith: {
       TYPE: timeToType[NINETY_M],
       TASK: timeToTask[NINETY_M],
-      TIME: timeToTech[NINETY_M],
+      TECH: timeToTech[NINETY_M],
     },
   },
   {
@@ -65,7 +65,7 @@ export const timeChoices: Choice[] = [
     compatibleWith: {
       TYPE: timeToType[TWO_H],
       TASK: timeToTask[TWO_H],
-      TIME: timeToTech[TWO_H],
+      TECH: timeToTech[TWO_H],
     },
   },
   {
@@ -75,7 +75,7 @@ export const timeChoices: Choice[] = [
     compatibleWith: {
       TYPE: timeToType[THREE_H],
       TASK: timeToTask[THREE_H],
-      TIME: timeToTech[THREE_H],
+      TECH: timeToTech[THREE_H],
     },
   },
   {
@@ -85,7 +85,7 @@ export const timeChoices: Choice[] = [
     compatibleWith: {
       TYPE: timeToType[FOUR_H],
       TASK: timeToTask[FOUR_H],
-      TIME: timeToTech[FOUR_H],
+      TECH: timeToTech[FOUR_H],
     },
   },
   {
@@ -95,7 +95,7 @@ export const timeChoices: Choice[] = [
     compatibleWith: {
       TYPE: timeToType[FIVE_H],
       TASK: timeToTask[FIVE_H],
-      TIME: timeToTech[FIVE_H],
+      TECH: timeToTech[FIVE_H],
     },
   },
   {
@@ -105,7 +105,7 @@ export const timeChoices: Choice[] = [
     compatibleWith: {
       TYPE: timeToType[SIX_H],
       TASK: timeToTask[SIX_H],
-      TIME: timeToTech[SIX_H],
+      TECH: timeToTech[SIX_H],
     },
   },
   {
@@ -115,7 +115,7 @@ export const timeChoices: Choice[] = [
     compatibleWith: {
       TYPE: timeToType[INFINITY],
       TASK: timeToTask[INFINITY],
-      TIME: timeToTech[INFINITY],
+      TECH: timeToTech[INFINITY],
     },
   },
 ];

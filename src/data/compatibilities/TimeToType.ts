@@ -2,12 +2,12 @@ import { TypeChoiceIdx } from "../choiceIdxs/typeIdxs";
 import { TimeChoiceIdx } from "../choiceIdxs/timeIdxs";
 import { timeToTask } from "./TimeToTask";
 import { taskToType } from "./TaskToType";
-import { logCompatibilities } from "./Logging";
 import { mergeChoiceCompatibilityMapsViaIntermediateMap } from "../../utils/choiceRelations";
+import { logChoiceCompatibilities } from "../../logging";
 
 export const timeToType = mergeChoiceCompatibilityMapsViaIntermediateMap(
   timeToTask,
   taskToType
 );
 
-logCompatibilities(timeToType, TimeChoiceIdx, TypeChoiceIdx);
+logChoiceCompatibilities(timeToType, TimeChoiceIdx, TypeChoiceIdx);

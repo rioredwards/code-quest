@@ -1,7 +1,7 @@
 import { ChoiceMap } from "../../utils/choiceRelations";
 import { TaskChoiceIdx } from "../choiceIdxs/taskIdxs";
 import { TimeChoiceIdx } from "../choiceIdxs/timeIdxs";
-import { logCompatibilities } from "./Logging";
+import { logChoiceCompatibilities } from "../../logging";
 
 const {
   THIRTY_M,
@@ -117,4 +117,4 @@ export const taskToTime: ChoiceMap = {
   [MOOD_MATCHER]: cloudTimes.hard,
 };
 
-logCompatibilities(taskToTime, TaskChoiceIdx, TimeChoiceIdx);
+logChoiceCompatibilities(taskToTime, TaskChoiceIdx, TimeChoiceIdx);

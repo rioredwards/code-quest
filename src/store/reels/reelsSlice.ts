@@ -4,6 +4,7 @@ import type { RootState } from "../store";
 import { ReelName, SpinState } from "../../types";
 import { getRandIdx } from "../../utils/genUtils";
 import { allChoices } from "../../data/allChoices";
+// import { logCompatibilityScores } from "../../logging";
 
 // Define a type for the state
 export type ReelState = {
@@ -134,13 +135,13 @@ export const reelsSlice = createSlice({
 
       // Iterate through all the reels and calculate the compatibility scores
       state.forEach((reel) => {
+        // If the reel doesn't have a chosen choice yet, don't factor it into the compatibility score
         if (reel.chosenIdx === null) return;
 
         const choiceCompatibleWith =
-          allChoices[reel.name][reel.chosenIdx].compatibleWith[targetReel.name];
-
-        // If undefined, the choice is compatible with any of the choices in the target reel
-        if (choiceCompatibleWith === undefined) return;
+          allChoices[reel.name][reel.chosenIdx].compatibleWith[
+            targetReel.name
+          ]!;
 
         choiceCompatibleWith.forEach((choiceIdx) => {
           compatibilityScores.set(
@@ -149,6 +150,8 @@ export const reelsSlice = createSlice({
           );
         });
       });
+
+      // logCompatibilityScores(compatibilityScores, targetReel.name);
 
       // Find the choice or choices with the highest compatibility score
       const maxCompatibilityScore = Math.max(
