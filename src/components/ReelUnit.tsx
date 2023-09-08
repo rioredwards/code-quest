@@ -1,7 +1,6 @@
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import LockSwitch from "./LockSwitch";
 import "./ReelUnit.css";
-import Sign from "./Sign";
 import Reel from "./Reel";
 import { ReelName } from "../types";
 import { allChoices } from "../data/allChoices";
@@ -51,7 +50,6 @@ const ReelUnit: React.FC<Props> = ({ name }) => {
 
   return (
     <div className="reel-unit">
-      <Sign name={name} />
       <LockSwitch isLocked={isUserLocked} toggleLock={toggleIsUserLocked} />
       <Reel
         choices={choices}

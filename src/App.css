@@ -20,9 +20,9 @@
   --width: 123vh;
   --center-left-shift: calc(50vw - calc(var(--width) / 2));
   width: var(--width);
-  height: 34.5%;
+  height: 27%;
   left: calc(var(--center-left-shift) + 1.7vh);
-  top: 33.4%;
+  top: 41.08%;
   display: flex;
   align-items: center;
   justify-content: space-between;
