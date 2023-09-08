@@ -250,7 +250,7 @@ export const taskChoices: Choice[] = [
   },
   {
     id: MOVIE_LIST,
-    name: "Spoiler alert", // Backend -> easy
+    name: "Spoiler Alert", // Backend -> easy
     sentenceName: "return info about movies from TheMovieDB API",
     compatibleWith: {
       TYPE: taskToType[MOVIE_LIST],

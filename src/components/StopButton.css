@@ -1,5 +1,5 @@
 .stop-button-container {
-  transform: translateX(0.15vh);
+  /* transform: translateX(0.15vh); */
   height: 4vh;
   width: 4vh;
 }
