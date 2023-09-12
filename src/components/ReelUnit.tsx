@@ -1,12 +1,12 @@
-import { useAppDispatch, useAppSelector } from "../store/hooks";
-import LockSwitch from "./LockSwitch";
-import "./ReelUnit.css";
-import Reel from "./Reel";
-import { ReelName } from "../types";
-import { allChoices } from "../data/allChoices";
-import { selectReelByName } from "../store/reels/reelsSlice";
-import { useRef } from "react";
-import StopButton from "./StopButton";
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import LockSwitch from './LockSwitch';
+import './ReelUnit.css';
+import Reel from './Reel';
+import { ReelName } from '../types';
+import { allChoices } from '../data/allChoices';
+import { selectReelByName } from '../store/reels/reelsSlice';
+import { useRef } from 'react';
+import StopButton from './StopButton';
 
 interface Props {
   name: ReelName;
@@ -21,29 +21,29 @@ const ReelUnit: React.FC<Props> = ({ name }) => {
 
   const toggleIsUserLocked = () => {
     dispatch({
-      type: "reels/lockSwitchToggled",
+      type: 'reels/lockSwitchToggled',
       payload: { name, choiceIdxAtCurrYPos: choiceIdxAtCurrYPos.current },
     });
   };
 
   const onFinishedIdleStart = () => {
     dispatch({
-      type: "reels/finishedIdleStart",
+      type: 'reels/finishedIdleStart',
       payload: name,
     });
   };
 
   const onFinishedStopping = () => {
     dispatch({
-      type: "reels/finishedStopping",
+      type: 'reels/finishedStopping',
       payload: name,
     });
   };
 
   const onClickStopButton = () => {
-    dispatch({ type: "tutorial/targetElActivated" });
+    dispatch({ type: 'tutorial/targetElActivated' });
     dispatch({
-      type: "reels/stopButtonClicked",
+      type: 'reels/stopButtonClicked',
       payload: name,
     });
   };

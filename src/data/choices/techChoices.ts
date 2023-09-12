@@ -1,8 +1,8 @@
-import { Choice } from "../../types";
-import { TechChoiceIdx } from "../choiceIdxs/techIdxs";
-import { techToTask } from "../compatibilities/TechToTask";
-import { techToTime } from "../compatibilities/TechToTime";
-import { techToType } from "../compatibilities/TechToType";
+import { Choice } from '../../types';
+import { TechChoiceIdx } from '../choiceIdxs/techIdxs';
+import { techToTask } from '../compatibilities/TechToTask';
+import { techToTime } from '../compatibilities/TechToTime';
+import { techToType } from '../compatibilities/TechToType';
 
 const {
   JAVASCRIPT,
@@ -36,8 +36,8 @@ const {
 export const techChoices: Choice[] = [
   {
     id: JAVASCRIPT,
-    name: "Javascript",
-    sentenceName: "Javascript",
+    name: 'Javascript',
+    sentenceName: 'Javascript',
     compatibleWith: {
       TYPE: techToType[JAVASCRIPT],
       TASK: techToTask[JAVASCRIPT],
@@ -46,8 +46,8 @@ export const techChoices: Choice[] = [
   },
   {
     id: TYPESCRIPT,
-    name: "Typescript",
-    sentenceName: "Typescript",
+    name: 'Typescript',
+    sentenceName: 'Typescript',
     compatibleWith: {
       TYPE: techToType[TYPESCRIPT],
       TASK: techToTask[TYPESCRIPT],
@@ -56,8 +56,8 @@ export const techChoices: Choice[] = [
   },
   {
     id: PYTHON,
-    name: "Python",
-    sentenceName: "Python",
+    name: 'Python',
+    sentenceName: 'Python',
     compatibleWith: {
       TYPE: techToType[PYTHON],
       TASK: techToTask[PYTHON],
@@ -66,8 +66,8 @@ export const techChoices: Choice[] = [
   },
   {
     id: JAVA,
-    name: "Java",
-    sentenceName: "Java",
+    name: 'Java',
+    sentenceName: 'Java',
     compatibleWith: {
       TYPE: techToType[JAVA],
       TASK: techToTask[JAVA],
@@ -76,8 +76,8 @@ export const techChoices: Choice[] = [
   },
   {
     id: C,
-    name: "C",
-    sentenceName: "C",
+    name: 'C',
+    sentenceName: 'C',
     compatibleWith: {
       TYPE: techToType[C],
       TASK: techToTask[C],
@@ -86,8 +86,8 @@ export const techChoices: Choice[] = [
   },
   {
     id: CPP,
-    name: "C++",
-    sentenceName: "C++",
+    name: 'C++',
+    sentenceName: 'C++',
     compatibleWith: {
       TYPE: techToType[CPP],
       TASK: techToTask[CPP],
@@ -96,8 +96,8 @@ export const techChoices: Choice[] = [
   },
   {
     id: CSHARP,
-    name: "C#",
-    sentenceName: "C#",
+    name: 'C#',
+    sentenceName: 'C#',
     compatibleWith: {
       TYPE: techToType[CSHARP],
       TASK: techToTask[CSHARP],
@@ -106,8 +106,8 @@ export const techChoices: Choice[] = [
   },
   {
     id: GO,
-    name: "Go",
-    sentenceName: "Go",
+    name: 'Go',
+    sentenceName: 'Go',
     compatibleWith: {
       TYPE: techToType[GO],
       TASK: techToTask[GO],
@@ -116,8 +116,8 @@ export const techChoices: Choice[] = [
   },
   {
     id: RUST,
-    name: "Rust",
-    sentenceName: "Rust",
+    name: 'Rust',
+    sentenceName: 'Rust',
     compatibleWith: {
       TYPE: techToType[RUST],
       TASK: techToTask[RUST],
@@ -126,8 +126,8 @@ export const techChoices: Choice[] = [
   },
   {
     id: PHP,
-    name: "PHP",
-    sentenceName: "PHP",
+    name: 'PHP',
+    sentenceName: 'PHP',
     compatibleWith: {
       TYPE: techToType[PHP],
       TASK: techToTask[PHP],
@@ -136,8 +136,8 @@ export const techChoices: Choice[] = [
   },
   {
     id: RUBY,
-    name: "Ruby",
-    sentenceName: "Ruby",
+    name: 'Ruby',
+    sentenceName: 'Ruby',
     compatibleWith: {
       TYPE: techToType[RUBY],
       TASK: techToTask[RUBY],
@@ -146,8 +146,8 @@ export const techChoices: Choice[] = [
   },
   {
     id: SWIFT,
-    name: "Swift",
-    sentenceName: "Swift",
+    name: 'Swift',
+    sentenceName: 'Swift',
     compatibleWith: {
       TYPE: techToType[SWIFT],
       TASK: techToTask[SWIFT],
@@ -156,8 +156,8 @@ export const techChoices: Choice[] = [
   },
   {
     id: DART,
-    name: "Dart",
-    sentenceName: "Dart",
+    name: 'Dart',
+    sentenceName: 'Dart',
     compatibleWith: {
       TYPE: techToType[DART],
       TASK: techToTask[DART],
@@ -166,8 +166,8 @@ export const techChoices: Choice[] = [
   },
   {
     id: BASH,
-    name: "Bash",
-    sentenceName: "Bash",
+    name: 'Bash',
+    sentenceName: 'Bash',
     compatibleWith: {
       TYPE: techToType[BASH],
       TASK: techToTask[BASH],
@@ -176,8 +176,8 @@ export const techChoices: Choice[] = [
   },
   {
     id: REACT,
-    name: "React",
-    sentenceName: "React",
+    name: 'React',
+    sentenceName: 'React',
     compatibleWith: {
       TYPE: techToType[REACT],
       TASK: techToTask[REACT],
@@ -186,8 +186,8 @@ export const techChoices: Choice[] = [
   },
   {
     id: ANGULAR,
-    name: "Angular",
-    sentenceName: "Angular",
+    name: 'Angular',
+    sentenceName: 'Angular',
     compatibleWith: {
       TYPE: techToType[ANGULAR],
       TASK: techToTask[ANGULAR],
@@ -196,8 +196,8 @@ export const techChoices: Choice[] = [
   },
   {
     id: VUE,
-    name: "Vue",
-    sentenceName: "Vue",
+    name: 'Vue',
+    sentenceName: 'Vue',
     compatibleWith: {
       TYPE: techToType[VUE],
       TASK: techToTask[VUE],
@@ -206,8 +206,8 @@ export const techChoices: Choice[] = [
   },
   {
     id: NEXT,
-    name: "Next.js",
-    sentenceName: "Next.js",
+    name: 'Next.js',
+    sentenceName: 'Next.js',
     compatibleWith: {
       TYPE: techToType[NEXT],
       TASK: techToTask[NEXT],
@@ -216,8 +216,8 @@ export const techChoices: Choice[] = [
   },
   {
     id: NEST,
-    name: "Nest.js",
-    sentenceName: "Nest.js",
+    name: 'Nest.js',
+    sentenceName: 'Nest.js',
     compatibleWith: {
       TYPE: techToType[NEST],
       TASK: techToTask[NEST],
@@ -226,8 +226,8 @@ export const techChoices: Choice[] = [
   },
   {
     id: NODE,
-    name: "Node.js",
-    sentenceName: "Node.js",
+    name: 'Node.js',
+    sentenceName: 'Node.js',
     compatibleWith: {
       TYPE: techToType[NODE],
       TASK: techToTask[NODE],
@@ -236,8 +236,8 @@ export const techChoices: Choice[] = [
   },
   {
     id: DJANGO,
-    name: "Django",
-    sentenceName: "Django",
+    name: 'Django',
+    sentenceName: 'Django',
     compatibleWith: {
       TYPE: techToType[DJANGO],
       TASK: techToTask[DJANGO],
@@ -246,8 +246,8 @@ export const techChoices: Choice[] = [
   },
   {
     id: SPRING,
-    name: "Spring Boot",
-    sentenceName: "Spring Boot",
+    name: 'Spring Boot',
+    sentenceName: 'Spring Boot',
     compatibleWith: {
       TYPE: techToType[SPRING],
       TASK: techToTask[SPRING],
@@ -256,8 +256,8 @@ export const techChoices: Choice[] = [
   },
   {
     id: RAILS,
-    name: "Rails",
-    sentenceName: "Ruby on Rails",
+    name: 'Rails',
+    sentenceName: 'Ruby on Rails',
     compatibleWith: {
       TYPE: techToType[RAILS],
       TASK: techToTask[RAILS],
@@ -266,8 +266,8 @@ export const techChoices: Choice[] = [
   },
   {
     id: LARAVEL,
-    name: "Laravel",
-    sentenceName: "Laravel",
+    name: 'Laravel',
+    sentenceName: 'Laravel',
     compatibleWith: {
       TYPE: techToType[LARAVEL],
       TASK: techToTask[LARAVEL],
@@ -276,8 +276,8 @@ export const techChoices: Choice[] = [
   },
   {
     id: DOTNET,
-    name: ".NET",
-    sentenceName: ".NET",
+    name: '.NET',
+    sentenceName: '.NET',
     compatibleWith: {
       TYPE: techToType[DOTNET],
       TASK: techToTask[DOTNET],
@@ -286,8 +286,8 @@ export const techChoices: Choice[] = [
   },
   {
     id: GIN,
-    name: "Gin",
-    sentenceName: "Gin",
+    name: 'Gin',
+    sentenceName: 'Gin',
     compatibleWith: {
       TYPE: techToType[GIN],
       TASK: techToTask[GIN],

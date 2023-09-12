@@ -63,9 +63,9 @@ To get more control over the quest generated:
 
 This project was a ton of fun and a great learning experience for me.
 
-It was the first time since attending a coding bootcamp that I've gotten to focus as much on the design and UI of an application as the techincal "buisness logic". I have a love for design and art, so it was really fun to get to flex those muscles again.
+It was the first time since attending a coding boot-camp that I've gotten to focus as much on the design and UI of an application as the technical "business logic". I have a love for design and art, so it was really fun to get to flex those muscles again.
 
-It was also the first time I used Framer Motion. This library is really powerful and I enjoyed diving into it. Getting a convincing "Inifinite Scroll" effect on the reels was pretty tricky, but in that process, I learned about some of the more advanced features of Framer Motion and gained a deeper understanding for creating animations in code, more generally.
+It was also the first time I used Framer Motion. This library is really powerful and I enjoyed diving into it. Getting a convincing "Infinite Scroll" effect on the reels was pretty tricky, but in that process, I learned about some of the more advanced features of Framer Motion and gained a deeper understanding for creating animations in code, more generally.
 
 I also gained an appreciation for the process of creating "proof-of-concepts" before attempting to implement certain features into a project. I tried to predict what the most challenging aspects in creating this app might be and created prototypes in a throwaway file or code-sandbox. This saved me a lot of time and frustration in the long run.
 

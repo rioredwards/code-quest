@@ -1,18 +1,18 @@
-import "./App.css";
-import Machine from "./layout/Machine";
-import GameContainer from "./layout/GameContainer";
-import Lever from "./components/Lever";
-import Display from "./components/Display";
-import ReelUnit from "./components/ReelUnit";
-import { useAppSelector } from "./store/hooks";
-import { selectCursorDragState } from "./store/cursor/cursorSlice";
-import { selectReels } from "./store/reels/reelsSlice";
-import HelpBtn from "./components/HelpBtn";
-import { selectHelpStateMenu } from "./store/help/helpSlice";
-import HelpMenu from "./components/HelpMenu";
-import Cloud from "./components/Cloud";
-import Sun from "./components/Sun";
-import Logo from "./layout/Logo";
+import './App.css';
+import Machine from './layout/Machine';
+import GameContainer from './layout/GameContainer';
+import Lever from './components/Lever';
+import Display from './components/Display';
+import ReelUnit from './components/ReelUnit';
+import { useAppSelector } from './store/hooks';
+import { selectCursorDragState } from './store/cursor/cursorSlice';
+import { selectReels } from './store/reels/reelsSlice';
+import HelpBtn from './components/HelpBtn';
+import { selectHelpStateMenu } from './store/help/helpSlice';
+import HelpMenu from './components/HelpMenu';
+import Cloud from './components/Cloud';
+import Sun from './components/Sun';
+import Logo from './layout/Logo';
 
 function App() {
   const reels = useAppSelector(selectReels);

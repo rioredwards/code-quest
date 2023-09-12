@@ -1,20 +1,10 @@
-import { ChoiceMap } from "../../utils/choiceRelations";
-import { TaskChoiceIdx } from "../choiceIdxs/taskIdxs";
-import { TimeChoiceIdx } from "../choiceIdxs/timeIdxs";
-import { logChoiceCompatibilities } from "../../logging";
+import { ChoiceMap } from '../../utils/choiceRelations';
+import { TaskChoiceIdx } from '../choiceIdxs/taskIdxs';
+import { TimeChoiceIdx } from '../choiceIdxs/timeIdxs';
+import { logChoiceCompatibilities } from '../../logging';
 
-const {
-  THIRTY_M,
-  FORTY_FIVE_M,
-  ONE_H,
-  NINETY_M,
-  TWO_H,
-  THREE_H,
-  FOUR_H,
-  FIVE_H,
-  SIX_H,
-  INFINITY,
-} = TimeChoiceIdx;
+const { THIRTY_M, FORTY_FIVE_M, ONE_H, NINETY_M, TWO_H, THREE_H, FOUR_H, FIVE_H, SIX_H, INFINITY } =
+  TimeChoiceIdx;
 
 const {
   TWO_SUM,

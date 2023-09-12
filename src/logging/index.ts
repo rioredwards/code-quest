@@ -1,13 +1,13 @@
-import { allChoices } from "../data/allChoices";
-import { ReelName } from "../types";
+import { allChoices } from '../data/allChoices';
+import { ReelName } from '../types';
 
 export function logCompatibilityScores(
   compatibilityScores: Map<number, number>,
   targetReelName: ReelName
 ): void {
-  if (process.env.NODE_ENV === "production") return;
+  if (process.env.NODE_ENV === 'production') return;
 
-  console.log("compatibilityScores: ");
+  console.log('compatibilityScores: ');
 
   compatibilityScores.forEach((score, idx) => {
     console.log(`${allChoices[targetReelName][idx].sentenceName}: ${score}`);
@@ -15,7 +15,7 @@ export function logCompatibilityScores(
 }
 
 export function logChoiceCompatibilities(obj: any, keyIdxs: any, valIdxs: any) {
-  if (process.env.NODE_ENV === "production") return;
+  if (process.env.NODE_ENV === 'production') return;
 
   let stringified = {} as any;
 

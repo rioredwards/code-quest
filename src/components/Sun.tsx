@@ -1,9 +1,6 @@
-import {
-  innerSunAnimation,
-  outerSunAnimation,
-} from "../motionConfigs/sunMotion";
-import "./Sun.css";
-import { motion } from "framer-motion";
+import { innerSunAnimation, outerSunAnimation } from '../motionConfigs/sunMotion';
+import './Sun.css';
+import { motion } from 'framer-motion';
 
 const Sun: React.FC = () => {
   return (

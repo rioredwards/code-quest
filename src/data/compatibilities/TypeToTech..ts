@@ -1,6 +1,6 @@
-import { ChoiceMap } from "../../utils/choiceRelations";
-import { TechChoiceIdx } from "../choiceIdxs/techIdxs";
-import { TypeChoiceIdx } from "../choiceIdxs/typeIdxs";
+import { ChoiceMap } from '../../utils/choiceRelations';
+import { TechChoiceIdx } from '../choiceIdxs/techIdxs';
+import { TypeChoiceIdx } from '../choiceIdxs/typeIdxs';
 
 const {
   JAVASCRIPT,
@@ -49,44 +49,9 @@ export const typeToTech: ChoiceMap = {
     SWIFT,
     DART,
   ],
-  [CLI]: [
-    PYTHON,
-    JAVA,
-    C,
-    CPP,
-    CSHARP,
-    GO,
-    RUST,
-    PHP,
-    RUBY,
-    SWIFT,
-    DART,
-    BASH,
-    NODE,
-  ],
+  [CLI]: [PYTHON, JAVA, C, CPP, CSHARP, GO, RUST, PHP, RUBY, SWIFT, DART, BASH, NODE],
   [FRONTEND]: [JAVASCRIPT, TYPESCRIPT, PYTHON, REACT, ANGULAR, VUE, NEXT],
-  [FULLSTACK]: [
-    JAVASCRIPT,
-    TYPESCRIPT,
-    PYTHON,
-    NEXT,
-    DJANGO,
-    SPRING,
-    RAILS,
-    LARAVEL,
-    DOTNET,
-  ],
+  [FULLSTACK]: [JAVASCRIPT, TYPESCRIPT, PYTHON, NEXT, DJANGO, SPRING, RAILS, LARAVEL, DOTNET],
   [BACKEND]: [NEST, NODE, DJANGO, SPRING, LARAVEL, DOTNET, GIN],
-  [CLOUD]: [
-    JAVASCRIPT,
-    TYPESCRIPT,
-    REACT,
-    ANGULAR,
-    VUE,
-    NEXT,
-    DJANGO,
-    RAILS,
-    LARAVEL,
-    DOTNET,
-  ],
+  [CLOUD]: [JAVASCRIPT, TYPESCRIPT, REACT, ANGULAR, VUE, NEXT, DJANGO, RAILS, LARAVEL, DOTNET],
 };

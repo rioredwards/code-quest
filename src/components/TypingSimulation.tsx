@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from "react";
-import "./TypingSimulation.css";
-import { useAnimationFrame } from "framer-motion";
+import { useEffect, useRef, useState } from 'react';
+import './TypingSimulation.css';
+import { useAnimationFrame } from 'framer-motion';
 import {
   BLINK_DURATION_AFTER_TYPING,
   CURSOR_BLINK_SPEED,
@@ -8,7 +8,7 @@ import {
   MIN_TYPE_DELAY,
   TEXT_WRAP_LENGTH,
   EXTRA_DELAY_BETWEEN_WORDS,
-} from "../motionConfigs/typingSimulationMotion";
+} from '../motionConfigs/typingSimulationMotion';
 
 interface Props {
   text: string;
@@ -22,7 +22,7 @@ const TypingSimulation: React.FC<Props> = ({ text, onCompleteTyping }) => {
   const typing = useRef(true);
   const timeSinceLetterAdded = useRef(0);
   const timeSinceCursorBlinked = useRef(0);
-  const [displayText, setDisplayText] = useState("");
+  const [displayText, setDisplayText] = useState('');
   const [cursorVisible, setCursorVisible] = useState(true);
   const prevLetterAdded: string | undefined = text[letterIdx.current - 2];
 
@@ -55,7 +55,7 @@ const TypingSimulation: React.FC<Props> = ({ text, onCompleteTyping }) => {
       typing.current = true;
       timeSinceLetterAdded.current = 0;
       timeSinceCursorBlinked.current = 0;
-      setDisplayText("");
+      setDisplayText('');
       setCursorVisible(true);
     }
     /* eslint-disable-next-line react-hooks/exhaustive-deps */
@@ -84,19 +84,15 @@ const TypingSimulation: React.FC<Props> = ({ text, onCompleteTyping }) => {
       }
     }
     if (typing.current) {
-      if (prevLetterAdded !== " " && prevLetterAdded !== undefined) {
-        if (
-          timeSinceLetterAdded.current >
-          randomDelay(MIN_TYPE_DELAY, MAX_TYPE_DELAY)
-        ) {
+      if (prevLetterAdded !== ' ' && prevLetterAdded !== undefined) {
+        if (timeSinceLetterAdded.current > randomDelay(MIN_TYPE_DELAY, MAX_TYPE_DELAY)) {
           addNextLetterToDisplayText();
           timeSinceLetterAdded.current = 0;
         }
       } else {
         if (
           timeSinceLetterAdded.current >
-          randomDelay(MIN_TYPE_DELAY, MAX_TYPE_DELAY) +
-            EXTRA_DELAY_BETWEEN_WORDS
+          randomDelay(MIN_TYPE_DELAY, MAX_TYPE_DELAY) + EXTRA_DELAY_BETWEEN_WORDS
         ) {
           addNextLetterToDisplayText();
           timeSinceLetterAdded.current = 0;
@@ -105,9 +101,7 @@ const TypingSimulation: React.FC<Props> = ({ text, onCompleteTyping }) => {
     }
   });
 
-  return (
-    <p className="text">{cursorVisible ? `${displayText}_` : displayText}</p>
-  );
+  return <p className="text">{cursorVisible ? `${displayText}_` : displayText}</p>;
 };
 
 export default TypingSimulation;

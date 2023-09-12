@@ -1,5 +1,5 @@
-import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import type { RootState } from "../store";
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import type { RootState } from '../store';
 
 export type DisplayState = {
   isOn: boolean;
@@ -14,7 +14,7 @@ const initialState: DisplayState = {
 };
 
 export const displaySlice = createSlice({
-  name: "display",
+  name: 'display',
   initialState,
   reducers: {
     startDisplay: (state, action: PayloadAction<string>) => {
@@ -34,8 +34,7 @@ export const displaySlice = createSlice({
   },
 });
 
-export const { startDisplay, stopDisplay, copied, copiedTimeout } =
-  displaySlice.actions;
+export const { startDisplay, stopDisplay, copied, copiedTimeout } = displaySlice.actions;
 
 export const selectDisplay = (state: RootState) => state.display;
 

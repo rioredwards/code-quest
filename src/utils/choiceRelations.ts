@@ -13,12 +13,11 @@ export function mergeChoiceCompatibilityMapsViaIntermediateMap(
     keyof typeof oneToTwo,
     number[]
   ][]) {
-    if (!choiceTwos) throw new Error("ChoiceTwos not found in oneToTwo");
+    if (!choiceTwos) throw new Error('ChoiceTwos not found in oneToTwo');
 
     choiceTwos.forEach((choiceTwo) => {
       const choiceThrees = twoToThree[choiceTwo];
-      if (!choiceThrees)
-        throw new Error("ChoiceThrees not found in twoToThree");
+      if (!choiceThrees) throw new Error('ChoiceThrees not found in twoToThree');
 
       if (oneToThree[choiceOne] === undefined) {
         oneToThree[choiceOne] = [];
@@ -48,7 +47,7 @@ export function reverseChoiceCompatibilityMap(choiceMap: ChoiceMap): ChoiceMap {
     keyof typeof choiceMap,
     number[]
   ][]) {
-    if (!choiceTwos) throw new Error("ChoiceTwos not found in choiceMap");
+    if (!choiceTwos) throw new Error('ChoiceTwos not found in choiceMap');
 
     choiceTwos.forEach((choiceTwo) => {
       if (reversedChoiceMap[choiceTwo] === undefined) {

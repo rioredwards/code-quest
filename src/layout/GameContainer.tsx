@@ -1,4 +1,4 @@
-import "./GameContainer.css";
+import './GameContainer.css';
 
 interface GameContainerProps {
   children: React.ReactNode;

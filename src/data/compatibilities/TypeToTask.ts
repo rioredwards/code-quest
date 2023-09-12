@@ -1,7 +1,7 @@
-import { logChoiceCompatibilities } from "../../logging";
-import { ChoiceMap } from "../../utils/choiceRelations";
-import { TaskChoiceIdx } from "../choiceIdxs/taskIdxs";
-import { TypeChoiceIdx } from "../choiceIdxs/typeIdxs";
+import { logChoiceCompatibilities } from '../../logging';
+import { ChoiceMap } from '../../utils/choiceRelations';
+import { TaskChoiceIdx } from '../choiceIdxs/taskIdxs';
+import { TypeChoiceIdx } from '../choiceIdxs/typeIdxs';
 
 const {
   TWO_SUM,
@@ -39,28 +39,10 @@ const {
 const { LEETCODE, CLI, FRONTEND, FULLSTACK, BACKEND, CLOUD } = TypeChoiceIdx;
 
 export const typeToTask: ChoiceMap = {
-  [LEETCODE]: [
-    TWO_SUM,
-    VALID_PALINDROME,
-    REVERSE_LINKED_LIST,
-    FREQUENT_ELEMENTS,
-    MOST_WATER,
-  ],
+  [LEETCODE]: [TWO_SUM, VALID_PALINDROME, REVERSE_LINKED_LIST, FREQUENT_ELEMENTS, MOST_WATER],
   [CLI]: [DEAR_DIARY, WAY_WITH_WORDS, POMODORO, RAIN_CHECK, PUSH_THE_ENVELOPE],
-  [FRONTEND]: [
-    BIG_MAC,
-    CHARACTER_CREATOR,
-    SPACE_RACE,
-    CALCULATOR,
-    PRICE_IS_RIGHT,
-  ],
-  [FULLSTACK]: [
-    HEAD_COUNT,
-    RETAIL_THERAPY,
-    QUERY_STRING_QUEST,
-    SHARING_IS_CARING,
-    HELLO_WORLD,
-  ],
+  [FRONTEND]: [BIG_MAC, CHARACTER_CREATOR, SPACE_RACE, CALCULATOR, PRICE_IS_RIGHT],
+  [FULLSTACK]: [HEAD_COUNT, RETAIL_THERAPY, QUERY_STRING_QUEST, SHARING_IS_CARING, HELLO_WORLD],
   [BACKEND]: [HOT_TAKES, MOVIE_LIST, TOP_SECRET, ADD_TO_CART, BOOKWORM],
   [CLOUD]: [BIG_DATA, CLOUDCEPTION, CORS_CONTROL, TICKET_TO_RIDE, MOOD_MATCHER],
 };

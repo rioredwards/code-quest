@@ -1,16 +1,16 @@
-import { Choice } from "../../types";
-import { typeToTask } from "../compatibilities/TypeToTask";
-import { TypeChoiceIdx } from "../choiceIdxs/typeIdxs";
-import { typeToTech } from "../compatibilities/TypeToTech.";
-import { typeToTime } from "../compatibilities/TypeToTime";
+import { Choice } from '../../types';
+import { typeToTask } from '../compatibilities/TypeToTask';
+import { TypeChoiceIdx } from '../choiceIdxs/typeIdxs';
+import { typeToTech } from '../compatibilities/TypeToTech.';
+import { typeToTime } from '../compatibilities/TypeToTime';
 
 const { LEETCODE, CLI, FRONTEND, FULLSTACK, BACKEND, CLOUD } = TypeChoiceIdx;
 
 export const typeChoices: Choice[] = [
   {
     id: LEETCODE,
-    name: "Leetcode",
-    sentenceName: "Leetcode",
+    name: 'Leetcode',
+    sentenceName: 'Leetcode',
     compatibleWith: {
       TASK: typeToTask[LEETCODE],
       TECH: typeToTech[LEETCODE],
@@ -19,8 +19,8 @@ export const typeChoices: Choice[] = [
   },
   {
     id: CLI,
-    name: "CLI",
-    sentenceName: "CLI",
+    name: 'CLI',
+    sentenceName: 'CLI',
     compatibleWith: {
       TASK: typeToTask[CLI],
       TECH: typeToTech[CLI],
@@ -29,8 +29,8 @@ export const typeChoices: Choice[] = [
   },
   {
     id: FRONTEND,
-    name: "Frontend",
-    sentenceName: "Frontend",
+    name: 'Frontend',
+    sentenceName: 'Frontend',
     compatibleWith: {
       TASK: typeToTask[FRONTEND],
       TECH: typeToTech[FRONTEND],
@@ -39,8 +39,8 @@ export const typeChoices: Choice[] = [
   },
   {
     id: FULLSTACK,
-    name: "Fullstack",
-    sentenceName: "Fullstack",
+    name: 'Fullstack',
+    sentenceName: 'Fullstack',
     compatibleWith: {
       TASK: typeToTask[FULLSTACK],
       TECH: typeToTech[FULLSTACK],
@@ -49,8 +49,8 @@ export const typeChoices: Choice[] = [
   },
   {
     id: BACKEND,
-    name: "Backend",
-    sentenceName: "Backend",
+    name: 'Backend',
+    sentenceName: 'Backend',
     compatibleWith: {
       TASK: typeToTask[BACKEND],
       TECH: typeToTech[BACKEND],
@@ -59,8 +59,8 @@ export const typeChoices: Choice[] = [
   },
   {
     id: CLOUD,
-    name: "Cloud",
-    sentenceName: "Cloud",
+    name: 'Cloud',
+    sentenceName: 'Cloud',
     compatibleWith: {
       TASK: typeToTask[CLOUD],
       TECH: typeToTech[CLOUD],

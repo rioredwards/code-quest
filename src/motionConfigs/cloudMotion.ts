@@ -1,6 +1,6 @@
-import { TargetAndTransition } from "framer-motion";
+import { TargetAndTransition } from 'framer-motion';
 
 export const cloudAnimation: TargetAndTransition = {
   x: [`-80vh`, `200vh`],
-  transition: { duration: 50, ease: "linear", repeat: Infinity },
+  transition: { duration: 50, ease: 'linear', repeat: Infinity },
 };

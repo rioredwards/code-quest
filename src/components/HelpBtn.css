@@ -10,7 +10,7 @@
   width: var(--width);
   border-radius: 50%;
   font-size: 3vh;
-  font-family: "Courier New", Courier, monospace;
+  font-family: 'Courier New', Courier, monospace;
   font-weight: bold;
   background-color: transparent;
   border: none;

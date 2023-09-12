@@ -1,5 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
-import type { RootState } from "../store";
+import { createSlice } from '@reduxjs/toolkit';
+import type { RootState } from '../store';
 
 export type CursorState = {
   dragging: boolean;
@@ -10,7 +10,7 @@ const initialState: CursorState = {
 };
 
 export const cursorSlice = createSlice({
-  name: "cursor",
+  name: 'cursor',
   initialState,
   reducers: {
     dragging: (state) => {
@@ -24,7 +24,6 @@ export const cursorSlice = createSlice({
 
 export const { dragging, stopDragging } = cursorSlice.actions;
 
-export const selectCursorDragState = (state: RootState) =>
-  state.cursor.dragging;
+export const selectCursorDragState = (state: RootState) => state.cursor.dragging;
 
 export default cursorSlice.reducer;

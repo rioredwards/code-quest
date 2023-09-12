@@ -1,4 +1,4 @@
-import { SECOND } from "../constants";
+import { SECOND } from '../constants';
 
 export const MIN_TYPE_DELAY = SECOND / 24;
 export const MAX_TYPE_DELAY = SECOND / 12;

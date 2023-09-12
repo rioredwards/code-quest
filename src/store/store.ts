@@ -1,8 +1,8 @@
-import { configureStore } from "@reduxjs/toolkit";
-import reelsReducer from "./reels/reelsSlice";
-import displayReducer from "./display/displaySlice";
-import cursorReducer from "./cursor/cursorSlice";
-import helpReducer from "./help/helpSlice";
+import { configureStore } from '@reduxjs/toolkit';
+import reelsReducer from './reels/reelsSlice';
+import displayReducer from './display/displaySlice';
+import cursorReducer from './cursor/cursorSlice';
+import helpReducer from './help/helpSlice';
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +12,8 @@ export const store = configureStore({
     help: helpReducer,
   },
 });
+
+console.log('hello world');
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>;

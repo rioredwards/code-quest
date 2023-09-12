@@ -1,12 +1,12 @@
-import { TargetAndTransition } from "framer-motion";
+import { TargetAndTransition } from 'framer-motion';
 
 export const innerSunAnimation: TargetAndTransition = {
   scale: [1, 1.1],
   transition: {
     duration: 1.5,
-    ease: "easeInOut",
+    ease: 'easeInOut',
     repeat: Infinity,
-    repeatType: "reverse",
+    repeatType: 'reverse',
   },
 };
 
@@ -15,8 +15,8 @@ export const outerSunAnimation: TargetAndTransition = {
   transition: {
     delay: 0.3,
     duration: 1.5,
-    ease: "easeInOut",
+    ease: 'easeInOut',
     repeat: Infinity,
-    repeatType: "reverse",
+    repeatType: 'reverse',
   },
 };

@@ -1,23 +1,20 @@
-import "./Display.css";
-import { AnimatePresence, motion } from "framer-motion";
-import TypingSimulation from "./TypingSimulation";
-import { linesAnimation } from "../motionConfigs/displayMotion";
-import { useAppDispatch, useAppSelector } from "../store/hooks";
-import {
-  selectReelChosenChoices,
-  selectReelsSpinStates,
-} from "../store/reels/reelsSlice";
-import { useEffect, useRef, useState } from "react";
-import CopyIcon from "./CopyButton";
-import { selectDisplay } from "../store/display/displaySlice";
-import { selectHelpTargetEl } from "../store/help/helpSlice";
+import './Display.css';
+import { AnimatePresence, motion } from 'framer-motion';
+import TypingSimulation from './TypingSimulation';
+import { linesAnimation } from '../motionConfigs/displayMotion';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { selectReelChosenChoices, selectReelsSpinStates } from '../store/reels/reelsSlice';
+import { useEffect, useRef, useState } from 'react';
+import CopyIcon from './CopyButton';
+import { selectDisplay } from '../store/display/displaySlice';
+import { selectHelpTargetEl } from '../store/help/helpSlice';
 
 interface Props {}
 
 const Display: React.FC<Props> = () => {
   const dispatch = useAppDispatch();
   const [userIsHovering, setUserIsHovering] = useState(false);
-  const highlightedForHelp = useAppSelector(selectHelpTargetEl) === "DISPLAY";
+  const highlightedForHelp = useAppSelector(selectHelpTargetEl) === 'DISPLAY';
 
   const { isOn, text, copied } = useAppSelector(selectDisplay);
   const chosenChoices = useAppSelector(selectReelChosenChoices);
@@ -28,13 +25,13 @@ const Display: React.FC<Props> = () => {
 
   useEffect(() => {
     if (
-      spins.every((spin) => spin === "PRE" || spin === "POST") &&
+      spins.every((spin) => spin === 'PRE' || spin === 'POST') &&
       ((!isOn && newChallengeText !== null) ||
         (isOn && newChallengeText !== prevChallengeText.current))
     ) {
       // Challenge created or updated
       dispatch({
-        type: "display/startDisplay",
+        type: 'display/startDisplay',
         payload: newChallengeText,
       });
       prevChallengeText.current = newChallengeText;
@@ -45,7 +42,7 @@ const Display: React.FC<Props> = () => {
 
   const onCompleteTyping = () => {
     dispatch({
-      type: "reels/finishedPrintingChallenge",
+      type: 'reels/finishedPrintingChallenge',
     });
   };
 
@@ -59,7 +56,7 @@ const Display: React.FC<Props> = () => {
 
   const copyToClipboard = () => {
     if (!text) return;
-    dispatch({ type: "display/copied" });
+    dispatch({ type: 'display/copied' });
     navigator.clipboard.writeText(text);
   };
 
@@ -68,16 +65,11 @@ const Display: React.FC<Props> = () => {
       onHoverStart={onHoverStart}
       onHoverEnd={onHoverEnd}
       onClick={copyToClipboard}
-      className={`display-container ${!isOn ? "" : copied ? "" : "copyable"}`}>
-      <div
-        className={`display-glass ${highlightedForHelp ? "help-hover" : ""}`}
-      />
-      {isOn && (
-        <motion.div animate={linesAnimation} className="display-lines" />
-      )}
-      <AnimatePresence>
-        {isOn && (userIsHovering || copied) && <CopyIcon />}
-      </AnimatePresence>
+      className={`display-container ${!isOn ? '' : copied ? '' : 'copyable'}`}
+    >
+      <div className={`display-glass ${highlightedForHelp ? 'help-hover' : ''}`} />
+      {isOn && <motion.div animate={linesAnimation} className="display-lines" />}
+      <AnimatePresence>{isOn && (userIsHovering || copied) && <CopyIcon />}</AnimatePresence>
       {isOn && text !== null && (
         <TypingSimulation text={text} onCompleteTyping={onCompleteTyping} />
       )}
