@@ -1,0 +1,27 @@
+.copy-icon-container {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  padding: 0;
+  position: absolute;
+  right: 1.4vh;
+  top: 1.3vh;
+  z-index: 4;
+}
+
+.box,
+.check {
+  fill: none;
+  stroke: #b4e0b4a9;
+  stroke-miterlimit: 10;
+  stroke-width: 0.8vh;
+}
+
+.copy-button-svg {
+  height: 3.4vh;
+  width: 3.4vh;
+}
+
+.copy-button-svg:focus {
+  outline: none;
+}

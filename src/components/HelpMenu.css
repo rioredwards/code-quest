@@ -1,0 +1,76 @@
+.help-menu-container {
+  position: absolute;
+  z-index: 7;
+  top: 1.5vh;
+  left: 1vh;
+  width: 176vh;
+  border-radius: 2vh;
+  padding: 1vh 1.5vh 1.5vh 1vh;
+  background-color: rgba(228, 228, 228, 0.804);
+  opacity: 0.8;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.how-to-list {
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  height: 100%;
+  width: 60%;
+  /* gap: 0.3vh; */
+}
+
+.about-summary {
+  width: 51%;
+  display: flex;
+  flex-direction: column;
+  font-size: 2vh;
+}
+
+.left-aligned {
+  text-align: left;
+}
+
+.custom-line-break {
+  height: 0.8vh;
+}
+
+.links {
+  display: flex;
+  justify-content: space-between;
+  width: 24%;
+  margin: 0.5vh auto 0;
+  font-size: 2.5vh;
+}
+
+.link {
+  color: rgb(0, 102, 255);
+  text-decoration: none;
+  font-size: 2vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.icon {
+  display: inline-block;
+  width: 4vh;
+}
+
+.fa-icon.youtube {
+  color: #ff0000;
+}
+
+.fa-icon.linkedin {
+  color: #0077b5;
+}
+
+.fa-icon.github {
+  color: #000000;
+}

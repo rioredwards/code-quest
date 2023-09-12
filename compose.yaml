@@ -1,0 +1,13 @@
+version: "3.8"
+
+services:
+  app:
+    container_name: app_c
+    build: ./
+    ports:
+      - 3000:3000
+    volumes:
+      - ./:/app
+      - /Users/rioedwards/Documents/Coding/projects/code-challenge-generator/node_modules
+    stdin_open: true
+    tty: true

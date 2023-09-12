@@ -1,59 +1,55 @@
-import { useAppDispatch, useAppSelector } from "../store/hooks";
-import LockSwitch from "./LockSwitch";
-import "./ReelUnit.css";
-import Sign from "./Sign";
-import Reel from "./Reel";
-import SpinLight from "./SpinLight";
-import { ReelName, SpinState } from "../types";
-import { allChoices } from "../data/allChoices";
-import { ReelState } from "../store/reels/reelsSlice";
-import { useRef } from "react";
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import LockSwitch from './LockSwitch';
+import './ReelUnit.css';
+import Reel from './Reel';
+import { ReelName } from '../types';
+import { allChoices } from '../data/allChoices';
+import { selectReelByName } from '../store/reels/reelsSlice';
+import { useRef } from 'react';
+import StopButton from './StopButton';
 
 interface Props {
   name: ReelName;
-  spinState: SpinState;
 }
 
-const ReelUnit: React.FC<Props> = ({ name, spinState }) => {
-  const reel = useAppSelector((state) =>
-    state.reels.find((reel) => reel.name === name)
-  ) as ReelState;
-  const { chosenIdx, isSpinLocked, isUserLocked } = reel;
+const ReelUnit: React.FC<Props> = ({ name }) => {
+  const reel = useAppSelector((state) => selectReelByName(state, name));
+  const { spinState, chosenIdx, isSpinLocked, isUserLocked } = reel;
   const choiceIdxAtCurrYPos = useRef<null | number>(null);
   const choices = allChoices[name];
   const dispatch = useAppDispatch();
 
   const toggleIsUserLocked = () => {
     dispatch({
-      type: "reels/lockSwitchToggled",
+      type: 'reels/lockSwitchToggled',
       payload: { name, choiceIdxAtCurrYPos: choiceIdxAtCurrYPos.current },
     });
   };
 
   const onFinishedIdleStart = () => {
     dispatch({
-      type: "reels/finishedIdleStart",
+      type: 'reels/finishedIdleStart',
       payload: name,
     });
   };
 
   const onFinishedStopping = () => {
     dispatch({
-      type: "reels/finishedStopping",
+      type: 'reels/finishedStopping',
       payload: name,
     });
   };
 
-  const onClickSpinLight = () => {
+  const onClickStopButton = () => {
+    dispatch({ type: 'tutorial/targetElActivated' });
     dispatch({
-      type: "reels/spinLightClicked",
+      type: 'reels/stopButtonClicked',
       payload: name,
     });
   };
 
   return (
     <div className="reel-unit">
-      <Sign name={name} />
       <LockSwitch isLocked={isUserLocked} toggleLock={toggleIsUserLocked} />
       <Reel
         choices={choices}
@@ -64,7 +60,7 @@ const ReelUnit: React.FC<Props> = ({ name, spinState }) => {
         isLocked={isSpinLocked || isUserLocked}
         choiceIdxAtCurrYPos={choiceIdxAtCurrYPos}
       />
-      <SpinLight spinState={spinState} onClickSpinLight={onClickSpinLight} />
+      <StopButton spinState={spinState} onClickStopButton={onClickStopButton} />
     </div>
   );
 };

@@ -1,9 +1,10 @@
-import { createSlice } from "@reduxjs/toolkit";
-import type { PayloadAction } from "@reduxjs/toolkit";
-import type { RootState } from "../store";
-import { ReelName, SpinState } from "../../types";
-import { getRandIdx } from "../../utils/genUtils";
-import { allChoices } from "../../data/allChoices";
+import { createSlice } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit';
+import type { RootState } from '../store';
+import { ReelName, SpinState } from '../../types';
+import { getRandIdx } from '../../utils/genUtils';
+import { allChoices } from '../../data/allChoices';
+// import { logCompatibilityScores } from "../../logging";
 
 // Define a type for the state
 export type ReelState = {
@@ -18,8 +19,8 @@ export type ReelsState = [ReelState, ReelState, ReelState, ReelState];
 
 export enum ReelIdx {
   TYPE = 0,
-  TECH = 1,
-  TASK = 2,
+  TASK = 1,
+  TECH = 2,
   TIME = 3,
 }
 
@@ -31,29 +32,29 @@ type lockSwitchToggledPayload = {
 // Define the initial state using that type
 const initialState: ReelsState = [
   {
-    name: "TYPE",
-    spinState: "PRE",
+    name: 'TYPE',
+    spinState: 'PRE',
     chosenIdx: null,
     isUserLocked: false,
     isSpinLocked: false,
   },
   {
-    name: "TECH",
-    spinState: "PRE",
+    name: 'TASK',
+    spinState: 'PRE',
     chosenIdx: null,
     isUserLocked: false,
     isSpinLocked: false,
   },
   {
-    name: "TASK",
-    spinState: "PRE",
+    name: 'TECH',
+    spinState: 'PRE',
     chosenIdx: null,
     isUserLocked: false,
     isSpinLocked: false,
   },
   {
-    name: "TIME",
-    spinState: "PRE",
+    name: 'TIME',
+    spinState: 'PRE',
     chosenIdx: null,
     isUserLocked: false,
     isSpinLocked: false,
@@ -61,63 +62,55 @@ const initialState: ReelsState = [
 ];
 
 export const reelsSlice = createSlice({
-  name: "reels",
+  name: 'reels',
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
     leverPulled: (state) => {
       const reels = state;
       // If there is a spin in progress, do nothing
-      if (
-        reels.every(
-          ({ spinState }) => spinState !== "PRE" && spinState !== "POST"
-        )
-      ) {
+      if (reels.every(({ spinState }) => spinState !== 'PRE' && spinState !== 'POST')) {
         return;
       }
       reels.forEach((reel) => {
-        if (reel.spinState === "PRE") {
-          reel.spinState = "IDLE_START";
+        if (reel.spinState === 'PRE') {
+          reel.spinState = 'IDLE_START';
           reel.chosenIdx = null;
         }
         reel.isSpinLocked = true;
       });
     },
-    lockSwitchToggled: (
-      state,
-      action: PayloadAction<lockSwitchToggledPayload>
-    ) => {
-      const reelIdx = state.findIndex(
-        (reel) => reel.name === action.payload.name
-      );
+    lockSwitchToggled: (state, action: PayloadAction<lockSwitchToggledPayload>) => {
+      const reelIdx = state.findIndex((reel) => reel.name === action.payload.name);
       const reel = state[reelIdx];
 
       reel.isUserLocked = !reel.isUserLocked;
 
-      if (reel.spinState === "PRE") {
+      if (reel.spinState === 'PRE') {
         reel.chosenIdx = action.payload.choiceIdxAtCurrYPos;
-        reel.spinState = "POST";
-      } else if (reel.spinState === "POST" && !reel.isSpinLocked) {
-        reel.spinState = "PRE";
+        reel.spinState = 'POST';
+      } else if (reel.spinState === 'POST' && !reel.isSpinLocked) {
+        reel.spinState = 'PRE';
       }
     },
     finishedIdleStart: (state, action: PayloadAction<ReelName>) => {
       const reelIdx = state.findIndex((reel) => reel.name === action.payload);
       const reel = state[reelIdx];
 
-      reel.spinState = "IDLE_LOOP";
+      reel.spinState = 'IDLE_LOOP';
     },
     finishedStopping: (state, action: PayloadAction<ReelName>) => {
       const reelIdx = state.findIndex((reel) => reel.name === action.payload);
       const reel = state[reelIdx];
 
-      reel.spinState = "POST";
+      reel.spinState = 'POST';
     },
-    spinLightClicked: (state, action: PayloadAction<ReelName>) => {
+    stopButtonClicked: (state, action: PayloadAction<ReelName>) => {
       const reelIdx = state.findIndex((reel) => reel.name === action.payload);
       const targetReel = state[reelIdx];
 
-      if (targetReel.spinState !== "IDLE_LOOP") return;
+      const currSpinState = targetReel.spinState;
+      if (currSpinState !== 'IDLE_START' && currSpinState !== 'IDLE_LOOP') return;
 
       // compatibilityScores is a Map where the
       // keys are all the available choices for the reel
@@ -132,45 +125,37 @@ export const reelsSlice = createSlice({
 
       // Iterate through all the reels and calculate the compatibility scores
       state.forEach((reel) => {
+        // If the reel doesn't have a chosen choice yet, don't factor it into the compatibility score
         if (reel.chosenIdx === null) return;
 
-        const choiceCompatibleWith = allChoices[reel.name][reel.chosenIdx]
-          .compatibleWith[targetReel.name] as number[];
+        const choiceCompatibleWith =
+          allChoices[reel.name][reel.chosenIdx].compatibleWith[targetReel.name]!;
 
         choiceCompatibleWith.forEach((choiceIdx) => {
-          compatibilityScores.set(
-            choiceIdx,
-            compatibilityScores.get(choiceIdx)! + 1
-          );
+          compatibilityScores.set(choiceIdx, compatibilityScores.get(choiceIdx)! + 1);
         });
       });
 
+      // logCompatibilityScores(compatibilityScores, targetReel.name);
+
       // Find the choice or choices with the highest compatibility score
-      const maxCompatibilityScore = Math.max(
-        ...Array.from(compatibilityScores.values())
-      );
-      const maxCompatibilityChoiceIdxs = Array.from(
-        compatibilityScores.entries()
-      )
+      const maxCompatibilityScore = Math.max(...Array.from(compatibilityScores.values()));
+      const maxCompatibilityChoiceIdxs = Array.from(compatibilityScores.entries())
         .filter(([_, score]) => score === maxCompatibilityScore)
         .map(([idx]) => idx);
-
-      console.log("compatibilityScores: ", compatibilityScores);
 
       // Select a random choice from the choices with the highest compatibility score
       const randIdx = getRandIdx(maxCompatibilityChoiceIdxs.length);
       const chosenIdx = maxCompatibilityChoiceIdxs[randIdx];
 
-      console.log("chosenIdx: ", chosenIdx);
-
       targetReel.chosenIdx = chosenIdx;
-      targetReel.spinState = "STOPPING";
+      targetReel.spinState = 'STOPPING';
     },
-    displayAnimationFinished: (state) => {
+    finishedPrintingChallenge: (state) => {
       state.forEach((reel) => {
         reel.isSpinLocked = false;
         if (!reel.isUserLocked) {
-          reel.spinState = "PRE";
+          reel.spinState = 'PRE';
         }
       });
     },
@@ -182,11 +167,26 @@ export const {
   lockSwitchToggled,
   finishedIdleStart,
   finishedStopping,
-  spinLightClicked,
-  displayAnimationFinished,
+  stopButtonClicked,
+  finishedPrintingChallenge,
 } = reelsSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectReels = (state: RootState) => state.reels;
+export const selectReelByName = (state: RootState, name: ReelName) =>
+  state.reels.find((reel) => reel.name === name) as ReelState;
+export const selectReelsSpinStates = (state: RootState) =>
+  state.reels.map(({ spinState }) => spinState);
+export const selectReelChosenChoice = (state: RootState, name: ReelName) => {
+  const chosenIdx = state.reels.find((reel) => reel.name === name)!.chosenIdx;
+  return chosenIdx !== null ? allChoices[name][chosenIdx].sentenceName : null;
+};
+export const selectReelChosenChoices = (state: RootState) => {
+  const chosenType = selectReelChosenChoice(state, 'TYPE');
+  const chosenTask = selectReelChosenChoice(state, 'TASK');
+  const chosenTech = selectReelChosenChoice(state, 'TECH');
+  const chosenTime = selectReelChosenChoice(state, 'TIME');
+  return { chosenType, chosenTask, chosenTech, chosenTime };
+};
 
 export default reelsSlice.reducer;

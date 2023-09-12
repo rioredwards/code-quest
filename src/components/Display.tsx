@@ -1,90 +1,88 @@
-import "./Display.css";
-import { motion } from "framer-motion";
-import TypingSimulation from "./TypingSimulation";
-import { linesAnimation } from "../motionConfigs/displayMotion";
-import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { ReelIdx } from "../store/reels/reelsSlice";
-import { typeChoices } from "../data/choices/typeChoices";
-import { taskChoices } from "../data/choices/taskChoices";
-import { techChoices } from "../data/choices/techChoices";
-import { timeChoices } from "../data/choices/timeChoices";
-import { useEffect } from "react";
+import './Display.css';
+import { AnimatePresence, motion } from 'framer-motion';
+import TypingSimulation from './TypingSimulation';
+import { linesAnimation } from '../motionConfigs/displayMotion';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { selectReelChosenChoices, selectReelsSpinStates } from '../store/reels/reelsSlice';
+import { useEffect, useRef, useState } from 'react';
+import CopyIcon from './CopyButton';
+import { selectDisplay } from '../store/display/displaySlice';
+import { selectHelpTargetEl } from '../store/help/helpSlice';
 
 interface Props {}
 
 const Display: React.FC<Props> = () => {
   const dispatch = useAppDispatch();
+  const [userIsHovering, setUserIsHovering] = useState(false);
+  const highlightedForHelp = useAppSelector(selectHelpTargetEl) === 'DISPLAY';
 
-  const isOn = useAppSelector((state) => state.display.isOn);
-  const displayText = useAppSelector((state) => state.display.text);
+  const { isOn, text, copied } = useAppSelector(selectDisplay);
+  const chosenChoices = useAppSelector(selectReelChosenChoices);
+  const spins = useAppSelector(selectReelsSpinStates);
 
-  const typeIdx = useAppSelector(({ reels }) => reels[ReelIdx.TYPE].chosenIdx);
-  const taskIdx = useAppSelector(({ reels }) => reels[ReelIdx.TASK].chosenIdx);
-  const techIdx = useAppSelector(({ reels }) => reels[ReelIdx.TECH].chosenIdx);
-  const timeIdx = useAppSelector(({ reels }) => reels[ReelIdx.TIME].chosenIdx);
-
-  const type = typeIdx !== null ? typeChoices[typeIdx].sentenceName : null;
-  const task = taskIdx !== null ? taskChoices[taskIdx].sentenceName : null;
-  const tech = techIdx !== null ? techChoices[techIdx].sentenceName : null;
-  const time = timeIdx !== null ? timeChoices[timeIdx].sentenceName : null;
-
-  const newDisplayText = formatDisplayText(type, task, tech, time);
-  const needToUpdate = newDisplayText && newDisplayText !== displayText;
-  const allReelsAreStopped = useAppSelector(({ reels }) =>
-    reels.every((reel) => reel.spinState === "PRE" || reel.spinState === "POST")
-  );
+  const newChallengeText = formatDisplayText(chosenChoices);
+  const prevChallengeText = useRef<string | null>(null);
 
   useEffect(() => {
-    if (!isOn && newDisplayText && allReelsAreStopped) {
+    if (
+      spins.every((spin) => spin === 'PRE' || spin === 'POST') &&
+      ((!isOn && newChallengeText !== null) ||
+        (isOn && newChallengeText !== prevChallengeText.current))
+    ) {
+      // Challenge created or updated
       dispatch({
-        type: "display/startDisplay",
-        payload: newDisplayText,
+        type: 'display/startDisplay',
+        payload: newChallengeText,
       });
-    } else if (isOn && needToUpdate) {
-      dispatch({
-        type: "display/updateDisplay",
-        payload: newDisplayText,
-      });
+      prevChallengeText.current = newChallengeText;
+    } else {
+      // Do nothing
     }
-  }, [
-    isOn,
-    dispatch,
-    newDisplayText,
-    displayText,
-    needToUpdate,
-    allReelsAreStopped,
-  ]);
+  }, [spins, newChallengeText, isOn, prevChallengeText, dispatch]);
 
   const onCompleteTyping = () => {
     dispatch({
-      type: "reels/displayAnimationFinished",
+      type: 'reels/finishedPrintingChallenge',
     });
   };
 
+  const onHoverStart = () => {
+    setUserIsHovering(true);
+  };
+
+  const onHoverEnd = () => {
+    setUserIsHovering(false);
+  };
+
+  const copyToClipboard = () => {
+    if (!text) return;
+    dispatch({ type: 'display/copied' });
+    navigator.clipboard.writeText(text);
+  };
+
   return (
-    <div className="display-container">
-      <div className="display-glass" />
-      {isOn && !needToUpdate && (
-        <>
-          <motion.div animate={linesAnimation} className="display-lines" />
-          <TypingSimulation
-            text={displayText}
-            onCompleteTyping={onCompleteTyping}
-          />
-        </>
+    <motion.div
+      onHoverStart={onHoverStart}
+      onHoverEnd={onHoverEnd}
+      onClick={copyToClipboard}
+      className={`display-container ${!isOn ? '' : copied ? '' : 'copyable'}`}
+    >
+      <div className={`display-glass ${highlightedForHelp ? 'help-hover' : ''}`} />
+      {isOn && <motion.div animate={linesAnimation} className="display-lines" />}
+      <AnimatePresence>{isOn && (userIsHovering || copied) && <CopyIcon />}</AnimatePresence>
+      {isOn && text !== null && (
+        <TypingSimulation text={text} onCompleteTyping={onCompleteTyping} />
       )}
-    </div>
+    </motion.div>
   );
 };
 
 function formatDisplayText(
-  type: string | null,
-  task: string | null,
-  tech: string | null,
-  time: string | null
+  chosenChoices: ReturnType<typeof selectReelChosenChoices>
 ): string | null {
-  if (!type || !task || !tech || !time) return null;
-  return `${type} Challenge: ${task} using ${tech} in ${time}!`;
+  const { chosenType, chosenTask, chosenTech, chosenTime } = chosenChoices;
+  if (!chosenType || !chosenTask || !chosenTech || !chosenTime) return null;
+  return `${chosenType} Challenge: ${chosenTask} using ${chosenTech} in ${chosenTime}!`;
 }
 
 export default Display;

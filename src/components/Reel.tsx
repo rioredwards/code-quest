@@ -1,17 +1,17 @@
-import "./Reel.css";
+import './Reel.css';
 import {
   AnimatePresence,
+  AnimationPlaybackControls,
   motion,
   useAnimate,
   useMotionValue,
   useTransform,
   useVelocity,
-} from "framer-motion";
-import { MutableRefObject, useEffect, useState } from "react";
-import { numToVh, vhToNum } from "../utils/genUtils";
+} from 'framer-motion';
+import { MutableRefObject, useEffect, useRef } from 'react';
+import { numToVh, vhToNum } from '../utils/genUtils';
 import {
   roundYToNearestChoice,
-  yIsOutsideDragBounds,
   preSpinAnimation,
   ReelMotionParams,
   idleStartAnimation,
@@ -19,10 +19,12 @@ import {
   stoppingAnimation,
   postSpinAnimation,
   yToChoiceIdx,
-} from "../motionConfigs/reelMotion";
-import Window from "./Window";
-import ChoiceList from "./ChoiceList";
-import { Choice, SpinState } from "../types";
+  yIsOutsideDragBounds,
+} from '../motionConfigs/reelMotion';
+import Window from './Window';
+import ChoiceList from './ChoiceList';
+import { Choice, SpinState } from '../types';
+import { useDispatch } from 'react-redux';
 
 interface ReelProps {
   choices: readonly Choice[];
@@ -43,20 +45,20 @@ const Reel: React.FC<ReelProps> = ({
   isLocked,
   choiceIdxAtCurrYPos,
 }) => {
+  const dispatch = useDispatch();
   const [scope, animate] = useAnimate();
-  const [dragging, setDragging] = useState(false);
-  const [dragStartY, setDragStartY] = useState(0);
-  const y = useMotionValue("0vh");
+  const y = useMotionValue('0vh');
   const yNum = useTransform(y, vhToNum);
   const dragY = useMotionValue(0);
+  const dragStartY = useRef<number>(0);
+  const dragging = useRef<boolean>(false);
   const yVelocity = useVelocity(yNum);
+  const animationControls = useRef<AnimationPlaybackControls | null>(null);
+  const prevSpinState = useRef<SpinState>(spinState);
 
-  y.on("change", () => {
-    if (spinState !== "PRE") return;
-    choiceIdxAtCurrYPos.current = yToChoiceIdx(
-      vhToNum(y.get()),
-      choices.length
-    );
+  y.on('change', () => {
+    if (spinState !== 'PRE') return;
+    choiceIdxAtCurrYPos.current = yToChoiceIdx(vhToNum(y.get()), choices.length);
   });
 
   // When spinState changes, animate the reel
@@ -70,56 +72,65 @@ const Reel: React.FC<ReelProps> = ({
         chosenIdx,
       };
 
-      const newSpinState = await setNewAnimation(spinState, animationParams);
-
-      if (newSpinState === "IDLE_LOOP") {
-        onFinishedIdleStart();
-      } else if (newSpinState === "POST") {
-        onFinishedStopping();
+      if (spinState === 'IDLE_START') {
+        animationControls.current = setNewAnimation(spinState, animationParams);
+        animationControls.current?.then(() => {
+          // This check prevents the animation if the user
+          // clicks the stop button to stop the reel
+          // before the idle animation has started
+          if (prevSpinState.current === 'IDLE_START') {
+            onFinishedIdleStart();
+          }
+        });
+      } else if (spinState === 'STOPPING') {
+        if (prevSpinState.current === 'IDLE_START') animationControls.current?.stop();
+        animationControls.current = setNewAnimation(spinState, animationParams);
+        animationControls.current?.then(() => onFinishedStopping());
       } else {
-        // Do nothing
+        animationControls.current = setNewAnimation(spinState, animationParams);
       }
     }
 
     animateSequence();
+    prevSpinState.current = spinState;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [spinState]);
 
   function onHoverStart(): void {
-    if (dragging) return;
-    animate(scope.current, { filter: "brightness(105%)" });
+    if (dragging.current) return;
+    animate(scope.current, { filter: 'brightness(105%)' });
   }
 
   function onHoverEnd(): void {
-    if (dragging) return;
-    animate(scope.current, { filter: "brightness(100%)" });
+    if (dragging.current) return;
+    animate(scope.current, { filter: 'brightness(100%)' });
   }
 
   function onDragStart(): void {
-    if (dragStartY) return;
-    animate(scope.current, { filter: "brightness(115%)" });
-    setDragging(true);
-    setDragStartY(vhToNum(y.get()));
+    if (dragStartY.current) return;
+    animate(scope.current, { filter: 'brightness(115%)' });
+    dragging.current = true;
+    dragStartY.current = vhToNum(y.get());
+    dispatch({ type: 'cursor/dragging' });
   }
 
   function onDrag(): void {
-    if (!dragStartY) return;
-    const currDragY = dragY.get();
-    const roundedY = roundYToNearestChoice(dragStartY + currDragY);
-    if (yIsOutsideDragBounds(roundedY, choices.length)) return;
+    if (!dragStartY.current) return;
 
-    animate(
-      scope.current,
-      { y: numToVh(roundedY) },
-      { velocity: yVelocity.getVelocity() }
-    );
+    const currDragY = dragY.get();
+    const distanceFromDragStart = dragStartY.current + currDragY;
+    const roundedY = roundYToNearestChoice(distanceFromDragStart);
+    if (yIsOutsideDragBounds(distanceFromDragStart, choices.length)) return;
+
+    animate(scope.current, { y: numToVh(roundedY) }, { velocity: yVelocity.getVelocity() });
   }
 
   function onDragEnd(): void {
-    animate(scope.current, { filter: "brightness(100%)" });
-    setDragging(false);
-    setDragStartY(0);
+    animate(scope.current, { filter: 'brightness(100%)' });
+    dragging.current = false;
+    dragStartY.current = 0;
     dragY.set(0);
+    dispatch({ type: 'cursor/stopDragging' });
   }
 
   return (
@@ -133,7 +144,7 @@ const Reel: React.FC<ReelProps> = ({
           dragConstraints={{ top: 0, bottom: 0 }}
           dragSnapToOrigin={true}
           dragElastic={0.1}
-          whileTap={{ cursor: "grabbing" }}
+          whileTap={{ cursor: 'grabbing' }}
           onHoverStart={onHoverStart}
           onHoverEnd={onHoverEnd}
           onDragStart={onDragStart}
@@ -146,7 +157,7 @@ const Reel: React.FC<ReelProps> = ({
         <ChoiceList
           choices={choices}
           chosenIdx={chosenIdx}
-          highlightChosen={spinState === "POST" || spinState === "PRE"}
+          highlightChosen={spinState === 'POST' || spinState === 'PRE'}
         />
       </motion.ul>
     </div>
@@ -158,22 +169,21 @@ export default Reel;
 // This function calls an animation function based on the current spinState
 // If the next animation and spinState is triggered by an animation ending,
 // This function will return the next spinState to be updated in the parent component
-async function setNewAnimation(
+function setNewAnimation(
   spinState: SpinState,
   animationParams: ReelMotionParams
-): Promise<SpinState | null> {
+): AnimationPlaybackControls | null {
   switch (spinState) {
-    case "PRE":
-      preSpinAnimation(animationParams);
-      return null;
-    case "IDLE_START":
-      await idleStartAnimation(animationParams);
-      idleLoopAnimation(animationParams);
-      return "IDLE_LOOP";
-    case "STOPPING":
-      await stoppingAnimation(animationParams);
-      postSpinAnimation(animationParams);
-      return "POST";
+    case 'PRE':
+      return preSpinAnimation(animationParams);
+    case 'IDLE_START':
+      return idleStartAnimation(animationParams);
+    case 'IDLE_LOOP':
+      return idleLoopAnimation(animationParams);
+    case 'STOPPING':
+      return stoppingAnimation(animationParams);
+    case 'POST':
+      return postSpinAnimation(animationParams);
     default:
       return null;
   }

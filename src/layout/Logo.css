@@ -1,0 +1,14 @@
+.logo {
+  z-index: 2;
+  position: absolute;
+  top: 85.5vh;
+  left: 1vw;
+  height: 16vh;
+  width: 16vh;
+
+  background-image: url(../assets/logo-white.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  opacity: 0.8;
+}

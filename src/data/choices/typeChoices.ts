@@ -1,64 +1,70 @@
-import { Choice } from "../../types";
+import { Choice } from '../../types';
+import { typeToTask } from '../compatibilities/TypeToTask';
+import { TypeChoiceIdx } from '../choiceIdxs/typeIdxs';
+import { typeToTech } from '../compatibilities/TypeToTech.';
+import { typeToTime } from '../compatibilities/TypeToTime';
+
+const { LEETCODE, CLI, FRONTEND, FULLSTACK, BACKEND, CLOUD } = TypeChoiceIdx;
 
 export const typeChoices: Choice[] = [
   {
-    id: 0,
-    name: "Leetcode",
-    sentenceName: "Leetcode",
+    id: LEETCODE,
+    name: 'Leetcode',
+    sentenceName: 'Leetcode',
     compatibleWith: {
-      TECH: [0, 1, 2, 3, 4, 5],
-      TASK: [0, 1, 2, 3, 4, 5],
-      TIME: [0, 1, 2, 3, 4, 5],
+      TASK: typeToTask[LEETCODE],
+      TECH: typeToTech[LEETCODE],
+      TIME: typeToTime[LEETCODE],
     },
   },
   {
-    id: 1,
-    name: "Backend",
-    sentenceName: "Backend",
+    id: CLI,
+    name: 'CLI',
+    sentenceName: 'CLI',
     compatibleWith: {
-      TECH: [0, 1, 2, 3, 4, 5],
-      TASK: [0, 1, 2, 3, 4, 5],
-      TIME: [0, 1, 2, 3, 4, 5],
+      TASK: typeToTask[CLI],
+      TECH: typeToTech[CLI],
+      TIME: typeToTime[CLI],
     },
   },
   {
-    id: 2,
-    name: "Frontend",
-    sentenceName: "Frontend",
+    id: FRONTEND,
+    name: 'Frontend',
+    sentenceName: 'Frontend',
     compatibleWith: {
-      TECH: [0, 1, 2, 3, 4, 5],
-      TASK: [0, 1, 2, 3, 4, 5],
-      TIME: [0, 1, 2, 3, 4, 5],
+      TASK: typeToTask[FRONTEND],
+      TECH: typeToTech[FRONTEND],
+      TIME: typeToTime[FRONTEND],
     },
   },
   {
-    id: 3,
-    name: "Fullstack",
-    sentenceName: "Fullstack",
+    id: FULLSTACK,
+    name: 'Fullstack',
+    sentenceName: 'Fullstack',
     compatibleWith: {
-      TECH: [0, 1, 2, 3, 4, 5],
-      TASK: [0, 1, 2, 3, 4, 5],
-      TIME: [0, 1, 2, 3, 4, 5],
+      TASK: typeToTask[FULLSTACK],
+      TECH: typeToTech[FULLSTACK],
+      TIME: typeToTime[FULLSTACK],
     },
   },
   {
-    id: 4,
-    name: "CLI",
-    sentenceName: "CLI",
+    id: BACKEND,
+    name: 'Backend',
+    sentenceName: 'Backend',
     compatibleWith: {
-      TECH: [0, 1, 2, 3, 4, 5],
-      TASK: [0, 1, 2, 3, 4, 5],
-      TIME: [0, 1, 2, 3, 4, 5],
+      TASK: typeToTask[BACKEND],
+      TECH: typeToTech[BACKEND],
+      TIME: typeToTime[BACKEND],
     },
   },
   {
-    id: 5,
-    name: "Database",
-    sentenceName: "Database",
+    id: CLOUD,
+    name: 'Cloud',
+    sentenceName: 'Cloud',
     compatibleWith: {
-      TECH: [0, 1, 2, 3, 4, 5],
-      TASK: [0, 1, 2, 3, 4, 5],
-      TIME: [0, 1, 2, 3, 4, 5],
+      TASK: typeToTask[CLOUD],
+      TECH: typeToTech[CLOUD],
+      TIME: typeToTime[CLOUD],
     },
   },
 ];

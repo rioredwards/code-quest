@@ -20,9 +20,9 @@
   --width: 123vh;
   --center-left-shift: calc(50vw - calc(var(--width) / 2));
   width: var(--width);
-  height: 34.5%;
-  left: calc(var(--center-left-shift) + 1.7vh);
-  top: 33.4%;
+  height: 27.1%;
+  left: calc(var(--center-left-shift) + 1.8vh);
+  top: 41.1%;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -59,9 +59,36 @@
   border-radius: 1.2vh;
 }
 
-.spin-log {
-  z-index: 3;
+.pickers {
+  /* border: 1px solid red; */
+  z-index: 4;
+  background-image: url(assets/pickers.png);
+  background-repeat: no-repeat;
+  background-size: contain;
   position: fixed;
-  width: 10vh;
+  --width: 130vh;
+  --center-left-shift: calc(50vw - calc(var(--width) / 2));
+  top: 52%;
+  left: calc(var(--center-left-shift) + 2vh);
+  height: 4%;
+  width: var(--width);
+  pointer-events: none;
+}
+
+.cursor-dragging-screen-cover {
+  cursor: grabbing;
+  height: 100%;
+  width: 100%;
+  z-index: 10;
+  position: fixed;
+  /* background-color: red; */
+}
+
+.tutorial-btn {
+  z-index: 7;
+  position: fixed;
+  top: 0;
+  left: 0;
   height: 4vh;
+  width: 8vh;
 }

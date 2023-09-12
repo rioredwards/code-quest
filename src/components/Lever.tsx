@@ -1,8 +1,10 @@
-import "./Lever.css";
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { PULL_THRESHOLD, THROTTLE_MS } from "../motionConfigs/leverMotion";
-import { useRef } from "react";
-import { useAppDispatch, useAppSelector } from "../store/hooks";
+import './Lever.css';
+import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
+import { PULL_THRESHOLD, THROTTLE_MS, filterVariants } from '../motionConfigs/leverMotion';
+import { useRef } from 'react';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { selectReelsSpinStates } from '../store/reels/reelsSlice';
+import { selectHelpTargetEl } from '../store/help/helpSlice';
 
 interface LeverProps {}
 
@@ -14,24 +16,20 @@ const Lever: React.FC<LeverProps> = () => {
   const leverYPos = useTransform(dragYPos, [0, 140], [0, 10]);
   const dragAndHoverRotation = useTransform<number, number>(
     [dragYPos, hoverRotationAngle],
-    ([latestDragYPos, latestHoverRotationAngle]) =>
-      latestDragYPos + latestHoverRotationAngle
+    ([latestDragYPos, latestHoverRotationAngle]) => latestDragYPos + latestHoverRotationAngle
   );
   const rotationAngle = useTransform(dragAndHoverRotation, [0, 140], [-45, 45]);
   const isThrottled = useRef(false);
 
-  const reelsCanSpin = useAppSelector(({ reels }) =>
-    reels.some((reel) => reel.spinState === "PRE")
-  );
+  const spinStates = useAppSelector(selectReelsSpinStates);
+  const reelsCanSpin = spinStates.includes('PRE');
+
+  const highlightedForHelp = useAppSelector(selectHelpTargetEl) === 'LEVER';
 
   function onDrag() {
-    if (
-      reelsCanSpin &&
-      dragYPos.get() > PULL_THRESHOLD &&
-      !isThrottled.current
-    ) {
-      dispatch({ type: "reels/leverPulled" });
-      dispatch({ type: "display/stopDisplay" });
+    if (reelsCanSpin && dragYPos.get() > PULL_THRESHOLD && !isThrottled.current) {
+      dispatch({ type: 'display/stopDisplay' });
+      dispatch({ type: 'reels/leverPulled' });
       isThrottled.current = true;
       setTimeout(() => {
         isThrottled.current = false;
@@ -47,18 +45,34 @@ const Lever: React.FC<LeverProps> = () => {
     hoverRotationAngle.set(0);
   }
 
+  function onDragStart() {
+    dispatch({ type: 'cursor/dragging' });
+  }
+
+  function onDragEnd() {
+    dispatch({ type: 'cursor/stopDragging' });
+  }
+
   return (
     <>
-      <motion.div className="lever-base" />
+      <motion.div
+        animate={highlightedForHelp ? 'onHover' : 'offHover'}
+        variants={filterVariants}
+        className="lever-base"
+      />
       <motion.div
         style={{ y: leverYPos, rotate: rotationAngle }}
         className="lever-handle"
+        animate={highlightedForHelp ? 'onHover' : 'offHover'}
+        variants={filterVariants}
       />
       <motion.div
         className="lever-drag-handle"
         drag="y"
         onDrag={onDrag}
-        whileTap={{ cursor: "grabbing" }}
+        onDragStart={onDragStart}
+        onDragEnd={onDragEnd}
+        whileTap={{ cursor: 'grabbing' }}
         onHoverStart={onHoverStart}
         onHoverEnd={onHoverEnd}
         style={{

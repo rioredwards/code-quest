@@ -1,26 +1,36 @@
-import "./App.css";
-import Machine from "./layout/Machine";
-import GameContainer from "./layout/GameContainer";
-import Lever from "./components/Lever";
-import Display from "./components/Display";
-import ReelUnit from "./components/ReelUnit";
-import { useAppSelector } from "./store/hooks";
+import './App.css';
+import Machine from './layout/Machine';
+import GameContainer from './layout/GameContainer';
+import Lever from './components/Lever';
+import Display from './components/Display';
+import ReelUnit from './components/ReelUnit';
+import { useAppSelector } from './store/hooks';
+import { selectCursorDragState } from './store/cursor/cursorSlice';
+import { selectReels } from './store/reels/reelsSlice';
+import HelpBtn from './components/HelpBtn';
+import { selectHelpStateMenu } from './store/help/helpSlice';
+import HelpMenu from './components/HelpMenu';
+import Cloud from './components/Cloud';
+import Sun from './components/Sun';
+import Logo from './layout/Logo';
 
 function App() {
-  const reels = useAppSelector((state) => state.reels);
+  const reels = useAppSelector(selectReels);
+  const cursorIsDragging = useAppSelector(selectCursorDragState);
+  const helpMenuIsOpen = useAppSelector(selectHelpStateMenu);
 
   return (
     <div className="App">
+      {cursorIsDragging && <div className="cursor-dragging-screen-cover" />}
       <GameContainer>
+        <Cloud />
+        <Sun />
+        <HelpBtn />
+        <Logo />
+        {helpMenuIsOpen && <HelpMenu />}
         <div className="reels-container">
-          {reels.map((reel) => {
-            return (
-              <ReelUnit
-                name={reel.name}
-                key={reel.name}
-                spinState={reel.spinState}
-              />
-            );
+          {reels.map(({ name }) => {
+            return <ReelUnit name={name} key={name} />;
           })}
         </div>
         <div className="lever-container">
@@ -30,6 +40,7 @@ function App() {
           <Display />
         </div>
         <Machine />
+        <div className="pickers" />
       </GameContainer>
     </div>
   );

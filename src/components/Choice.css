@@ -1,16 +1,20 @@
 .choice {
   --height: 3.32vh;
-  padding-left: 0.5vh;
   z-index: 1;
   background-color: rgb(97, 197, 214);
   text-align: center;
-  font-size: 2.8vh;
-  font-weight: bold;
   height: var(--height);
   border-bottom: 0.1vh solid rgba(78, 78, 78, 0.536);
   border-bottom-style: inset;
   word-wrap: break-word;
   overflow: hidden;
+
+  color: rgba(21, 21, 21, 0.843);
+  font-size: 2.6vh;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .choiceVar1 {
@@ -26,6 +30,10 @@
   animation: pulse 2s infinite ease-in-out;
 }
 
+.choice.help-hover {
+  animation: help-pulse 2s infinite ease-in-out;
+}
+
 @keyframes pulse {
   0% {
     filter: brightness(100%);
@@ -35,5 +43,17 @@
   }
   100% {
     filter: brightness(100%);
+  }
+}
+
+@keyframes help-pulse {
+  0% {
+    filter: brightness(115%) saturate(130%) hue-rotate(10deg);
+  }
+  50% {
+    filter: brightness(125%) saturate(130%) hue-rotate(10deg);
+  }
+  100% {
+    filter: brightness(115%) saturate(130%) hue-rotate(10deg);
   }
 }

@@ -1,4 +1,4 @@
-import "./Choice.css";
+import './Choice.css';
 
 interface ChoiceProps {
   displayName: string;

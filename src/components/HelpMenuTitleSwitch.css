@@ -1,0 +1,31 @@
+.help-menu-title-container {
+  --height: 4.5vh;
+  --width: 26vh;
+  display: inline-block;
+  height: var(--height);
+  width: var(--width);
+  border-radius: calc(var(--height) / 2);
+  opacity: 0.8;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: 1vh;
+}
+
+.help-menu-title-text {
+  display: inline-block;
+  text-align: center;
+  padding-top: 0.3vh;
+  height: calc(var(--height) - 0.3vh);
+  width: calc((var(--width) / 2) - 0.3vh);
+  font-size: 2.8vh;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.active-menu-title {
+  background-color: rgba(175, 175, 175, 0.804);
+  border: 0.2vh inset rgba(255, 255, 255, 0.504);
+  border-radius: calc(var(--height) / 2);
+  cursor: default;
+}
