@@ -1,15 +1,13 @@
-version: "3.7"
+version: "3.8"
 
 services:
-  sample:
-    container_name: sample
-    build:
-      context: .
-      dockerfile: Dockerfile
-    volumes:
-      - ".:/app"
-      - "/app/node_modules"
+  app:
+    container_name: app_c
+    build: ./
     ports:
-      - 3001:3000
-    environment:
-      - CHOKIDAR_USEPOLLING=true
+      - 3000:3000
+    volumes:
+      - ./:/app
+      - /Users/rioedwards/Documents/Coding/projects/code-challenge-generator/node_modules
+    stdin_open: true
+    tty: true
