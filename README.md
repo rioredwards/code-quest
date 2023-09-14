@@ -2,7 +2,7 @@
 
 [![Code Quest Banner](/src/assets/banner.png)](https://code-quest-app.netlify.app/)
 
-Level-Up your code with **Code Quest**! This fun online tool generates pseudo-random coding challenges, giving you the opportunity to learn practical coding skills in a fun and engaging way.
+Level-Up your code with **Code Quest**! This immersive web app generates pseudo-random coding challenges, giving you the opportunity to learn practical coding skills in a fun and engaging way.
 
 ---
 
@@ -13,8 +13,8 @@ Level-Up your code with **Code Quest**! This fun online tool generates pseudo-ra
 
 ## Art Stack
 
-| [![Adobe Illustrator](https://img.shields.io/badge/-Illustrator-FF9A01?logo=AdobeIllustrator&logoColor=black&style=for-the-badge)](https://www.typescriptlang.org/) | [![Figma](https://img.shields.io/badge/-Figma-F24E1E?logo=Figma&logoColor=black&style=for-the-badge)](https://www.typescriptlang.org/) | [![TypeScript](https://img.shields.io/badge/-Canva-00C4CC?logo=canva&logoColor=white&style=for-the-badge)](https://www.typescriptlang.org/) |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| [![Adobe Illustrator](https://img.shields.io/badge/-Illustrator-FF9A01?logo=AdobeIllustrator&logoColor=black&style=for-the-badge)](https://www.adobe.com/ie/products/illustrator.html) | [![Adobe AfterEffects](https://img.shields.io/badge/-AfterEffects-9999FF?logo=AdobeAfterEffects&logoColor=black&style=for-the-badge)](https://www.adobe.com/ie/products/aftereffects.html) | [![Figma](https://img.shields.io/badge/-Figma-F24E1E?logo=Figma&logoColor=black&style=for-the-badge)](https://www.figma.com/) | [![TypeScript](https://img.shields.io/badge/-Canva-00C4CC?logo=canva&logoColor=white&style=for-the-badge)](https://www.canva.com/) |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
 
 ## Features
 
@@ -44,7 +44,7 @@ To get more control over the quest generated:
 
 ## Preview
 
-![Code-Quest-Preview](https://raw.githubusercontent.com/rioredwards/code-challenge-generator/main/Code-Quest-Animation.gif)
+[![Code-Quest-Preview](./Code-Quest-Animation.gif)](https://code-quest-app.netlify.app/)
 
 ## Lessons Learned
 
@@ -61,9 +61,9 @@ To get more control over the quest generated:
 
 ## Reflection
 
-This project was a ton of fun and a great learning experience for me.
+Since I started on my coding journey, I've always been drawn to learning tools that used [Gamification](https://en.wikipedia.org/wiki/Gamification) in some form to teach coding concepts ([some examples](##Gamification-Examples)). I find that I learn best when I'm having fun, and I wanted to create a tool that would help others learn in the same way.
 
-It was the first time since attending a coding boot-camp that I've gotten to focus as much on the design and UI of an application as the technical "business logic". I have a love for design and art, so it was really fun to get to flex those muscles again.
+This was the first time since attending a coding boot-camp that I've gotten to focus as much on the design and UI of an application as the technical "business logic". I have a love for design and art, so it was really fun to get to flex those muscles again.
 
 It was also the first time I used Framer Motion. This library is really powerful and I enjoyed diving into it. Getting a convincing "Infinite Scroll" effect on the reels was pretty tricky, but in that process, I learned about some of the more advanced features of Framer Motion and gained a deeper understanding for creating animations in code, more generally.
 
@@ -80,3 +80,10 @@ I had a lot of fun working on this project, and I'm excited to continue learning
 ## Authors
 
 - [Rio Edwards](https://www.github.com/rioredwards)
+
+## Gamification-Examples
+
+- [Flexbox Froggy](https://flexboxfroggy.com/)
+- [Grid Garden](https://cssgridgarden.com/)
+- [LeetCode](https://leetcode.com/)
+- [kaggle](https://www.kaggle.com/competitions/)
