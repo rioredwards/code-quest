@@ -61,7 +61,7 @@ To get more control over the quest generated:
 
 ## Reflection
 
-Since I started on my coding journey, I've always been drawn to learning tools that used [Gamification](https://en.wikipedia.org/wiki/Gamification) in some form to teach coding concepts ([some examples](##Gamification-Examples)). I find that I learn best when I'm having fun, and I wanted to create a tool that would help others learn in the same way.
+Since I started on my coding journey, I've always been drawn to learning tools that used [Gamification](https://en.wikipedia.org/wiki/Gamification) in some form to teach coding concepts ([some examples](#gamification-examples)). I find that I learn best when I'm having fun, and I wanted to create a tool that would help others learn in the same way.
 
 This was the first time since attending a coding boot-camp that I've gotten to focus as much on the design and UI of an application as the technical "business logic". I have a love for design and art, so it was really fun to get to flex those muscles again.
 
@@ -81,7 +81,7 @@ I had a lot of fun working on this project, and I'm excited to continue learning
 
 - [Rio Edwards](https://www.github.com/rioredwards)
 
-## Gamification-Examples
+## Gamification Examples
 
 - [Flexbox Froggy](https://flexboxfroggy.com/)
 - [Grid Garden](https://cssgridgarden.com/)
