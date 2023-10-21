@@ -10,7 +10,7 @@ This immersive web app generates pseudo-random coding challenges, making learnin
 
 ## Made with
 
-![Typescript](https://img.shields.io/badge/-Typescript-3178C6?logo=TypeScript&logoColor=black&style=for-the-badge)&nbsp;![React](https://img.shields.io/badge/-React-61DAFB?logo=React&logoColor=black&style=for-the-badge)&nbsp;
+![Typescript](https://img.shields.io/badge/-Typescript-3178C6?logo=TypeScript&logoColor=black&style=for-the-badge)&nbsp;![React](https://img.shields.io/badge/-React-61DAFB?logo=React&logoColor=black&style=for-the-badge)&nbsp;![Redux](https://img.shields.io/badge/-Redux-764ABC?logo=Redux&logoColor=white&style=for-the-badge)&nbsp;![Framer Motion](https://img.shields.io/badge/-Framer_Motion-BB4B96?logo=data:image/svg%2bxml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAwIDI1MDAiPgogICAgPHBhdGggc3R5bGU9ImZpbGw6I2ZmZiIgZD0iTTI1MDAgMHYyNTAwbC02MjUtNjI1LTYyNSA2MjUtNjI1LTYyNUwwIDI1MDBWMGwxMjUwIDEyNTBMMjUwMCAweiIvPgo8L3N2Zz4K&logoColor=White&style=for-the-badge)&nbsp;![Figma](https://img.shields.io/badge/-Figma-F24E1E?logo=Figma&logoColor=black&style=for-the-badge)&nbsp;![Adobe Illustrator](https://img.shields.io/badge/-Illustrator-FF9A01?logo=AdobeIllustrator&logoColor=black&style=for-the-badge)&nbsp;![After Effects](https://img.shields.io/badge/-AfterEffects-9999FF?logo=AdobeAfterEffects&logoColor=black&style=for-the-badge)&nbsp;
 
 ## Features
 
