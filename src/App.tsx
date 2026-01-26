@@ -13,6 +13,7 @@ import HelpMenu from './components/HelpMenu';
 import Cloud from './components/Cloud';
 import Sun from './components/Sun';
 import Logo from './layout/Logo';
+import MobileOverlay from './components/MobileOverlay';
 
 function App() {
   const reels = useAppSelector(selectReels);
@@ -21,6 +22,7 @@ function App() {
 
   return (
     <div className="App">
+      <MobileOverlay />
       {cursorIsDragging && <div className="cursor-dragging-screen-cover" />}
       <GameContainer>
         <Cloud />

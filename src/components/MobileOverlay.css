@@ -1,0 +1,58 @@
+.mobile-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgb(47, 47, 47);
+  z-index: 9999;
+  justify-content: center;
+  align-items: center;
+}
+
+.mobile-overlay-content {
+  text-align: center;
+  padding: 2rem;
+  max-width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.mobile-overlay-title {
+  color: #f5d742;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  font-weight: bold;
+}
+
+.mobile-overlay-message {
+  color: #ffffff;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+@media (max-width: 768px), (max-height: 500px) {
+  .mobile-overlay {
+    display: flex;
+  }
+}
+
+@media (max-width: 768px) and (orientation: landscape) {
+  .mobile-overlay {
+    display: flex;
+  }
+}
+
+.mobile-overlay-logo {
+  height: 20vh;
+  width: 20vh;
+
+  background-image: url(../assets/logo-white.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  opacity: 0.8;
+}
